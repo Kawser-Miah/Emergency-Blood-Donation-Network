@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(xargs ls -la)",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\('client_id:', c.get\\('client_id',''\\), '| type:', c.get\\('client_type',''\\)\\) for client in d.get\\('client',[]\\) for c in client.get\\('oauth_client',[]\\)]\")"
+    ]
+  }
+}
