@@ -50,7 +50,7 @@ dependencies:
 #  firebase_messaging: ^16.2.2
 #  firebase_storage: ^13.1.0
 #  cloud_functions: ^6.1.0
-  google_sign_in: ^6.2.1
+  google_sign_in: ^7.2.0
 
   # Location & Maps
 #  geolocator: ^14.0.0
