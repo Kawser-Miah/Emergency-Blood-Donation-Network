@@ -13,6 +13,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../di/di.dart';
+import '../sp_service/sp_service.dart';
+
 class AppRouter {
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
 
@@ -24,7 +27,7 @@ class AppRouter {
       FirebaseAuth.instance.authStateChanges(),
     ),
 
-    redirect: (context, state) {
+    redirect: (context, state) async {
       final user = FirebaseAuth.instance.currentUser;
 
       final currentPath = state.fullPath;
@@ -45,9 +48,24 @@ class AppRouter {
         return PAGES.signin.screenPath;
       }
 
+      final bool profileExists =
+          await getIt<SpService>().read(StorageKey.register) ?? false;
+      print("Hello: $profileExists");
+      if (!profileExists) {
+        /// Allow register page
+        if (currentPath == PAGES.register.screenPath) {
+          return null;
+        }
+
+        /// Redirect to register
+        return PAGES.register.screenPath;
+      }
+
       /// User logged in
-      /// Prevent going back to signin
-      if (currentPath == PAGES.signin.screenPath) {
+      /// Profile exists
+      /// Prevent going back to signin/register
+      if (currentPath == PAGES.signin.screenPath ||
+          currentPath == PAGES.register.screenPath) {
         return PAGES.home.screenPath;
       }
 
