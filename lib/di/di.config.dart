@@ -9,6 +9,8 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:blood_setu/application/core/services/sp_service/sp_service.dart'
+    as _i181;
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart'
     as _i18;
 import 'package:blood_setu/data/repositories/authentication_repositories_iml.dart'
@@ -20,6 +22,7 @@ import 'package:blood_setu/domain/usecase/authentication_usecase.dart' as _i39;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
+import 'package:google_sign_in/google_sign_in.dart' as _i116;
 import 'package:injectable/injectable.dart' as _i526;
 import 'package:shared_preferences/shared_preferences.dart' as _i460;
 
@@ -37,10 +40,16 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i59.FirebaseAuth>(() => registerModule.firebaseAuth);
     gh.singleton<_i974.FirebaseFirestore>(() => registerModule.firestore);
+    gh.singleton<_i116.GoogleSignIn>(() => registerModule.googleSignIn);
+    gh.lazySingleton<_i181.SpService>(
+      () => _i181.SpServiceImpl(gh<_i460.SharedPreferences>()),
+    );
     gh.factory<_i546.AuthenticationRepository>(
       () => _i310.AuthenticationRepositoriesIml(
         gh<_i59.FirebaseAuth>(),
         gh<_i974.FirebaseFirestore>(),
+        gh<_i116.GoogleSignIn>(),
+        gh<_i181.SpService>(),
       ),
     );
     gh.factory<_i39.AuthenticationUseCase>(
