@@ -1,3 +1,4 @@
+import 'package:blood_setu/application/core/services/sp_service/sp_service.dart';
 import 'package:blood_setu/domain/repositories/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -11,31 +12,35 @@ import '../../domain/failures/failures.dart';
 class AuthenticationRepositoriesIml extends AuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firebaseFirestore;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
+  final GoogleSignIn _googleSignIn;
+  final SpService _spService;
 
-  AuthenticationRepositoriesIml(this._firebaseAuth, this._firebaseFirestore);
+  AuthenticationRepositoriesIml(
+    this._firebaseAuth,
+    this._firebaseFirestore,
+    this._googleSignIn,
+    this._spService,
+  );
 
   @override
   Future<Either<Failure, void>> signInWithGoogle() async {
     try {
-      // await _googleSignIn.initialize();
+      await _googleSignIn.initialize();
 
       /// Trigger Google Sign In
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
+      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
-      if (googleUser == null) {
-
-        return Left(GeneralFailure('Google sign in cancelled'));
-      }
+      // if (googleUser == null) {
+      //
+      //   return Left(GeneralFailure('Google sign in cancelled'));
+      // }
 
       /// Get authentication details
 
-      print("Kawser-1");
-      final GoogleSignInAuthentication googleAuth = await googleUser.authentication;
+      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
 
       /// Create firebase credential
       final credential = GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
         idToken: googleAuth.idToken,
       );
 
@@ -47,6 +52,16 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
       final user = userCredential.user;
 
       if (user != null) {
+        /// profile collection check
+        final profileDoc = _firebaseFirestore
+            .collection('profile')
+            .doc(user.uid);
+
+        final profileSnapshot = await profileDoc.get();
+
+        /// Save profile status in shared preferences
+        await _spService.write(profileSnapshot.exists, StorageKey.register);
+
         final userDoc = _firebaseFirestore.collection('users').doc(user.uid);
 
         final docSnapshot = await userDoc.get();
@@ -65,13 +80,10 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
 
       return const Right(null);
     } on FirebaseAuthException catch (e) {
-      print(e.message);
       return Left(
         GeneralFailure(e.message ?? 'Firebase authentication failed'),
       );
     } catch (e) {
-      print("object");
-      print(e);
       return Left(GeneralFailure(e.toString()));
     }
   }
