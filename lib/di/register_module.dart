@@ -15,8 +15,8 @@ abstract class RegisterModule {
   // @singleton
   // FirebaseStorage get fireBaseStorage => FirebaseStorage.instance;
 
-  // @singleton
-  // GoogleSignIn get googleSignIn => GoogleSignIn.instance;
+  @singleton
+  GoogleSignIn get googleSignIn => GoogleSignIn.instance;
 
   @preResolve
   Future<SharedPreferences> get prefs => SharedPreferences.getInstance();
