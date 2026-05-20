@@ -9,6 +9,9 @@
 // coverage:ignore-file
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
+import 'package:blood_setu/application/core/auth/auth_controller.dart' as _i839;
+import 'package:blood_setu/application/core/services/routing/app_router.dart'
+    as _i828;
 import 'package:blood_setu/application/core/services/sp_service/sp_service.dart'
     as _i181;
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart'
@@ -41,24 +44,30 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i59.FirebaseAuth>(() => registerModule.firebaseAuth);
     gh.singleton<_i974.FirebaseFirestore>(() => registerModule.firestore);
     gh.singleton<_i116.GoogleSignIn>(() => registerModule.googleSignIn);
-    gh.lazySingleton<_i181.SpService>(
-      () => _i181.SpServiceImpl(gh<_i460.SharedPreferences>()),
-    );
     gh.factory<_i546.AuthenticationRepository>(
       () => _i310.AuthenticationRepositoriesIml(
         gh<_i59.FirebaseAuth>(),
         gh<_i974.FirebaseFirestore>(),
         gh<_i116.GoogleSignIn>(),
-        gh<_i181.SpService>(),
       ),
     );
     gh.factory<_i39.AuthenticationUseCase>(
       () => _i39.AuthenticationUseCase(gh<_i546.AuthenticationRepository>()),
     );
+    gh.lazySingleton<_i181.SpService>(
+      () => _i181.SpServiceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.factory<_i839.AuthController>(
+      () =>
+          _i839.AuthController(gh<_i181.SpService>(), gh<_i59.FirebaseAuth>()),
+    );
     gh.factory<_i18.SignInBloc>(
       () => _i18.SignInBloc(
         authenticationUseCase: gh<_i39.AuthenticationUseCase>(),
       ),
+    );
+    gh.factory<_i828.AppRouter>(
+      () => _i828.AppRouter(gh<_i839.AuthController>()),
     );
     return this;
   }
