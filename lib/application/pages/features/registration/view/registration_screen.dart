@@ -1,3 +1,5 @@
+import 'package:blood_setu/application/core/auth/auth_controller.dart';
+import 'package:blood_setu/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -74,10 +76,7 @@ class _RegistrationView extends StatelessWidget {
                               .read<RegistrationBloc>()
                               .add(const RegistrationEvent.nextStep());
                         } else {
-                          context.read<AppNavigationBloc>().add(
-                                const AppNavigationEvent.navigated(
-                                    AppScreen.home),
-                              );
+                          getIt<AuthController>().onProfileCompleted();
                         }
                       },
                       style: ElevatedButton.styleFrom(
