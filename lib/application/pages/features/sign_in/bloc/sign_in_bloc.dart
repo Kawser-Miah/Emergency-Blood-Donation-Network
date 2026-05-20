@@ -1,3 +1,5 @@
+import 'package:blood_setu/application/core/auth/auth_controller.dart';
+import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/usecase/authentication_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -15,12 +17,17 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       await event.when(
         googleSignInPressed: () async {
           emit(const SignInState.loading());
-          final failureOrSuccess = await _authenticationUseCase
-              .signInWithGoogle();
+          final result = await _authenticationUseCase.signInWithGoogle();
           emit(
-            failureOrSuccess.fold(
+            result.fold(
               (failure) => SignInState.failure(""),
-              (_) => const SignInState.success(),
+              (profileExists) {
+                getIt<AuthController>().onLoginSuccess(
+                  profileExists: profileExists,
+                );
+                print("object");
+                return const SignInState.success();
+              },
             ),
           );
         },
