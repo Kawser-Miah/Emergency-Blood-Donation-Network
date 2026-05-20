@@ -1,4 +1,3 @@
-import 'package:blood_setu/application/core/services/sp_service/sp_service.dart';
 import 'package:blood_setu/domain/repositories/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -13,17 +12,15 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firebaseFirestore;
   final GoogleSignIn _googleSignIn;
-  final SpService _spService;
 
   AuthenticationRepositoriesIml(
     this._firebaseAuth,
     this._firebaseFirestore,
     this._googleSignIn,
-    this._spService,
   );
 
   @override
-  Future<Either<Failure, void>> signInWithGoogle() async {
+  Future<Either<Failure, bool>> signInWithGoogle() async {
     try {
       await _googleSignIn.initialize();
 
@@ -59,9 +56,6 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
 
         final profileSnapshot = await profileDoc.get();
 
-        /// Save profile status in shared preferences
-        await _spService.write(profileSnapshot.exists, StorageKey.register);
-
         final userDoc = _firebaseFirestore.collection('users').doc(user.uid);
 
         final docSnapshot = await userDoc.get();
@@ -76,9 +70,11 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
             'createdAt': FieldValue.serverTimestamp(),
           });
         }
+
+        return Right(profileSnapshot.exists);
       }
 
-      return const Right(null);
+      return const Right(false);
     } on FirebaseAuthException catch (e) {
       return Left(
         GeneralFailure(e.message ?? 'Firebase authentication failed'),
