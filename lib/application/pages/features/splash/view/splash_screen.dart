@@ -1,45 +1,13 @@
-import 'package:blood_setu/application/core/services/routing/app_router.dart';
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../domain/models/screen.dart';
-import '../../../../core/services/routing/routing_utils.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../app/bloc/app_navigation_bloc.dart';
-import '../../../app/bloc/app_navigation_event.dart';
-import '../bloc/splash_bloc.dart';
-import '../bloc/splash_state.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => SplashBloc(),
-      child: BlocListener<SplashBloc, SplashState>(
-        listenWhen: (prev, next) => !prev.finished && next.finished,
-        listener: (context, state) {
-          final user = FirebaseAuth.instance.currentUser;
-
-          if (user != null) {
-            /// User already logged in
-            // context.read<AppNavigationBloc>().add(
-            //   const AppNavigationEvent.navigated(AppScreen.home),
-            // );
-            AppRouter.router.pushReplacement(PAGES.home.screenPath);
-          } else {
-            /// User not logged in
-            // context.read<AppNavigationBloc>().add(
-            //   const AppNavigationEvent.navigated(AppScreen.signin),
-            // );
-            AppRouter.router.pushReplacement(PAGES.signin.screenPath);
-          }
-        },
-        child: const _SplashContent(),
-      ),
-    );
+    return const _SplashContent();
   }
 }
 
@@ -50,40 +18,32 @@ class _SplashContent extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-      width: double.infinity,
-      height: double.infinity,
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0.0, 0.6, 1.0],
-          colors: [
-            Colors.white,
-            AppColors.primarySurfaceLight,
-            AppColors.primarySurfaceLighter,
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            stops: [0.0, 0.6, 1.0],
+            colors: [
+              Colors.white,
+              AppColors.primarySurfaceLight,
+              AppColors.primarySurfaceLighter,
+            ],
+          ),
+        ),
+        padding: EdgeInsets.fromLTRB(
+          24,
+          MediaQuery.of(context).padding.top + 36,
+          24,
+          MediaQuery.of(context).padding.bottom + 14,
+        ),
+        child: const Column(
+          children: [
+            Expanded(child: _CenterLogo()),
           ],
         ),
       ),
-      padding: EdgeInsets.fromLTRB(
-        24,
-        MediaQuery.of(context).padding.top + 36,
-        24,
-        MediaQuery.of(context).padding.bottom + 14,
-      ),
-      child: Column(
-        children: [
-          const Expanded(child: _CenterLogo()),
-          _BottomButtons(
-            onSignIn: () => context.read<AppNavigationBloc>().add(
-              const AppNavigationEvent.navigated(AppScreen.signin),
-            ),
-            onGuest: () => context.read<AppNavigationBloc>().add(
-              const AppNavigationEvent.navigated(AppScreen.home),
-            ),
-          ),
-        ],
-      ),
-    ),
     );
   }
 }
@@ -287,56 +247,6 @@ class _StatDivider extends StatelessWidget {
       height: 30,
       color: AppColors.primaryBorder,
       margin: const EdgeInsets.symmetric(horizontal: 12),
-    );
-  }
-}
-
-class _BottomButtons extends StatelessWidget {
-  const _BottomButtons({required this.onSignIn, required this.onGuest});
-
-  final VoidCallback onSignIn;
-  final VoidCallback onGuest;
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      children: [
-        SizedBox(
-          width: double.infinity,
-          child: ElevatedButton(
-            onPressed: onSignIn,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.white,
-              foregroundColor: AppColors.primary,
-              padding: const EdgeInsets.symmetric(vertical: 16),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(24),
-                side: const BorderSide(color: AppColors.primary, width: 2),
-              ),
-              elevation: 0,
-            ),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: const [
-                Icon(Icons.g_mobiledata, size: 24, color: AppColors.googleBlue),
-                SizedBox(width: 8),
-                Text(
-                  'Sign in with Google',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
-                ),
-              ],
-            ),
-          ),
-        ),
-        const SizedBox(height: 12),
-        TextButton(
-          onPressed: onGuest,
-          child: const Text(
-            'Continue as Guest',
-            style: TextStyle(color: AppColors.textMuted, fontSize: 14),
-          ),
-        ),
-      ],
     );
   }
 }
