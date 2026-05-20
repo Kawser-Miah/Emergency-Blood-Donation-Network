@@ -10,6 +10,8 @@ abstract interface class SpService {
 
   Future<T?> read<T>(StorageKey key);
 
+  T? readSync<T>(StorageKey key);
+
   Future<void> delete(StorageKey key);
 
   Future<List<String>?> readList(StorageKey key);
@@ -54,6 +56,9 @@ class SpServiceImpl implements SpService {
         throw ArgumentError('Unsupported type: ${value.runtimeType}');
     }
   }
+
+  @override
+  T? readSync<T>(StorageKey key) => _sp.get(key.name) as T?;
 
   @override
   Future<List<String>?> readList(StorageKey key) async {
