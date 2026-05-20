@@ -10,7 +10,7 @@ class AuthenticationUseCase {
 
   AuthenticationUseCase(this._authenticationRepository);
 
-  Future<Either<Failure, void>> signInWithGoogle() async {
+  Future<Either<Failure, bool>> signInWithGoogle() async {
     return await _authenticationRepository.signInWithGoogle();
   }
 
