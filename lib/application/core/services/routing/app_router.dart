@@ -1,5 +1,4 @@
-import 'dart:async';
-
+import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
 import 'package:blood_setu/application/pages/features/chat_list/view/chat_list_screen.dart';
 import 'package:blood_setu/application/pages/features/create_request/view/create_request_screen.dart';
@@ -9,137 +8,92 @@ import 'package:blood_setu/application/pages/features/profile/view/profile_scree
 import 'package:blood_setu/application/pages/features/registration/view/registration_screen.dart';
 import 'package:blood_setu/application/pages/features/sign_in/view/sign_in_screen.dart';
 import 'package:blood_setu/application/pages/features/splash/view/splash_screen.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+import 'package:blood_setu/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:injectable/injectable.dart';
 
-import '../../../../di/di.dart';
-import '../sp_service/sp_service.dart';
-
+@injectable
 class AppRouter {
+  final AuthController _authController;
+
   static final rootNavigatorKey = GlobalKey<NavigatorState>();
+  late final GoRouter _goRouter;
 
-  static final GoRouter _router = GoRouter(
-    debugLogDiagnostics: true,
-    navigatorKey: rootNavigatorKey,
+  AppRouter(this._authController) {
+    _goRouter = GoRouter(
+      debugLogDiagnostics: true,
+      navigatorKey: rootNavigatorKey,
+      refreshListenable: _authController,
+      redirect: (context, state) {
+        final currentPath = state.fullPath;
 
-    refreshListenable: GoRouterRefreshStream(
-      FirebaseAuth.instance.authStateChanges(),
-    ),
+        if (!_authController.isInitialized) {
+          return PAGES.splash.screenPath;
+        }
 
-    redirect: (context, state) async {
-      final user = FirebaseAuth.instance.currentUser;
+        if (_authController.user == null) {
+          if (currentPath == PAGES.signin.screenPath) return null;
+          return PAGES.signin.screenPath;
+        }
 
-      final currentPath = state.fullPath;
+        if (!_authController.profileCompleted) {
+          if (currentPath == PAGES.register.screenPath) return null;
+          return PAGES.register.screenPath;
+        }
 
-      /// Always allow splash screen
-      if (currentPath == PAGES.splash.screenPath) {
+        if (currentPath == PAGES.signin.screenPath ||
+            currentPath == PAGES.register.screenPath) {
+          return PAGES.home.screenPath;
+        }
+
         return null;
-      }
-
-      /// User not logged in
-      if (user == null) {
-        /// Allow only signin page
-        if (currentPath == PAGES.signin.screenPath) {
-          return null;
-        }
-
-        /// Redirect everything else to signin
-        return PAGES.signin.screenPath;
-      }
-
-      final bool profileExists =
-          await getIt<SpService>().read(StorageKey.register) ?? false;
-      print("Hello: $profileExists");
-      if (!profileExists) {
-        /// Allow register page
-        if (currentPath == PAGES.register.screenPath) {
-          return null;
-        }
-
-        /// Redirect to register
-        return PAGES.register.screenPath;
-      }
-
-      /// User logged in
-      /// Profile exists
-      /// Prevent going back to signin/register
-      if (currentPath == PAGES.signin.screenPath ||
-          currentPath == PAGES.register.screenPath) {
-        return PAGES.home.screenPath;
-      }
-
-      return null;
-    },
-
-    routes: [
-      GoRoute(
-        path: PAGES.splash.screenPath,
-        name: PAGES.splash.screenName,
-        builder: (context, state) => const SplashScreen(),
-      ),
-
-      GoRoute(
-        path: PAGES.signin.screenPath,
-        name: PAGES.signin.screenName,
-        builder: (context, state) => const SignInScreen(),
-      ),
-
-      GoRoute(
-        path: PAGES.register.screenPath,
-        name: PAGES.register.screenName,
-        builder: (context, state) => const RegistrationScreen(),
-      ),
-
-      GoRoute(
-        path: PAGES.home.screenPath,
-        name: PAGES.home.screenName,
-        builder: (context, state) => const HomeScreen(),
-      ),
-
-      GoRoute(
-        path: PAGES.donors.screenPath,
-        name: PAGES.donors.screenName,
-        builder: (context, state) => const DonorsScreen(),
-      ),
-
-      GoRoute(
-        path: PAGES.chats.screenPath,
-        name: PAGES.chats.screenName,
-        builder: (context, state) => const ChatListScreen(),
-      ),
-
-      GoRoute(
-        path: PAGES.createRequest.screenPath,
-        name: PAGES.createRequest.screenName,
-        builder: (context, state) => const CreateRequestScreen(),
-      ),
-
-      GoRoute(
-        path: PAGES.profile.screenPath,
-        name: PAGES.profile.screenName,
-        builder: (context, state) => const ProfileScreen(),
-      ),
-    ],
-  );
-
-  static GoRouter get router => _router;
-}
-
-class GoRouterRefreshStream extends ChangeNotifier {
-  GoRouterRefreshStream(Stream<dynamic> stream) {
-    notifyListeners();
-
-    _subscription = stream.asBroadcastStream().listen(
-      (dynamic _) => notifyListeners(),
+      },
+      routes: [
+        GoRoute(
+          path: PAGES.splash.screenPath,
+          name: PAGES.splash.screenName,
+          builder: (context, state) => const SplashScreen(),
+        ),
+        GoRoute(
+          path: PAGES.signin.screenPath,
+          name: PAGES.signin.screenName,
+          builder: (context, state) => const SignInScreen(),
+        ),
+        GoRoute(
+          path: PAGES.register.screenPath,
+          name: PAGES.register.screenName,
+          builder: (context, state) => const RegistrationScreen(),
+        ),
+        GoRoute(
+          path: PAGES.home.screenPath,
+          name: PAGES.home.screenName,
+          builder: (context, state) => const HomeScreen(),
+        ),
+        GoRoute(
+          path: PAGES.donors.screenPath,
+          name: PAGES.donors.screenName,
+          builder: (context, state) => const DonorsScreen(),
+        ),
+        GoRoute(
+          path: PAGES.chats.screenPath,
+          name: PAGES.chats.screenName,
+          builder: (context, state) => const ChatListScreen(),
+        ),
+        GoRoute(
+          path: PAGES.createRequest.screenPath,
+          name: PAGES.createRequest.screenName,
+          builder: (context, state) => const CreateRequestScreen(),
+        ),
+        GoRoute(
+          path: PAGES.profile.screenPath,
+          name: PAGES.profile.screenName,
+          builder: (context, state) => const ProfileScreen(),
+        ),
+      ],
     );
   }
 
-  late final StreamSubscription<dynamic> _subscription;
-
-  @override
-  void dispose() {
-    _subscription.cancel();
-    super.dispose();
-  }
+  // Static accessor kept for backward compatibility with existing call sites.
+  static GoRouter get router => getIt<AppRouter>()._goRouter;
 }
