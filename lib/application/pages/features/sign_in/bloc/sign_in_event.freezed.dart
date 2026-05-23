@@ -35,18 +35,19 @@ mixin _$SignInEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GoogleSignInPressed value) googleSignInPressed,
-    required TResult Function(_GoogleSignoutEvent value) signOut,
+    required TResult Function(GoogleSignInPressedEvent value)
+    googleSignInPressed,
+    required TResult Function(GoogleSignoutEvent value) signOut,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GoogleSignInPressed value)? googleSignInPressed,
-    TResult? Function(_GoogleSignoutEvent value)? signOut,
+    TResult? Function(GoogleSignInPressedEvent value)? googleSignInPressed,
+    TResult? Function(GoogleSignoutEvent value)? signOut,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GoogleSignInPressed value)? googleSignInPressed,
-    TResult Function(_GoogleSignoutEvent value)? signOut,
+    TResult Function(GoogleSignInPressedEvent value)? googleSignInPressed,
+    TResult Function(GoogleSignoutEvent value)? signOut,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -74,20 +75,20 @@ class _$SignInEventCopyWithImpl<$Res, $Val extends SignInEvent>
 }
 
 /// @nodoc
-abstract class _$$GoogleSignInPressedImplCopyWith<$Res> {
-  factory _$$GoogleSignInPressedImplCopyWith(
-    _$GoogleSignInPressedImpl value,
-    $Res Function(_$GoogleSignInPressedImpl) then,
-  ) = __$$GoogleSignInPressedImplCopyWithImpl<$Res>;
+abstract class _$$GoogleSignInPressedEventImplCopyWith<$Res> {
+  factory _$$GoogleSignInPressedEventImplCopyWith(
+    _$GoogleSignInPressedEventImpl value,
+    $Res Function(_$GoogleSignInPressedEventImpl) then,
+  ) = __$$GoogleSignInPressedEventImplCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$GoogleSignInPressedImplCopyWithImpl<$Res>
-    extends _$SignInEventCopyWithImpl<$Res, _$GoogleSignInPressedImpl>
-    implements _$$GoogleSignInPressedImplCopyWith<$Res> {
-  __$$GoogleSignInPressedImplCopyWithImpl(
-    _$GoogleSignInPressedImpl _value,
-    $Res Function(_$GoogleSignInPressedImpl) _then,
+class __$$GoogleSignInPressedEventImplCopyWithImpl<$Res>
+    extends _$SignInEventCopyWithImpl<$Res, _$GoogleSignInPressedEventImpl>
+    implements _$$GoogleSignInPressedEventImplCopyWith<$Res> {
+  __$$GoogleSignInPressedEventImplCopyWithImpl(
+    _$GoogleSignInPressedEventImpl _value,
+    $Res Function(_$GoogleSignInPressedEventImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of SignInEvent
@@ -96,8 +97,8 @@ class __$$GoogleSignInPressedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GoogleSignInPressedImpl implements _GoogleSignInPressed {
-  const _$GoogleSignInPressedImpl();
+class _$GoogleSignInPressedEventImpl implements GoogleSignInPressedEvent {
+  const _$GoogleSignInPressedEventImpl();
 
   @override
   String toString() {
@@ -108,7 +109,7 @@ class _$GoogleSignInPressedImpl implements _GoogleSignInPressed {
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$GoogleSignInPressedImpl);
+            other is _$GoogleSignInPressedEventImpl);
   }
 
   @override
@@ -148,8 +149,9 @@ class _$GoogleSignInPressedImpl implements _GoogleSignInPressed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GoogleSignInPressed value) googleSignInPressed,
-    required TResult Function(_GoogleSignoutEvent value) signOut,
+    required TResult Function(GoogleSignInPressedEvent value)
+    googleSignInPressed,
+    required TResult Function(GoogleSignoutEvent value) signOut,
   }) {
     return googleSignInPressed(this);
   }
@@ -157,8 +159,8 @@ class _$GoogleSignInPressedImpl implements _GoogleSignInPressed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GoogleSignInPressed value)? googleSignInPressed,
-    TResult? Function(_GoogleSignoutEvent value)? signOut,
+    TResult? Function(GoogleSignInPressedEvent value)? googleSignInPressed,
+    TResult? Function(GoogleSignoutEvent value)? signOut,
   }) {
     return googleSignInPressed?.call(this);
   }
@@ -166,8 +168,8 @@ class _$GoogleSignInPressedImpl implements _GoogleSignInPressed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GoogleSignInPressed value)? googleSignInPressed,
-    TResult Function(_GoogleSignoutEvent value)? signOut,
+    TResult Function(GoogleSignInPressedEvent value)? googleSignInPressed,
+    TResult Function(GoogleSignoutEvent value)? signOut,
     required TResult orElse(),
   }) {
     if (googleSignInPressed != null) {
@@ -177,8 +179,8 @@ class _$GoogleSignInPressedImpl implements _GoogleSignInPressed {
   }
 }
 
-abstract class _GoogleSignInPressed implements SignInEvent {
-  const factory _GoogleSignInPressed() = _$GoogleSignInPressedImpl;
+abstract class GoogleSignInPressedEvent implements SignInEvent {
+  const factory GoogleSignInPressedEvent() = _$GoogleSignInPressedEventImpl;
 }
 
 /// @nodoc
@@ -204,7 +206,7 @@ class __$$GoogleSignoutEventImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$GoogleSignoutEventImpl implements _GoogleSignoutEvent {
+class _$GoogleSignoutEventImpl implements GoogleSignoutEvent {
   const _$GoogleSignoutEventImpl();
 
   @override
@@ -255,8 +257,9 @@ class _$GoogleSignoutEventImpl implements _GoogleSignoutEvent {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_GoogleSignInPressed value) googleSignInPressed,
-    required TResult Function(_GoogleSignoutEvent value) signOut,
+    required TResult Function(GoogleSignInPressedEvent value)
+    googleSignInPressed,
+    required TResult Function(GoogleSignoutEvent value) signOut,
   }) {
     return signOut(this);
   }
@@ -264,8 +267,8 @@ class _$GoogleSignoutEventImpl implements _GoogleSignoutEvent {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_GoogleSignInPressed value)? googleSignInPressed,
-    TResult? Function(_GoogleSignoutEvent value)? signOut,
+    TResult? Function(GoogleSignInPressedEvent value)? googleSignInPressed,
+    TResult? Function(GoogleSignoutEvent value)? signOut,
   }) {
     return signOut?.call(this);
   }
@@ -273,8 +276,8 @@ class _$GoogleSignoutEventImpl implements _GoogleSignoutEvent {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_GoogleSignInPressed value)? googleSignInPressed,
-    TResult Function(_GoogleSignoutEvent value)? signOut,
+    TResult Function(GoogleSignInPressedEvent value)? googleSignInPressed,
+    TResult Function(GoogleSignoutEvent value)? signOut,
     required TResult orElse(),
   }) {
     if (signOut != null) {
@@ -284,6 +287,6 @@ class _$GoogleSignoutEventImpl implements _GoogleSignoutEvent {
   }
 }
 
-abstract class _GoogleSignoutEvent implements SignInEvent {
-  const factory _GoogleSignoutEvent() = _$GoogleSignoutEventImpl;
+abstract class GoogleSignoutEvent implements SignInEvent {
+  const factory GoogleSignoutEvent() = _$GoogleSignoutEventImpl;
 }
