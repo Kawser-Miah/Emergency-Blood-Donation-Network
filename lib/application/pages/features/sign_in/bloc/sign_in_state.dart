@@ -8,4 +8,5 @@ class SignInState with _$SignInState {
   const factory SignInState.loading() = LoadingSignInState;
   const factory SignInState.success() = SuccessSignState;
   const factory SignInState.failure(String message) = FailureState;
+  const factory SignInState.signOutSuccess() = SignOutSuccessState;
 }
