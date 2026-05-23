@@ -13,7 +13,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@lazySingleton
 class AppRouter {
   final AuthController _authController;
 
@@ -43,7 +43,8 @@ class AppRouter {
         }
 
         if (currentPath == PAGES.signin.screenPath ||
-            currentPath == PAGES.register.screenPath) {
+            currentPath == PAGES.register.screenPath ||
+            currentPath == PAGES.splash.screenPath) {
           return PAGES.home.screenPath;
         }
 
