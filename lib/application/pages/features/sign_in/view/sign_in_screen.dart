@@ -30,6 +30,13 @@ class SignIn extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<SignInBloc, SignInState>(
       listener: (context, state) {
+        if (state is LoadingSignInState) {
+          return Utils.showSnackBar(
+            context,
+            content: 'Connecting you to BloodSetu...',
+            color: Colors.blue,
+          );
+        }
         if (state is SuccessSignState) {
           return Utils.showSnackBar(
             context,
