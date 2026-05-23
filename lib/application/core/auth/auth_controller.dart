@@ -5,7 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:injectable/injectable.dart';
 
-@injectable
+@lazySingleton
 class AuthController extends ChangeNotifier {
   final SpService _spService;
   final FirebaseAuth _firebaseAuth;
@@ -32,7 +32,7 @@ class AuthController extends ChangeNotifier {
     _authSubscription = _firebaseAuth.authStateChanges().listen((user) {
       _user = user;
       if (!authReady.isCompleted) authReady.complete();
-      if (_isInitialized) notifyListeners();
+      // if (_isInitialized) notifyListeners();
     });
 
     // Show splash for at least 3 seconds and wait for Firebase auth state
