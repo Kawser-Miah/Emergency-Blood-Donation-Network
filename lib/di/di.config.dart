@@ -57,7 +57,7 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i181.SpService>(
       () => _i181.SpServiceImpl(gh<_i460.SharedPreferences>()),
     );
-    gh.factory<_i839.AuthController>(
+    gh.lazySingleton<_i839.AuthController>(
       () =>
           _i839.AuthController(gh<_i181.SpService>(), gh<_i59.FirebaseAuth>()),
     );
@@ -66,7 +66,7 @@ extension GetItInjectableX on _i174.GetIt {
         authenticationUseCase: gh<_i39.AuthenticationUseCase>(),
       ),
     );
-    gh.factory<_i828.AppRouter>(
+    gh.lazySingleton<_i828.AppRouter>(
       () => _i828.AppRouter(gh<_i839.AuthController>()),
     );
     return this;
