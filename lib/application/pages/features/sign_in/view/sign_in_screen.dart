@@ -33,27 +33,27 @@ class SignIn extends StatelessWidget {
         if (state is SuccessSignState) {
           return Utils.showSnackBar(
             context,
-            content: 'Signed in successfully',
+            content: 'Welcome! Let’s save lives together.',
             color: Colors.green,
           );
         }
         if (state is FailureState) {
-          Utils.showSnackBar(
+          return Utils.showSnackBar(
             context,
             content: state.message,
             color: Colors.red,
           );
         }
-        state.maybeWhen(
-          failure: (message) =>
-              Utils.showSnackBar(context, content: message, color: Colors.red),
-          success: () => Utils.showSnackBar(
-            context,
-            content: 'Signed in successfully',
-            color: Colors.green,
-          ),
-          orElse: () {},
-        );
+        // state.maybeWhen(
+        //   failure: (message) =>
+        //       Utils.showSnackBar(context, content: message, color: Colors.red),
+        //   success: () => Utils.showSnackBar(
+        //     context,
+        //     content: 'Signed in successfully',
+        //     color: Colors.green,
+        //   ),
+        //   orElse: () {},
+        // );
       },
       child: Scaffold(
         backgroundColor: Colors.white,
