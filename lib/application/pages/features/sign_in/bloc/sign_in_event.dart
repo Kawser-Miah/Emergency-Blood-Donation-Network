@@ -4,6 +4,6 @@ part 'sign_in_event.freezed.dart';
 
 @freezed
 class SignInEvent with _$SignInEvent {
-  const factory SignInEvent.googleSignInPressed() = _GoogleSignInPressed;
-  const factory SignInEvent.signOut() = _GoogleSignoutEvent;
+  const factory SignInEvent.googleSignInPressed() = GoogleSignInPressedEvent;
+  const factory SignInEvent.signOut() = GoogleSignoutEvent;
 }
