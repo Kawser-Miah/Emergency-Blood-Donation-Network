@@ -23,6 +23,7 @@ mixin _$SignInState {
     required TResult Function() loading,
     required TResult Function() success,
     required TResult Function(String message) failure,
+    required TResult Function() signOutSuccess,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -30,6 +31,7 @@ mixin _$SignInState {
     TResult? Function()? loading,
     TResult? Function()? success,
     TResult? Function(String message)? failure,
+    TResult? Function()? signOutSuccess,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -37,6 +39,7 @@ mixin _$SignInState {
     TResult Function()? loading,
     TResult Function()? success,
     TResult Function(String message)? failure,
+    TResult Function()? signOutSuccess,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -45,6 +48,7 @@ mixin _$SignInState {
     required TResult Function(LoadingSignInState value) loading,
     required TResult Function(SuccessSignState value) success,
     required TResult Function(FailureState value) failure,
+    required TResult Function(SignOutSuccessState value) signOutSuccess,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -52,6 +56,7 @@ mixin _$SignInState {
     TResult? Function(LoadingSignInState value)? loading,
     TResult? Function(SuccessSignState value)? success,
     TResult? Function(FailureState value)? failure,
+    TResult? Function(SignOutSuccessState value)? signOutSuccess,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -59,6 +64,7 @@ mixin _$SignInState {
     TResult Function(LoadingSignInState value)? loading,
     TResult Function(SuccessSignState value)? success,
     TResult Function(FailureState value)? failure,
+    TResult Function(SignOutSuccessState value)? signOutSuccess,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -132,6 +138,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function() loading,
     required TResult Function() success,
     required TResult Function(String message) failure,
+    required TResult Function() signOutSuccess,
   }) {
     return initial();
   }
@@ -143,6 +150,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function()? loading,
     TResult? Function()? success,
     TResult? Function(String message)? failure,
+    TResult? Function()? signOutSuccess,
   }) {
     return initial?.call();
   }
@@ -154,6 +162,7 @@ class _$InitialImpl implements _Initial {
     TResult Function()? loading,
     TResult Function()? success,
     TResult Function(String message)? failure,
+    TResult Function()? signOutSuccess,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -169,6 +178,7 @@ class _$InitialImpl implements _Initial {
     required TResult Function(LoadingSignInState value) loading,
     required TResult Function(SuccessSignState value) success,
     required TResult Function(FailureState value) failure,
+    required TResult Function(SignOutSuccessState value) signOutSuccess,
   }) {
     return initial(this);
   }
@@ -180,6 +190,7 @@ class _$InitialImpl implements _Initial {
     TResult? Function(LoadingSignInState value)? loading,
     TResult? Function(SuccessSignState value)? success,
     TResult? Function(FailureState value)? failure,
+    TResult? Function(SignOutSuccessState value)? signOutSuccess,
   }) {
     return initial?.call(this);
   }
@@ -191,6 +202,7 @@ class _$InitialImpl implements _Initial {
     TResult Function(LoadingSignInState value)? loading,
     TResult Function(SuccessSignState value)? success,
     TResult Function(FailureState value)? failure,
+    TResult Function(SignOutSuccessState value)? signOutSuccess,
     required TResult orElse(),
   }) {
     if (initial != null) {
@@ -251,6 +263,7 @@ class _$LoadingSignInStateImpl implements LoadingSignInState {
     required TResult Function() loading,
     required TResult Function() success,
     required TResult Function(String message) failure,
+    required TResult Function() signOutSuccess,
   }) {
     return loading();
   }
@@ -262,6 +275,7 @@ class _$LoadingSignInStateImpl implements LoadingSignInState {
     TResult? Function()? loading,
     TResult? Function()? success,
     TResult? Function(String message)? failure,
+    TResult? Function()? signOutSuccess,
   }) {
     return loading?.call();
   }
@@ -273,6 +287,7 @@ class _$LoadingSignInStateImpl implements LoadingSignInState {
     TResult Function()? loading,
     TResult Function()? success,
     TResult Function(String message)? failure,
+    TResult Function()? signOutSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -288,6 +303,7 @@ class _$LoadingSignInStateImpl implements LoadingSignInState {
     required TResult Function(LoadingSignInState value) loading,
     required TResult Function(SuccessSignState value) success,
     required TResult Function(FailureState value) failure,
+    required TResult Function(SignOutSuccessState value) signOutSuccess,
   }) {
     return loading(this);
   }
@@ -299,6 +315,7 @@ class _$LoadingSignInStateImpl implements LoadingSignInState {
     TResult? Function(LoadingSignInState value)? loading,
     TResult? Function(SuccessSignState value)? success,
     TResult? Function(FailureState value)? failure,
+    TResult? Function(SignOutSuccessState value)? signOutSuccess,
   }) {
     return loading?.call(this);
   }
@@ -310,6 +327,7 @@ class _$LoadingSignInStateImpl implements LoadingSignInState {
     TResult Function(LoadingSignInState value)? loading,
     TResult Function(SuccessSignState value)? success,
     TResult Function(FailureState value)? failure,
+    TResult Function(SignOutSuccessState value)? signOutSuccess,
     required TResult orElse(),
   }) {
     if (loading != null) {
@@ -370,6 +388,7 @@ class _$SuccessSignStateImpl implements SuccessSignState {
     required TResult Function() loading,
     required TResult Function() success,
     required TResult Function(String message) failure,
+    required TResult Function() signOutSuccess,
   }) {
     return success();
   }
@@ -381,6 +400,7 @@ class _$SuccessSignStateImpl implements SuccessSignState {
     TResult? Function()? loading,
     TResult? Function()? success,
     TResult? Function(String message)? failure,
+    TResult? Function()? signOutSuccess,
   }) {
     return success?.call();
   }
@@ -392,6 +412,7 @@ class _$SuccessSignStateImpl implements SuccessSignState {
     TResult Function()? loading,
     TResult Function()? success,
     TResult Function(String message)? failure,
+    TResult Function()? signOutSuccess,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -407,6 +428,7 @@ class _$SuccessSignStateImpl implements SuccessSignState {
     required TResult Function(LoadingSignInState value) loading,
     required TResult Function(SuccessSignState value) success,
     required TResult Function(FailureState value) failure,
+    required TResult Function(SignOutSuccessState value) signOutSuccess,
   }) {
     return success(this);
   }
@@ -418,6 +440,7 @@ class _$SuccessSignStateImpl implements SuccessSignState {
     TResult? Function(LoadingSignInState value)? loading,
     TResult? Function(SuccessSignState value)? success,
     TResult? Function(FailureState value)? failure,
+    TResult? Function(SignOutSuccessState value)? signOutSuccess,
   }) {
     return success?.call(this);
   }
@@ -429,6 +452,7 @@ class _$SuccessSignStateImpl implements SuccessSignState {
     TResult Function(LoadingSignInState value)? loading,
     TResult Function(SuccessSignState value)? success,
     TResult Function(FailureState value)? failure,
+    TResult Function(SignOutSuccessState value)? signOutSuccess,
     required TResult orElse(),
   }) {
     if (success != null) {
@@ -516,6 +540,7 @@ class _$FailureStateImpl implements FailureState {
     required TResult Function() loading,
     required TResult Function() success,
     required TResult Function(String message) failure,
+    required TResult Function() signOutSuccess,
   }) {
     return failure(message);
   }
@@ -527,6 +552,7 @@ class _$FailureStateImpl implements FailureState {
     TResult? Function()? loading,
     TResult? Function()? success,
     TResult? Function(String message)? failure,
+    TResult? Function()? signOutSuccess,
   }) {
     return failure?.call(message);
   }
@@ -538,6 +564,7 @@ class _$FailureStateImpl implements FailureState {
     TResult Function()? loading,
     TResult Function()? success,
     TResult Function(String message)? failure,
+    TResult Function()? signOutSuccess,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -553,6 +580,7 @@ class _$FailureStateImpl implements FailureState {
     required TResult Function(LoadingSignInState value) loading,
     required TResult Function(SuccessSignState value) success,
     required TResult Function(FailureState value) failure,
+    required TResult Function(SignOutSuccessState value) signOutSuccess,
   }) {
     return failure(this);
   }
@@ -564,6 +592,7 @@ class _$FailureStateImpl implements FailureState {
     TResult? Function(LoadingSignInState value)? loading,
     TResult? Function(SuccessSignState value)? success,
     TResult? Function(FailureState value)? failure,
+    TResult? Function(SignOutSuccessState value)? signOutSuccess,
   }) {
     return failure?.call(this);
   }
@@ -575,6 +604,7 @@ class _$FailureStateImpl implements FailureState {
     TResult Function(LoadingSignInState value)? loading,
     TResult Function(SuccessSignState value)? success,
     TResult Function(FailureState value)? failure,
+    TResult Function(SignOutSuccessState value)? signOutSuccess,
     required TResult orElse(),
   }) {
     if (failure != null) {
@@ -594,4 +624,130 @@ abstract class FailureState implements SignInState {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FailureStateImplCopyWith<_$FailureStateImpl> get copyWith =>
       throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$SignOutSuccessStateImplCopyWith<$Res> {
+  factory _$$SignOutSuccessStateImplCopyWith(
+    _$SignOutSuccessStateImpl value,
+    $Res Function(_$SignOutSuccessStateImpl) then,
+  ) = __$$SignOutSuccessStateImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$SignOutSuccessStateImplCopyWithImpl<$Res>
+    extends _$SignInStateCopyWithImpl<$Res, _$SignOutSuccessStateImpl>
+    implements _$$SignOutSuccessStateImplCopyWith<$Res> {
+  __$$SignOutSuccessStateImplCopyWithImpl(
+    _$SignOutSuccessStateImpl _value,
+    $Res Function(_$SignOutSuccessStateImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of SignInState
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$SignOutSuccessStateImpl implements SignOutSuccessState {
+  const _$SignOutSuccessStateImpl();
+
+  @override
+  String toString() {
+    return 'SignInState.signOutSuccess()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$SignOutSuccessStateImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() initial,
+    required TResult Function() loading,
+    required TResult Function() success,
+    required TResult Function(String message) failure,
+    required TResult Function() signOutSuccess,
+  }) {
+    return signOutSuccess();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? initial,
+    TResult? Function()? loading,
+    TResult? Function()? success,
+    TResult? Function(String message)? failure,
+    TResult? Function()? signOutSuccess,
+  }) {
+    return signOutSuccess?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? initial,
+    TResult Function()? loading,
+    TResult Function()? success,
+    TResult Function(String message)? failure,
+    TResult Function()? signOutSuccess,
+    required TResult orElse(),
+  }) {
+    if (signOutSuccess != null) {
+      return signOutSuccess();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Initial value) initial,
+    required TResult Function(LoadingSignInState value) loading,
+    required TResult Function(SuccessSignState value) success,
+    required TResult Function(FailureState value) failure,
+    required TResult Function(SignOutSuccessState value) signOutSuccess,
+  }) {
+    return signOutSuccess(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Initial value)? initial,
+    TResult? Function(LoadingSignInState value)? loading,
+    TResult? Function(SuccessSignState value)? success,
+    TResult? Function(FailureState value)? failure,
+    TResult? Function(SignOutSuccessState value)? signOutSuccess,
+  }) {
+    return signOutSuccess?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Initial value)? initial,
+    TResult Function(LoadingSignInState value)? loading,
+    TResult Function(SuccessSignState value)? success,
+    TResult Function(FailureState value)? failure,
+    TResult Function(SignOutSuccessState value)? signOutSuccess,
+    required TResult orElse(),
+  }) {
+    if (signOutSuccess != null) {
+      return signOutSuccess(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class SignOutSuccessState implements SignInState {
+  const factory SignOutSuccessState() = _$SignOutSuccessStateImpl;
 }
