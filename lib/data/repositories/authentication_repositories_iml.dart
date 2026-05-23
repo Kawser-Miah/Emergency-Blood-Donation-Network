@@ -71,8 +71,7 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
           });
         }
 
-        // return Right(profileSnapshot.exists);
-        return Right(true);
+        return Right(profileSnapshot.exists);
       }
 
       return Left(GeneralFailure("User is null"));
