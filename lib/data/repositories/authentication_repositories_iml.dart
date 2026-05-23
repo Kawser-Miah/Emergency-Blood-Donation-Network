@@ -71,10 +71,11 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
           });
         }
 
-        return Right(profileSnapshot.exists);
+        // return Right(profileSnapshot.exists);
+        return Right(true);
       }
 
-      return const Right(false);
+      return Left(GeneralFailure("User is null"));
     } on FirebaseAuthException catch (e) {
       return Left(
         GeneralFailure(e.message ?? 'Firebase authentication failed'),
@@ -91,7 +92,9 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
 
       return const Right(null);
     } catch (e) {
-      return Left(GeneralFailure(e.toString()));
+      return Left(
+        GeneralFailure("An unexpected error occurred during sign out."),
+      );
     }
   }
 }
