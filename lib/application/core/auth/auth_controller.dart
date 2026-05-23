@@ -25,8 +25,7 @@ class AuthController extends ChangeNotifier {
   bool get isInitialized => _isInitialized;
 
   Future<void> _init() async {
-    _profileCompleted =
-        _spService.readSync<bool>(StorageKey.register) ?? false;
+    _profileCompleted = _spService.readSync<bool>(StorageKey.register) ?? false;
 
     final authReady = Completer<void>();
 
@@ -59,7 +58,6 @@ class AuthController extends ChangeNotifier {
   }
 
   Future<void> logout() async {
-    await _firebaseAuth.signOut();
     _user = null;
     _profileCompleted = false;
     await _spService.delete(StorageKey.register);
