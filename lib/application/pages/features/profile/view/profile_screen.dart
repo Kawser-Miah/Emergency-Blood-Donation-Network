@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/mock_data.dart';
-import '../../../../../domain/models/screen.dart';
 import '../../../../../widgets/bottom_nav.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../app/bloc/app_navigation_bloc.dart';
-import '../../../app/bloc/app_navigation_event.dart';
 import '../bloc/profile_bloc.dart';
 import '../bloc/profile_event.dart';
 import '../bloc/profile_state.dart';
@@ -902,9 +899,7 @@ class _SettingsSection extends StatelessWidget {
                     ),
                   ),
                 InkWell(
-                  onTap: () => context.read<AppNavigationBloc>().add(
-                        const AppNavigationEvent.navigated(AppScreen.signin),
-                      ),
+                  onTap: () {},
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 16, vertical: 12),

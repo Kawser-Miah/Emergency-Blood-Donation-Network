@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../application/core/theme/colors.dart';
-import '../application/pages/app/bloc/app_navigation_bloc.dart';
-import '../application/pages/app/bloc/app_navigation_event.dart';
-import '../domain/models/screen.dart';
 
 class BottomNav extends StatelessWidget {
   const BottomNav({super.key, required this.active});
@@ -45,12 +41,12 @@ class BottomNav extends StatelessWidget {
             return Expanded(
               child: InkWell(
                 onTap: () {
-                  final screen = AppScreenX.fromSlug(item.id);
-                  if (screen != null) {
-                    context.read<AppNavigationBloc>().add(
-                          AppNavigationEvent.navigated(screen),
-                        );
-                  }
+                  // final screen = AppScreenX.fromSlug(item.id);
+                  // if (screen != null) {
+                  //   context.read<AppNavigationBloc>().add(
+                  //         AppNavigationEvent.navigated(screen),
+                  //       );
+                  // }
                 },
                 child: Stack(
                   alignment: Alignment.center,

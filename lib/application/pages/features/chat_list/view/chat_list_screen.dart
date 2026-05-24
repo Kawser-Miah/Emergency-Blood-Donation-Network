@@ -1,16 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/mock_data.dart';
-import '../../../../../domain/models/chat_contact.dart';
 import '../../../../../domain/models/chat_summary.dart';
-import '../../../../../domain/models/screen.dart';
 import '../../../../../widgets/avatar.dart';
 import '../../../../../widgets/bottom_nav.dart';
 import '../../../../../widgets/typing_dots.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../app/bloc/app_navigation_bloc.dart';
-import '../../../app/bloc/app_navigation_event.dart';
+
 
 class ChatListScreen extends StatelessWidget {
   const ChatListScreen({super.key});
@@ -27,10 +23,11 @@ class ChatListScreen extends StatelessWidget {
               Expanded(
                 child: mockChats.isEmpty
                     ? _Empty(
-                        onFind: () => context.read<AppNavigationBloc>().add(
-                              const AppNavigationEvent.navigated(
-                                  AppScreen.donors),
-                            ),
+                        onFind: () {},
+                            // context.read<AppNavigationBloc>().add(
+                            //   const AppNavigationEvent.navigated(
+                            //       AppScreen.donors),
+                            // ),
                       )
                     : ListView.builder(
                         padding: const EdgeInsets.only(bottom: 80),
@@ -140,19 +137,20 @@ class _ChatRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasUnread = chat.unread > 0;
     return InkWell(
-      onTap: () => context.read<AppNavigationBloc>().add(
-            AppNavigationEvent.navigated(
-              AppScreen.chat,
-              contact: ChatContact(
-                name: chat.name,
-                bloodGroup: chat.bloodGroup,
-                id: chat.id,
-                initials: chat.initials,
-                avatarColor: chat.avatarColor,
-                online: chat.online,
-              ),
-            ),
-          ),
+      onTap: () {},
+          // context.read<AppNavigationBloc>().add(
+          //   AppNavigationEvent.navigated(
+          //     AppScreen.chat,
+          //     contact: ChatContact(
+          //       name: chat.name,
+          //       bloodGroup: chat.bloodGroup,
+          //       id: chat.id,
+          //       initials: chat.initials,
+          //       avatarColor: chat.avatarColor,
+          //       online: chat.online,
+          //     ),
+          //   ),
+          // ),
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(

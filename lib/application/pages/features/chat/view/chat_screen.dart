@@ -3,12 +3,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../domain/models/chat_contact.dart';
 import '../../../../../domain/models/chat_message.dart';
-import '../../../../../domain/models/screen.dart';
 import '../../../../../widgets/avatar.dart';
 import '../../../../../widgets/typing_dots.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../app/bloc/app_navigation_bloc.dart';
-import '../../../app/bloc/app_navigation_event.dart';
+// import '../../../app/bloc/app_navigation_bloc.dart';
+// import '../../../app/bloc/app_navigation_event.dart';
 import '../bloc/chat_bloc.dart';
 import '../bloc/chat_event.dart';
 import '../bloc/chat_state.dart';
@@ -155,9 +154,10 @@ class _AppBar extends StatelessWidget {
       child: Row(
         children: [
           IconButton(
-            onPressed: () => context.read<AppNavigationBloc>().add(
-                  const AppNavigationEvent.navigated(AppScreen.chats),
-                ),
+            onPressed: () {},
+                // context.read<AppNavigationBloc>().add(
+                //   const AppNavigationEvent.navigated(AppScreen.chats),
+                // ),
             icon: const Icon(Icons.arrow_back, size: 22),
             color: AppColors.textSecondary,
             padding: const EdgeInsets.all(4),

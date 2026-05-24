@@ -4,10 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/mock_data.dart';
-import '../../../../../domain/models/screen.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../app/bloc/app_navigation_bloc.dart';
-import '../../../app/bloc/app_navigation_event.dart';
 import '../bloc/registration_bloc.dart';
 import '../bloc/registration_event.dart';
 import '../bloc/registration_state.dart';
@@ -40,9 +37,7 @@ class _RegistrationView extends StatelessWidget {
               Column(
                 children: [
                   _Header(
-                    onBack: () => context.read<AppNavigationBloc>().add(
-                          const AppNavigationEvent.navigated(AppScreen.signin),
-                        ),
+                    onBack: (){}
                   ),
                   _Progress(step: state.step),
                   Expanded(

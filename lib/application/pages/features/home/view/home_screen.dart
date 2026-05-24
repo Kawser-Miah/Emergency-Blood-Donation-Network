@@ -3,14 +3,10 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/mock_data.dart';
 import '../../../../../domain/models/blood_request.dart';
-import '../../../../../domain/models/chat_contact.dart';
 import '../../../../../domain/models/donor.dart';
-import '../../../../../domain/models/screen.dart';
 import '../../../../../widgets/avatar.dart';
 import '../../../../../widgets/bottom_nav.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../app/bloc/app_navigation_bloc.dart';
-import '../../../app/bloc/app_navigation_event.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
@@ -101,42 +97,38 @@ class _HomeView extends StatelessWidget {
                           ),
                           const SizedBox(height: 20),
                           _NearbyDonors(
-                            onSeeAll: () =>
-                                context.read<AppNavigationBloc>().add(
-                                      const AppNavigationEvent.navigated(
-                                          AppScreen.donors),
-                                    ),
-                            onMessage: (donor) =>
-                                context.read<AppNavigationBloc>().add(
-                                      AppNavigationEvent.navigated(
-                                        AppScreen.chat,
-                                        contact: ChatContact(
-                                          name: donor.name,
-                                          bloodGroup: donor.bloodGroup,
-                                          id: donor.id,
-                                          initials: donor.initials,
-                                          avatarColor: donor.avatarColor,
-                                          online: donor.online,
-                                        ),
-                                      ),
-                                    ),
+                            onSeeAll: () {},
+                            onMessage: (donor) {}
+                                // context.read<AppNavigationBloc>().add(
+                                //       AppNavigationEvent.navigated(
+                                //         AppScreen.chat,
+                                //         contact: ChatContact(
+                                //           name: donor.name,
+                                //           bloodGroup: donor.bloodGroup,
+                                //           id: donor.id,
+                                //           initials: donor.initials,
+                                //           avatarColor: donor.avatarColor,
+                                //           online: donor.online,
+                                //         ),
+                                //       ),
+                                //     ),
                           ),
                           const SizedBox(height: 20),
                           _ActiveRequests(
-                            onMessage: (req) =>
-                                context.read<AppNavigationBloc>().add(
-                                      AppNavigationEvent.navigated(
-                                        AppScreen.chat,
-                                        contact: ChatContact(
-                                          name: 'Blood Request',
-                                          bloodGroup: req.bloodGroup,
-                                          id: req.id,
-                                          initials: 'BR',
-                                          avatarColor: '#E53935',
-                                          online: true,
-                                        ),
-                                      ),
-                                    ),
+                            onMessage: (req) {}
+                                // context.read<AppNavigationBloc>().add(
+                                //       AppNavigationEvent.navigated(
+                                //         AppScreen.chat,
+                                //         contact: ChatContact(
+                                //           name: 'Blood Request',
+                                //           bloodGroup: req.bloodGroup,
+                                //           id: req.id,
+                                //           initials: 'BR',
+                                //           avatarColor: '#E53935',
+                                //           online: true,
+                                //         ),
+                                //       ),
+                                //     ),
                           ),
                         ],
                       ),
@@ -148,10 +140,11 @@ class _HomeView extends StatelessWidget {
                 right: 20,
                 bottom: 80,
                 child: FloatingActionButton(
-                  onPressed: () => context.read<AppNavigationBloc>().add(
-                        const AppNavigationEvent.navigated(
-                            AppScreen.createRequest),
-                      ),
+                  onPressed: () {},
+                      // context.read<AppNavigationBloc>().add(
+                      //   const AppNavigationEvent.navigated(
+                      //       AppScreen.createRequest),
+                      // ),
                   backgroundColor: AppColors.primary,
                   child: const Icon(Icons.add, color: Colors.white),
                 ),
@@ -938,15 +931,15 @@ class _Sidebar extends StatelessWidget {
                   ..._sidebarItems.map((it) {
                     return InkWell(
                       onTap: () {
-                        context
-                            .read<HomeBloc>()
-                            .add(const HomeEvent.sidebarClosed());
-                        final s = AppScreenX.fromSlug(it.screen);
-                        if (s != null) {
-                          context.read<AppNavigationBloc>().add(
-                                AppNavigationEvent.navigated(s),
-                              );
-                        }
+                        // context
+                        //     .read<HomeBloc>()
+                        //     .add(const HomeEvent.sidebarClosed());
+                        // final s = AppScreenX.fromSlug(it.screen);
+                        // if (s != null) {
+                        //   context.read<AppNavigationBloc>().add(
+                        //         AppNavigationEvent.navigated(s),
+                        //       );
+                        // }
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -975,9 +968,10 @@ class _Sidebar extends StatelessWidget {
                   }),
                   const Spacer(),
                   InkWell(
-                    onTap: () => context.read<AppNavigationBloc>().add(
-                          const AppNavigationEvent.navigated(AppScreen.signin),
-                        ),
+                    onTap: () {},
+                        // context.read<AppNavigationBloc>().add(
+                        //   const AppNavigationEvent.navigated(AppScreen.signin),
+                        // ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Row(

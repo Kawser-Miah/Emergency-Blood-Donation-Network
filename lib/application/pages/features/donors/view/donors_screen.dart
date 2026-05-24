@@ -1,14 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../domain/models/chat_contact.dart';
 import '../../../../../domain/models/donor.dart';
-import '../../../../../domain/models/screen.dart';
 import '../../../../../widgets/avatar.dart';
 import '../../../../../widgets/bottom_nav.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../app/bloc/app_navigation_bloc.dart';
-import '../../../app/bloc/app_navigation_event.dart';
 import '../bloc/donors_bloc.dart';
 import '../bloc/donors_event.dart';
 import '../bloc/donors_state.dart';
@@ -468,19 +464,20 @@ class _DonorCard extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: () => context.read<AppNavigationBloc>().add(
-                        AppNavigationEvent.navigated(
-                          AppScreen.chat,
-                          contact: ChatContact(
-                            name: donor.name,
-                            bloodGroup: donor.bloodGroup,
-                            id: donor.id,
-                            initials: donor.initials,
-                            avatarColor: donor.avatarColor,
-                            online: donor.online,
-                          ),
-                        ),
-                      ),
+                  onPressed: () {},
+                      // context.read<AppNavigationBloc>().add(
+                      //   AppNavigationEvent.navigated(
+                      //     AppScreen.chat,
+                      //     contact: ChatContact(
+                      //       name: donor.name,
+                      //       bloodGroup: donor.bloodGroup,
+                      //       id: donor.id,
+                      //       initials: donor.initials,
+                      //       avatarColor: donor.avatarColor,
+                      //       online: donor.online,
+                      //     ),
+                      //   ),
+                      // ),
                   icon: const Icon(Icons.chat_bubble_outline, size: 14),
                   label: const Text('Message'),
                   style: ElevatedButton.styleFrom(

@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../domain/models/screen.dart';
 import '../../../../core/theme/colors.dart';
-import '../../../app/bloc/app_navigation_bloc.dart';
-import '../../../app/bloc/app_navigation_event.dart';
 import '../bloc/create_request_bloc.dart';
 import '../bloc/create_request_event.dart';
 import '../bloc/create_request_state.dart';
@@ -89,9 +86,10 @@ class _CreateRequestView extends StatelessWidget {
               Column(
                 children: [
                   _Header(
-                    onBack: () => context.read<AppNavigationBloc>().add(
-                          const AppNavigationEvent.navigated(AppScreen.home),
-                        ),
+                    onBack: () {}
+                        // context.read<AppNavigationBloc>().add(
+                        //   const AppNavigationEvent.navigated(AppScreen.home),
+                        // ),
                   ),
                   Container(
                     color: Colors.white,
@@ -149,9 +147,10 @@ class _CreateRequestView extends StatelessWidget {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () => context.read<AppNavigationBloc>().add(
-                            const AppNavigationEvent.navigated(AppScreen.home),
-                          ),
+                      onPressed: () {},
+                          // context.read<AppNavigationBloc>().add(
+                          //   const AppNavigationEvent.navigated(AppScreen.home),
+                          // ),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
