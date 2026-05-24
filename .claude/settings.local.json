@@ -4,7 +4,20 @@
       "Bash(xargs ls -la)",
       "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); [print\\('client_id:', c.get\\('client_id',''\\), '| type:', c.get\\('client_type',''\\)\\) for client in d.get\\('client',[]\\) for c in client.get\\('oauth_client',[]\\)]\")",
       "Bash(flutter analyze *)",
-      "Bash(dart run *)"
+      "Bash(dart run *)",
+      "Bash(flutter --version)",
+      "Bash(flutter pub *)",
+      "Bash(dart pub *)",
+      "Bash(flutter build *)",
+      "Bash(dart analyze *)",
+      "Bash(python3 -c \"import sys,json; cfg=json.load\\(sys.stdin\\); [print\\(p['name'], p.get\\('rootUri',''\\)\\) for p in cfg['packages'] if 'jni' in p['name'].lower\\(\\) or 'path_provider_android' in p['name'].lower\\(\\)]\")",
+      "Bash(python3 -c \"import sys,json; cfg=json.load\\(sys.stdin\\); [print\\(p['name'], p.get\\('rootUri',''\\)\\) for p in cfg['packages'] if 'jni' in p.get\\('rootUri',''\\).lower\\(\\) or 'jni' in p['name'].lower\\(\\)]\")",
+      "Bash(python3 -c \"import sys,json; d=json.load\\(sys.stdin\\); [print\\(k\\) for k in d.get\\('files', {}\\) if 'jni' in k]\")",
+      "Bash(dart *)",
+      "Bash(flutter clean *)",
+      "Bash(python3 -c \"import sys,json; cfg=json.load\\(sys.stdin\\); found=[p for p in cfg['packages'] if 'jni' in p['name'].lower\\(\\)]; print\\('jni found:', found\\) if found else print\\('jni NOT in package config - clean!'\\)\")",
+      "mcp__ide__getDiagnostics",
+      "Bash(python3 -c ' *)"
     ]
   }
 }
