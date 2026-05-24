@@ -5,11 +5,22 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/mock_data.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../core/widgets/registration_header_widget.dart';
+import '../../../../core/widgets/registration_progress_widget.dart';
 import '../bloc/registration_bloc.dart';
 import '../bloc/registration_event.dart';
 import '../bloc/registration_state.dart';
 
-const List<String> _bloodGroups = ['A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'];
+const List<String> _bloodGroups = [
+  'A+',
+  'A-',
+  'B+',
+  'B-',
+  'O+',
+  'O-',
+  'AB+',
+  'AB-',
+];
 
 class RegistrationScreen extends StatelessWidget {
   const RegistrationScreen({super.key});
@@ -36,10 +47,13 @@ class _RegistrationView extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  _Header(
-                    onBack: (){}
+                  const RegistrationHeaderWidget(),
+                  RegistrationProgressWidget(
+                    step: state.step,
+                    onStepTap: (_) => context.read<RegistrationBloc>().add(
+                      const RegistrationEvent.previousStep(),
+                    ),
                   ),
-                  _Progress(step: state.step),
                   Expanded(
                     child: SingleChildScrollView(
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
@@ -57,9 +71,7 @@ class _RegistrationView extends StatelessWidget {
                 child: Container(
                   decoration: const BoxDecoration(
                     color: AppColors.background,
-                    border: Border(
-                      top: BorderSide(color: AppColors.divider),
-                    ),
+                    border: Border(top: BorderSide(color: AppColors.divider)),
                   ),
                   padding: const EdgeInsets.all(16),
                   child: SizedBox(
@@ -67,9 +79,9 @@ class _RegistrationView extends StatelessWidget {
                     child: ElevatedButton(
                       onPressed: () {
                         if (state.step == 1) {
-                          context
-                              .read<RegistrationBloc>()
-                              .add(const RegistrationEvent.nextStep());
+                          context.read<RegistrationBloc>().add(
+                            const RegistrationEvent.nextStep(),
+                          );
                         } else {
                           getIt<AuthController>().onProfileCompleted();
                         }
@@ -101,113 +113,6 @@ class _RegistrationView extends StatelessWidget {
           ),
         );
       },
-    );
-  }
-}
-
-class _Header extends StatelessWidget {
-  const _Header({required this.onBack});
-
-  final VoidCallback onBack;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: EdgeInsets.fromLTRB(16, MediaQuery.of(context).padding.top + 4, 16, 16),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: onBack,
-            icon: const Icon(Icons.arrow_back, size: 20),
-            color: AppColors.textTertiary,
-            padding: const EdgeInsets.all(4),
-            constraints: const BoxConstraints(),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
-                Text(
-                  'Complete Your Profile',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
-                  ),
-                ),
-                Text(
-                  'This helps us match you with blood seekers',
-                  style: TextStyle(fontSize: 12, color: AppColors.textTertiary),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _Progress extends StatelessWidget {
-  const _Progress({required this.step});
-
-  final int step;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
-              for (final s in [1, 2]) ...[
-                _stepCircle(s, step),
-                if (s < 2)
-                  Expanded(
-                    child: Container(
-                      height: 2,
-                      color: step > 1 ? AppColors.primary : AppColors.divider,
-                    ),
-                  ),
-              ],
-            ],
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Step $step of 2',
-            style: const TextStyle(fontSize: 11, color: AppColors.textTertiary),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _stepCircle(int s, int currentStep) {
-    final isActive = s <= currentStep;
-    return Container(
-      width: 24,
-      height: 24,
-      margin: const EdgeInsets.symmetric(horizontal: 4),
-      alignment: Alignment.center,
-      decoration: BoxDecoration(
-        color: isActive ? AppColors.primary : AppColors.divider,
-        shape: BoxShape.circle,
-      ),
-      child: s < currentStep
-          ? const Icon(Icons.check, size: 12, color: Colors.white)
-          : Text(
-              '$s',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: isActive ? Colors.white : AppColors.textMuted,
-              ),
-            ),
     );
   }
 }
@@ -316,10 +221,7 @@ class _Step1 extends StatelessWidget {
               border: InputBorder.none,
               hintText: 'Your full name',
             ),
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppColors.textPrimary,
-            ),
+            style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
           ),
         ),
         _FormField(
@@ -334,10 +236,7 @@ class _Step1 extends StatelessWidget {
               border: InputBorder.none,
               hintText: '01X-XXXXXXXX',
             ),
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppColors.textPrimary,
-            ),
+            style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
           ),
         ),
         _FormField(
@@ -349,11 +248,12 @@ class _Step1 extends StatelessWidget {
             children: _bloodGroups.map((bg) {
               final selected = state.bloodGroup == bg;
               return GestureDetector(
-                onTap: () =>
-                    bloc.add(RegistrationEvent.bloodGroupChanged(bg)),
+                onTap: () => bloc.add(RegistrationEvent.bloodGroupChanged(bg)),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 12, vertical: 4),
+                    horizontal: 12,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: selected
                         ? AppColors.primary
@@ -388,10 +288,7 @@ class _Step1 extends StatelessWidget {
               border: InputBorder.none,
               hintText: 'Your age',
             ),
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppColors.textPrimary,
-            ),
+            style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
           ),
         ),
         _FormField(
@@ -406,10 +303,7 @@ class _Step1 extends StatelessWidget {
               border: InputBorder.none,
               hintText: 'Optional if first time',
             ),
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppColors.textPrimary,
-            ),
+            style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
           ),
         ),
       ],
@@ -438,8 +332,10 @@ class _Step2 extends StatelessWidget {
             value: state.district.isEmpty ? null : state.district,
             isExpanded: true,
             underline: const SizedBox.shrink(),
-            hint: const Text('Select district',
-                style: TextStyle(fontSize: 14, color: AppColors.textMuted)),
+            hint: const Text(
+              'Select district',
+              style: TextStyle(fontSize: 14, color: AppColors.textMuted),
+            ),
             items: bangladeshDistricts
                 .map((d) => DropdownMenuItem(value: d, child: Text(d)))
                 .toList(),
@@ -455,8 +351,10 @@ class _Step2 extends StatelessWidget {
             value: state.thana.isEmpty ? null : state.thana,
             isExpanded: true,
             underline: const SizedBox.shrink(),
-            hint: const Text('Select thana',
-                style: TextStyle(fontSize: 14, color: AppColors.textMuted)),
+            hint: const Text(
+              'Select thana',
+              style: TextStyle(fontSize: 14, color: AppColors.textMuted),
+            ),
             items: availableThanas
                 .map((t) => DropdownMenuItem(value: t, child: Text(t)))
                 .toList(),
@@ -478,10 +376,7 @@ class _Step2 extends StatelessWidget {
               border: InputBorder.none,
               hintText: '@your.messenger.id',
             ),
-            style: const TextStyle(
-              fontSize: 14,
-              color: AppColors.textPrimary,
-            ),
+            style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
           ),
         ),
         InkWell(
@@ -497,9 +392,7 @@ class _Step2 extends StatelessWidget {
                   margin: const EdgeInsets.only(top: 2, right: 12),
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
-                    color: state.confirmed
-                        ? AppColors.primary
-                        : Colors.white,
+                    color: state.confirmed ? AppColors.primary : Colors.white,
                     borderRadius: BorderRadius.circular(4),
                     border: Border.all(
                       color: state.confirmed
