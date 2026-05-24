@@ -1,20 +1,8 @@
 import 'package:blood_setu/application/core/services/routing/app_router.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../domain/models/screen.dart';
 import '../../core/theme/colors.dart';
-import '../features/chat/view/chat_screen.dart';
-import '../features/chat_list/view/chat_list_screen.dart';
-import '../features/create_request/view/create_request_screen.dart';
-import '../features/donors/view/donors_screen.dart';
-import '../features/home/view/home_screen.dart';
-import '../features/profile/view/profile_screen.dart';
-import '../features/registration/view/registration_screen.dart';
-import '../features/sign_in/view/sign_in_screen.dart';
-import '../features/splash/view/splash_screen.dart';
-import 'bloc/app_navigation_bloc.dart';
-import 'bloc/app_navigation_state.dart';
+
 
 class BloodConnectApp extends StatelessWidget {
   const BloodConnectApp({super.key});
