@@ -1,0 +1,12 @@
+# ninja log v5
+4	88	1779036401791736857	CMakeFiles/jni.dir/include/dart_api_dl.c.o	5b6384f4ccdfa31c
+0	134	1779036401838736433	CMakeFiles/jni.dir/dartjni.c.o	3e0fac615b7090be
+0	360	1779036402064734395	CMakeFiles/jni.dir/third_party/global_jni_env.c.o	4793e1d25f7423dd
+360	386	1779036402094734124	/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/69395r1w/obj/armeabi-v7a/libdartjni.so	14f490a81a072a1b
+1	171	1779043820178884234	/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/69395r1w/obj/armeabi-v7a/libdartjni.so	14f490a81a072a1b
+1	62	1779044118832682293	/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/69395r1w/obj/armeabi-v7a/libdartjni.so	14f490a81a072a1b
+3	66	1779046022231009098	/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/69395r1w/obj/armeabi-v7a/libdartjni.so	14f490a81a072a1b
+1	46	1779064014932565122	/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/69395r1w/obj/armeabi-v7a/libdartjni.so	14f490a81a072a1b
+1	47	1779066178087874081	/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/69395r1w/obj/armeabi-v7a/libdartjni.so	14f490a81a072a1b
+3	65	1779066776901727089	/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/69395r1w/obj/armeabi-v7a/libdartjni.so	14f490a81a072a1b
+2	33	1779605851168006766	/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/69395r1w/obj/armeabi-v7a/libdartjni.so	14f490a81a072a1b

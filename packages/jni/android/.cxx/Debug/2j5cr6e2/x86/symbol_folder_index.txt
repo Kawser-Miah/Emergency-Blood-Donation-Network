@@ -1,0 +1,1 @@
+/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/2j5cr6e2/obj/x86

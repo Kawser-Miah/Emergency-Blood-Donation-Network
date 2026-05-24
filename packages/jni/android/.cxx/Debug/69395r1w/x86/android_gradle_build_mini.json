@@ -1,0 +1,27 @@
+{
+  "buildFiles": [
+    "/home/kawser-miah/.pub-cache/hosted/pub.dev/jni-1.0.0/src/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/kawser-miah/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/kawser-miah/.pub-cache/hosted/pub.dev/jni-1.0.0/android/.cxx/Debug/69395r1w/x86",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/kawser-miah/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/kawser-miah/.pub-cache/hosted/pub.dev/jni-1.0.0/android/.cxx/Debug/69395r1w/x86",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "jni::@6890427a1f51a3e7e1df": {
+      "artifactName": "jni",
+      "abi": "x86",
+      "output": "/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/69395r1w/obj/x86/libdartjni.so",
+      "runtimeFiles": []
+    }
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "buildFiles": [
+    "/home/kawser-miah/Documents/flutter_project/blood_setu/packages/jni/src/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/home/kawser-miah/Android/Sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/home/kawser-miah/Documents/flutter_project/blood_setu/packages/jni/android/.cxx/Debug/2j5cr6e2/arm64-v8a",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/home/kawser-miah/Android/Sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/home/kawser-miah/Documents/flutter_project/blood_setu/packages/jni/android/.cxx/Debug/2j5cr6e2/arm64-v8a",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {
+    "jni::@6890427a1f51a3e7e1df": {
+      "artifactName": "jni",
+      "abi": "arm64-v8a",
+      "output": "/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/Debug/2j5cr6e2/obj/arm64-v8a/libdartjni.so",
+      "runtimeFiles": []
+    }
+  }
+}

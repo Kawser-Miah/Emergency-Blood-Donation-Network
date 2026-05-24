@@ -1,0 +1,3 @@
+/home/kawser-miah/Documents/flutter_project/blood_setu/packages/jni/android/.cxx/Debug/2j5cr6e2/x86_64/CMakeFiles/jni.dir
+/home/kawser-miah/Documents/flutter_project/blood_setu/packages/jni/android/.cxx/Debug/2j5cr6e2/x86_64/CMakeFiles/edit_cache.dir
+/home/kawser-miah/Documents/flutter_project/blood_setu/packages/jni/android/.cxx/Debug/2j5cr6e2/x86_64/CMakeFiles/rebuild_cache.dir
