@@ -1,10 +1,7 @@
 import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
-import 'package:blood_setu/application/pages/features/chat_list/view/chat_list_screen.dart';
+import 'package:blood_setu/application/pages/features/bottom_nav/view/bottom_nav_page.dart';
 import 'package:blood_setu/application/pages/features/create_request/view/create_request_screen.dart';
-import 'package:blood_setu/application/pages/features/donors/view/donors_screen.dart';
-import 'package:blood_setu/application/pages/features/home/view/home_screen.dart';
-import 'package:blood_setu/application/pages/features/profile/view/profile_screen.dart';
 import 'package:blood_setu/application/pages/features/registration/view/registration_screen.dart';
 import 'package:blood_setu/application/pages/features/sign_in/view/sign_in_screen.dart';
 import 'package:blood_setu/application/pages/features/splash/view/splash_screen.dart';
@@ -12,6 +9,10 @@ import 'package:blood_setu/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
+
+import '../../../pages/features/chat_list/view/chat_list_screen.dart';
+import '../../../pages/features/donors/view/donors_screen.dart';
+import '../../../pages/features/profile/view/profile_screen.dart';
 
 @lazySingleton
 class AppRouter {
@@ -69,7 +70,12 @@ class AppRouter {
         GoRoute(
           path: PAGES.home.screenPath,
           name: PAGES.home.screenName,
-          builder: (context, state) => const HomeScreen(),
+          builder: (context, state) => const BottomNavPage(),
+        ),
+        GoRoute(
+          path: PAGES.createRequest.screenPath,
+          name: PAGES.createRequest.screenName,
+          builder: (context, state) => const CreateRequestScreen(),
         ),
         GoRoute(
           path: PAGES.donors.screenPath,
@@ -80,11 +86,6 @@ class AppRouter {
           path: PAGES.chats.screenPath,
           name: PAGES.chats.screenName,
           builder: (context, state) => const ChatListScreen(),
-        ),
-        GoRoute(
-          path: PAGES.createRequest.screenPath,
-          name: PAGES.createRequest.screenName,
-          builder: (context, state) => const CreateRequestScreen(),
         ),
         GoRoute(
           path: PAGES.profile.screenPath,
