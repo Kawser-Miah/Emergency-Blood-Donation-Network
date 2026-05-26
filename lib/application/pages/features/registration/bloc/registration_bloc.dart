@@ -1,7 +1,7 @@
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/failures/failures.dart';
 import 'package:blood_setu/domain/models/user_profile_model.dart';
-import 'package:blood_setu/domain/usecase/Registration_user_usecase.dart';
+import 'package:blood_setu/domain/usecase/registration_user_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
