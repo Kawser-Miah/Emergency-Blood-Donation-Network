@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../domain/models/donor.dart';
 import '../../../../../widgets/avatar.dart';
-import '../../../../../widgets/bottom_nav.dart';
 import '../../../../core/theme/colors.dart';
 import '../bloc/donors_bloc.dart';
 import '../bloc/donors_event.dart';
@@ -69,7 +68,7 @@ class _DonorsView extends StatelessWidget {
                                 .add(const DonorsEvent.filtersReset()),
                           )
                         : ListView.separated(
-                            padding: const EdgeInsets.fromLTRB(16, 12, 16, 96),
+                            padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
                             itemCount: state.filtered.length,
                             separatorBuilder: (_, __) =>
                                 const SizedBox(height: 12),
@@ -81,7 +80,6 @@ class _DonorsView extends StatelessWidget {
                   ),
                 ],
               ),
-              const BottomNav(active: 'donors'),
               if (state.showFilters) _FiltersSheet(state: state),
             ],
           ),
