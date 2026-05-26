@@ -1,15 +1,19 @@
-import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/mock_data.dart';
+
+import '../../../../../utils/utils.dart';
+import '../../../../core/constants/bangladesh_locations.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/registration_header_widget.dart';
 import '../../../../core/widgets/registration_progress_widget.dart';
+import '../../../../core/widgets/sparkle_loading_overlay.dart';
 import '../bloc/registration_bloc.dart';
 import '../bloc/registration_event.dart';
 import '../bloc/registration_state.dart';
+
+const List<String> _genders = ['Male', 'Female', 'Other'];
 
 const List<String> _bloodGroups = [
   'A+',
@@ -28,7 +32,7 @@ class RegistrationScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => RegistrationBloc(),
+      create: (_) => getIt<RegistrationBloc>(),
       child: const _RegistrationView(),
     );
   }
@@ -39,8 +43,27 @@ class _RegistrationView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<RegistrationBloc, RegistrationState>(
+    return BlocConsumer<RegistrationBloc, RegistrationState>(
+      listenWhen: (prev, curr) => prev.status != curr.status,
+      listener: (context, state) {
+        if (state.status == RegistrationStatus.failure) {
+          Utils.showSnackBar(
+            context,
+            content: state.errorMessage.isNotEmpty
+                ? state.errorMessage
+                : 'Registration failed. Please try again.',
+            color: Colors.red.shade600,
+          );
+        } else if (state.status == RegistrationStatus.success) {
+          Utils.showSnackBar(
+            context,
+            content: 'Registration successful!',
+            color: Colors.green,
+          );
+        }
+      },
       builder: (context, state) {
+        final isLoading = state.status == RegistrationStatus.loading;
         return Scaffold(
           backgroundColor: AppColors.background,
           body: Stack(
@@ -77,15 +100,19 @@ class _RegistrationView extends StatelessWidget {
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {
-                        if (state.step == 1) {
-                          context.read<RegistrationBloc>().add(
-                            const RegistrationEvent.nextStep(),
-                          );
-                        } else {
-                          getIt<AuthController>().onProfileCompleted();
-                        }
-                      },
+                      onPressed: isLoading
+                          ? null
+                          : () {
+                              if (state.step == 1) {
+                                context.read<RegistrationBloc>().add(
+                                  const RegistrationEvent.nextStep(),
+                                );
+                              } else {
+                                context.read<RegistrationBloc>().add(
+                                  const RegistrationEvent.registrationSubmitted(),
+                                );
+                              }
+                            },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: AppColors.primary,
                         foregroundColor: Colors.white,
@@ -94,7 +121,7 @@ class _RegistrationView extends StatelessWidget {
                           borderRadius: BorderRadius.circular(24),
                         ),
                         elevation: 4,
-                        shadowColor: AppColors.primary.withOpacity(0.3),
+                        shadowColor: AppColors.primary.withValues(alpha: 0.3),
                       ),
                       child: Text(
                         state.step == 1
@@ -109,6 +136,7 @@ class _RegistrationView extends StatelessWidget {
                   ),
                 ),
               ),
+              if (isLoading) const SparkleLoadingOverlay(),
             ],
           ),
         );
@@ -132,7 +160,7 @@ class _CardWrapper extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 8,
             offset: const Offset(0, 2),
           ),
@@ -225,6 +253,43 @@ class _Step1 extends StatelessWidget {
           ),
         ),
         _FormField(
+          icon: Icons.wc_outlined,
+          label: 'Gender *',
+          child: DropdownButtonHideUnderline(
+            child: DropdownButton<String>(
+              value: state.gender.isEmpty ? null : state.gender,
+              isDense: true,
+              isExpanded: true,
+              hint: const Text(
+                'Select gender',
+                style: TextStyle(fontSize: 14, color: AppColors.textMuted),
+              ),
+              style: const TextStyle(
+                fontSize: 14,
+                color: AppColors.textPrimary,
+              ),
+              icon: const Icon(
+                Icons.keyboard_arrow_down,
+                size: 18,
+                color: AppColors.textMuted,
+              ),
+              items: _genders
+                  .map(
+                    (g) => DropdownMenuItem(
+                      value: g,
+                      child: Text(g),
+                    ),
+                  )
+                  .toList(),
+              onChanged: (v) {
+                if (v != null) {
+                  bloc.add(RegistrationEvent.genderChanged(v));
+                }
+              },
+            ),
+          ),
+        ),
+        _FormField(
           icon: Icons.phone_outlined,
           label: 'Phone Number *',
           child: TextFormField(
@@ -278,7 +343,7 @@ class _Step1 extends StatelessWidget {
         ),
         _FormField(
           icon: Icons.calendar_today_outlined,
-          label: 'Age (18-60) *',
+          label: 'Age (14-65) *',
           child: TextFormField(
             initialValue: state.age,
             onChanged: (v) => bloc.add(RegistrationEvent.ageChanged(v)),
@@ -294,16 +359,50 @@ class _Step1 extends StatelessWidget {
         _FormField(
           icon: Icons.calendar_today_outlined,
           label: 'Last Donation Date',
-          child: TextFormField(
-            initialValue: state.lastDonation,
-            onChanged: (v) =>
-                bloc.add(RegistrationEvent.lastDonationChanged(v)),
-            decoration: const InputDecoration(
-              isDense: true,
-              border: InputBorder.none,
-              hintText: 'Optional if first time',
+          child: GestureDetector(
+            onTap: () async {
+              final picked = await showDatePicker(
+                context: context,
+                initialDate: DateTime.now(),
+                firstDate: DateTime(2000),
+                lastDate: DateTime.now(),
+                builder: (context, child) => Theme(
+                  data: Theme.of(context).copyWith(
+                    colorScheme: const ColorScheme.light(
+                      primary: AppColors.primary,
+                      onPrimary: Colors.white,
+                      surface: Colors.white,
+                      onSurface: AppColors.textPrimary,
+                    ),
+                    textButtonTheme: TextButtonThemeData(
+                      style: TextButton.styleFrom(
+                        foregroundColor: AppColors.primary,
+                      ),
+                    ),
+                    textTheme: const TextTheme().apply(
+                      fontFamily: AppColors.fontFamily,
+                    ),
+                  ),
+                  child: child!,
+                ),
+              );
+              if (picked != null) {
+                final formatted =
+                    '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
+                bloc.add(RegistrationEvent.lastDonationChanged(formatted));
+              }
+            },
+            child: Text(
+              state.lastDonation.isEmpty
+                  ? 'Optional if first time'
+                  : state.lastDonation,
+              style: TextStyle(
+                fontSize: 14,
+                color: state.lastDonation.isEmpty
+                    ? AppColors.textMuted
+                    : AppColors.textPrimary,
+              ),
             ),
-            style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
           ),
         ),
       ],
@@ -328,41 +427,75 @@ class _Step2 extends StatelessWidget {
         _FormField(
           icon: Icons.location_on_outlined,
           label: 'District *',
-          child: DropdownButton<String>(
-            value: state.district.isEmpty ? null : state.district,
-            isExpanded: true,
-            underline: const SizedBox.shrink(),
-            hint: const Text(
-              'Select district',
-              style: TextStyle(fontSize: 14, color: AppColors.textMuted),
-            ),
-            items: bangladeshDistricts
-                .map((d) => DropdownMenuItem(value: d, child: Text(d)))
-                .toList(),
-            onChanged: (v) {
-              if (v != null) bloc.add(RegistrationEvent.districtChanged(v));
+          child: GestureDetector(
+            onTap: () async {
+              final picked = await _showSelectionSheet(
+                context,
+                title: 'Select District',
+                items: bangladeshDistricts,
+              );
+              if (picked != null) {
+                bloc.add(RegistrationEvent.districtChanged(picked));
+              }
             },
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    state.district.isEmpty ? 'Select district' : state.district,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: state.district.isEmpty
+                          ? AppColors.textMuted
+                          : AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 18,
+                  color: AppColors.textMuted,
+                ),
+              ],
+            ),
           ),
         ),
         _FormField(
           icon: Icons.location_on_outlined,
           label: 'Thana/Upazila *',
-          child: DropdownButton<String>(
-            value: state.thana.isEmpty ? null : state.thana,
-            isExpanded: true,
-            underline: const SizedBox.shrink(),
-            hint: const Text(
-              'Select thana',
-              style: TextStyle(fontSize: 14, color: AppColors.textMuted),
-            ),
-            items: availableThanas
-                .map((t) => DropdownMenuItem(value: t, child: Text(t)))
-                .toList(),
-            onChanged: state.district.isEmpty
+          child: GestureDetector(
+            onTap: state.district.isEmpty
                 ? null
-                : (v) {
-                    if (v != null) bloc.add(RegistrationEvent.thanaChanged(v));
+                : () async {
+                    final picked = await _showSelectionSheet(
+                      context,
+                      title: 'Select Thana',
+                      items: availableThanas,
+                    );
+                    if (picked != null) {
+                      bloc.add(RegistrationEvent.thanaChanged(picked));
+                    }
                   },
+            child: Row(
+              children: [
+                Expanded(
+                  child: Text(
+                    state.thana.isEmpty ? 'Select thana' : state.thana,
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: state.thana.isEmpty
+                          ? AppColors.textMuted
+                          : AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+                const Icon(
+                  Icons.keyboard_arrow_down,
+                  size: 18,
+                  color: AppColors.textMuted,
+                ),
+              ],
+            ),
           ),
         ),
         _FormField(
@@ -420,6 +553,179 @@ class _Step2 extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+}
+
+Future<String?> _showSelectionSheet(
+  BuildContext context, {
+  required String title,
+  required List<String> items,
+}) {
+  return showModalBottomSheet<String>(
+    context: context,
+    isScrollControlled: true,
+    backgroundColor: Colors.transparent,
+    builder: (_) => _SelectionSheet(title: title, items: items),
+  );
+}
+
+class _SelectionSheet extends StatefulWidget {
+  const _SelectionSheet({required this.title, required this.items});
+
+  final String title;
+  final List<String> items;
+
+  @override
+  State<_SelectionSheet> createState() => _SelectionSheetState();
+}
+
+class _SelectionSheetState extends State<_SelectionSheet> {
+  String _query = '';
+
+  @override
+  Widget build(BuildContext context) {
+    final filtered = _query.isEmpty
+        ? widget.items
+        : widget.items
+              .where((e) => e.toLowerCase().contains(_query.toLowerCase()))
+              .toList();
+
+    return DraggableScrollableSheet(
+      initialChildSize: 0.75,
+      minChildSize: 0.5,
+      maxChildSize: 0.95,
+      builder: (_, controller) => Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        ),
+        child: Column(
+          children: [
+            // Drag handle
+            Container(
+              margin: const EdgeInsets.only(top: 12),
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.divider,
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+            // Title row
+            Padding(
+              padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
+              child: Row(
+                children: [
+                  const Icon(
+                    Icons.location_on_outlined,
+                    color: AppColors.primary,
+                    size: 22,
+                  ),
+                  const SizedBox(width: 10),
+                  Expanded(
+                    child: Text(
+                      widget.title,
+                      style: const TextStyle(
+                        fontSize: 17,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                  ),
+                  Text(
+                    '${widget.items.length} options',
+                    style: const TextStyle(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w500,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            // Search field
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
+              child: Container(
+                padding: const EdgeInsets.symmetric(horizontal: 14),
+                decoration: BoxDecoration(
+                  color: AppColors.dividerLightest,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: AppColors.divider),
+                ),
+                child: Row(
+                  children: [
+                    const Icon(
+                      Icons.search,
+                      color: AppColors.textMuted,
+                      size: 20,
+                    ),
+                    const SizedBox(width: 10),
+                    Expanded(
+                      child: TextField(
+                        onChanged: (v) => setState(() => _query = v),
+                        style: const TextStyle(
+                          fontSize: 14,
+                          color: AppColors.textPrimary,
+                        ),
+                        decoration: const InputDecoration(
+                          hintText: 'Search option...',
+                          hintStyle: TextStyle(color: AppColors.textMuted),
+                          border: InputBorder.none,
+                          isDense: true,
+                          contentPadding: EdgeInsets.symmetric(vertical: 14),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+            // List
+            Expanded(
+              child: ListView.separated(
+                controller: controller,
+                itemCount: filtered.length,
+                separatorBuilder: (context, i) => const Divider(
+                  height: 1,
+                  indent: 20,
+                  endIndent: 20,
+                  color: AppColors.dividerLight,
+                ),
+                itemBuilder: (_, i) => InkWell(
+                  onTap: () => Navigator.pop(context, filtered[i]),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 20,
+                      vertical: 16,
+                    ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            filtered[i],
+                            style: const TextStyle(
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                        const Icon(
+                          Icons.chevron_right,
+                          color: AppColors.primary,
+                          size: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }
