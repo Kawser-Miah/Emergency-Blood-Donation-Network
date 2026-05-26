@@ -53,7 +53,7 @@ dependencies:
   google_sign_in: ^7.2.0
 
   # Location & Maps
-#  geolocator: ^14.0.0
+  geolocator: ^14.0.0
 #  google_maps_flutter: ^2.12.1
 #  geoflutterfire_plus: ^0.0.32
 
