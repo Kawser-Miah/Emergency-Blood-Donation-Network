@@ -30,6 +30,7 @@ mixin _$RegistrationEvent {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -44,6 +45,7 @@ mixin _$RegistrationEvent {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -58,6 +60,7 @@ mixin _$RegistrationEvent {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -73,6 +76,8 @@ mixin _$RegistrationEvent {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -87,6 +92,7 @@ mixin _$RegistrationEvent {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -101,6 +107,7 @@ mixin _$RegistrationEvent {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -211,6 +218,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return fullNameChanged(value);
   }
@@ -229,6 +237,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return fullNameChanged?.call(value);
   }
@@ -247,6 +256,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (fullNameChanged != null) {
@@ -269,6 +279,8 @@ class _$FullNameChangedImpl implements _FullNameChanged {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return fullNameChanged(this);
   }
@@ -287,6 +299,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return fullNameChanged?.call(this);
   }
@@ -305,6 +318,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (fullNameChanged != null) {
@@ -407,6 +421,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return phoneChanged(value);
   }
@@ -425,6 +440,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return phoneChanged?.call(value);
   }
@@ -443,6 +459,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (phoneChanged != null) {
@@ -465,6 +482,8 @@ class _$PhoneChangedImpl implements _PhoneChanged {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return phoneChanged(this);
   }
@@ -483,6 +502,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return phoneChanged?.call(this);
   }
@@ -501,6 +521,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (phoneChanged != null) {
@@ -606,6 +627,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return bloodGroupChanged(value);
   }
@@ -624,6 +646,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return bloodGroupChanged?.call(value);
   }
@@ -642,6 +665,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (bloodGroupChanged != null) {
@@ -664,6 +688,8 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return bloodGroupChanged(this);
   }
@@ -682,6 +708,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return bloodGroupChanged?.call(this);
   }
@@ -700,6 +727,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (bloodGroupChanged != null) {
@@ -803,6 +831,7 @@ class _$AgeChangedImpl implements _AgeChanged {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return ageChanged(value);
   }
@@ -821,6 +850,7 @@ class _$AgeChangedImpl implements _AgeChanged {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return ageChanged?.call(value);
   }
@@ -839,6 +869,7 @@ class _$AgeChangedImpl implements _AgeChanged {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (ageChanged != null) {
@@ -861,6 +892,8 @@ class _$AgeChangedImpl implements _AgeChanged {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return ageChanged(this);
   }
@@ -879,6 +912,7 @@ class _$AgeChangedImpl implements _AgeChanged {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return ageChanged?.call(this);
   }
@@ -897,6 +931,7 @@ class _$AgeChangedImpl implements _AgeChanged {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (ageChanged != null) {
@@ -1002,6 +1037,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return lastDonationChanged(value);
   }
@@ -1020,6 +1056,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return lastDonationChanged?.call(value);
   }
@@ -1038,6 +1075,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (lastDonationChanged != null) {
@@ -1060,6 +1098,8 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return lastDonationChanged(this);
   }
@@ -1078,6 +1118,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return lastDonationChanged?.call(this);
   }
@@ -1096,6 +1137,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (lastDonationChanged != null) {
@@ -1202,6 +1244,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return districtChanged(value);
   }
@@ -1220,6 +1263,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return districtChanged?.call(value);
   }
@@ -1238,6 +1282,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (districtChanged != null) {
@@ -1260,6 +1305,8 @@ class _$DistrictChangedImpl implements _DistrictChanged {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return districtChanged(this);
   }
@@ -1278,6 +1325,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return districtChanged?.call(this);
   }
@@ -1296,6 +1344,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (districtChanged != null) {
@@ -1398,6 +1447,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return thanaChanged(value);
   }
@@ -1416,6 +1466,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return thanaChanged?.call(value);
   }
@@ -1434,6 +1485,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (thanaChanged != null) {
@@ -1456,6 +1508,8 @@ class _$ThanaChangedImpl implements _ThanaChanged {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return thanaChanged(this);
   }
@@ -1474,6 +1528,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return thanaChanged?.call(this);
   }
@@ -1492,6 +1547,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (thanaChanged != null) {
@@ -1594,6 +1650,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return fbIdChanged(value);
   }
@@ -1612,6 +1669,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return fbIdChanged?.call(value);
   }
@@ -1630,6 +1688,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (fbIdChanged != null) {
@@ -1652,6 +1711,8 @@ class _$FbIdChangedImpl implements _FbIdChanged {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return fbIdChanged(this);
   }
@@ -1670,6 +1731,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return fbIdChanged?.call(this);
   }
@@ -1688,6 +1750,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (fbIdChanged != null) {
@@ -1763,6 +1826,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return confirmedToggled();
   }
@@ -1781,6 +1845,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return confirmedToggled?.call();
   }
@@ -1799,6 +1864,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (confirmedToggled != null) {
@@ -1821,6 +1887,8 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return confirmedToggled(this);
   }
@@ -1839,6 +1907,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return confirmedToggled?.call(this);
   }
@@ -1857,6 +1926,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (confirmedToggled != null) {
@@ -1924,6 +1994,7 @@ class _$NextStepImpl implements _NextStep {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return nextStep();
   }
@@ -1942,6 +2013,7 @@ class _$NextStepImpl implements _NextStep {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return nextStep?.call();
   }
@@ -1960,6 +2032,7 @@ class _$NextStepImpl implements _NextStep {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (nextStep != null) {
@@ -1982,6 +2055,8 @@ class _$NextStepImpl implements _NextStep {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return nextStep(this);
   }
@@ -2000,6 +2075,7 @@ class _$NextStepImpl implements _NextStep {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return nextStep?.call(this);
   }
@@ -2018,6 +2094,7 @@ class _$NextStepImpl implements _NextStep {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (nextStep != null) {
@@ -2085,6 +2162,7 @@ class _$PreviousStepImpl implements _PreviousStep {
     required TResult Function() confirmedToggled,
     required TResult Function() nextStep,
     required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
   }) {
     return previousStep();
   }
@@ -2103,6 +2181,7 @@ class _$PreviousStepImpl implements _PreviousStep {
     TResult? Function()? confirmedToggled,
     TResult? Function()? nextStep,
     TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
   }) {
     return previousStep?.call();
   }
@@ -2121,6 +2200,7 @@ class _$PreviousStepImpl implements _PreviousStep {
     TResult Function()? confirmedToggled,
     TResult Function()? nextStep,
     TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (previousStep != null) {
@@ -2143,6 +2223,8 @@ class _$PreviousStepImpl implements _PreviousStep {
     required TResult Function(_ConfirmedToggled value) confirmedToggled,
     required TResult Function(_NextStep value) nextStep,
     required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
   }) {
     return previousStep(this);
   }
@@ -2161,6 +2243,7 @@ class _$PreviousStepImpl implements _PreviousStep {
     TResult? Function(_ConfirmedToggled value)? confirmedToggled,
     TResult? Function(_NextStep value)? nextStep,
     TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
   }) {
     return previousStep?.call(this);
   }
@@ -2179,6 +2262,7 @@ class _$PreviousStepImpl implements _PreviousStep {
     TResult Function(_ConfirmedToggled value)? confirmedToggled,
     TResult Function(_NextStep value)? nextStep,
     TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
     required TResult orElse(),
   }) {
     if (previousStep != null) {
@@ -2190,4 +2274,173 @@ class _$PreviousStepImpl implements _PreviousStep {
 
 abstract class _PreviousStep implements RegistrationEvent {
   const factory _PreviousStep() = _$PreviousStepImpl;
+}
+
+/// @nodoc
+abstract class _$$RegistrationSubmittedImplCopyWith<$Res> {
+  factory _$$RegistrationSubmittedImplCopyWith(
+    _$RegistrationSubmittedImpl value,
+    $Res Function(_$RegistrationSubmittedImpl) then,
+  ) = __$$RegistrationSubmittedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RegistrationSubmittedImplCopyWithImpl<$Res>
+    extends _$RegistrationEventCopyWithImpl<$Res, _$RegistrationSubmittedImpl>
+    implements _$$RegistrationSubmittedImplCopyWith<$Res> {
+  __$$RegistrationSubmittedImplCopyWithImpl(
+    _$RegistrationSubmittedImpl _value,
+    $Res Function(_$RegistrationSubmittedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RegistrationSubmittedImpl implements _RegistrationSubmitted {
+  const _$RegistrationSubmittedImpl();
+
+  @override
+  String toString() {
+    return 'RegistrationEvent.registrationSubmitted()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$RegistrationSubmittedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) phoneChanged,
+    required TResult Function(String value) bloodGroupChanged,
+    required TResult Function(String value) ageChanged,
+    required TResult Function(String value) lastDonationChanged,
+    required TResult Function(String value) districtChanged,
+    required TResult Function(String value) thanaChanged,
+    required TResult Function(String value) fbIdChanged,
+    required TResult Function() confirmedToggled,
+    required TResult Function() nextStep,
+    required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
+  }) {
+    return registrationSubmitted();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? phoneChanged,
+    TResult? Function(String value)? bloodGroupChanged,
+    TResult? Function(String value)? ageChanged,
+    TResult? Function(String value)? lastDonationChanged,
+    TResult? Function(String value)? districtChanged,
+    TResult? Function(String value)? thanaChanged,
+    TResult? Function(String value)? fbIdChanged,
+    TResult? Function()? confirmedToggled,
+    TResult? Function()? nextStep,
+    TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
+  }) {
+    return registrationSubmitted?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? phoneChanged,
+    TResult Function(String value)? bloodGroupChanged,
+    TResult Function(String value)? ageChanged,
+    TResult Function(String value)? lastDonationChanged,
+    TResult Function(String value)? districtChanged,
+    TResult Function(String value)? thanaChanged,
+    TResult Function(String value)? fbIdChanged,
+    TResult Function()? confirmedToggled,
+    TResult Function()? nextStep,
+    TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
+    required TResult orElse(),
+  }) {
+    if (registrationSubmitted != null) {
+      return registrationSubmitted();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_PhoneChanged value) phoneChanged,
+    required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
+    required TResult Function(_AgeChanged value) ageChanged,
+    required TResult Function(_LastDonationChanged value) lastDonationChanged,
+    required TResult Function(_DistrictChanged value) districtChanged,
+    required TResult Function(_ThanaChanged value) thanaChanged,
+    required TResult Function(_FbIdChanged value) fbIdChanged,
+    required TResult Function(_ConfirmedToggled value) confirmedToggled,
+    required TResult Function(_NextStep value) nextStep,
+    required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
+  }) {
+    return registrationSubmitted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_PhoneChanged value)? phoneChanged,
+    TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult? Function(_AgeChanged value)? ageChanged,
+    TResult? Function(_LastDonationChanged value)? lastDonationChanged,
+    TResult? Function(_DistrictChanged value)? districtChanged,
+    TResult? Function(_ThanaChanged value)? thanaChanged,
+    TResult? Function(_FbIdChanged value)? fbIdChanged,
+    TResult? Function(_ConfirmedToggled value)? confirmedToggled,
+    TResult? Function(_NextStep value)? nextStep,
+    TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
+  }) {
+    return registrationSubmitted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_PhoneChanged value)? phoneChanged,
+    TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult Function(_AgeChanged value)? ageChanged,
+    TResult Function(_LastDonationChanged value)? lastDonationChanged,
+    TResult Function(_DistrictChanged value)? districtChanged,
+    TResult Function(_ThanaChanged value)? thanaChanged,
+    TResult Function(_FbIdChanged value)? fbIdChanged,
+    TResult Function(_ConfirmedToggled value)? confirmedToggled,
+    TResult Function(_NextStep value)? nextStep,
+    TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
+    required TResult orElse(),
+  }) {
+    if (registrationSubmitted != null) {
+      return registrationSubmitted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RegistrationSubmitted implements RegistrationEvent {
+  const factory _RegistrationSubmitted() = _$RegistrationSubmittedImpl;
 }

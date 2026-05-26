@@ -15,4 +15,5 @@ class RegistrationEvent with _$RegistrationEvent {
   const factory RegistrationEvent.confirmedToggled() = _ConfirmedToggled;
   const factory RegistrationEvent.nextStep() = _NextStep;
   const factory RegistrationEvent.previousStep() = _PreviousStep;
+  const factory RegistrationEvent.registrationSubmitted() = _RegistrationSubmitted;
 }
