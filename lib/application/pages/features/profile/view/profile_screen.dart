@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/mock_data.dart';
-import '../../../../../widgets/bottom_nav.dart';
 import '../../../../core/theme/colors.dart';
 import '../bloc/profile_bloc.dart';
 import '../bloc/profile_event.dart';
@@ -121,7 +120,6 @@ class _ProfileView extends StatelessWidget {
                   ],
                 ),
               ),
-              const BottomNav(active: 'profile'),
             ],
           ),
         );
