@@ -5,6 +5,7 @@ part 'registration_event.freezed.dart';
 @freezed
 class RegistrationEvent with _$RegistrationEvent {
   const factory RegistrationEvent.fullNameChanged(String value) = _FullNameChanged;
+  const factory RegistrationEvent.genderChanged(String value) = _GenderChanged;
   const factory RegistrationEvent.phoneChanged(String value) = _PhoneChanged;
   const factory RegistrationEvent.bloodGroupChanged(String value) = _BloodGroupChanged;
   const factory RegistrationEvent.ageChanged(String value) = _AgeChanged;

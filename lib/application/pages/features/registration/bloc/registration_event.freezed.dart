@@ -20,6 +20,7 @@ mixin _$RegistrationEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -35,6 +36,7 @@ mixin _$RegistrationEvent {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -50,6 +52,7 @@ mixin _$RegistrationEvent {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -66,6 +69,7 @@ mixin _$RegistrationEvent {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -82,6 +86,7 @@ mixin _$RegistrationEvent {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -97,6 +102,7 @@ mixin _$RegistrationEvent {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -208,6 +214,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -227,6 +234,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -246,6 +254,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -269,6 +278,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -289,6 +299,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -308,6 +319,7 @@ class _$FullNameChangedImpl implements _FullNameChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -337,6 +349,215 @@ abstract class _FullNameChanged implements RegistrationEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$FullNameChangedImplCopyWith<_$FullNameChangedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$GenderChangedImplCopyWith<$Res> {
+  factory _$$GenderChangedImplCopyWith(
+    _$GenderChangedImpl value,
+    $Res Function(_$GenderChangedImpl) then,
+  ) = __$$GenderChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String value});
+}
+
+/// @nodoc
+class __$$GenderChangedImplCopyWithImpl<$Res>
+    extends _$RegistrationEventCopyWithImpl<$Res, _$GenderChangedImpl>
+    implements _$$GenderChangedImplCopyWith<$Res> {
+  __$$GenderChangedImplCopyWithImpl(
+    _$GenderChangedImpl _value,
+    $Res Function(_$GenderChangedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? value = null}) {
+    return _then(
+      _$GenderChangedImpl(
+        null == value
+            ? _value.value
+            : value // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$GenderChangedImpl implements _GenderChanged {
+  const _$GenderChangedImpl(this.value);
+
+  @override
+  final String value;
+
+  @override
+  String toString() {
+    return 'RegistrationEvent.genderChanged(value: $value)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GenderChangedImpl &&
+            (identical(other.value, value) || other.value == value));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, value);
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$GenderChangedImplCopyWith<_$GenderChangedImpl> get copyWith =>
+      __$$GenderChangedImplCopyWithImpl<_$GenderChangedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
+    required TResult Function(String value) phoneChanged,
+    required TResult Function(String value) bloodGroupChanged,
+    required TResult Function(String value) ageChanged,
+    required TResult Function(String value) lastDonationChanged,
+    required TResult Function(String value) districtChanged,
+    required TResult Function(String value) thanaChanged,
+    required TResult Function(String value) fbIdChanged,
+    required TResult Function() confirmedToggled,
+    required TResult Function() nextStep,
+    required TResult Function() previousStep,
+    required TResult Function() registrationSubmitted,
+  }) {
+    return genderChanged(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
+    TResult? Function(String value)? phoneChanged,
+    TResult? Function(String value)? bloodGroupChanged,
+    TResult? Function(String value)? ageChanged,
+    TResult? Function(String value)? lastDonationChanged,
+    TResult? Function(String value)? districtChanged,
+    TResult? Function(String value)? thanaChanged,
+    TResult? Function(String value)? fbIdChanged,
+    TResult? Function()? confirmedToggled,
+    TResult? Function()? nextStep,
+    TResult? Function()? previousStep,
+    TResult? Function()? registrationSubmitted,
+  }) {
+    return genderChanged?.call(value);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
+    TResult Function(String value)? phoneChanged,
+    TResult Function(String value)? bloodGroupChanged,
+    TResult Function(String value)? ageChanged,
+    TResult Function(String value)? lastDonationChanged,
+    TResult Function(String value)? districtChanged,
+    TResult Function(String value)? thanaChanged,
+    TResult Function(String value)? fbIdChanged,
+    TResult Function()? confirmedToggled,
+    TResult Function()? nextStep,
+    TResult Function()? previousStep,
+    TResult Function()? registrationSubmitted,
+    required TResult orElse(),
+  }) {
+    if (genderChanged != null) {
+      return genderChanged(value);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
+    required TResult Function(_PhoneChanged value) phoneChanged,
+    required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
+    required TResult Function(_AgeChanged value) ageChanged,
+    required TResult Function(_LastDonationChanged value) lastDonationChanged,
+    required TResult Function(_DistrictChanged value) districtChanged,
+    required TResult Function(_ThanaChanged value) thanaChanged,
+    required TResult Function(_FbIdChanged value) fbIdChanged,
+    required TResult Function(_ConfirmedToggled value) confirmedToggled,
+    required TResult Function(_NextStep value) nextStep,
+    required TResult Function(_PreviousStep value) previousStep,
+    required TResult Function(_RegistrationSubmitted value)
+    registrationSubmitted,
+  }) {
+    return genderChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
+    TResult? Function(_PhoneChanged value)? phoneChanged,
+    TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult? Function(_AgeChanged value)? ageChanged,
+    TResult? Function(_LastDonationChanged value)? lastDonationChanged,
+    TResult? Function(_DistrictChanged value)? districtChanged,
+    TResult? Function(_ThanaChanged value)? thanaChanged,
+    TResult? Function(_FbIdChanged value)? fbIdChanged,
+    TResult? Function(_ConfirmedToggled value)? confirmedToggled,
+    TResult? Function(_NextStep value)? nextStep,
+    TResult? Function(_PreviousStep value)? previousStep,
+    TResult? Function(_RegistrationSubmitted value)? registrationSubmitted,
+  }) {
+    return genderChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
+    TResult Function(_PhoneChanged value)? phoneChanged,
+    TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult Function(_AgeChanged value)? ageChanged,
+    TResult Function(_LastDonationChanged value)? lastDonationChanged,
+    TResult Function(_DistrictChanged value)? districtChanged,
+    TResult Function(_ThanaChanged value)? thanaChanged,
+    TResult Function(_FbIdChanged value)? fbIdChanged,
+    TResult Function(_ConfirmedToggled value)? confirmedToggled,
+    TResult Function(_NextStep value)? nextStep,
+    TResult Function(_PreviousStep value)? previousStep,
+    TResult Function(_RegistrationSubmitted value)? registrationSubmitted,
+    required TResult orElse(),
+  }) {
+    if (genderChanged != null) {
+      return genderChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GenderChanged implements RegistrationEvent {
+  const factory _GenderChanged(final String value) = _$GenderChangedImpl;
+
+  String get value;
+
+  /// Create a copy of RegistrationEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$GenderChangedImplCopyWith<_$GenderChangedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -411,6 +632,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -430,6 +652,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -449,6 +672,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -472,6 +696,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -492,6 +717,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -511,6 +737,7 @@ class _$PhoneChangedImpl implements _PhoneChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -617,6 +844,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -636,6 +864,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -655,6 +884,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -678,6 +908,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -698,6 +929,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -717,6 +949,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -821,6 +1054,7 @@ class _$AgeChangedImpl implements _AgeChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -840,6 +1074,7 @@ class _$AgeChangedImpl implements _AgeChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -859,6 +1094,7 @@ class _$AgeChangedImpl implements _AgeChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -882,6 +1118,7 @@ class _$AgeChangedImpl implements _AgeChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -902,6 +1139,7 @@ class _$AgeChangedImpl implements _AgeChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -921,6 +1159,7 @@ class _$AgeChangedImpl implements _AgeChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -1027,6 +1266,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -1046,6 +1286,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -1065,6 +1306,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -1088,6 +1330,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -1108,6 +1351,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -1127,6 +1371,7 @@ class _$LastDonationChangedImpl implements _LastDonationChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -1234,6 +1479,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -1253,6 +1499,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -1272,6 +1519,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -1295,6 +1543,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -1315,6 +1564,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -1334,6 +1584,7 @@ class _$DistrictChangedImpl implements _DistrictChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -1437,6 +1688,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -1456,6 +1708,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -1475,6 +1728,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -1498,6 +1752,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -1518,6 +1773,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -1537,6 +1793,7 @@ class _$ThanaChangedImpl implements _ThanaChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -1640,6 +1897,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -1659,6 +1917,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -1678,6 +1937,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -1701,6 +1961,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -1721,6 +1982,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -1740,6 +2002,7 @@ class _$FbIdChangedImpl implements _FbIdChanged {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -1816,6 +2079,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -1835,6 +2099,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -1854,6 +2119,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -1877,6 +2143,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -1897,6 +2164,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -1916,6 +2184,7 @@ class _$ConfirmedToggledImpl implements _ConfirmedToggled {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -1984,6 +2253,7 @@ class _$NextStepImpl implements _NextStep {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -2003,6 +2273,7 @@ class _$NextStepImpl implements _NextStep {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -2022,6 +2293,7 @@ class _$NextStepImpl implements _NextStep {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -2045,6 +2317,7 @@ class _$NextStepImpl implements _NextStep {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -2065,6 +2338,7 @@ class _$NextStepImpl implements _NextStep {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -2084,6 +2358,7 @@ class _$NextStepImpl implements _NextStep {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -2152,6 +2427,7 @@ class _$PreviousStepImpl implements _PreviousStep {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -2171,6 +2447,7 @@ class _$PreviousStepImpl implements _PreviousStep {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -2190,6 +2467,7 @@ class _$PreviousStepImpl implements _PreviousStep {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -2213,6 +2491,7 @@ class _$PreviousStepImpl implements _PreviousStep {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -2233,6 +2512,7 @@ class _$PreviousStepImpl implements _PreviousStep {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -2252,6 +2532,7 @@ class _$PreviousStepImpl implements _PreviousStep {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
@@ -2321,6 +2602,7 @@ class _$RegistrationSubmittedImpl implements _RegistrationSubmitted {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
     required TResult Function(String value) fullNameChanged,
+    required TResult Function(String value) genderChanged,
     required TResult Function(String value) phoneChanged,
     required TResult Function(String value) bloodGroupChanged,
     required TResult Function(String value) ageChanged,
@@ -2340,6 +2622,7 @@ class _$RegistrationSubmittedImpl implements _RegistrationSubmitted {
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function(String value)? fullNameChanged,
+    TResult? Function(String value)? genderChanged,
     TResult? Function(String value)? phoneChanged,
     TResult? Function(String value)? bloodGroupChanged,
     TResult? Function(String value)? ageChanged,
@@ -2359,6 +2642,7 @@ class _$RegistrationSubmittedImpl implements _RegistrationSubmitted {
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function(String value)? fullNameChanged,
+    TResult Function(String value)? genderChanged,
     TResult Function(String value)? phoneChanged,
     TResult Function(String value)? bloodGroupChanged,
     TResult Function(String value)? ageChanged,
@@ -2382,6 +2666,7 @@ class _$RegistrationSubmittedImpl implements _RegistrationSubmitted {
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
     required TResult Function(_FullNameChanged value) fullNameChanged,
+    required TResult Function(_GenderChanged value) genderChanged,
     required TResult Function(_PhoneChanged value) phoneChanged,
     required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
     required TResult Function(_AgeChanged value) ageChanged,
@@ -2402,6 +2687,7 @@ class _$RegistrationSubmittedImpl implements _RegistrationSubmitted {
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_FullNameChanged value)? fullNameChanged,
+    TResult? Function(_GenderChanged value)? genderChanged,
     TResult? Function(_PhoneChanged value)? phoneChanged,
     TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult? Function(_AgeChanged value)? ageChanged,
@@ -2421,6 +2707,7 @@ class _$RegistrationSubmittedImpl implements _RegistrationSubmitted {
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_FullNameChanged value)? fullNameChanged,
+    TResult Function(_GenderChanged value)? genderChanged,
     TResult Function(_PhoneChanged value)? phoneChanged,
     TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
     TResult Function(_AgeChanged value)? ageChanged,
