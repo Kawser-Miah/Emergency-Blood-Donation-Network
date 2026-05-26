@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:blood_setu/application/core/services/sp_service/sp_service.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
 @lazySingleton
@@ -35,14 +36,30 @@ class AuthController extends ChangeNotifier {
       // if (_isInitialized) notifyListeners();
     });
 
-    // Show splash for at least 3 seconds and wait for Firebase auth state
+    // Show splash for at least 3 seconds, wait for Firebase auth state,
+    // and request location permission — all in parallel during the splash window.
     await Future.wait([
       Future.delayed(const Duration(seconds: 3)),
       authReady.future,
+      _requestLocationPermission(),
     ]);
 
     _isInitialized = true;
     notifyListeners();
+  }
+
+  Future<void> _requestLocationPermission() async {
+    try {
+      final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      if (!serviceEnabled) return;
+
+      final permission = await Geolocator.checkPermission();
+      if (permission == LocationPermission.denied) {
+        await Geolocator.requestPermission();
+      }
+    } catch (_) {
+      // Non-fatal — repository handles denied/missing permission at use time.
+    }
   }
 
   void onLoginSuccess({required bool profileExists}) {
