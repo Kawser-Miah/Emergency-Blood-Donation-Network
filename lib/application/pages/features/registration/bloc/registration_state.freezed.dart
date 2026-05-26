@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$RegistrationState {
   int get step => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
+  String get gender => throw _privateConstructorUsedError;
   String get phone => throw _privateConstructorUsedError;
   String get bloodGroup => throw _privateConstructorUsedError;
   String get age => throw _privateConstructorUsedError;
@@ -47,6 +48,7 @@ abstract class $RegistrationStateCopyWith<$Res> {
   $Res call({
     int step,
     String fullName,
+    String gender,
     String phone,
     String bloodGroup,
     String age,
@@ -77,6 +79,7 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
   $Res call({
     Object? step = null,
     Object? fullName = null,
+    Object? gender = null,
     Object? phone = null,
     Object? bloodGroup = null,
     Object? age = null,
@@ -97,6 +100,10 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
             fullName: null == fullName
                 ? _value.fullName
                 : fullName // ignore: cast_nullable_to_non_nullable
+                      as String,
+            gender: null == gender
+                ? _value.gender
+                : gender // ignore: cast_nullable_to_non_nullable
                       as String,
             phone: null == phone
                 ? _value.phone
@@ -156,6 +163,7 @@ abstract class _$$RegistrationStateImplCopyWith<$Res>
   $Res call({
     int step,
     String fullName,
+    String gender,
     String phone,
     String bloodGroup,
     String age,
@@ -185,6 +193,7 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
   $Res call({
     Object? step = null,
     Object? fullName = null,
+    Object? gender = null,
     Object? phone = null,
     Object? bloodGroup = null,
     Object? age = null,
@@ -205,6 +214,10 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
         fullName: null == fullName
             ? _value.fullName
             : fullName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        gender: null == gender
+            ? _value.gender
+            : gender // ignore: cast_nullable_to_non_nullable
                   as String,
         phone: null == phone
             ? _value.phone
@@ -256,7 +269,8 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
 class _$RegistrationStateImpl implements _RegistrationState {
   const _$RegistrationStateImpl({
     this.step = 1,
-    this.fullName = 'Rahmat Ullah',
+    this.fullName = '',
+    this.gender = '',
     this.phone = '',
     this.bloodGroup = '',
     this.age = '',
@@ -275,6 +289,9 @@ class _$RegistrationStateImpl implements _RegistrationState {
   @override
   @JsonKey()
   final String fullName;
+  @override
+  @JsonKey()
+  final String gender;
   @override
   @JsonKey()
   final String phone;
@@ -308,7 +325,7 @@ class _$RegistrationStateImpl implements _RegistrationState {
 
   @override
   String toString() {
-    return 'RegistrationState(step: $step, fullName: $fullName, phone: $phone, bloodGroup: $bloodGroup, age: $age, lastDonation: $lastDonation, district: $district, thana: $thana, fbId: $fbId, confirmed: $confirmed, status: $status, errorMessage: $errorMessage)';
+    return 'RegistrationState(step: $step, fullName: $fullName, gender: $gender, phone: $phone, bloodGroup: $bloodGroup, age: $age, lastDonation: $lastDonation, district: $district, thana: $thana, fbId: $fbId, confirmed: $confirmed, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
@@ -319,6 +336,7 @@ class _$RegistrationStateImpl implements _RegistrationState {
             (identical(other.step, step) || other.step == step) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
+            (identical(other.gender, gender) || other.gender == gender) &&
             (identical(other.phone, phone) || other.phone == phone) &&
             (identical(other.bloodGroup, bloodGroup) ||
                 other.bloodGroup == bloodGroup) &&
@@ -341,6 +359,7 @@ class _$RegistrationStateImpl implements _RegistrationState {
     runtimeType,
     step,
     fullName,
+    gender,
     phone,
     bloodGroup,
     age,
@@ -369,6 +388,7 @@ abstract class _RegistrationState implements RegistrationState {
   const factory _RegistrationState({
     final int step,
     final String fullName,
+    final String gender,
     final String phone,
     final String bloodGroup,
     final String age,
@@ -385,6 +405,8 @@ abstract class _RegistrationState implements RegistrationState {
   int get step;
   @override
   String get fullName;
+  @override
+  String get gender;
   @override
   String get phone;
   @override

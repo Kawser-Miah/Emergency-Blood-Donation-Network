@@ -9,6 +9,7 @@ class RegistrationState with _$RegistrationState {
   const factory RegistrationState({
     @Default(1) int step,
     @Default('') String fullName,
+    @Default('') String gender,
     @Default('') String phone,
     @Default('') String bloodGroup,
     @Default('') String age,
