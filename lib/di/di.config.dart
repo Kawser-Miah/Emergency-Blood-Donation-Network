@@ -14,14 +14,22 @@ import 'package:blood_setu/application/core/services/routing/app_router.dart'
     as _i828;
 import 'package:blood_setu/application/core/services/sp_service/sp_service.dart'
     as _i181;
+import 'package:blood_setu/application/pages/features/registration/bloc/registration_bloc.dart'
+    as _i670;
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart'
     as _i18;
 import 'package:blood_setu/data/repositories/authentication_repositories_iml.dart'
     as _i310;
+import 'package:blood_setu/data/repositories/registration_repository_iml.dart'
+    as _i916;
 import 'package:blood_setu/di/register_module.dart' as _i599;
 import 'package:blood_setu/domain/repositories/authentication_repository.dart'
     as _i546;
+import 'package:blood_setu/domain/repositories/registration_repository.dart'
+    as _i268;
 import 'package:blood_setu/domain/usecase/authentication_usecase.dart' as _i39;
+import 'package:blood_setu/domain/usecase/Registration_user_usecase.dart'
+    as _i174;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
@@ -54,8 +62,20 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i39.AuthenticationUseCase>(
       () => _i39.AuthenticationUseCase(gh<_i546.AuthenticationRepository>()),
     );
+    gh.factory<_i268.RegistrationRepository>(
+      () => _i916.RegistrationRepositoryIml(
+        gh<_i59.FirebaseAuth>(),
+        gh<_i974.FirebaseFirestore>(),
+      ),
+    );
     gh.lazySingleton<_i181.SpService>(
       () => _i181.SpServiceImpl(gh<_i460.SharedPreferences>()),
+    );
+    gh.factory<_i174.RegistrationUserUseCase>(
+      () => _i174.RegistrationUserUseCase(gh<_i268.RegistrationRepository>()),
+    );
+    gh.factory<_i670.RegistrationBloc>(
+      () => _i670.RegistrationBloc(gh<_i174.RegistrationUserUseCase>()),
     );
     gh.lazySingleton<_i839.AuthController>(
       () =>
