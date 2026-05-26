@@ -14,6 +14,8 @@ import 'package:blood_setu/application/core/services/routing/app_router.dart'
     as _i828;
 import 'package:blood_setu/application/core/services/sp_service/sp_service.dart'
     as _i181;
+import 'package:blood_setu/application/pages/features/bottom_nav/bloc/bottom_nav_bloc.dart'
+    as _i619;
 import 'package:blood_setu/application/pages/features/registration/bloc/registration_bloc.dart'
     as _i670;
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart'
@@ -49,6 +51,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => registerModule.prefs,
       preResolve: true,
     );
+    gh.factory<_i619.BottomNavBloc>(() => _i619.BottomNavBloc());
     gh.singleton<_i59.FirebaseAuth>(() => registerModule.firebaseAuth);
     gh.singleton<_i974.FirebaseFirestore>(() => registerModule.firestore);
     gh.singleton<_i116.GoogleSignIn>(() => registerModule.googleSignIn);
