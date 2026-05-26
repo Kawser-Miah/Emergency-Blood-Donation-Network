@@ -5,7 +5,6 @@ import '../../../../../data/mock_data.dart';
 import '../../../../../domain/models/blood_request.dart';
 import '../../../../../domain/models/donor.dart';
 import '../../../../../widgets/avatar.dart';
-import '../../../../../widgets/bottom_nav.dart';
 import '../../../../core/theme/colors.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
@@ -51,10 +50,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => HomeBloc(),
-      child: const _HomeView(),
-    );
+    return BlocProvider(create: (_) => HomeBloc(), child: const _HomeView());
   }
 }
 
@@ -72,13 +68,13 @@ class _HomeView extends StatelessWidget {
               Column(
                 children: [
                   _TopBar(
-                    onMenu: () => context
-                        .read<HomeBloc>()
-                        .add(const HomeEvent.sidebarOpened()),
+                    onMenu: () => context.read<HomeBloc>().add(
+                      const HomeEvent.sidebarOpened(),
+                    ),
                   ),
                   Expanded(
                     child: SingleChildScrollView(
-                      padding: const EdgeInsets.only(bottom: 96),
+                      padding: const EdgeInsets.only(bottom: 16),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
@@ -90,45 +86,45 @@ class _HomeView extends StatelessWidget {
                             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                             child: _SosButton(
                               pressed: state.sosPressed,
-                              onPressed: () => context
-                                  .read<HomeBloc>()
-                                  .add(const HomeEvent.sosPressed()),
+                              onPressed: () => context.read<HomeBloc>().add(
+                                const HomeEvent.sosPressed(),
+                              ),
                             ),
                           ),
                           const SizedBox(height: 20),
                           _NearbyDonors(
                             onSeeAll: () {},
-                            onMessage: (donor) {}
-                                // context.read<AppNavigationBloc>().add(
-                                //       AppNavigationEvent.navigated(
-                                //         AppScreen.chat,
-                                //         contact: ChatContact(
-                                //           name: donor.name,
-                                //           bloodGroup: donor.bloodGroup,
-                                //           id: donor.id,
-                                //           initials: donor.initials,
-                                //           avatarColor: donor.avatarColor,
-                                //           online: donor.online,
-                                //         ),
-                                //       ),
-                                //     ),
+                            onMessage: (donor) {},
+                            // context.read<AppNavigationBloc>().add(
+                            //       AppNavigationEvent.navigated(
+                            //         AppScreen.chat,
+                            //         contact: ChatContact(
+                            //           name: donor.name,
+                            //           bloodGroup: donor.bloodGroup,
+                            //           id: donor.id,
+                            //           initials: donor.initials,
+                            //           avatarColor: donor.avatarColor,
+                            //           online: donor.online,
+                            //         ),
+                            //       ),
+                            //     ),
                           ),
                           const SizedBox(height: 20),
                           _ActiveRequests(
-                            onMessage: (req) {}
-                                // context.read<AppNavigationBloc>().add(
-                                //       AppNavigationEvent.navigated(
-                                //         AppScreen.chat,
-                                //         contact: ChatContact(
-                                //           name: 'Blood Request',
-                                //           bloodGroup: req.bloodGroup,
-                                //           id: req.id,
-                                //           initials: 'BR',
-                                //           avatarColor: '#E53935',
-                                //           online: true,
-                                //         ),
-                                //       ),
-                                //     ),
+                            onMessage: (req) {},
+                            // context.read<AppNavigationBloc>().add(
+                            //       AppNavigationEvent.navigated(
+                            //         AppScreen.chat,
+                            //         contact: ChatContact(
+                            //           name: 'Blood Request',
+                            //           bloodGroup: req.bloodGroup,
+                            //           id: req.id,
+                            //           initials: 'BR',
+                            //           avatarColor: '#E53935',
+                            //           online: true,
+                            //         ),
+                            //       ),
+                            //     ),
                           ),
                         ],
                       ),
@@ -141,15 +137,14 @@ class _HomeView extends StatelessWidget {
                 bottom: 80,
                 child: FloatingActionButton(
                   onPressed: () {},
-                      // context.read<AppNavigationBloc>().add(
-                      //   const AppNavigationEvent.navigated(
-                      //       AppScreen.createRequest),
-                      // ),
+                  // context.read<AppNavigationBloc>().add(
+                  //   const AppNavigationEvent.navigated(
+                  //       AppScreen.createRequest),
+                  // ),
                   backgroundColor: AppColors.primary,
                   child: const Icon(Icons.add, color: Colors.white),
                 ),
               ),
-              const BottomNav(active: 'home'),
               if (state.showSidebar) const _Sidebar(),
             ],
           ),
@@ -177,7 +172,12 @@ class _TopBar extends StatelessWidget {
           ),
         ],
       ),
-      padding: EdgeInsets.fromLTRB(16, MediaQuery.of(context).padding.top + 4, 16, 12),
+      padding: EdgeInsets.fromLTRB(
+        16,
+        MediaQuery.of(context).padding.top + 4,
+        16,
+        12,
+      ),
       child: Row(
         children: [
           IconButton(
@@ -281,19 +281,28 @@ class _WelcomeCard extends StatelessWidget {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
-                  Text('Hello 👋',
-                      style: TextStyle(
-                          fontSize: 13, color: AppColors.textTertiary)),
-                  Text('Rahmat Ullah',
-                      style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary)),
+                  Text(
+                    'Hello 👋',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textTertiary,
+                    ),
+                  ),
+                  Text(
+                    'Rahmat Ullah',
+                    style: TextStyle(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
                 ],
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
                   gradient: const LinearGradient(
                     begin: Alignment.topLeft,
@@ -322,11 +331,26 @@ class _WelcomeCard extends StatelessWidget {
             ),
             child: Row(
               children: const [
-                _Stat(emoji: '🩸', value: '12', label: 'Donations', color: AppColors.primary),
+                _Stat(
+                  emoji: '🩸',
+                  value: '12',
+                  label: 'Donations',
+                  color: AppColors.primary,
+                ),
                 _VStat(),
-                _Stat(emoji: '❤️', value: '8', label: 'Lives Saved', color: AppColors.success),
+                _Stat(
+                  emoji: '❤️',
+                  value: '8',
+                  label: 'Lives Saved',
+                  color: AppColors.success,
+                ),
                 _VStat(),
-                _Stat(emoji: '⭐', value: '4.9', label: 'Rating', color: AppColors.warning),
+                _Stat(
+                  emoji: '⭐',
+                  value: '4.9',
+                  label: 'Rating',
+                  color: AppColors.warning,
+                ),
               ],
             ),
           ),
@@ -371,7 +395,9 @@ class _Stat extends StatelessWidget {
               Text(
                 label,
                 style: const TextStyle(
-                    fontSize: 10, color: AppColors.textTertiary),
+                  fontSize: 10,
+                  color: AppColors.textTertiary,
+                ),
               ),
             ],
           ),
@@ -385,11 +411,7 @@ class _VStat extends StatelessWidget {
   const _VStat();
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 1,
-      height: 32,
-      color: AppColors.primaryBorder,
-    );
+    return Container(width: 1, height: 32, color: AppColors.primaryBorder);
   }
 }
 
@@ -577,12 +599,18 @@ class _DonorCard extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.location_on, size: 10, color: AppColors.textTertiary),
+              const Icon(
+                Icons.location_on,
+                size: 10,
+                color: AppColors.textTertiary,
+              ),
               const SizedBox(width: 2),
               Text(
                 '${donor.distance} km',
                 style: const TextStyle(
-                    fontSize: 10, color: AppColors.textTertiary),
+                  fontSize: 10,
+                  color: AppColors.textTertiary,
+                ),
               ),
             ],
           ),
@@ -594,7 +622,9 @@ class _DonorCard extends StatelessWidget {
               Text(
                 donor.rating.toString(),
                 style: const TextStyle(
-                    fontSize: 10, color: AppColors.textTertiary),
+                  fontSize: 10,
+                  color: AppColors.textTertiary,
+                ),
               ),
             ],
           ),
@@ -609,7 +639,11 @@ class _DonorCard extends StatelessWidget {
                     color: AppColors.dividerLightest,
                     borderRadius: BorderRadius.circular(12),
                   ),
-                  child: const Icon(Icons.phone, size: 12, color: AppColors.textSecondary),
+                  child: const Icon(
+                    Icons.phone,
+                    size: 12,
+                    color: AppColors.textSecondary,
+                  ),
                 ),
               ),
               const SizedBox(width: 4),
@@ -624,8 +658,11 @@ class _DonorCard extends StatelessWidget {
                       color: AppColors.primary,
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: const Icon(Icons.chat_bubble_outline,
-                        size: 12, color: Colors.white),
+                    child: const Icon(
+                      Icons.chat_bubble_outline,
+                      size: 12,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
@@ -714,8 +751,10 @@ class _RequestCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: urg.bg,
                   borderRadius: BorderRadius.circular(99),
@@ -739,7 +778,9 @@ class _RequestCard extends StatelessWidget {
               Text(
                 request.timePosted,
                 style: const TextStyle(
-                    fontSize: 11, color: AppColors.textMuted),
+                  fontSize: 11,
+                  color: AppColors.textMuted,
+                ),
               ),
             ],
           ),
@@ -762,8 +803,7 @@ class _RequestCard extends StatelessWidget {
                   ),
                   const Text(
                     'Blood Needed',
-                    style: TextStyle(
-                        fontSize: 10, color: AppColors.textMuted),
+                    style: TextStyle(fontSize: 10, color: AppColors.textMuted),
                   ),
                 ],
               ),
@@ -784,13 +824,18 @@ class _RequestCard extends StatelessWidget {
                     Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        const Icon(Icons.location_on,
-                            size: 10, color: AppColors.textTertiary),
+                        const Icon(
+                          Icons.location_on,
+                          size: 10,
+                          color: AppColors.textTertiary,
+                        ),
                         const SizedBox(width: 2),
                         Text(
                           '${request.distance} km',
                           style: const TextStyle(
-                              fontSize: 11, color: AppColors.textTertiary),
+                            fontSize: 11,
+                            color: AppColors.textTertiary,
+                          ),
                         ),
                       ],
                     ),
@@ -805,13 +850,14 @@ class _RequestCard extends StatelessWidget {
               Text(
                 '🩸 ${request.unitsNeeded} units needed',
                 style: const TextStyle(
-                    fontSize: 12, color: AppColors.textTertiary),
+                  fontSize: 12,
+                  color: AppColors.textTertiary,
+                ),
               ),
               const SizedBox(width: 12),
               Text(
                 '👤 ${request.respondents} donors coming',
-                style:
-                    const TextStyle(fontSize: 12, color: AppColors.success),
+                style: const TextStyle(fontSize: 12, color: AppColors.success),
               ),
             ],
           ),
@@ -838,7 +884,9 @@ class _RequestCard extends StatelessWidget {
                       Text(
                         'Message',
                         style: TextStyle(
-                            fontSize: 13, fontWeight: FontWeight.w600),
+                          fontSize: 13,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
@@ -858,8 +906,7 @@ class _RequestCard extends StatelessWidget {
                   ),
                   child: const Text(
                     "🤲 I'm Coming",
-                    style:
-                        TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
                   ),
                 ),
               ),
@@ -880,9 +927,8 @@ class _Sidebar extends StatelessWidget {
       child: Stack(
         children: [
           GestureDetector(
-            onTap: () => context
-                .read<HomeBloc>()
-                .add(const HomeEvent.sidebarClosed()),
+            onTap: () =>
+                context.read<HomeBloc>().add(const HomeEvent.sidebarClosed()),
             child: Container(color: Colors.black.withOpacity(0.4)),
           ),
           Positioned(
@@ -892,7 +938,12 @@ class _Sidebar extends StatelessWidget {
             child: Container(
               width: 260,
               color: Colors.white,
-              padding: EdgeInsets.fromLTRB(24, MediaQuery.of(context).padding.top + 4, 24, 24),
+              padding: EdgeInsets.fromLTRB(
+                24,
+                MediaQuery.of(context).padding.top + 4,
+                24,
+                24,
+              ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -920,7 +971,9 @@ class _Sidebar extends StatelessWidget {
                             Text(
                               'O+ Donor • Dhaka',
                               style: TextStyle(
-                                  fontSize: 12, color: AppColors.textTertiary),
+                                fontSize: 12,
+                                color: AppColors.textTertiary,
+                              ),
                             ),
                           ],
                         ),
@@ -946,13 +999,16 @@ class _Sidebar extends StatelessWidget {
                         decoration: const BoxDecoration(
                           border: Border(
                             bottom: BorderSide(
-                                color: AppColors.dividerLightest),
+                              color: AppColors.dividerLightest,
+                            ),
                           ),
                         ),
                         child: Row(
                           children: [
-                            Text(it.emoji,
-                                style: const TextStyle(fontSize: 18)),
+                            Text(
+                              it.emoji,
+                              style: const TextStyle(fontSize: 18),
+                            ),
                             const SizedBox(width: 12),
                             Text(
                               it.label,
@@ -969,9 +1025,9 @@ class _Sidebar extends StatelessWidget {
                   const Spacer(),
                   InkWell(
                     onTap: () {},
-                        // context.read<AppNavigationBloc>().add(
-                        //   const AppNavigationEvent.navigated(AppScreen.signin),
-                        // ),
+                    // context.read<AppNavigationBloc>().add(
+                    //   const AppNavigationEvent.navigated(AppScreen.signin),
+                    // ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(vertical: 12),
                       child: Row(
@@ -998,9 +1054,8 @@ class _Sidebar extends StatelessWidget {
             top: 48,
             left: 260 - 36,
             child: IconButton(
-              onPressed: () => context
-                  .read<HomeBloc>()
-                  .add(const HomeEvent.sidebarClosed()),
+              onPressed: () =>
+                  context.read<HomeBloc>().add(const HomeEvent.sidebarClosed()),
               icon: const Icon(Icons.close, size: 20),
               color: AppColors.textTertiary,
             ),
@@ -1012,7 +1067,11 @@ class _Sidebar extends StatelessWidget {
 }
 
 class _SidebarItem {
-  const _SidebarItem({required this.emoji, required this.label, required this.screen});
+  const _SidebarItem({
+    required this.emoji,
+    required this.label,
+    required this.screen,
+  });
   final String emoji;
   final String label;
   final String screen;
