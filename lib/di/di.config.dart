@@ -28,8 +28,8 @@ import 'package:blood_setu/domain/repositories/authentication_repository.dart'
 import 'package:blood_setu/domain/repositories/registration_repository.dart'
     as _i268;
 import 'package:blood_setu/domain/usecase/authentication_usecase.dart' as _i39;
-import 'package:blood_setu/domain/usecase/Registration_user_usecase.dart'
-    as _i174;
+import 'package:blood_setu/domain/usecase/registration_user_usecase.dart'
+    as _i881;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
 import 'package:get_it/get_it.dart' as _i174;
@@ -71,15 +71,15 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i181.SpService>(
       () => _i181.SpServiceImpl(gh<_i460.SharedPreferences>()),
     );
-    gh.factory<_i174.RegistrationUserUseCase>(
-      () => _i174.RegistrationUserUseCase(gh<_i268.RegistrationRepository>()),
-    );
-    gh.factory<_i670.RegistrationBloc>(
-      () => _i670.RegistrationBloc(gh<_i174.RegistrationUserUseCase>()),
+    gh.factory<_i881.RegistrationUserUseCase>(
+      () => _i881.RegistrationUserUseCase(gh<_i268.RegistrationRepository>()),
     );
     gh.lazySingleton<_i839.AuthController>(
       () =>
           _i839.AuthController(gh<_i181.SpService>(), gh<_i59.FirebaseAuth>()),
+    );
+    gh.factory<_i670.RegistrationBloc>(
+      () => _i670.RegistrationBloc(gh<_i881.RegistrationUserUseCase>()),
     );
     gh.factory<_i18.SignInBloc>(
       () => _i18.SignInBloc(
