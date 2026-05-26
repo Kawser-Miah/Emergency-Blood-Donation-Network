@@ -27,6 +27,8 @@ mixin _$RegistrationState {
   String get thana => throw _privateConstructorUsedError;
   String get fbId => throw _privateConstructorUsedError;
   bool get confirmed => throw _privateConstructorUsedError;
+  RegistrationStatus get status => throw _privateConstructorUsedError;
+  String get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of RegistrationState
   /// with the given fields replaced by the non-null parameter values.
@@ -53,6 +55,8 @@ abstract class $RegistrationStateCopyWith<$Res> {
     String thana,
     String fbId,
     bool confirmed,
+    RegistrationStatus status,
+    String errorMessage,
   });
 }
 
@@ -81,6 +85,8 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
     Object? thana = null,
     Object? fbId = null,
     Object? confirmed = null,
+    Object? status = null,
+    Object? errorMessage = null,
   }) {
     return _then(
       _value.copyWith(
@@ -124,6 +130,14 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
                 ? _value.confirmed
                 : confirmed // ignore: cast_nullable_to_non_nullable
                       as bool,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as RegistrationStatus,
+            errorMessage: null == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -150,6 +164,8 @@ abstract class _$$RegistrationStateImplCopyWith<$Res>
     String thana,
     String fbId,
     bool confirmed,
+    RegistrationStatus status,
+    String errorMessage,
   });
 }
 
@@ -177,6 +193,8 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
     Object? thana = null,
     Object? fbId = null,
     Object? confirmed = null,
+    Object? status = null,
+    Object? errorMessage = null,
   }) {
     return _then(
       _$RegistrationStateImpl(
@@ -220,6 +238,14 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
             ? _value.confirmed
             : confirmed // ignore: cast_nullable_to_non_nullable
                   as bool,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as RegistrationStatus,
+        errorMessage: null == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -239,6 +265,8 @@ class _$RegistrationStateImpl implements _RegistrationState {
     this.thana = '',
     this.fbId = '',
     this.confirmed = false,
+    this.status = RegistrationStatus.initial,
+    this.errorMessage = '',
   });
 
   @override
@@ -271,10 +299,16 @@ class _$RegistrationStateImpl implements _RegistrationState {
   @override
   @JsonKey()
   final bool confirmed;
+  @override
+  @JsonKey()
+  final RegistrationStatus status;
+  @override
+  @JsonKey()
+  final String errorMessage;
 
   @override
   String toString() {
-    return 'RegistrationState(step: $step, fullName: $fullName, phone: $phone, bloodGroup: $bloodGroup, age: $age, lastDonation: $lastDonation, district: $district, thana: $thana, fbId: $fbId, confirmed: $confirmed)';
+    return 'RegistrationState(step: $step, fullName: $fullName, phone: $phone, bloodGroup: $bloodGroup, age: $age, lastDonation: $lastDonation, district: $district, thana: $thana, fbId: $fbId, confirmed: $confirmed, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
@@ -296,7 +330,10 @@ class _$RegistrationStateImpl implements _RegistrationState {
             (identical(other.thana, thana) || other.thana == thana) &&
             (identical(other.fbId, fbId) || other.fbId == fbId) &&
             (identical(other.confirmed, confirmed) ||
-                other.confirmed == confirmed));
+                other.confirmed == confirmed) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
@@ -312,6 +349,8 @@ class _$RegistrationStateImpl implements _RegistrationState {
     thana,
     fbId,
     confirmed,
+    status,
+    errorMessage,
   );
 
   /// Create a copy of RegistrationState
@@ -338,6 +377,8 @@ abstract class _RegistrationState implements RegistrationState {
     final String thana,
     final String fbId,
     final bool confirmed,
+    final RegistrationStatus status,
+    final String errorMessage,
   }) = _$RegistrationStateImpl;
 
   @override
@@ -360,6 +401,10 @@ abstract class _RegistrationState implements RegistrationState {
   String get fbId;
   @override
   bool get confirmed;
+  @override
+  RegistrationStatus get status;
+  @override
+  String get errorMessage;
 
   /// Create a copy of RegistrationState
   /// with the given fields replaced by the non-null parameter values.
