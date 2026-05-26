@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import '../../../../../data/mock_data.dart';
 import '../../../../../domain/models/chat_summary.dart';
 import '../../../../../widgets/avatar.dart';
-import '../../../../../widgets/bottom_nav.dart';
 import '../../../../../widgets/typing_dots.dart';
 import '../../../../core/theme/colors.dart';
 
@@ -40,7 +39,6 @@ class ChatListScreen extends StatelessWidget {
               ),
             ],
           ),
-          const BottomNav(active: 'chats'),
         ],
       ),
     );
