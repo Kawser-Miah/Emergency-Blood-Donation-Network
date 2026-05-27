@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/mock_data.dart';
+import '../../../../../di/di.dart';
 import '../../../../../domain/models/blood_request.dart';
 import '../../../../../domain/models/donor.dart';
+import '../../../../../domain/models/user_profile_model.dart';
 import '../../../../../widgets/avatar.dart';
 import '../../../../core/theme/colors.dart';
 import '../bloc/home_bloc.dart';
@@ -50,7 +52,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(create: (_) => HomeBloc(), child: const _HomeView());
+    return BlocProvider(
+      create: (_) => getIt<HomeBloc>()..add(const HomeEvent.started()),
+      child: const _HomeView(),
+    );
   }
 }
 
@@ -78,9 +83,9 @@ class _HomeView extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          const Padding(
-                            padding: EdgeInsets.fromLTRB(16, 16, 16, 0),
-                            child: _WelcomeCard(),
+                          Padding(
+                            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+                            child: _WelcomeCard(profile: state.profile),
                           ),
                           Padding(
                             padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
@@ -256,10 +261,18 @@ class _TopBar extends StatelessWidget {
 }
 
 class _WelcomeCard extends StatelessWidget {
-  const _WelcomeCard();
+  const _WelcomeCard({required this.profile});
+
+  final UserProfileModel? profile;
 
   @override
   Widget build(BuildContext context) {
+    final name = profile?.fullName ?? 'Guest';
+    final tier = profile?.donorTier ?? '';
+    final donations = profile?.totalDonations ?? 0;
+    final days = profile?.daysToNextDonation ?? 0;
+    final isActive = profile?.isActive ?? false;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -280,8 +293,8 @@ class _WelcomeCard extends StatelessWidget {
             children: [
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  Text(
+                children: [
+                  const Text(
                     'Hello 👋',
                     style: TextStyle(
                       fontSize: 13,
@@ -289,8 +302,8 @@ class _WelcomeCard extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    'Rahmat Ullah',
-                    style: TextStyle(
+                    name,
+                    style: const TextStyle(
                       fontSize: 18,
                       fontWeight: FontWeight.w700,
                       color: AppColors.textPrimary,
@@ -298,28 +311,29 @@ class _WelcomeCard extends StatelessWidget {
                   ),
                 ],
               ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 6,
-                ),
-                decoration: BoxDecoration(
-                  gradient: const LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [AppColors.gold, AppColors.goldDark],
+              if (tier.isNotEmpty)
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 6,
                   ),
-                  borderRadius: BorderRadius.circular(99),
-                ),
-                child: const Text(
-                  '🏆 Gold',
-                  style: TextStyle(
-                    fontSize: 11,
-                    fontWeight: FontWeight.w700,
-                    color: Colors.white,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [AppColors.gold, AppColors.goldDark],
+                    ),
+                    borderRadius: BorderRadius.circular(99),
+                  ),
+                  child: Text(
+                    '🏆 $tier',
+                    style: const TextStyle(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
-              ),
             ],
           ),
           const SizedBox(height: 12),
@@ -330,26 +344,26 @@ class _WelcomeCard extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
-              children: const [
+              children: [
                 _Stat(
                   emoji: '🩸',
-                  value: '12',
+                  value: '$donations',
                   label: 'Donations',
                   color: AppColors.primary,
                 ),
-                _VStat(),
+                const _VStat(),
                 _Stat(
-                  emoji: '❤️',
-                  value: '8',
-                  label: 'Lives Saved',
-                  color: AppColors.success,
+                  emoji: '⏳',
+                  value: '$days',
+                  label: 'Days to Donate',
+                  color: AppColors.info,
                 ),
-                _VStat(),
+                const _VStat(),
                 _Stat(
-                  emoji: '⭐',
-                  value: '4.9',
-                  label: 'Rating',
-                  color: AppColors.warning,
+                  emoji: isActive ? '🟢' : '🔴',
+                  value: isActive ? 'Active' : 'Inactive',
+                  label: 'Status',
+                  color: isActive ? AppColors.success : AppColors.primary,
                 ),
               ],
             ),
