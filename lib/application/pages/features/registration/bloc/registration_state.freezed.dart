@@ -23,7 +23,7 @@ mixin _$RegistrationState {
   String get phone => throw _privateConstructorUsedError;
   String get bloodGroup => throw _privateConstructorUsedError;
   String get age => throw _privateConstructorUsedError;
-  String get lastDonation => throw _privateConstructorUsedError;
+  DateTime? get lastDonation => throw _privateConstructorUsedError;
   String get district => throw _privateConstructorUsedError;
   String get thana => throw _privateConstructorUsedError;
   String get fbId => throw _privateConstructorUsedError;
@@ -52,7 +52,7 @@ abstract class $RegistrationStateCopyWith<$Res> {
     String phone,
     String bloodGroup,
     String age,
-    String lastDonation,
+    DateTime? lastDonation,
     String district,
     String thana,
     String fbId,
@@ -83,7 +83,7 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
     Object? phone = null,
     Object? bloodGroup = null,
     Object? age = null,
-    Object? lastDonation = null,
+    Object? lastDonation = freezed,
     Object? district = null,
     Object? thana = null,
     Object? fbId = null,
@@ -117,10 +117,10 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
                 ? _value.age
                 : age // ignore: cast_nullable_to_non_nullable
                       as String,
-            lastDonation: null == lastDonation
+            lastDonation: freezed == lastDonation
                 ? _value.lastDonation
                 : lastDonation // ignore: cast_nullable_to_non_nullable
-                      as String,
+                      as DateTime?,
             district: null == district
                 ? _value.district
                 : district // ignore: cast_nullable_to_non_nullable
@@ -167,7 +167,7 @@ abstract class _$$RegistrationStateImplCopyWith<$Res>
     String phone,
     String bloodGroup,
     String age,
-    String lastDonation,
+    DateTime? lastDonation,
     String district,
     String thana,
     String fbId,
@@ -197,7 +197,7 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
     Object? phone = null,
     Object? bloodGroup = null,
     Object? age = null,
-    Object? lastDonation = null,
+    Object? lastDonation = freezed,
     Object? district = null,
     Object? thana = null,
     Object? fbId = null,
@@ -231,10 +231,10 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
             ? _value.age
             : age // ignore: cast_nullable_to_non_nullable
                   as String,
-        lastDonation: null == lastDonation
+        lastDonation: freezed == lastDonation
             ? _value.lastDonation
             : lastDonation // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as DateTime?,
         district: null == district
             ? _value.district
             : district // ignore: cast_nullable_to_non_nullable
@@ -274,7 +274,7 @@ class _$RegistrationStateImpl implements _RegistrationState {
     this.phone = '',
     this.bloodGroup = '',
     this.age = '',
-    this.lastDonation = '',
+    this.lastDonation,
     this.district = '',
     this.thana = '',
     this.fbId = '',
@@ -302,8 +302,7 @@ class _$RegistrationStateImpl implements _RegistrationState {
   @JsonKey()
   final String age;
   @override
-  @JsonKey()
-  final String lastDonation;
+  final DateTime? lastDonation;
   @override
   @JsonKey()
   final String district;
@@ -392,7 +391,7 @@ abstract class _RegistrationState implements RegistrationState {
     final String phone,
     final String bloodGroup,
     final String age,
-    final String lastDonation,
+    final DateTime? lastDonation,
     final String district,
     final String thana,
     final String fbId,
@@ -414,7 +413,7 @@ abstract class _RegistrationState implements RegistrationState {
   @override
   String get age;
   @override
-  String get lastDonation;
+  DateTime? get lastDonation;
   @override
   String get district;
   @override
