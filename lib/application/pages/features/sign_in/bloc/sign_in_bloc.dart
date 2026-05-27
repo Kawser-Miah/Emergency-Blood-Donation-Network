@@ -44,8 +44,8 @@ class SignInBloc extends Bloc<SignInEvent, SignInState> {
       emit(const SignInState.loading());
       try {
         final result = await _authenticationUseCase.signOut();
-        result.fold(
-          (failure) {
+        await result.fold(
+          (failure) async {
             if (failure is GeneralFailure) {
               emit(SignInState.failure(failure.message));
             } else {
