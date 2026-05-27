@@ -1,3 +1,9 @@
+import 'package:blood_setu/application/core/widgets/sparkle_loading_overlay.dart';
+import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart';
+import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_event.dart';
+import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_state.dart';
+import 'package:blood_setu/di/di.dart';
+import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -77,8 +83,11 @@ class ProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (_) => ProfileBloc(),
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => ProfileBloc()),
+        BlocProvider(create: (_) => getIt<SignInBloc>()),
+      ],
       child: const _ProfileView(),
     );
   }
@@ -89,39 +98,56 @@ class _ProfileView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<ProfileBloc, ProfileState>(
-      builder: (context, state) {
-        return Scaffold(
-          backgroundColor: AppColors.background,
-          body: Stack(
-            children: [
-              SingleChildScrollView(
-                padding: const EdgeInsets.only(bottom: 96),
-                child: Column(
-                  children: [
-                    const _CoverPhoto(),
-                    const SizedBox(height: 64),
-                    const _NameAndGroup(),
-                    const SizedBox(height: 16),
-                    const _StatsCard(),
-                    const SizedBox(height: 16),
-                    const _BadgesSection(),
-                    const SizedBox(height: 16),
-                    const _DonationHistorySection(),
-                    const SizedBox(height: 16),
-                    _PersonalInfoSection(
-                      expanded: state.infoExpanded,
-                      onToggle: () => context
-                          .read<ProfileBloc>()
-                          .add(const ProfileEvent.infoExpandedToggled()),
-                    ),
-                    const SizedBox(height: 16),
-                    _SettingsSection(state: state),
-                  ],
-                ),
-              ),
-            ],
+    return BlocConsumer<SignInBloc, SignInState>(
+      listener: (context, signInState) {
+        signInState.whenOrNull(
+          signOutSuccess: () => Utils.showSnackBar(
+            context,
+            content: 'You have been successfully logged out.',
+            color: Colors.green,
           ),
+          failure: (message) =>
+              Utils.showSnackBar(context, content: message, color: Colors.red),
+        );
+      },
+      builder: (context, signInState) {
+        final isLoading = signInState is LoadingSignInState;
+        return BlocBuilder<ProfileBloc, ProfileState>(
+          builder: (context, state) {
+            return Scaffold(
+              backgroundColor: AppColors.background,
+              body: Stack(
+                children: [
+                  SingleChildScrollView(
+                    padding: const EdgeInsets.only(bottom: 96),
+                    child: Column(
+                      children: [
+                        const _CoverPhoto(),
+                        const SizedBox(height: 64),
+                        const _NameAndGroup(),
+                        const SizedBox(height: 16),
+                        const _StatsCard(),
+                        const SizedBox(height: 16),
+                        const _BadgesSection(),
+                        const SizedBox(height: 16),
+                        const _DonationHistorySection(),
+                        const SizedBox(height: 16),
+                        _PersonalInfoSection(
+                          expanded: state.infoExpanded,
+                          onToggle: () => context.read<ProfileBloc>().add(
+                            const ProfileEvent.infoExpandedToggled(),
+                          ),
+                        ),
+                        const SizedBox(height: 16),
+                        _SettingsSection(state: state),
+                      ],
+                    ),
+                  ),
+                  if (isLoading) const SparkleLoadingOverlay(),
+                ],
+              ),
+            );
+          },
         );
       },
     );
@@ -220,8 +246,11 @@ class _CoverPhoto extends StatelessWidget {
                           shape: BoxShape.circle,
                           border: Border.all(color: Colors.white, width: 2),
                         ),
-                        child: const Icon(Icons.edit,
-                            size: 12, color: Colors.white),
+                        child: const Icon(
+                          Icons.edit,
+                          size: 12,
+                          color: Colors.white,
+                        ),
                       ),
                     ),
                   ],
@@ -255,8 +284,7 @@ class _NameAndGroup extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
               decoration: BoxDecoration(
                 color: AppColors.primarySurface,
                 borderRadius: BorderRadius.circular(99),
@@ -289,9 +317,24 @@ class _StatsCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final stats = [
-      _StatEntry(value: '12', label: 'Donations', emoji: '🩸', color: AppColors.primary),
-      _StatEntry(value: '8', label: 'Lives Saved', emoji: '❤️', color: AppColors.primary),
-      _StatEntry(value: '18m', label: 'Avg Response', emoji: '⏱️', color: AppColors.info),
+      _StatEntry(
+        value: '12',
+        label: 'Donations',
+        emoji: '🩸',
+        color: AppColors.primary,
+      ),
+      _StatEntry(
+        value: '8',
+        label: 'Lives Saved',
+        emoji: '❤️',
+        color: AppColors.primary,
+      ),
+      _StatEntry(
+        value: '18m',
+        label: 'Avg Response',
+        emoji: '⏱️',
+        color: AppColors.info,
+      ),
     ];
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -317,8 +360,7 @@ class _StatsCard extends StatelessWidget {
                 decoration: BoxDecoration(
                   border: i < stats.length - 1
                       ? const Border(
-                          right: BorderSide(
-                              color: AppColors.dividerLightest),
+                          right: BorderSide(color: AppColors.dividerLightest),
                         )
                       : null,
                 ),
@@ -336,7 +378,9 @@ class _StatsCard extends StatelessWidget {
                     Text(
                       s.label,
                       style: const TextStyle(
-                          fontSize: 11, color: AppColors.textMuted),
+                        fontSize: 11,
+                        color: AppColors.textMuted,
+                      ),
                     ),
                   ],
                 ),
@@ -573,14 +617,18 @@ class _DonationHistorySection extends StatelessWidget {
                         Text(
                           '${d.date} • ${d.bloodGroup}',
                           style: const TextStyle(
-                              fontSize: 11, color: AppColors.textMuted),
+                            fontSize: 11,
+                            color: AppColors.textMuted,
+                          ),
                         ),
                       ],
                     ),
                   ),
                   Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 8, vertical: 2),
+                      horizontal: 8,
+                      vertical: 2,
+                    ),
                     decoration: BoxDecoration(
                       color: AppColors.successSurface,
                       borderRadius: BorderRadius.circular(12),
@@ -595,8 +643,11 @@ class _DonationHistorySection extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(width: 8),
-                  const Icon(Icons.download,
-                      size: 14, color: AppColors.textMuted),
+                  const Icon(
+                    Icons.download,
+                    size: 14,
+                    color: AppColors.textMuted,
+                  ),
                 ],
               ),
             ),
@@ -609,10 +660,7 @@ class _DonationHistorySection extends StatelessWidget {
 }
 
 class _PersonalInfoSection extends StatelessWidget {
-  const _PersonalInfoSection({
-    required this.expanded,
-    required this.onToggle,
-  });
+  const _PersonalInfoSection({required this.expanded, required this.onToggle});
 
   final bool expanded;
   final VoidCallback onToggle;
@@ -651,8 +699,11 @@ class _PersonalInfoSection extends StatelessWidget {
                   AnimatedRotation(
                     duration: const Duration(milliseconds: 200),
                     turns: expanded ? 0.5 : 0,
-                    child: const Icon(Icons.expand_more,
-                        size: 18, color: AppColors.textMuted),
+                    child: const Icon(
+                      Icons.expand_more,
+                      size: 18,
+                      color: AppColors.textMuted,
+                    ),
                   ),
                 ],
               ),
@@ -680,12 +731,15 @@ class _PersonalInfoSection extends StatelessWidget {
                       border: i < _items.length - 1
                           ? const Border(
                               bottom: BorderSide(
-                                  color: AppColors.dividerLightest),
+                                color: AppColors.dividerLightest,
+                              ),
                             )
                           : null,
                     ),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Row(
                       children: [
                         Expanded(
@@ -695,8 +749,9 @@ class _PersonalInfoSection extends StatelessWidget {
                               Text(
                                 item.label,
                                 style: const TextStyle(
-                                    fontSize: 11,
-                                    color: AppColors.textMuted),
+                                  fontSize: 11,
+                                  color: AppColors.textMuted,
+                                ),
                               ),
                               Text(
                                 item.value,
@@ -709,8 +764,11 @@ class _PersonalInfoSection extends StatelessWidget {
                             ],
                           ),
                         ),
-                        const Icon(Icons.edit,
-                            size: 14, color: AppColors.textDisabled),
+                        const Icon(
+                          Icons.edit,
+                          size: 14,
+                          color: AppColors.textDisabled,
+                        ),
                       ],
                     ),
                   );
@@ -845,12 +903,13 @@ class _SettingsSection extends StatelessWidget {
                   Container(
                     decoration: const BoxDecoration(
                       border: Border(
-                        bottom:
-                            BorderSide(color: AppColors.dividerLightest),
+                        bottom: BorderSide(color: AppColors.dividerLightest),
                       ),
                     ),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Row(
                       children: [
                         Icon(t.icon, size: 18, color: AppColors.textTertiary),
@@ -872,12 +931,13 @@ class _SettingsSection extends StatelessWidget {
                   Container(
                     decoration: const BoxDecoration(
                       border: Border(
-                        bottom:
-                            BorderSide(color: AppColors.dividerLightest),
+                        bottom: BorderSide(color: AppColors.dividerLightest),
                       ),
                     ),
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Row(
                       children: [
                         Icon(n.icon, size: 18, color: AppColors.textTertiary),
@@ -891,16 +951,31 @@ class _SettingsSection extends StatelessWidget {
                             ),
                           ),
                         ),
-                        const Icon(Icons.chevron_right,
-                            size: 16, color: AppColors.textDisabled),
+                        const Icon(
+                          Icons.chevron_right,
+                          size: 16,
+                          color: AppColors.textDisabled,
+                        ),
                       ],
                     ),
                   ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () async {
+                    final confirmed = await Utils.showConfirmDialog(
+                      context,
+                      title: 'Logout',
+                      message: 'Are you sure you want to logout?',
+                      confirmLabel: 'Logout',
+                    );
+                    if (confirmed && context.mounted) {
+                      context.read<SignInBloc>().add(SignInEvent.signOut());
+                    }
+                  },
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 12),
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
                     child: Row(
                       children: const [
                         Icon(Icons.logout, size: 18, color: AppColors.primary),
