@@ -53,7 +53,6 @@ class RegistrationRepositoryIml extends RegistrationRepository {
       final docRef = _firebaseFirestore.collection('profile').doc(user.uid);
       await docRef.set(finalProfile.toMap(), SetOptions(merge: true));
 
-
       return const Right(null);
     } on FirebaseAuthException catch (e) {
       return Left(
@@ -120,6 +119,23 @@ class RegistrationRepositoryIml extends RegistrationRepository {
           'Unable to determine your location. Please check your GPS settings and try again.',
         ),
       );
+    }
+  }
+
+  @override
+  Future<Either<Failure, UserProfileModel>> getProfile(String uid) async {
+    try {
+      final doc = await _firebaseFirestore.collection('profile').doc(uid).get();
+
+      if (!doc.exists) {
+        return Left(GeneralFailure('Profile not found.'));
+      }
+
+      return Right(UserProfileModel.fromFirestore(doc));
+    } on FirebaseException catch (e) {
+      return Left(GeneralFailure(e.message ?? 'Failed to load profile.'));
+    } catch (e) {
+      return Left(GeneralFailure(e.toString()));
     }
   }
 }
