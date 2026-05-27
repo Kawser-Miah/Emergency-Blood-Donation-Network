@@ -38,6 +38,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
         ),
         lastDonationChanged: (value) async =>
             emit(state.copyWith(lastDonation: value)),
+
         districtChanged: (value) async => emit(
           state.copyWith(
             district: value,
@@ -188,9 +189,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
                 phone: state.phone,
                 bloodGroup: state.bloodGroup,
                 age: int.tryParse(state.age.trim()),
-                lastDonation: state.lastDonation.isNotEmpty
-                    ? DateTime.tryParse(state.lastDonation)
-                    : null,
+                lastDonation: state.lastDonation,
                 district: state.district,
                 thana: state.thana,
                 fbId: state.fbId,
