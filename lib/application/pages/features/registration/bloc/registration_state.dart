@@ -13,7 +13,7 @@ class RegistrationState with _$RegistrationState {
     @Default('') String phone,
     @Default('') String bloodGroup,
     @Default('') String age,
-    @Default('') String lastDonation,
+    DateTime? lastDonation,
     @Default('') String district,
     @Default('') String thana,
     @Default('') String fbId,
