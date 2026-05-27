@@ -18,6 +18,7 @@ class UserProfileModel {
   final DateTime? updatedAt;
   final bool? isActive;
   final String? donorTier;
+  final int totalDonations;
 
   UserProfileModel({
     this.userUuid,
@@ -37,6 +38,7 @@ class UserProfileModel {
     this.updatedAt,
     this.isActive,
     this.donorTier,
+    this.totalDonations = 0,
   });
 
   /// Next donation date = lastDonation + 3 months (90 days)
@@ -82,6 +84,10 @@ class UserProfileModel {
           : null,
       isActive: data?['isActive'],
       donorTier: data?['donorTier'],
+      totalDonations:
+          data?['totalDonations'] != null
+              ? (data!['totalDonations'] as num).toInt()
+              : 0,
     );
   }
 
@@ -109,6 +115,7 @@ class UserProfileModel {
           : FieldValue.serverTimestamp(),
       'isActive': isActive,
       'donorTier': donorTier,
+      'totalDonations': totalDonations,
     };
   }
 
@@ -131,6 +138,7 @@ class UserProfileModel {
     DateTime? updatedAt,
     bool? isActive,
     String? donorTier,
+    int? totalDonations,
   }) {
     return UserProfileModel(
       userUuid: userUuid ?? this.userUuid,
@@ -150,6 +158,7 @@ class UserProfileModel {
       updatedAt: updatedAt ?? this.updatedAt,
       isActive: isActive ?? this.isActive,
       donorTier: donorTier ?? this.donorTier,
+      totalDonations: totalDonations ?? this.totalDonations,
     );
   }
 }
