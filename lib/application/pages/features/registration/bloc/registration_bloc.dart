@@ -182,15 +182,20 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
           try {
             final result = await _registrationUserUseCase.call(
               UserProfileModel(
+                userUuid: getIt<AuthController>().user?.uid,
                 fullName: state.fullName,
                 gender: state.gender,
                 phone: state.phone,
                 bloodGroup: state.bloodGroup,
-                age: state.age,
-                lastDonation: state.lastDonation,
+                age: int.tryParse(state.age.trim()),
+                lastDonation: state.lastDonation.isNotEmpty
+                    ? DateTime.tryParse(state.lastDonation)
+                    : null,
                 district: state.district,
                 thana: state.thana,
                 fbId: state.fbId,
+                isActive: true,
+                donorTier: 'Bronze',
               ),
             );
 
