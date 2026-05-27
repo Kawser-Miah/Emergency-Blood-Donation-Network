@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() sidebarOpened,
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
@@ -26,6 +27,7 @@ mixin _$HomeEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? sidebarOpened,
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
@@ -33,6 +35,7 @@ mixin _$HomeEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? sidebarOpened,
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
@@ -41,6 +44,7 @@ mixin _$HomeEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_SidebarOpened value) sidebarOpened,
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
@@ -48,6 +52,7 @@ mixin _$HomeEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_SidebarOpened value)? sidebarOpened,
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
@@ -55,6 +60,7 @@ mixin _$HomeEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_SidebarOpened value)? sidebarOpened,
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
@@ -81,6 +87,131 @@ class _$HomeEventCopyWithImpl<$Res, $Val extends HomeEvent>
 
   /// Create a copy of HomeEvent
   /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$StartedImplCopyWith<$Res> {
+  factory _$$StartedImplCopyWith(
+    _$StartedImpl value,
+    $Res Function(_$StartedImpl) then,
+  ) = __$$StartedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$StartedImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$StartedImpl>
+    implements _$$StartedImplCopyWith<$Res> {
+  __$$StartedImplCopyWithImpl(
+    _$StartedImpl _value,
+    $Res Function(_$StartedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$StartedImpl implements _Started {
+  const _$StartedImpl();
+
+  @override
+  String toString() {
+    return 'HomeEvent.started()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$StartedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() sidebarOpened,
+    required TResult Function() sidebarClosed,
+    required TResult Function() sosPressed,
+    required TResult Function() sosReleased,
+  }) {
+    return started();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? sidebarOpened,
+    TResult? Function()? sidebarClosed,
+    TResult? Function()? sosPressed,
+    TResult? Function()? sosReleased,
+  }) {
+    return started?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? sidebarOpened,
+    TResult Function()? sidebarClosed,
+    TResult Function()? sosPressed,
+    TResult Function()? sosReleased,
+    required TResult orElse(),
+  }) {
+    if (started != null) {
+      return started();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_SidebarOpened value) sidebarOpened,
+    required TResult Function(_SidebarClosed value) sidebarClosed,
+    required TResult Function(_SosPressed value) sosPressed,
+    required TResult Function(_SosReleased value) sosReleased,
+  }) {
+    return started(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_SidebarOpened value)? sidebarOpened,
+    TResult? Function(_SidebarClosed value)? sidebarClosed,
+    TResult? Function(_SosPressed value)? sosPressed,
+    TResult? Function(_SosReleased value)? sosReleased,
+  }) {
+    return started?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_SidebarOpened value)? sidebarOpened,
+    TResult Function(_SidebarClosed value)? sidebarClosed,
+    TResult Function(_SosPressed value)? sosPressed,
+    TResult Function(_SosReleased value)? sosReleased,
+    required TResult orElse(),
+  }) {
+    if (started != null) {
+      return started(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Started implements HomeEvent {
+  const factory _Started() = _$StartedImpl;
 }
 
 /// @nodoc
@@ -126,6 +257,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() sidebarOpened,
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
@@ -137,6 +269,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? sidebarOpened,
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
@@ -148,6 +281,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? sidebarOpened,
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
@@ -163,6 +297,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_SidebarOpened value) sidebarOpened,
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
@@ -174,6 +309,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_SidebarOpened value)? sidebarOpened,
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
@@ -185,6 +321,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_SidebarOpened value)? sidebarOpened,
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
@@ -245,6 +382,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() sidebarOpened,
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
@@ -256,6 +394,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? sidebarOpened,
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
@@ -267,6 +406,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? sidebarOpened,
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
@@ -282,6 +422,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_SidebarOpened value) sidebarOpened,
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
@@ -293,6 +434,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_SidebarOpened value)? sidebarOpened,
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
@@ -304,6 +446,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_SidebarOpened value)? sidebarOpened,
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
@@ -364,6 +507,7 @@ class _$SosPressedImpl implements _SosPressed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() sidebarOpened,
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
@@ -375,6 +519,7 @@ class _$SosPressedImpl implements _SosPressed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? sidebarOpened,
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
@@ -386,6 +531,7 @@ class _$SosPressedImpl implements _SosPressed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? sidebarOpened,
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
@@ -401,6 +547,7 @@ class _$SosPressedImpl implements _SosPressed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_SidebarOpened value) sidebarOpened,
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
@@ -412,6 +559,7 @@ class _$SosPressedImpl implements _SosPressed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_SidebarOpened value)? sidebarOpened,
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
@@ -423,6 +571,7 @@ class _$SosPressedImpl implements _SosPressed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_SidebarOpened value)? sidebarOpened,
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
@@ -483,6 +632,7 @@ class _$SosReleasedImpl implements _SosReleased {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() sidebarOpened,
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
@@ -494,6 +644,7 @@ class _$SosReleasedImpl implements _SosReleased {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? sidebarOpened,
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
@@ -505,6 +656,7 @@ class _$SosReleasedImpl implements _SosReleased {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? sidebarOpened,
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
@@ -520,6 +672,7 @@ class _$SosReleasedImpl implements _SosReleased {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_SidebarOpened value) sidebarOpened,
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
@@ -531,6 +684,7 @@ class _$SosReleasedImpl implements _SosReleased {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_SidebarOpened value)? sidebarOpened,
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
@@ -542,6 +696,7 @@ class _$SosReleasedImpl implements _SosReleased {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_SidebarOpened value)? sidebarOpened,
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
