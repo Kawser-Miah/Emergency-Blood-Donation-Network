@@ -387,18 +387,16 @@ class _Step1 extends StatelessWidget {
                 ),
               );
               if (picked != null) {
-                final formatted =
-                    '${picked.day.toString().padLeft(2, '0')}/${picked.month.toString().padLeft(2, '0')}/${picked.year}';
-                bloc.add(RegistrationEvent.lastDonationChanged(formatted));
+                bloc.add(RegistrationEvent.lastDonationChanged(picked));
               }
             },
             child: Text(
-              state.lastDonation.isEmpty
+              state.lastDonation == null
                   ? 'Optional if first time'
-                  : state.lastDonation,
+                  : '${state.lastDonation!.day.toString().padLeft(2, '0')}/${state.lastDonation!.month.toString().padLeft(2, '0')}/${state.lastDonation!.year}',
               style: TextStyle(
                 fontSize: 14,
-                color: state.lastDonation.isEmpty
+                color: state.lastDonation == null
                     ? AppColors.textMuted
                     : AppColors.textPrimary,
               ),
