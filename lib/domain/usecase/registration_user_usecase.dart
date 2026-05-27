@@ -12,4 +12,8 @@ class RegistrationUserUseCase {
 
   Future<Either<Failure, void>> call(UserProfileModel userProfile) async =>
       await _registrationRepository.register(userProfile);
+
+  Future<Either<Failure, UserProfileModel>> getProfile(String uid) async {
+    return await _registrationRepository.getProfile(uid);
+  }
 }
