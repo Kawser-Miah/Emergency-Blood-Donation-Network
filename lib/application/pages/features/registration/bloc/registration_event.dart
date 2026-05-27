@@ -9,7 +9,7 @@ class RegistrationEvent with _$RegistrationEvent {
   const factory RegistrationEvent.phoneChanged(String value) = _PhoneChanged;
   const factory RegistrationEvent.bloodGroupChanged(String value) = _BloodGroupChanged;
   const factory RegistrationEvent.ageChanged(String value) = _AgeChanged;
-  const factory RegistrationEvent.lastDonationChanged(String value) = _LastDonationChanged;
+  const factory RegistrationEvent.lastDonationChanged(DateTime value) = _LastDonationChanged;
   const factory RegistrationEvent.districtChanged(String value) = _DistrictChanged;
   const factory RegistrationEvent.thanaChanged(String value) = _ThanaChanged;
   const factory RegistrationEvent.fbIdChanged(String value) = _FbIdChanged;
