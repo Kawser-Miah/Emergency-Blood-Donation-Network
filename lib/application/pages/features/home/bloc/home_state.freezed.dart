@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$HomeState {
   bool get showSidebar => throw _privateConstructorUsedError;
   bool get sosPressed => throw _privateConstructorUsedError;
+  UserProfileModel? get profile => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -32,7 +33,7 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({bool showSidebar, bool sosPressed});
+  $Res call({bool showSidebar, bool sosPressed, UserProfileModel? profile});
 }
 
 /// @nodoc
@@ -49,7 +50,11 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? showSidebar = null, Object? sosPressed = null}) {
+  $Res call({
+    Object? showSidebar = null,
+    Object? sosPressed = null,
+    Object? profile = freezed,
+  }) {
     return _then(
       _value.copyWith(
             showSidebar: null == showSidebar
@@ -60,6 +65,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                 ? _value.sosPressed
                 : sosPressed // ignore: cast_nullable_to_non_nullable
                       as bool,
+            profile: freezed == profile
+                ? _value.profile
+                : profile // ignore: cast_nullable_to_non_nullable
+                      as UserProfileModel?,
           )
           as $Val,
     );
@@ -75,7 +84,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   ) = __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool showSidebar, bool sosPressed});
+  $Res call({bool showSidebar, bool sosPressed, UserProfileModel? profile});
 }
 
 /// @nodoc
@@ -91,7 +100,11 @@ class __$$HomeStateImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? showSidebar = null, Object? sosPressed = null}) {
+  $Res call({
+    Object? showSidebar = null,
+    Object? sosPressed = null,
+    Object? profile = freezed,
+  }) {
     return _then(
       _$HomeStateImpl(
         showSidebar: null == showSidebar
@@ -102,6 +115,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
             ? _value.sosPressed
             : sosPressed // ignore: cast_nullable_to_non_nullable
                   as bool,
+        profile: freezed == profile
+            ? _value.profile
+            : profile // ignore: cast_nullable_to_non_nullable
+                  as UserProfileModel?,
       ),
     );
   }
@@ -110,7 +127,11 @@ class __$$HomeStateImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$HomeStateImpl implements _HomeState {
-  const _$HomeStateImpl({this.showSidebar = false, this.sosPressed = false});
+  const _$HomeStateImpl({
+    this.showSidebar = false,
+    this.sosPressed = false,
+    this.profile,
+  });
 
   @override
   @JsonKey()
@@ -118,10 +139,12 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final bool sosPressed;
+  @override
+  final UserProfileModel? profile;
 
   @override
   String toString() {
-    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed)';
+    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed, profile: $profile)';
   }
 
   @override
@@ -132,11 +155,13 @@ class _$HomeStateImpl implements _HomeState {
             (identical(other.showSidebar, showSidebar) ||
                 other.showSidebar == showSidebar) &&
             (identical(other.sosPressed, sosPressed) ||
-                other.sosPressed == sosPressed));
+                other.sosPressed == sosPressed) &&
+            (identical(other.profile, profile) || other.profile == profile));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, showSidebar, sosPressed);
+  int get hashCode =>
+      Object.hash(runtimeType, showSidebar, sosPressed, profile);
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -148,13 +173,18 @@ class _$HomeStateImpl implements _HomeState {
 }
 
 abstract class _HomeState implements HomeState {
-  const factory _HomeState({final bool showSidebar, final bool sosPressed}) =
-      _$HomeStateImpl;
+  const factory _HomeState({
+    final bool showSidebar,
+    final bool sosPressed,
+    final UserProfileModel? profile,
+  }) = _$HomeStateImpl;
 
   @override
   bool get showSidebar;
   @override
   bool get sosPressed;
+  @override
+  UserProfileModel? get profile;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
