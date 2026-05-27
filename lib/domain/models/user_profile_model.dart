@@ -8,14 +8,16 @@ class UserProfileModel {
   final String? photoUrl;
   final String? phone;
   final String? bloodGroup;
-  final String? age;
-  final String? lastDonation;
+  final int? age;
+  final DateTime? lastDonation;
   final String? district;
   final String? thana;
   final String? fbId;
   final double? longitude;
   final double? latitude;
   final DateTime? updatedAt;
+  final bool? isActive;
+  final String? donorTier;
 
   UserProfileModel({
     this.userUuid,
@@ -33,7 +35,20 @@ class UserProfileModel {
     this.longitude,
     this.latitude,
     this.updatedAt,
+    this.isActive,
+    this.donorTier,
   });
+
+  /// Next donation date = lastDonation + 3 months (90 days)
+  DateTime? get nextDonationDate => lastDonation?.add(const Duration(days: 90));
+
+  /// Days remaining until eligible to donate again
+  int? get daysToNextDonation {
+    final next = nextDonationDate;
+    if (next == null) return null;
+    final days = next.difference(DateTime.now()).inDays;
+    return days < 0 ? 0 : days;
+  }
 
   /// Fetch from Firestore
   factory UserProfileModel.fromFirestore(
@@ -49,8 +64,10 @@ class UserProfileModel {
       photoUrl: data?['photoUrl'],
       phone: data?['phone'],
       bloodGroup: data?['bloodGroup'],
-      age: data?['age'],
-      lastDonation: data?['lastDonation'],
+      age: data?['age'] != null ? (data!['age'] as num).toInt() : null,
+      lastDonation: data?['lastDonation'] != null
+          ? (data!['lastDonation'] as Timestamp).toDate()
+          : null,
       district: data?['district'],
       thana: data?['thana'],
       fbId: data?['fbId'],
@@ -63,6 +80,8 @@ class UserProfileModel {
       updatedAt: data?['updatedAt'] != null
           ? (data!['updatedAt'] as Timestamp).toDate()
           : null,
+      isActive: data?['isActive'],
+      donorTier: data?['donorTier'],
     );
   }
 
@@ -77,7 +96,9 @@ class UserProfileModel {
       'phone': phone,
       'bloodGroup': bloodGroup,
       'age': age,
-      'lastDonation': lastDonation,
+      'lastDonation': lastDonation != null
+          ? Timestamp.fromDate(lastDonation!)
+          : null,
       'district': district,
       'thana': thana,
       'fbId': fbId,
@@ -86,6 +107,8 @@ class UserProfileModel {
       'updatedAt': updatedAt != null
           ? Timestamp.fromDate(updatedAt!)
           : FieldValue.serverTimestamp(),
+      'isActive': isActive,
+      'donorTier': donorTier,
     };
   }
 
@@ -98,14 +121,16 @@ class UserProfileModel {
     String? photoUrl,
     String? phone,
     String? bloodGroup,
-    String? age,
-    String? lastDonation,
+    int? age,
+    DateTime? lastDonation,
     String? district,
     String? thana,
     String? fbId,
     double? longitude,
     double? latitude,
     DateTime? updatedAt,
+    bool? isActive,
+    String? donorTier,
   }) {
     return UserProfileModel(
       userUuid: userUuid ?? this.userUuid,
@@ -123,6 +148,8 @@ class UserProfileModel {
       longitude: longitude ?? this.longitude,
       latitude: latitude ?? this.latitude,
       updatedAt: updatedAt ?? this.updatedAt,
+      isActive: isActive ?? this.isActive,
+      donorTier: donorTier ?? this.donorTier,
     );
   }
 }
