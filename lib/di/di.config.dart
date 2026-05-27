@@ -16,6 +16,8 @@ import 'package:blood_setu/application/core/services/sp_service/sp_service.dart'
     as _i181;
 import 'package:blood_setu/application/pages/features/bottom_nav/bloc/bottom_nav_bloc.dart'
     as _i619;
+import 'package:blood_setu/application/pages/features/home/bloc/home_bloc.dart'
+    as _i579;
 import 'package:blood_setu/application/pages/features/registration/bloc/registration_bloc.dart'
     as _i670;
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart'
@@ -80,6 +82,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i839.AuthController>(
       () =>
           _i839.AuthController(gh<_i181.SpService>(), gh<_i59.FirebaseAuth>()),
+    );
+    gh.factory<_i579.HomeBloc>(
+      () => _i579.HomeBloc(gh<_i881.RegistrationUserUseCase>()),
     );
     gh.factory<_i670.RegistrationBloc>(
       () => _i670.RegistrationBloc(gh<_i881.RegistrationUserUseCase>()),
