@@ -5,4 +5,6 @@ import '../models/user_profile_model.dart';
 
 abstract class RegistrationRepository {
   Future<Either<Failure, void>> register(UserProfileModel userProfile);
+  Future<Either<Failure, UserProfileModel>> getProfile(String uid);
+
 }
