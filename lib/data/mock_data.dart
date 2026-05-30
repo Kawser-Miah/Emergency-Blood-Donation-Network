@@ -229,31 +229,31 @@ const List<ChatMessage> mockMessages = [
   ),
 ];
 
-const List<DonationHistoryEntry> mockDonationHistory = [
+final List<DonationHistoryEntry> mockDonationHistory = [
   DonationHistoryEntry(
     id: '1',
-    date: '15 Jan 2025',
+    date: DateTime(2025, 1, 15),
     hospital: 'Dhaka Medical College Hospital',
     bloodGroup: 'O+',
     status: 'Confirmed',
   ),
   DonationHistoryEntry(
     id: '2',
-    date: '8 Oct 2024',
+    date: DateTime(2024, 10, 8),
     hospital: 'Square Hospital, Dhaka',
     bloodGroup: 'O+',
     status: 'Confirmed',
   ),
   DonationHistoryEntry(
     id: '3',
-    date: '22 Jul 2024',
+    date: DateTime(2024, 7, 22),
     hospital: 'United Hospital',
     bloodGroup: 'O+',
     status: 'Confirmed',
   ),
   DonationHistoryEntry(
     id: '4',
-    date: '3 Apr 2024',
+    date: DateTime(2024, 4, 3),
     hospital: 'Dhaka Medical College Hospital',
     bloodGroup: 'O+',
     status: 'Confirmed',
