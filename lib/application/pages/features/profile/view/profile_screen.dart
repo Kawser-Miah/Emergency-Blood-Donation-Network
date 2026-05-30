@@ -5,6 +5,7 @@ import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_state
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../data/mock_data.dart';
@@ -615,7 +616,7 @@ class _DonationHistorySection extends StatelessWidget {
                           ),
                         ),
                         Text(
-                          '${d.date} • ${d.bloodGroup}',
+                          '${DateFormat('dd MMM yyyy').format(d.date)} • ${d.bloodGroup}',
                           style: const TextStyle(
                             fontSize: 11,
                             color: AppColors.textMuted,
