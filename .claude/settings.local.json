@@ -18,7 +18,8 @@
       "Bash(python3 -c \"import sys,json; cfg=json.load\\(sys.stdin\\); found=[p for p in cfg['packages'] if 'jni' in p['name'].lower\\(\\)]; print\\('jni found:', found\\) if found else print\\('jni NOT in package config - clean!'\\)\")",
       "mcp__ide__getDiagnostics",
       "Bash(python3 -c ' *)",
-      "Bash(grep \"\\\\.dart$\")"
+      "Bash(grep \"\\\\.dart$\")",
+      "Bash(grep -v \"^--$\")"
     ]
   }
 }
