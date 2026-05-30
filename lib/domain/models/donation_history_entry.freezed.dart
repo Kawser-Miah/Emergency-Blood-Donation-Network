@@ -18,10 +18,11 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$DonationHistoryEntry {
   String get id => throw _privateConstructorUsedError;
-  String get date => throw _privateConstructorUsedError;
+  DateTime get date => throw _privateConstructorUsedError;
   String get hospital => throw _privateConstructorUsedError;
   String get bloodGroup => throw _privateConstructorUsedError;
   String get status => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Create a copy of DonationHistoryEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -39,10 +40,11 @@ abstract class $DonationHistoryEntryCopyWith<$Res> {
   @useResult
   $Res call({
     String id,
-    String date,
+    DateTime date,
     String hospital,
     String bloodGroup,
     String status,
+    DateTime? createdAt,
   });
 }
 
@@ -69,6 +71,7 @@ class _$DonationHistoryEntryCopyWithImpl<
     Object? hospital = null,
     Object? bloodGroup = null,
     Object? status = null,
+    Object? createdAt = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -79,7 +82,7 @@ class _$DonationHistoryEntryCopyWithImpl<
             date: null == date
                 ? _value.date
                 : date // ignore: cast_nullable_to_non_nullable
-                      as String,
+                      as DateTime,
             hospital: null == hospital
                 ? _value.hospital
                 : hospital // ignore: cast_nullable_to_non_nullable
@@ -92,6 +95,10 @@ class _$DonationHistoryEntryCopyWithImpl<
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as String,
+            createdAt: freezed == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
           )
           as $Val,
     );
@@ -109,10 +116,11 @@ abstract class _$$DonationHistoryEntryImplCopyWith<$Res>
   @useResult
   $Res call({
     String id,
-    String date,
+    DateTime date,
     String hospital,
     String bloodGroup,
     String status,
+    DateTime? createdAt,
   });
 }
 
@@ -135,6 +143,7 @@ class __$$DonationHistoryEntryImplCopyWithImpl<$Res>
     Object? hospital = null,
     Object? bloodGroup = null,
     Object? status = null,
+    Object? createdAt = freezed,
   }) {
     return _then(
       _$DonationHistoryEntryImpl(
@@ -145,7 +154,7 @@ class __$$DonationHistoryEntryImplCopyWithImpl<$Res>
         date: null == date
             ? _value.date
             : date // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as DateTime,
         hospital: null == hospital
             ? _value.hospital
             : hospital // ignore: cast_nullable_to_non_nullable
@@ -158,6 +167,10 @@ class __$$DonationHistoryEntryImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as String,
+        createdAt: freezed == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
       ),
     );
   }
@@ -165,29 +178,32 @@ class __$$DonationHistoryEntryImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DonationHistoryEntryImpl implements _DonationHistoryEntry {
+class _$DonationHistoryEntryImpl extends _DonationHistoryEntry {
   const _$DonationHistoryEntryImpl({
     required this.id,
     required this.date,
     required this.hospital,
     required this.bloodGroup,
     required this.status,
-  });
+    this.createdAt,
+  }) : super._();
 
   @override
   final String id;
   @override
-  final String date;
+  final DateTime date;
   @override
   final String hospital;
   @override
   final String bloodGroup;
   @override
   final String status;
+  @override
+  final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'DonationHistoryEntry(id: $id, date: $date, hospital: $hospital, bloodGroup: $bloodGroup, status: $status)';
+    return 'DonationHistoryEntry(id: $id, date: $date, hospital: $hospital, bloodGroup: $bloodGroup, status: $status, createdAt: $createdAt)';
   }
 
   @override
@@ -201,12 +217,21 @@ class _$DonationHistoryEntryImpl implements _DonationHistoryEntry {
                 other.hospital == hospital) &&
             (identical(other.bloodGroup, bloodGroup) ||
                 other.bloodGroup == bloodGroup) &&
-            (identical(other.status, status) || other.status == status));
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, id, date, hospital, bloodGroup, status);
+  int get hashCode => Object.hash(
+    runtimeType,
+    id,
+    date,
+    hospital,
+    bloodGroup,
+    status,
+    createdAt,
+  );
 
   /// Create a copy of DonationHistoryEntry
   /// with the given fields replaced by the non-null parameter values.
@@ -221,25 +246,29 @@ class _$DonationHistoryEntryImpl implements _DonationHistoryEntry {
       );
 }
 
-abstract class _DonationHistoryEntry implements DonationHistoryEntry {
+abstract class _DonationHistoryEntry extends DonationHistoryEntry {
   const factory _DonationHistoryEntry({
     required final String id,
-    required final String date,
+    required final DateTime date,
     required final String hospital,
     required final String bloodGroup,
     required final String status,
+    final DateTime? createdAt,
   }) = _$DonationHistoryEntryImpl;
+  const _DonationHistoryEntry._() : super._();
 
   @override
   String get id;
   @override
-  String get date;
+  DateTime get date;
   @override
   String get hospital;
   @override
   String get bloodGroup;
   @override
   String get status;
+  @override
+  DateTime? get createdAt;
 
   /// Create a copy of DonationHistoryEntry
   /// with the given fields replaced by the non-null parameter values.
