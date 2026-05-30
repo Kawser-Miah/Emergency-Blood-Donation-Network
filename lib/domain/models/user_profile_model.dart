@@ -108,8 +108,6 @@ class UserProfileModel {
       'district': district,
       'thana': thana,
       'fbId': fbId,
-      'longitude': longitude,
-      'latitude': latitude,
       'updatedAt': updatedAt != null
           ? Timestamp.fromDate(updatedAt!)
           : FieldValue.serverTimestamp(),
