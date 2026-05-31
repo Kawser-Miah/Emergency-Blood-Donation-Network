@@ -37,27 +37,35 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
               state.status == DonorsStatus.loadingMore) { return; }
           await _load(emit, radiusIndex: state.radiusIndex + 1);
         },
+        // Local filters — no Firestore re-fetch, instant response.
         searchChanged: (value) async {
           final next = state.copyWith(search: value);
           emit(next.copyWith(filtered: _localFilter(next, next.donors)));
         },
         bloodGroupSelected: (value) async {
-          emit(state.copyWith(selectedBloodGroup: value, showFilters: false));
-          await _load(emit, radiusIndex: 0, reset: true);
+          final next = state.copyWith(selectedBloodGroup: value);
+          emit(next.copyWith(filtered: _localFilter(next, next.donors)));
         },
+        // Distance changes the Firestore radius — re-fetch, then close sheet.
         distanceSelected: (value) async {
-          emit(state.copyWith(selectedDistance: value));
+          emit(state.copyWith(selectedDistance: value, showFilters: false));
           await _load(emit, radiusIndex: 0, reset: true);
         },
         filtersOpened: () async => emit(state.copyWith(showFilters: true)),
         filtersClosed: () async => emit(state.copyWith(showFilters: false)),
+        // Apply button: re-apply local filters and close the sheet.
+        filtersApplied: () async {
+          final next = state.copyWith(showFilters: false);
+          emit(next.copyWith(filtered: _localFilter(next, next.donors)));
+        },
         filtersReset: () async {
-          emit(state.copyWith(
+          final next = state.copyWith(
             search: '',
             selectedBloodGroup: 'All',
             selectedDistance: 'All',
             showFilters: false,
-          ));
+          );
+          emit(next.copyWith(filtered: next.donors));
           await _load(emit, radiusIndex: 0, reset: true);
         },
       );
@@ -95,7 +103,7 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
         _longitude = origin.longitude;
         return true;
       });
-      if (!ok) return;
+      if (!ok) { return; }
     }
 
     final clampedIndex = radiusIndex.clamp(0, _radiusStepsKm.length - 1);
@@ -106,14 +114,11 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
       errorMessage: null,
     ));
 
-    final bloodGroup =
-        state.selectedBloodGroup == 'All' ? null : state.selectedBloodGroup;
-
+    // Blood group filtering is done locally — no composite Firestore index needed.
     final result = await _useCase(
       latitude: _latitude!,
       longitude: _longitude!,
       radiusKm: radius,
-      bloodGroup: bloodGroup,
       excludeUid: uid,
     );
 
@@ -123,8 +128,8 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
         errorMessage: _msg(f),
       )),
       (donors) {
-        final atMax = clampedIndex >= _radiusStepsKm.length - 1 ||
-            radius >= _maxRadius;
+        final atMax =
+            clampedIndex >= _radiusStepsKm.length - 1 || radius >= _maxRadius;
         final noNew = !reset && donors.length <= state.donors.length;
         final next = state.copyWith(
           status: DonorsStatus.success,
@@ -138,19 +143,31 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
     );
   }
 
+  // Filters by blood group and search text on the in-memory donor list.
   static List<NearbyDonor> _localFilter(
     DonorsState state,
     List<NearbyDonor> donors,
   ) {
+    var results = donors;
+
+    if (state.selectedBloodGroup != 'All') {
+      results = results
+          .where((d) => d.bloodGroup == state.selectedBloodGroup)
+          .toList();
+    }
+
     final q = state.search.toLowerCase().trim();
-    if (q.isEmpty) return donors;
-    return donors
-        .where((d) =>
-            d.name.toLowerCase().contains(q) ||
-            d.thana.toLowerCase().contains(q) ||
-            d.district.toLowerCase().contains(q) ||
-            d.bloodGroup.toLowerCase().contains(q))
-        .toList();
+    if (q.isNotEmpty) {
+      results = results
+          .where((d) =>
+              d.name.toLowerCase().contains(q) ||
+              d.thana.toLowerCase().contains(q) ||
+              d.district.toLowerCase().contains(q) ||
+              d.bloodGroup.toLowerCase().contains(q))
+          .toList();
+    }
+
+    return results;
   }
 
   String _msg(Failure f) =>
