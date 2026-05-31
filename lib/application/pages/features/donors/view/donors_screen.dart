@@ -1,12 +1,13 @@
+import 'package:blood_setu/application/pages/features/donors/bloc/donors_bloc.dart';
+import 'package:blood_setu/application/pages/features/donors/bloc/donors_event.dart';
+import 'package:blood_setu/application/pages/features/donors/bloc/donors_state.dart';
+import 'package:blood_setu/di/di.dart';
+import 'package:blood_setu/domain/models/nearby_donor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../domain/models/donor.dart';
-import '../../../../../widgets/avatar.dart';
 import '../../../../core/theme/colors.dart';
-import '../bloc/donors_bloc.dart';
-import '../bloc/donors_event.dart';
-import '../bloc/donors_state.dart';
+import '../../../../../widgets/avatar.dart';
 
 const List<String> _bloodGroups = [
   'All',
@@ -17,9 +18,23 @@ const List<String> _bloodGroups = [
   'O+',
   'O-',
   'AB+',
-  'AB-'
+  'AB-',
 ];
 const List<String> _distances = ['All', '2km', '5km', '10km', '20km'];
+
+const List<String> _avatarColors = [
+  '#1E88E5',
+  '#43A047',
+  '#E53935',
+  '#FB8C00',
+  '#9C27B0',
+  '#00ACC1',
+  '#F06292',
+  '#26A69A',
+];
+
+String _colorFor(String uid) =>
+    _avatarColors[uid.hashCode.abs() % _avatarColors.length];
 
 class _StatusStyle {
   const _StatusStyle({required this.bg, required this.color});
@@ -28,10 +43,14 @@ class _StatusStyle {
 }
 
 const Map<String, _StatusStyle> _statusColors = {
-  'Available': _StatusStyle(bg: AppColors.successSurface, color: AppColors.success),
-  'Recently Donated':
-      _StatusStyle(bg: AppColors.warningSurface, color: AppColors.warning),
-  'Busy': _StatusStyle(bg: AppColors.primarySurface, color: AppColors.primary),
+  'Available': _StatusStyle(
+    bg: AppColors.successSurface,
+    color: AppColors.success,
+  ),
+  'Unavailable': _StatusStyle(
+    bg: AppColors.primarySurface,
+    color: AppColors.primary,
+  ),
 };
 
 class DonorsScreen extends StatelessWidget {
@@ -40,14 +59,44 @@ class DonorsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => DonorsBloc(),
+      create: (_) => getIt<DonorsBloc>()..add(const DonorsEvent.started()),
       child: const _DonorsView(),
     );
   }
 }
 
-class _DonorsView extends StatelessWidget {
+class _DonorsView extends StatefulWidget {
   const _DonorsView();
+
+  @override
+  State<_DonorsView> createState() => _DonorsViewState();
+}
+
+class _DonorsViewState extends State<_DonorsView> {
+  final ScrollController _scrollController = ScrollController();
+  static const double _loadMoreThreshold = 300;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController
+      ..removeListener(_onScroll)
+      ..dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    final pos = _scrollController.position;
+    if (pos.pixels >= pos.maxScrollExtent - _loadMoreThreshold) {
+      context.read<DonorsBloc>().add(const DonorsEvent.loadMoreRequested());
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,24 +109,7 @@ class _DonorsView extends StatelessWidget {
               Column(
                 children: [
                   _Header(state: state),
-                  Expanded(
-                    child: state.filtered.isEmpty
-                        ? _Empty(
-                            onReset: () => context
-                                .read<DonorsBloc>()
-                                .add(const DonorsEvent.filtersReset()),
-                          )
-                        : ListView.separated(
-                            padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                            itemCount: state.filtered.length,
-                            separatorBuilder: (_, __) =>
-                                const SizedBox(height: 12),
-                            itemBuilder: (context, i) {
-                              final donor = state.filtered[i];
-                              return _DonorCard(donor: donor);
-                            },
-                          ),
-                  ),
+                  Expanded(child: _Body(state: state, scrollController: _scrollController)),
                 ],
               ),
               if (state.showFilters) _FiltersSheet(state: state),
@@ -86,6 +118,121 @@ class _DonorsView extends StatelessWidget {
         );
       },
     );
+  }
+}
+
+class _Body extends StatelessWidget {
+  const _Body({required this.state, required this.scrollController});
+
+  final DonorsState state;
+  final ScrollController scrollController;
+
+  @override
+  Widget build(BuildContext context) {
+    if (state.isInitialLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (state.hasError) {
+      return Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(
+                Icons.location_off_outlined,
+                size: 48,
+                color: AppColors.textMuted,
+              ),
+              const SizedBox(height: 12),
+              Text(
+                state.errorMessage ?? 'Failed to load donors.',
+                textAlign: TextAlign.center,
+                style: const TextStyle(color: AppColors.textTertiary),
+              ),
+              const SizedBox(height: 16),
+              ElevatedButton(
+                onPressed: () =>
+                    context.read<DonorsBloc>().add(const DonorsEvent.started()),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Try again'),
+              ),
+            ],
+          ),
+        ),
+      );
+    }
+
+    if (state.donors.isNotEmpty && state.filtered.isEmpty) {
+      return _Empty(
+        onReset: () =>
+            context.read<DonorsBloc>().add(const DonorsEvent.filtersReset()),
+      );
+    }
+
+    if (state.filtered.isEmpty && state.status == DonorsStatus.success) {
+      return _Empty(
+        onReset: () =>
+            context.read<DonorsBloc>().add(const DonorsEvent.filtersReset()),
+      );
+    }
+
+    return RefreshIndicator(
+      color: AppColors.primary,
+      onRefresh: () async =>
+          context.read<DonorsBloc>().add(const DonorsEvent.refreshed()),
+      child: ListView.separated(
+        controller: scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+        itemCount: state.filtered.length + 1,
+        separatorBuilder: (_, _) => const SizedBox(height: 12),
+        itemBuilder: (context, i) {
+          if (i >= state.filtered.length) {
+            return _ListFooter(state: state);
+          }
+          return _DonorCard(donor: state.filtered[i]);
+        },
+      ),
+    );
+  }
+}
+
+class _ListFooter extends StatelessWidget {
+  const _ListFooter({required this.state});
+
+  final DonorsState state;
+
+  @override
+  Widget build(BuildContext context) {
+    if (state.isLoadingMore) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 16),
+        child: Center(
+          child: SizedBox(
+            height: 24,
+            width: 24,
+            child: CircularProgressIndicator(strokeWidth: 2.5),
+          ),
+        ),
+      );
+    }
+    if (state.hasReachedMax && state.donors.isNotEmpty) {
+      return const Padding(
+        padding: EdgeInsets.symmetric(vertical: 20),
+        child: Center(
+          child: Text(
+            'No more donors found',
+            style: TextStyle(color: AppColors.textMuted, fontSize: 13),
+          ),
+        ),
+      );
+    }
+    return const SizedBox(height: 24);
   }
 }
 
@@ -102,13 +249,14 @@ class _Header extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 6,
             offset: const Offset(0, 1),
           ),
         ],
       ),
-      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top + 4, 0, 8),
+      padding: EdgeInsets.fromLTRB(
+          0, MediaQuery.of(context).padding.top + 4, 0, 8),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -136,8 +284,7 @@ class _Header extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: AppColors.dividerLightest,
                 borderRadius: BorderRadius.circular(12),
@@ -145,7 +292,8 @@ class _Header extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.search, size: 16, color: AppColors.textMuted),
+                  const Icon(Icons.search,
+                      size: 16, color: AppColors.textMuted),
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextFormField(
@@ -189,7 +337,8 @@ class _Header extends StatelessWidget {
                         padding: const EdgeInsets.symmetric(
                             horizontal: 12, vertical: 6),
                         decoration: BoxDecoration(
-                          color: selected ? AppColors.primary : Colors.white,
+                          color:
+                              selected ? AppColors.primary : Colors.white,
                           borderRadius: BorderRadius.circular(99),
                           border: selected
                               ? null
@@ -212,8 +361,7 @@ class _Header extends StatelessWidget {
                   );
                 }),
                 GestureDetector(
-                  onTap: () =>
-                      bloc.add(const DonorsEvent.filtersOpened()),
+                  onTap: () => bloc.add(const DonorsEvent.filtersOpened()),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                         horizontal: 12, vertical: 6),
@@ -273,7 +421,8 @@ class _Empty extends StatelessWidget {
           const Text(
             'Try adjusting your filters or search terms',
             textAlign: TextAlign.center,
-            style: TextStyle(fontSize: 13, color: AppColors.textTertiary),
+            style:
+                TextStyle(fontSize: 13, color: AppColors.textTertiary),
           ),
           const SizedBox(height: 16),
           ElevatedButton(
@@ -281,14 +430,16 @@ class _Empty extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
             child: const Text(
               'Reset Filters',
-              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              style:
+                  TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -300,12 +451,14 @@ class _Empty extends StatelessWidget {
 class _DonorCard extends StatelessWidget {
   const _DonorCard({required this.donor});
 
-  final Donor donor;
+  final NearbyDonor donor;
 
   @override
   Widget build(BuildContext context) {
+    final statusLabel = donor.isActive ? 'Available' : 'Unavailable';
     final statusStyle =
-        _statusColors[donor.status] ?? _statusColors['Available']!;
+        _statusColors[statusLabel] ?? _statusColors['Available']!;
+
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
@@ -313,7 +466,7 @@ class _DonorCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.07),
+            color: Colors.black.withValues(alpha: 0.07),
             blurRadius: 10,
             offset: const Offset(0, 2),
           ),
@@ -325,12 +478,7 @@ class _DonorCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Avatar(
-                initials: donor.initials,
-                colorHex: donor.avatarColor,
-                size: 50,
-                online: donor.online,
-              ),
+              _buildAvatar(),
               const SizedBox(width: 12),
               Expanded(
                 child: Column(
@@ -383,7 +531,7 @@ class _DonorCard extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '${donor.distance} km away',
+                          '${donor.distanceKm.toStringAsFixed(1)} km away',
                           style: const TextStyle(
                             fontSize: 12,
                             color: AppColors.success,
@@ -391,13 +539,14 @@ class _DonorCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        const Icon(Icons.star,
-                            size: 11, color: AppColors.warning),
+                        const Icon(Icons.bloodtype_outlined,
+                            size: 11, color: AppColors.textMuted),
                         const SizedBox(width: 2),
                         Text(
-                          '${donor.rating} (${donor.reviews})',
+                          '${donor.totalDonations} donations',
                           style: const TextStyle(
-                              fontSize: 11, color: AppColors.textTertiary),
+                              fontSize: 11,
+                              color: AppColors.textTertiary),
                         ),
                       ],
                     ),
@@ -412,32 +561,13 @@ class _DonorCard extends StatelessWidget {
                   borderRadius: BorderRadius.circular(99),
                 ),
                 child: Text(
-                  donor.status,
+                  statusLabel,
                   style: TextStyle(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     color: statusStyle.color,
                   ),
                 ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Text(
-                '🩸 ${donor.donations} donations',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textSecondary,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-              const SizedBox(width: 16),
-              Text(
-                '📅 ${donor.lastDonation}',
-                style: const TextStyle(
-                    fontSize: 12, color: AppColors.textSecondary),
               ),
             ],
           ),
@@ -451,7 +581,8 @@ class _DonorCard extends StatelessWidget {
                   label: const Text('Call'),
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
-                    side: const BorderSide(color: AppColors.divider, width: 1.5),
+                    side: const BorderSide(
+                        color: AppColors.divider, width: 1.5),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -463,19 +594,6 @@ class _DonorCard extends StatelessWidget {
               Expanded(
                 child: ElevatedButton.icon(
                   onPressed: () {},
-                      // context.read<AppNavigationBloc>().add(
-                      //   AppNavigationEvent.navigated(
-                      //     AppScreen.chat,
-                      //     contact: ChatContact(
-                      //       name: donor.name,
-                      //       bloodGroup: donor.bloodGroup,
-                      //       id: donor.id,
-                      //       initials: donor.initials,
-                      //       avatarColor: donor.avatarColor,
-                      //       online: donor.online,
-                      //     ),
-                      //   ),
-                      // ),
                   icon: const Icon(Icons.chat_bubble_outline, size: 14),
                   label: const Text('Message'),
                   style: ElevatedButton.styleFrom(
@@ -495,7 +613,8 @@ class _DonorCard extends StatelessWidget {
                   onPressed: () {},
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
-                    side: const BorderSide(color: AppColors.divider, width: 1.5),
+                    side: const BorderSide(
+                        color: AppColors.divider, width: 1.5),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -513,6 +632,22 @@ class _DonorCard extends StatelessWidget {
       ),
     );
   }
+
+  Widget _buildAvatar() {
+    final photoUrl = donor.photoUrl;
+    if (photoUrl != null && photoUrl.isNotEmpty) {
+      return CircleAvatar(
+        radius: 25,
+        backgroundImage: NetworkImage(photoUrl),
+      );
+    }
+    return Avatar(
+      initials: donor.initials,
+      colorHex: _colorFor(donor.uid),
+      size: 50,
+      online: donor.isActive,
+    );
+  }
 }
 
 class _FiltersSheet extends StatelessWidget {
@@ -528,7 +663,8 @@ class _FiltersSheet extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () => bloc.add(const DonorsEvent.filtersClosed()),
-            child: Container(color: Colors.black.withOpacity(0.4)),
+            child:
+                Container(color: Colors.black.withValues(alpha: 0.4)),
           ),
           Positioned(
             left: 0,
@@ -621,7 +757,8 @@ class _FiltersSheet extends StatelessWidget {
                     children: _distances.map((d) {
                       final selected = state.selectedDistance == d;
                       return GestureDetector(
-                        onTap: () => bloc.add(DonorsEvent.distanceSelected(d)),
+                        onTap: () =>
+                            bloc.add(DonorsEvent.distanceSelected(d)),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
                               horizontal: 12, vertical: 6),
@@ -633,46 +770,6 @@ class _FiltersSheet extends StatelessWidget {
                           ),
                           child: Text(
                             d,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: selected
-                                  ? Colors.white
-                                  : AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Minimum Rating',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: const [0.0, 3.0, 4.0, 4.5].map((r) {
-                      final selected = state.minRating == r;
-                      return GestureDetector(
-                        onTap: () => bloc.add(DonorsEvent.ratingSelected(r)),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: selected
-                                ? AppColors.primary
-                                : AppColors.dividerLightest,
-                            borderRadius: BorderRadius.circular(99),
-                          ),
-                          child: Text(
-                            r == 0 ? 'Any' : '$r+ ⭐',
                             style: TextStyle(
                               fontSize: 12,
                               fontWeight: FontWeight.w600,
