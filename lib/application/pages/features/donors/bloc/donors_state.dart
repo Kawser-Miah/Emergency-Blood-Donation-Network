@@ -15,7 +15,7 @@ class DonorsState with _$DonorsState {
     @Default(<NearbyDonor>[]) List<NearbyDonor> donors,
     @Default(<NearbyDonor>[]) List<NearbyDonor> filtered,
     @Default(false) bool hasReachedMax,
-    @Default(0) int radiusIndex,
+    @Default(10.0) double currentRadiusKm,
     @Default('') String search,
     @Default('All') String selectedBloodGroup,
     @Default('All') String selectedDistance,
