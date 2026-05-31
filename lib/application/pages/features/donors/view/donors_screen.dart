@@ -109,7 +109,12 @@ class _DonorsViewState extends State<_DonorsView> {
               Column(
                 children: [
                   _Header(state: state),
-                  Expanded(child: _Body(state: state, scrollController: _scrollController)),
+                  Expanded(
+                    child: _Body(
+                      state: state,
+                      scrollController: _scrollController,
+                    ),
+                  ),
                 ],
               ),
               if (state.showFilters) _FiltersSheet(state: state),
@@ -256,7 +261,11 @@ class _Header extends StatelessWidget {
         ],
       ),
       padding: EdgeInsets.fromLTRB(
-          0, MediaQuery.of(context).padding.top + 4, 0, 8),
+        0,
+        MediaQuery.of(context).padding.top + 4,
+        0,
+        8,
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
@@ -276,7 +285,9 @@ class _Header extends StatelessWidget {
                 Text(
                   '${state.filtered.length} donors available near you',
                   style: const TextStyle(
-                      fontSize: 12, color: AppColors.textTertiary),
+                    fontSize: 12,
+                    color: AppColors.textTertiary,
+                  ),
                 ),
               ],
             ),
@@ -292,29 +303,36 @@ class _Header extends StatelessWidget {
               ),
               child: Row(
                 children: [
-                  const Icon(Icons.search,
-                      size: 16, color: AppColors.textMuted),
+                  const Icon(
+                    Icons.search,
+                    size: 16,
+                    color: AppColors.textMuted,
+                  ),
                   const SizedBox(width: 8),
                   Expanded(
                     child: TextFormField(
                       initialValue: state.search,
-                      onChanged: (v) =>
-                          bloc.add(DonorsEvent.searchChanged(v)),
+                      onChanged: (v) => bloc.add(DonorsEvent.searchChanged(v)),
                       decoration: const InputDecoration(
                         isDense: true,
                         border: InputBorder.none,
                         hintText: 'Search by name, area, or blood group...',
                       ),
                       style: const TextStyle(
-                          fontSize: 14, color: AppColors.textPrimary),
+                        fontSize: 14,
+                        color: AppColors.textPrimary,
+                      ),
                     ),
                   ),
                   if (state.search.isNotEmpty)
                     GestureDetector(
                       onTap: () =>
                           bloc.add(const DonorsEvent.searchChanged('')),
-                      child: const Icon(Icons.close,
-                          size: 14, color: AppColors.textMuted),
+                      child: const Icon(
+                        Icons.close,
+                        size: 14,
+                        color: AppColors.textMuted,
+                      ),
                     ),
                 ],
               ),
@@ -331,14 +349,15 @@ class _Header extends StatelessWidget {
                   return Padding(
                     padding: const EdgeInsets.only(right: 6),
                     child: GestureDetector(
-                      onTap: () =>
-                          bloc.add(DonorsEvent.bloodGroupSelected(bg)),
+                      onTap: () => bloc.add(DonorsEvent.bloodGroupSelected(bg)),
                       child: Container(
+                        alignment: Alignment.center,
                         padding: const EdgeInsets.symmetric(
-                            horizontal: 12, vertical: 6),
+                          horizontal: 12,
+                          vertical: 6,
+                        ),
                         decoration: BoxDecoration(
-                          color:
-                              selected ? AppColors.primary : Colors.white,
+                          color: selected ? AppColors.primary : Colors.white,
                           borderRadius: BorderRadius.circular(99),
                           border: selected
                               ? null
@@ -364,7 +383,9 @@ class _Header extends StatelessWidget {
                   onTap: () => bloc.add(const DonorsEvent.filtersOpened()),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 12, vertical: 6),
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
                     decoration: BoxDecoration(
                       color: Colors.white,
                       borderRadius: BorderRadius.circular(99),
@@ -373,8 +394,11 @@ class _Header extends StatelessWidget {
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: const [
-                        Icon(Icons.tune,
-                            size: 12, color: AppColors.textSecondary),
+                        Icon(
+                          Icons.tune,
+                          size: 12,
+                          color: AppColors.textSecondary,
+                        ),
                         SizedBox(width: 6),
                         Text(
                           'Filters',
@@ -421,8 +445,7 @@ class _Empty extends StatelessWidget {
           const Text(
             'Try adjusting your filters or search terms',
             textAlign: TextAlign.center,
-            style:
-                TextStyle(fontSize: 13, color: AppColors.textTertiary),
+            style: TextStyle(fontSize: 13, color: AppColors.textTertiary),
           ),
           const SizedBox(height: 16),
           ElevatedButton(
@@ -430,16 +453,14 @@ class _Empty extends StatelessWidget {
             style: ElevatedButton.styleFrom(
               backgroundColor: AppColors.primary,
               foregroundColor: Colors.white,
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(16),
               ),
             ),
             child: const Text(
               'Reset Filters',
-              style:
-                  TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+              style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
             ),
           ),
         ],
@@ -498,7 +519,9 @@ class _DonorCard extends StatelessWidget {
                         ),
                         Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 8, vertical: 2),
+                            horizontal: 8,
+                            vertical: 2,
+                          ),
                           decoration: BoxDecoration(
                             color: AppColors.primarySurface,
                             borderRadius: BorderRadius.circular(99),
@@ -517,13 +540,18 @@ class _DonorCard extends StatelessWidget {
                     const SizedBox(height: 2),
                     Row(
                       children: [
-                        const Icon(Icons.location_on,
-                            size: 11, color: AppColors.textMuted),
+                        const Icon(
+                          Icons.location_on,
+                          size: 11,
+                          color: AppColors.textMuted,
+                        ),
                         const SizedBox(width: 2),
                         Text(
                           '${donor.thana}, ${donor.district}',
                           style: const TextStyle(
-                              fontSize: 12, color: AppColors.textTertiary),
+                            fontSize: 12,
+                            color: AppColors.textTertiary,
+                          ),
                         ),
                       ],
                     ),
@@ -539,14 +567,15 @@ class _DonorCard extends StatelessWidget {
                           ),
                         ),
                         const SizedBox(width: 12),
-                        const Icon(Icons.bloodtype_outlined,
-                            size: 11, color: AppColors.textMuted),
-                        const SizedBox(width: 2),
+                        // const Icon(Icons.bloodtype_outlined,
+                        //     size: 11, color: AppColors.textMuted),
+                        // const SizedBox(width: 2),
                         Text(
-                          '${donor.totalDonations} donations',
+                          '🩸${donor.totalDonations} donations',
                           style: const TextStyle(
-                              fontSize: 11,
-                              color: AppColors.textTertiary),
+                            fontSize: 11,
+                            color: AppColors.textTertiary,
+                          ),
                         ),
                       ],
                     ),
@@ -554,8 +583,10 @@ class _DonorCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: statusStyle.bg,
                   borderRadius: BorderRadius.circular(99),
@@ -582,7 +613,9 @@ class _DonorCard extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
                     side: const BorderSide(
-                        color: AppColors.divider, width: 1.5),
+                      color: AppColors.divider,
+                      width: 1.5,
+                    ),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -614,7 +647,9 @@ class _DonorCard extends StatelessWidget {
                   style: OutlinedButton.styleFrom(
                     foregroundColor: AppColors.textSecondary,
                     side: const BorderSide(
-                        color: AppColors.divider, width: 1.5),
+                      color: AppColors.divider,
+                      width: 1.5,
+                    ),
                     padding: const EdgeInsets.symmetric(vertical: 10),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -636,10 +671,7 @@ class _DonorCard extends StatelessWidget {
   Widget _buildAvatar() {
     final photoUrl = donor.photoUrl;
     if (photoUrl != null && photoUrl.isNotEmpty) {
-      return CircleAvatar(
-        radius: 25,
-        backgroundImage: NetworkImage(photoUrl),
-      );
+      return CircleAvatar(radius: 25, backgroundImage: NetworkImage(photoUrl));
     }
     return Avatar(
       initials: donor.initials,
@@ -663,8 +695,7 @@ class _FiltersSheet extends StatelessWidget {
         children: [
           GestureDetector(
             onTap: () => bloc.add(const DonorsEvent.filtersClosed()),
-            child:
-                Container(color: Colors.black.withValues(alpha: 0.4)),
+            child: Container(color: Colors.black.withValues(alpha: 0.4)),
           ),
           Positioned(
             left: 0,
@@ -674,8 +705,7 @@ class _FiltersSheet extends StatelessWidget {
               padding: const EdgeInsets.all(24),
               decoration: const BoxDecoration(
                 color: Colors.white,
-                borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(24)),
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
               child: Column(
                 mainAxisSize: MainAxisSize.min,
@@ -695,8 +725,11 @@ class _FiltersSheet extends StatelessWidget {
                       GestureDetector(
                         onTap: () =>
                             bloc.add(const DonorsEvent.filtersClosed()),
-                        child: const Icon(Icons.close,
-                            size: 20, color: AppColors.textTertiary),
+                        child: const Icon(
+                          Icons.close,
+                          size: 20,
+                          color: AppColors.textTertiary,
+                        ),
                       ),
                     ],
                   ),
@@ -713,6 +746,7 @@ class _FiltersSheet extends StatelessWidget {
                   Wrap(
                     spacing: 8,
                     runSpacing: 8,
+                    alignment: WrapAlignment.center,
                     children: _bloodGroups.map((bg) {
                       final selected = state.selectedBloodGroup == bg;
                       return GestureDetector(
@@ -720,7 +754,9 @@ class _FiltersSheet extends StatelessWidget {
                             bloc.add(DonorsEvent.bloodGroupSelected(bg)),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: selected
                                 ? AppColors.primary
@@ -757,11 +793,12 @@ class _FiltersSheet extends StatelessWidget {
                     children: _distances.map((d) {
                       final selected = state.selectedDistance == d;
                       return GestureDetector(
-                        onTap: () =>
-                            bloc.add(DonorsEvent.distanceSelected(d)),
+                        onTap: () => bloc.add(DonorsEvent.distanceSelected(d)),
                         child: Container(
                           padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
                           decoration: BoxDecoration(
                             color: selected
                                 ? AppColors.primary
