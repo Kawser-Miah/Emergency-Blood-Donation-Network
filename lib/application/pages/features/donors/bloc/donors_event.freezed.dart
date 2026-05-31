@@ -19,30 +19,36 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$DonorsEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
     required TResult Function(String value) searchChanged,
     required TResult Function(String value) bloodGroupSelected,
     required TResult Function(String value) distanceSelected,
-    required TResult Function(double value) ratingSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
     TResult? Function(String value)? searchChanged,
     TResult? Function(String value)? bloodGroupSelected,
     TResult? Function(String value)? distanceSelected,
-    TResult? Function(double value)? ratingSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
     TResult Function(String value)? searchChanged,
     TResult Function(String value)? bloodGroupSelected,
     TResult Function(String value)? distanceSelected,
-    TResult Function(double value)? ratingSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
@@ -50,30 +56,36 @@ mixin _$DonorsEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
     required TResult Function(_SearchChanged value) searchChanged,
     required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
     required TResult Function(_DistanceSelected value) distanceSelected,
-    required TResult Function(_RatingSelected value) ratingSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult? Function(_DistanceSelected value)? distanceSelected,
-    TResult? Function(_RatingSelected value)? ratingSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult Function(_DistanceSelected value)? distanceSelected,
-    TResult Function(_RatingSelected value)? ratingSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
@@ -101,6 +113,453 @@ class _$DonorsEventCopyWithImpl<$Res, $Val extends DonorsEvent>
 
   /// Create a copy of DonorsEvent
   /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$StartedImplCopyWith<$Res> {
+  factory _$$StartedImplCopyWith(
+    _$StartedImpl value,
+    $Res Function(_$StartedImpl) then,
+  ) = __$$StartedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$StartedImplCopyWithImpl<$Res>
+    extends _$DonorsEventCopyWithImpl<$Res, _$StartedImpl>
+    implements _$$StartedImplCopyWith<$Res> {
+  __$$StartedImplCopyWithImpl(
+    _$StartedImpl _value,
+    $Res Function(_$StartedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of DonorsEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$StartedImpl implements _Started {
+  const _$StartedImpl();
+
+  @override
+  String toString() {
+    return 'DonorsEvent.started()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$StartedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
+    required TResult Function(String value) searchChanged,
+    required TResult Function(String value) bloodGroupSelected,
+    required TResult Function(String value) distanceSelected,
+    required TResult Function() filtersOpened,
+    required TResult Function() filtersClosed,
+    required TResult Function() filtersReset,
+  }) {
+    return started();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
+    TResult? Function(String value)? searchChanged,
+    TResult? Function(String value)? bloodGroupSelected,
+    TResult? Function(String value)? distanceSelected,
+    TResult? Function()? filtersOpened,
+    TResult? Function()? filtersClosed,
+    TResult? Function()? filtersReset,
+  }) {
+    return started?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
+    TResult Function(String value)? searchChanged,
+    TResult Function(String value)? bloodGroupSelected,
+    TResult Function(String value)? distanceSelected,
+    TResult Function()? filtersOpened,
+    TResult Function()? filtersClosed,
+    TResult Function()? filtersReset,
+    required TResult orElse(),
+  }) {
+    if (started != null) {
+      return started();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
+    required TResult Function(_SearchChanged value) searchChanged,
+    required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
+    required TResult Function(_DistanceSelected value) distanceSelected,
+    required TResult Function(_FiltersOpened value) filtersOpened,
+    required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersReset value) filtersReset,
+  }) {
+    return started(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult? Function(_SearchChanged value)? searchChanged,
+    TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult? Function(_DistanceSelected value)? distanceSelected,
+    TResult? Function(_FiltersOpened value)? filtersOpened,
+    TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersReset value)? filtersReset,
+  }) {
+    return started?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult Function(_SearchChanged value)? searchChanged,
+    TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult Function(_DistanceSelected value)? distanceSelected,
+    TResult Function(_FiltersOpened value)? filtersOpened,
+    TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersReset value)? filtersReset,
+    required TResult orElse(),
+  }) {
+    if (started != null) {
+      return started(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Started implements DonorsEvent {
+  const factory _Started() = _$StartedImpl;
+}
+
+/// @nodoc
+abstract class _$$RefreshedImplCopyWith<$Res> {
+  factory _$$RefreshedImplCopyWith(
+    _$RefreshedImpl value,
+    $Res Function(_$RefreshedImpl) then,
+  ) = __$$RefreshedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RefreshedImplCopyWithImpl<$Res>
+    extends _$DonorsEventCopyWithImpl<$Res, _$RefreshedImpl>
+    implements _$$RefreshedImplCopyWith<$Res> {
+  __$$RefreshedImplCopyWithImpl(
+    _$RefreshedImpl _value,
+    $Res Function(_$RefreshedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of DonorsEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RefreshedImpl implements _Refreshed {
+  const _$RefreshedImpl();
+
+  @override
+  String toString() {
+    return 'DonorsEvent.refreshed()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$RefreshedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
+    required TResult Function(String value) searchChanged,
+    required TResult Function(String value) bloodGroupSelected,
+    required TResult Function(String value) distanceSelected,
+    required TResult Function() filtersOpened,
+    required TResult Function() filtersClosed,
+    required TResult Function() filtersReset,
+  }) {
+    return refreshed();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
+    TResult? Function(String value)? searchChanged,
+    TResult? Function(String value)? bloodGroupSelected,
+    TResult? Function(String value)? distanceSelected,
+    TResult? Function()? filtersOpened,
+    TResult? Function()? filtersClosed,
+    TResult? Function()? filtersReset,
+  }) {
+    return refreshed?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
+    TResult Function(String value)? searchChanged,
+    TResult Function(String value)? bloodGroupSelected,
+    TResult Function(String value)? distanceSelected,
+    TResult Function()? filtersOpened,
+    TResult Function()? filtersClosed,
+    TResult Function()? filtersReset,
+    required TResult orElse(),
+  }) {
+    if (refreshed != null) {
+      return refreshed();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
+    required TResult Function(_SearchChanged value) searchChanged,
+    required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
+    required TResult Function(_DistanceSelected value) distanceSelected,
+    required TResult Function(_FiltersOpened value) filtersOpened,
+    required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersReset value) filtersReset,
+  }) {
+    return refreshed(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult? Function(_SearchChanged value)? searchChanged,
+    TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult? Function(_DistanceSelected value)? distanceSelected,
+    TResult? Function(_FiltersOpened value)? filtersOpened,
+    TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersReset value)? filtersReset,
+  }) {
+    return refreshed?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult Function(_SearchChanged value)? searchChanged,
+    TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult Function(_DistanceSelected value)? distanceSelected,
+    TResult Function(_FiltersOpened value)? filtersOpened,
+    TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersReset value)? filtersReset,
+    required TResult orElse(),
+  }) {
+    if (refreshed != null) {
+      return refreshed(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Refreshed implements DonorsEvent {
+  const factory _Refreshed() = _$RefreshedImpl;
+}
+
+/// @nodoc
+abstract class _$$LoadMoreRequestedImplCopyWith<$Res> {
+  factory _$$LoadMoreRequestedImplCopyWith(
+    _$LoadMoreRequestedImpl value,
+    $Res Function(_$LoadMoreRequestedImpl) then,
+  ) = __$$LoadMoreRequestedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$LoadMoreRequestedImplCopyWithImpl<$Res>
+    extends _$DonorsEventCopyWithImpl<$Res, _$LoadMoreRequestedImpl>
+    implements _$$LoadMoreRequestedImplCopyWith<$Res> {
+  __$$LoadMoreRequestedImplCopyWithImpl(
+    _$LoadMoreRequestedImpl _value,
+    $Res Function(_$LoadMoreRequestedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of DonorsEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
+  const _$LoadMoreRequestedImpl();
+
+  @override
+  String toString() {
+    return 'DonorsEvent.loadMoreRequested()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$LoadMoreRequestedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
+    required TResult Function(String value) searchChanged,
+    required TResult Function(String value) bloodGroupSelected,
+    required TResult Function(String value) distanceSelected,
+    required TResult Function() filtersOpened,
+    required TResult Function() filtersClosed,
+    required TResult Function() filtersReset,
+  }) {
+    return loadMoreRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
+    TResult? Function(String value)? searchChanged,
+    TResult? Function(String value)? bloodGroupSelected,
+    TResult? Function(String value)? distanceSelected,
+    TResult? Function()? filtersOpened,
+    TResult? Function()? filtersClosed,
+    TResult? Function()? filtersReset,
+  }) {
+    return loadMoreRequested?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
+    TResult Function(String value)? searchChanged,
+    TResult Function(String value)? bloodGroupSelected,
+    TResult Function(String value)? distanceSelected,
+    TResult Function()? filtersOpened,
+    TResult Function()? filtersClosed,
+    TResult Function()? filtersReset,
+    required TResult orElse(),
+  }) {
+    if (loadMoreRequested != null) {
+      return loadMoreRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
+    required TResult Function(_SearchChanged value) searchChanged,
+    required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
+    required TResult Function(_DistanceSelected value) distanceSelected,
+    required TResult Function(_FiltersOpened value) filtersOpened,
+    required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersReset value) filtersReset,
+  }) {
+    return loadMoreRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult? Function(_SearchChanged value)? searchChanged,
+    TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult? Function(_DistanceSelected value)? distanceSelected,
+    TResult? Function(_FiltersOpened value)? filtersOpened,
+    TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersReset value)? filtersReset,
+  }) {
+    return loadMoreRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult Function(_SearchChanged value)? searchChanged,
+    TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult Function(_DistanceSelected value)? distanceSelected,
+    TResult Function(_FiltersOpened value)? filtersOpened,
+    TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersReset value)? filtersReset,
+    required TResult orElse(),
+  }) {
+    if (loadMoreRequested != null) {
+      return loadMoreRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _LoadMoreRequested implements DonorsEvent {
+  const factory _LoadMoreRequested() = _$LoadMoreRequestedImpl;
 }
 
 /// @nodoc
@@ -173,10 +632,12 @@ class _$SearchChangedImpl implements _SearchChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
     required TResult Function(String value) searchChanged,
     required TResult Function(String value) bloodGroupSelected,
     required TResult Function(String value) distanceSelected,
-    required TResult Function(double value) ratingSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
@@ -187,10 +648,12 @@ class _$SearchChangedImpl implements _SearchChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
     TResult? Function(String value)? searchChanged,
     TResult? Function(String value)? bloodGroupSelected,
     TResult? Function(String value)? distanceSelected,
-    TResult? Function(double value)? ratingSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
@@ -201,10 +664,12 @@ class _$SearchChangedImpl implements _SearchChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
     TResult Function(String value)? searchChanged,
     TResult Function(String value)? bloodGroupSelected,
     TResult Function(String value)? distanceSelected,
-    TResult Function(double value)? ratingSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
@@ -219,10 +684,12 @@ class _$SearchChangedImpl implements _SearchChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
     required TResult Function(_SearchChanged value) searchChanged,
     required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
     required TResult Function(_DistanceSelected value) distanceSelected,
-    required TResult Function(_RatingSelected value) ratingSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
@@ -233,10 +700,12 @@ class _$SearchChangedImpl implements _SearchChanged {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult? Function(_DistanceSelected value)? distanceSelected,
-    TResult? Function(_RatingSelected value)? ratingSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
@@ -247,10 +716,12 @@ class _$SearchChangedImpl implements _SearchChanged {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult Function(_DistanceSelected value)? distanceSelected,
-    TResult Function(_RatingSelected value)? ratingSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
@@ -348,10 +819,12 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
     required TResult Function(String value) searchChanged,
     required TResult Function(String value) bloodGroupSelected,
     required TResult Function(String value) distanceSelected,
-    required TResult Function(double value) ratingSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
@@ -362,10 +835,12 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
     TResult? Function(String value)? searchChanged,
     TResult? Function(String value)? bloodGroupSelected,
     TResult? Function(String value)? distanceSelected,
-    TResult? Function(double value)? ratingSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
@@ -376,10 +851,12 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
     TResult Function(String value)? searchChanged,
     TResult Function(String value)? bloodGroupSelected,
     TResult Function(String value)? distanceSelected,
-    TResult Function(double value)? ratingSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
@@ -394,10 +871,12 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
     required TResult Function(_SearchChanged value) searchChanged,
     required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
     required TResult Function(_DistanceSelected value) distanceSelected,
-    required TResult Function(_RatingSelected value) ratingSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
@@ -408,10 +887,12 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult? Function(_DistanceSelected value)? distanceSelected,
-    TResult? Function(_RatingSelected value)? ratingSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
@@ -422,10 +903,12 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult Function(_DistanceSelected value)? distanceSelected,
-    TResult Function(_RatingSelected value)? ratingSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
@@ -524,10 +1007,12 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
     required TResult Function(String value) searchChanged,
     required TResult Function(String value) bloodGroupSelected,
     required TResult Function(String value) distanceSelected,
-    required TResult Function(double value) ratingSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
@@ -538,10 +1023,12 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
     TResult? Function(String value)? searchChanged,
     TResult? Function(String value)? bloodGroupSelected,
     TResult? Function(String value)? distanceSelected,
-    TResult? Function(double value)? ratingSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
@@ -552,10 +1039,12 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
     TResult Function(String value)? searchChanged,
     TResult Function(String value)? bloodGroupSelected,
     TResult Function(String value)? distanceSelected,
-    TResult Function(double value)? ratingSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
@@ -570,10 +1059,12 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
     required TResult Function(_SearchChanged value) searchChanged,
     required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
     required TResult Function(_DistanceSelected value) distanceSelected,
-    required TResult Function(_RatingSelected value) ratingSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
@@ -584,10 +1075,12 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult? Function(_DistanceSelected value)? distanceSelected,
-    TResult? Function(_RatingSelected value)? ratingSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
@@ -598,10 +1091,12 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult Function(_DistanceSelected value)? distanceSelected,
-    TResult Function(_RatingSelected value)? ratingSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
@@ -623,181 +1118,6 @@ abstract class _DistanceSelected implements DonorsEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$DistanceSelectedImplCopyWith<_$DistanceSelectedImpl> get copyWith =>
-      throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$RatingSelectedImplCopyWith<$Res> {
-  factory _$$RatingSelectedImplCopyWith(
-    _$RatingSelectedImpl value,
-    $Res Function(_$RatingSelectedImpl) then,
-  ) = __$$RatingSelectedImplCopyWithImpl<$Res>;
-  @useResult
-  $Res call({double value});
-}
-
-/// @nodoc
-class __$$RatingSelectedImplCopyWithImpl<$Res>
-    extends _$DonorsEventCopyWithImpl<$Res, _$RatingSelectedImpl>
-    implements _$$RatingSelectedImplCopyWith<$Res> {
-  __$$RatingSelectedImplCopyWithImpl(
-    _$RatingSelectedImpl _value,
-    $Res Function(_$RatingSelectedImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of DonorsEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @pragma('vm:prefer-inline')
-  @override
-  $Res call({Object? value = null}) {
-    return _then(
-      _$RatingSelectedImpl(
-        null == value
-            ? _value.value
-            : value // ignore: cast_nullable_to_non_nullable
-                  as double,
-      ),
-    );
-  }
-}
-
-/// @nodoc
-
-class _$RatingSelectedImpl implements _RatingSelected {
-  const _$RatingSelectedImpl(this.value);
-
-  @override
-  final double value;
-
-  @override
-  String toString() {
-    return 'DonorsEvent.ratingSelected(value: $value)';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$RatingSelectedImpl &&
-            (identical(other.value, value) || other.value == value));
-  }
-
-  @override
-  int get hashCode => Object.hash(runtimeType, value);
-
-  /// Create a copy of DonorsEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  @override
-  @pragma('vm:prefer-inline')
-  _$$RatingSelectedImplCopyWith<_$RatingSelectedImpl> get copyWith =>
-      __$$RatingSelectedImplCopyWithImpl<_$RatingSelectedImpl>(
-        this,
-        _$identity,
-      );
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String value) searchChanged,
-    required TResult Function(String value) bloodGroupSelected,
-    required TResult Function(String value) distanceSelected,
-    required TResult Function(double value) ratingSelected,
-    required TResult Function() filtersOpened,
-    required TResult Function() filtersClosed,
-    required TResult Function() filtersReset,
-  }) {
-    return ratingSelected(value);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String value)? searchChanged,
-    TResult? Function(String value)? bloodGroupSelected,
-    TResult? Function(String value)? distanceSelected,
-    TResult? Function(double value)? ratingSelected,
-    TResult? Function()? filtersOpened,
-    TResult? Function()? filtersClosed,
-    TResult? Function()? filtersReset,
-  }) {
-    return ratingSelected?.call(value);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? searchChanged,
-    TResult Function(String value)? bloodGroupSelected,
-    TResult Function(String value)? distanceSelected,
-    TResult Function(double value)? ratingSelected,
-    TResult Function()? filtersOpened,
-    TResult Function()? filtersClosed,
-    TResult Function()? filtersReset,
-    required TResult orElse(),
-  }) {
-    if (ratingSelected != null) {
-      return ratingSelected(value);
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_SearchChanged value) searchChanged,
-    required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
-    required TResult Function(_DistanceSelected value) distanceSelected,
-    required TResult Function(_RatingSelected value) ratingSelected,
-    required TResult Function(_FiltersOpened value) filtersOpened,
-    required TResult Function(_FiltersClosed value) filtersClosed,
-    required TResult Function(_FiltersReset value) filtersReset,
-  }) {
-    return ratingSelected(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_SearchChanged value)? searchChanged,
-    TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
-    TResult? Function(_DistanceSelected value)? distanceSelected,
-    TResult? Function(_RatingSelected value)? ratingSelected,
-    TResult? Function(_FiltersOpened value)? filtersOpened,
-    TResult? Function(_FiltersClosed value)? filtersClosed,
-    TResult? Function(_FiltersReset value)? filtersReset,
-  }) {
-    return ratingSelected?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_SearchChanged value)? searchChanged,
-    TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
-    TResult Function(_DistanceSelected value)? distanceSelected,
-    TResult Function(_RatingSelected value)? ratingSelected,
-    TResult Function(_FiltersOpened value)? filtersOpened,
-    TResult Function(_FiltersClosed value)? filtersClosed,
-    TResult Function(_FiltersReset value)? filtersReset,
-    required TResult orElse(),
-  }) {
-    if (ratingSelected != null) {
-      return ratingSelected(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _RatingSelected implements DonorsEvent {
-  const factory _RatingSelected(final double value) = _$RatingSelectedImpl;
-
-  double get value;
-
-  /// Create a copy of DonorsEvent
-  /// with the given fields replaced by the non-null parameter values.
-  @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$RatingSelectedImplCopyWith<_$RatingSelectedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -844,10 +1164,12 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
     required TResult Function(String value) searchChanged,
     required TResult Function(String value) bloodGroupSelected,
     required TResult Function(String value) distanceSelected,
-    required TResult Function(double value) ratingSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
@@ -858,10 +1180,12 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
     TResult? Function(String value)? searchChanged,
     TResult? Function(String value)? bloodGroupSelected,
     TResult? Function(String value)? distanceSelected,
-    TResult? Function(double value)? ratingSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
@@ -872,10 +1196,12 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
     TResult Function(String value)? searchChanged,
     TResult Function(String value)? bloodGroupSelected,
     TResult Function(String value)? distanceSelected,
-    TResult Function(double value)? ratingSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
@@ -890,10 +1216,12 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
     required TResult Function(_SearchChanged value) searchChanged,
     required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
     required TResult Function(_DistanceSelected value) distanceSelected,
-    required TResult Function(_RatingSelected value) ratingSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
@@ -904,10 +1232,12 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult? Function(_DistanceSelected value)? distanceSelected,
-    TResult? Function(_RatingSelected value)? ratingSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
@@ -918,10 +1248,12 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult Function(_DistanceSelected value)? distanceSelected,
-    TResult Function(_RatingSelected value)? ratingSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
@@ -981,10 +1313,12 @@ class _$FiltersClosedImpl implements _FiltersClosed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
     required TResult Function(String value) searchChanged,
     required TResult Function(String value) bloodGroupSelected,
     required TResult Function(String value) distanceSelected,
-    required TResult Function(double value) ratingSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
@@ -995,10 +1329,12 @@ class _$FiltersClosedImpl implements _FiltersClosed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
     TResult? Function(String value)? searchChanged,
     TResult? Function(String value)? bloodGroupSelected,
     TResult? Function(String value)? distanceSelected,
-    TResult? Function(double value)? ratingSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
@@ -1009,10 +1345,12 @@ class _$FiltersClosedImpl implements _FiltersClosed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
     TResult Function(String value)? searchChanged,
     TResult Function(String value)? bloodGroupSelected,
     TResult Function(String value)? distanceSelected,
-    TResult Function(double value)? ratingSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
@@ -1027,10 +1365,12 @@ class _$FiltersClosedImpl implements _FiltersClosed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
     required TResult Function(_SearchChanged value) searchChanged,
     required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
     required TResult Function(_DistanceSelected value) distanceSelected,
-    required TResult Function(_RatingSelected value) ratingSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
@@ -1041,10 +1381,12 @@ class _$FiltersClosedImpl implements _FiltersClosed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult? Function(_DistanceSelected value)? distanceSelected,
-    TResult? Function(_RatingSelected value)? ratingSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
@@ -1055,10 +1397,12 @@ class _$FiltersClosedImpl implements _FiltersClosed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult Function(_DistanceSelected value)? distanceSelected,
-    TResult Function(_RatingSelected value)? ratingSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
@@ -1118,10 +1462,12 @@ class _$FiltersResetImpl implements _FiltersReset {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
     required TResult Function(String value) searchChanged,
     required TResult Function(String value) bloodGroupSelected,
     required TResult Function(String value) distanceSelected,
-    required TResult Function(double value) ratingSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
@@ -1132,10 +1478,12 @@ class _$FiltersResetImpl implements _FiltersReset {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
     TResult? Function(String value)? searchChanged,
     TResult? Function(String value)? bloodGroupSelected,
     TResult? Function(String value)? distanceSelected,
-    TResult? Function(double value)? ratingSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
@@ -1146,10 +1494,12 @@ class _$FiltersResetImpl implements _FiltersReset {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
     TResult Function(String value)? searchChanged,
     TResult Function(String value)? bloodGroupSelected,
     TResult Function(String value)? distanceSelected,
-    TResult Function(double value)? ratingSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
@@ -1164,10 +1514,12 @@ class _$FiltersResetImpl implements _FiltersReset {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
     required TResult Function(_SearchChanged value) searchChanged,
     required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
     required TResult Function(_DistanceSelected value) distanceSelected,
-    required TResult Function(_RatingSelected value) ratingSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
@@ -1178,10 +1530,12 @@ class _$FiltersResetImpl implements _FiltersReset {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult? Function(_DistanceSelected value)? distanceSelected,
-    TResult? Function(_RatingSelected value)? ratingSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
@@ -1192,10 +1546,12 @@ class _$FiltersResetImpl implements _FiltersReset {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
     TResult Function(_DistanceSelected value)? distanceSelected,
-    TResult Function(_RatingSelected value)? ratingSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
