@@ -12,5 +12,6 @@ class DonorsEvent with _$DonorsEvent {
   const factory DonorsEvent.distanceSelected(String value) = _DistanceSelected;
   const factory DonorsEvent.filtersOpened() = _FiltersOpened;
   const factory DonorsEvent.filtersClosed() = _FiltersClosed;
+  const factory DonorsEvent.filtersApplied() = _FiltersApplied;
   const factory DonorsEvent.filtersReset() = _FiltersReset;
 }
