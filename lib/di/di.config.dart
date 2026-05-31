@@ -16,6 +16,8 @@ import 'package:blood_setu/application/core/services/sp_service/sp_service.dart'
     as _i181;
 import 'package:blood_setu/application/pages/features/bottom_nav/bloc/bottom_nav_bloc.dart'
     as _i619;
+import 'package:blood_setu/application/pages/features/donors/bloc/donors_bloc.dart'
+    as _i405;
 import 'package:blood_setu/application/pages/features/home/bloc/home_bloc.dart'
     as _i579;
 import 'package:blood_setu/application/pages/features/registration/bloc/registration_bloc.dart'
@@ -28,6 +30,8 @@ import 'package:blood_setu/data/repositories/donation_repository_impl.dart'
     as _i76;
 import 'package:blood_setu/data/repositories/location_repository_impl.dart'
     as _i470;
+import 'package:blood_setu/data/repositories/nearby_donors_repository_impl.dart'
+    as _i364;
 import 'package:blood_setu/data/repositories/registration_repository_iml.dart'
     as _i916;
 import 'package:blood_setu/di/register_module.dart' as _i599;
@@ -37,11 +41,14 @@ import 'package:blood_setu/domain/repositories/donation_repository.dart'
     as _i133;
 import 'package:blood_setu/domain/repositories/location_repository.dart'
     as _i766;
+import 'package:blood_setu/domain/repositories/nearby_donors_repository.dart'
+    as _i377;
 import 'package:blood_setu/domain/repositories/registration_repository.dart'
     as _i268;
 import 'package:blood_setu/domain/usecase/authentication_usecase.dart' as _i39;
 import 'package:blood_setu/domain/usecase/donation_usecase.dart' as _i141;
 import 'package:blood_setu/domain/usecase/location_usecase.dart' as _i1060;
+import 'package:blood_setu/domain/usecase/nearby_donors_usecase.dart' as _i859;
 import 'package:blood_setu/domain/usecase/registration_user_usecase.dart'
     as _i881;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
@@ -83,6 +90,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i974.FirebaseFirestore>(),
       ),
     );
+    gh.factory<_i377.NearbyDonorsRepository>(
+      () => _i364.NearbyDonorsRepositoryImpl(gh<_i974.FirebaseFirestore>()),
+    );
     gh.lazySingleton<_i181.SpService>(
       () => _i181.SpServiceImpl(gh<_i460.SharedPreferences>()),
     );
@@ -113,6 +123,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.lazySingleton<_i828.AppRouter>(
       () => _i828.AppRouter(gh<_i839.AuthController>()),
     );
+    gh.factory<_i859.NearbyDonorsUseCase>(
+      () => _i859.NearbyDonorsUseCase(gh<_i377.NearbyDonorsRepository>()),
+    );
     gh.factory<_i1060.LocationUseCase>(
       () => _i1060.LocationUseCase(gh<_i766.LocationRepository>()),
     );
@@ -121,6 +134,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i881.RegistrationUserUseCase>(),
         gh<_i1060.LocationUseCase>(),
       ),
+    );
+    gh.factory<_i405.DonorsBloc>(
+      () => _i405.DonorsBloc(gh<_i859.NearbyDonorsUseCase>()),
     );
     return this;
   }
