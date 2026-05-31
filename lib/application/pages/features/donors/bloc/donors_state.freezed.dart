@@ -21,7 +21,7 @@ mixin _$DonorsState {
   List<NearbyDonor> get donors => throw _privateConstructorUsedError;
   List<NearbyDonor> get filtered => throw _privateConstructorUsedError;
   bool get hasReachedMax => throw _privateConstructorUsedError;
-  int get radiusIndex => throw _privateConstructorUsedError;
+  double get currentRadiusKm => throw _privateConstructorUsedError;
   String get search => throw _privateConstructorUsedError;
   String get selectedBloodGroup => throw _privateConstructorUsedError;
   String get selectedDistance => throw _privateConstructorUsedError;
@@ -47,7 +47,7 @@ abstract class $DonorsStateCopyWith<$Res> {
     List<NearbyDonor> donors,
     List<NearbyDonor> filtered,
     bool hasReachedMax,
-    int radiusIndex,
+    double currentRadiusKm,
     String search,
     String selectedBloodGroup,
     String selectedDistance,
@@ -75,7 +75,7 @@ class _$DonorsStateCopyWithImpl<$Res, $Val extends DonorsState>
     Object? donors = null,
     Object? filtered = null,
     Object? hasReachedMax = null,
-    Object? radiusIndex = null,
+    Object? currentRadiusKm = null,
     Object? search = null,
     Object? selectedBloodGroup = null,
     Object? selectedDistance = null,
@@ -100,10 +100,10 @@ class _$DonorsStateCopyWithImpl<$Res, $Val extends DonorsState>
                 ? _value.hasReachedMax
                 : hasReachedMax // ignore: cast_nullable_to_non_nullable
                       as bool,
-            radiusIndex: null == radiusIndex
-                ? _value.radiusIndex
-                : radiusIndex // ignore: cast_nullable_to_non_nullable
-                      as int,
+            currentRadiusKm: null == currentRadiusKm
+                ? _value.currentRadiusKm
+                : currentRadiusKm // ignore: cast_nullable_to_non_nullable
+                      as double,
             search: null == search
                 ? _value.search
                 : search // ignore: cast_nullable_to_non_nullable
@@ -144,7 +144,7 @@ abstract class _$$DonorsStateImplCopyWith<$Res>
     List<NearbyDonor> donors,
     List<NearbyDonor> filtered,
     bool hasReachedMax,
-    int radiusIndex,
+    double currentRadiusKm,
     String search,
     String selectedBloodGroup,
     String selectedDistance,
@@ -171,7 +171,7 @@ class __$$DonorsStateImplCopyWithImpl<$Res>
     Object? donors = null,
     Object? filtered = null,
     Object? hasReachedMax = null,
-    Object? radiusIndex = null,
+    Object? currentRadiusKm = null,
     Object? search = null,
     Object? selectedBloodGroup = null,
     Object? selectedDistance = null,
@@ -196,10 +196,10 @@ class __$$DonorsStateImplCopyWithImpl<$Res>
             ? _value.hasReachedMax
             : hasReachedMax // ignore: cast_nullable_to_non_nullable
                   as bool,
-        radiusIndex: null == radiusIndex
-            ? _value.radiusIndex
-            : radiusIndex // ignore: cast_nullable_to_non_nullable
-                  as int,
+        currentRadiusKm: null == currentRadiusKm
+            ? _value.currentRadiusKm
+            : currentRadiusKm // ignore: cast_nullable_to_non_nullable
+                  as double,
         search: null == search
             ? _value.search
             : search // ignore: cast_nullable_to_non_nullable
@@ -233,7 +233,7 @@ class _$DonorsStateImpl extends _DonorsState {
     final List<NearbyDonor> donors = const <NearbyDonor>[],
     final List<NearbyDonor> filtered = const <NearbyDonor>[],
     this.hasReachedMax = false,
-    this.radiusIndex = 0,
+    this.currentRadiusKm = 10.0,
     this.search = '',
     this.selectedBloodGroup = 'All',
     this.selectedDistance = 'All',
@@ -269,7 +269,7 @@ class _$DonorsStateImpl extends _DonorsState {
   final bool hasReachedMax;
   @override
   @JsonKey()
-  final int radiusIndex;
+  final double currentRadiusKm;
   @override
   @JsonKey()
   final String search;
@@ -287,7 +287,7 @@ class _$DonorsStateImpl extends _DonorsState {
 
   @override
   String toString() {
-    return 'DonorsState(status: $status, donors: $donors, filtered: $filtered, hasReachedMax: $hasReachedMax, radiusIndex: $radiusIndex, search: $search, selectedBloodGroup: $selectedBloodGroup, selectedDistance: $selectedDistance, showFilters: $showFilters, errorMessage: $errorMessage)';
+    return 'DonorsState(status: $status, donors: $donors, filtered: $filtered, hasReachedMax: $hasReachedMax, currentRadiusKm: $currentRadiusKm, search: $search, selectedBloodGroup: $selectedBloodGroup, selectedDistance: $selectedDistance, showFilters: $showFilters, errorMessage: $errorMessage)';
   }
 
   @override
@@ -300,8 +300,8 @@ class _$DonorsStateImpl extends _DonorsState {
             const DeepCollectionEquality().equals(other._filtered, _filtered) &&
             (identical(other.hasReachedMax, hasReachedMax) ||
                 other.hasReachedMax == hasReachedMax) &&
-            (identical(other.radiusIndex, radiusIndex) ||
-                other.radiusIndex == radiusIndex) &&
+            (identical(other.currentRadiusKm, currentRadiusKm) ||
+                other.currentRadiusKm == currentRadiusKm) &&
             (identical(other.search, search) || other.search == search) &&
             (identical(other.selectedBloodGroup, selectedBloodGroup) ||
                 other.selectedBloodGroup == selectedBloodGroup) &&
@@ -320,7 +320,7 @@ class _$DonorsStateImpl extends _DonorsState {
     const DeepCollectionEquality().hash(_donors),
     const DeepCollectionEquality().hash(_filtered),
     hasReachedMax,
-    radiusIndex,
+    currentRadiusKm,
     search,
     selectedBloodGroup,
     selectedDistance,
@@ -343,7 +343,7 @@ abstract class _DonorsState extends DonorsState {
     final List<NearbyDonor> donors,
     final List<NearbyDonor> filtered,
     final bool hasReachedMax,
-    final int radiusIndex,
+    final double currentRadiusKm,
     final String search,
     final String selectedBloodGroup,
     final String selectedDistance,
@@ -361,7 +361,7 @@ abstract class _DonorsState extends DonorsState {
   @override
   bool get hasReachedMax;
   @override
-  int get radiusIndex;
+  double get currentRadiusKm;
   @override
   String get search;
   @override
