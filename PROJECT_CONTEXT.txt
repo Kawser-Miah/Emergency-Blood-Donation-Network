@@ -23,6 +23,7 @@ Dartz              (Either<Failure, T> for error handling)
 GoRouter           (navigation with auth guards)
 Geolocator         (GPS location)
 SharedPreferences  (local persistence via SpService)
+intl               (date formatting)
 
 Run code generation:
   dart run build_runner build --delete-conflicting-outputs
@@ -45,12 +46,14 @@ lib/
 │       │   ├── bloc/                          — RegistrationBloc (multi-step form)
 │       │   └── view/registration_screen.dart
 │       ├── home/
-│       │   ├── bloc/                          — HomeBloc (@injectable, fetches UserProfileModel)
+│       │   ├── bloc/                          — HomeBloc (@injectable, fetches profile + updates location)
 │       │   └── view/home_screen.dart
 │       ├── profile/
 │       │   ├── bloc/                          — ProfileBloc (UI toggles only)
 │       │   └── view/profile_screen.dart
-│       ├── donors/bloc/                       — DonorsBloc (filter/search mock data)
+│       ├── donors/
+│       │   ├── bloc/                          — DonorsBloc (@injectable, real Firestore via NearbyDonorsUseCase)
+│       │   └── view/donors_screen.dart        — Find Donors screen (search, blood group + distance filters)
 │       ├── chat_list/bloc/
 │       ├── chat/bloc/
 │       ├── create_request/bloc/
@@ -58,74 +61,80 @@ lib/
 ├── domain/
 │   ├── models/
 │   │   ├── user_profile_model.dart            — PRIMARY user model (Firestore profile/{uid})
-│   │   ├── user_dashboard_state.dart          — UNUSED / can be deleted
-│   │   ├── donor.dart                         — Freezed
+│   │   ├── donor_location_model.dart          — Firestore user_locations/{uid} model (Freezed)
+│   │   ├── nearby_donor.dart                  — Wrapper: DonorLocationModel + distanceKm (Freezed)
+│   │   ├── donor.dart                         — Mock-only model (used in home screen strip + mock_data)
 │   │   ├── blood_request.dart                 — Freezed
 │   │   ├── chat_contact.dart                  — Freezed
 │   │   ├── chat_message.dart                  — Freezed
 │   │   ├── chat_summary.dart                  — Freezed
-│   │   ├── donation_history_entry.dart        — Freezed
+│   │   ├── donation_history_entry.dart        — Freezed + fromFirestore() + toMap()
 │   │   └── screen.dart                        — Navigation screen enum
 │   ├── repositories/
-│   │   ├── authentication_repository.dart     — abstract: signInWithGoogle, signOut, getProfile
-│   │   └── registration_repository.dart       — abstract: register(UserProfileModel)
+│   │   ├── authentication_repository.dart     — abstract: signInWithGoogle, signOut
+│   │   ├── registration_repository.dart       — abstract: register(UserProfileModel), getProfile
+│   │   ├── location_repository.dart           — abstract: updateLocation(uid) — GPS only
+│   │   ├── donation_repository.dart           — abstract: addDonation, getDonationHistory
+│   │   └── nearby_donors_repository.dart      — abstract: getOrigin(uid), getNearbyDonors(...)
 │   ├── usecase/
-│   │   ├── authentication_usecase.dart        — signInWithGoogle, signOut, getProfile
-│   │   └── registration_user_usecase.dart     — call(UserProfileModel)
+│   │   ├── authentication_usecase.dart        — signInWithGoogle, signOut
+│   │   ├── registration_user_usecase.dart     — call(UserProfileModel), getProfile
+│   │   ├── location_usecase.dart              — updateLocation(uid)
+│   │   ├── donation_usecase.dart              — addDonation, getDonationHistory
+│   │   └── nearby_donors_usecase.dart         — getOrigin(uid), call(lat, lng, radiusKm, ...)
 │   └── failures/failures.dart                 — GeneralFailure
 ├── data/
 │   ├── repositories/
-│   │   ├── authentication_repositories_iml.dart — Firebase Auth + Firestore impl
-│   │   └── registration_repository_iml.dart     — Firestore write + GPS location
-│   └── mock_data.dart                           — mockDonors, mockRequests, mockDonationHistory
+│   │   ├── authentication_repositories_iml.dart  — Firebase Auth + Firestore impl
+│   │   ├── registration_repository_iml.dart      — Writes profile/{uid} + user_locations/{uid} info fields
+│   │   ├── location_repository_impl.dart          — GPS fetch + writes coords to user_locations/{uid}
+│   │   ├── donation_repository_impl.dart          — Firestore transaction for donations
+│   │   └── nearby_donors_repository_impl.dart     — Geohash range queries on user_locations
+│   └── mock_data.dart                             — mockDonors (home strip only), mockRequests, mockChats, mockDonationHistory
 ├── di/
 │   ├── di.dart                                — getIt instance + configureDependencies()
 │   ├── di.config.dart                         — AUTO-GENERATED (do not edit)
 │   └── register_module.dart                   — FirebaseAuth, FirebaseFirestore, GoogleSignIn, SharedPreferences singletons
-├── utils/utils.dart                           — showSnackBar, showConfirmDialog, showSuccessDialog, showErrorDialog
+├── utils/
+│   ├── utils.dart                             — showSnackBar, showConfirmDialog, showSuccessDialog, showErrorDialog
+│   ├── geohash_util.dart                      — GeohashUtil.encode(lat, lng) — pure Dart, no package
+│   └── geo_query_util.dart                    — GeoQueryUtil: queryBounds(), distanceKm() — geohash circle query
 └── widgets/
-    ├── avatar.dart
+    ├── avatar.dart                            — Avatar(initials, colorHex, size, online)
     ├── bottom_nav.dart
     └── typing_dots.dart
 
 
-FIRESTORE COLLECTIONS (CURRENT)
-────────────────────────────────
+FIRESTORE COLLECTIONS
+──────────────────────
 profile/{uid}
   Fields: user_uuid, fullName, gender, email, photoUrl, phone, bloodGroup,
           age, lastDonation (Timestamp), district, thana, fbId,
-          longitude, latitude, updatedAt, isActive, donorTier, totalDonations
-  Written: on registration (SetOptions merge:true)
-  Read:    by HomeBloc on started event (getProfile)
+          updatedAt, isActive, donorTier, totalDonations
+  NOTE: latitude/longitude are NOT stored here (moved to user_locations)
+  Written: on registration via WriteBatch (profile + user_locations info fields together)
+  Read:    by HomeBloc on started event (getProfile via RegistrationUserUseCase)
+
+user_locations/{uid}
+  Fields (two separate merge writes, never clobber each other):
+    Info fields (written at registration):
+      fullName, bloodGroup, district, thana, isActive, donorTier,
+      totalDonations, photoUrl, infoUpdatedAt
+    GPS fields (written on every app open):
+      latitude, longitude, geohash, locationUpdatedAt
+  Used for: nearby donor geohash range queries (NearbyDonorsRepositoryImpl)
+
+donations/{uid}/records/{donationId}
+  Fields: hospital, bloodGroup, date (Timestamp), status, createdAt (Timestamp)
+  Written: via Firestore transaction in DonationRepositoryImpl.addDonation()
+           — atomically writes record + increments profile.totalDonations
+             + updates profile.lastDonation + recalculates profile.donorTier
+  Read:    getDonationHistory() — ordered by date descending
 
 users/{uid}
   Fields: uid, name, email, photoUrl, createdAt
   Written: on first Google sign-in
   Read:    not actively used
-
-
-FIRESTORE COLLECTIONS (RECOMMENDED — NOT YET IMPLEMENTED)
-───────────────────────────────────────────────────────────
-PROBLEM: latitude/longitude change frequently — bad to store in profile doc.
-         totalDonations should never be manually set.
-
-Recommended split:
-
-user_locations/{uid}
-  Fields: latitude, longitude, geohash, updatedAt
-  Updated: on app open / periodically in foreground (not tied to profile writes)
-  Used for: nearby donor geo-queries
-
-donations/{uid}/records/{donationId}
-  Fields: hospital, bloodGroup, date, status, createdAt
-  One document per donation event.
-  When added: increment profile totalDonations with FieldValue.increment(1)
-              update profile lastDonation field
-
-profile/{uid}  (cleaned up — remove latitude/longitude)
-  Keep: fullName, bloodGroup, phone, district, thana, donorTier,
-        isActive, age, gender, fbId, totalDonations, lastDonation,
-        email, photoUrl, userUuid, updatedAt
 
 
 USER PROFILE MODEL — UserProfileModel (user_profile_model.dart)
@@ -143,8 +152,8 @@ Fields (all nullable except totalDonations which defaults to 0):
   String?   district
   String?   thana
   String?   fbId
-  double?   longitude
-  double?   latitude
+  double?   longitude    ← in-memory only, NOT written to Firestore (toMap() excludes it)
+  double?   latitude     ← in-memory only, NOT written to Firestore (toMap() excludes it)
   DateTime? updatedAt
   bool?     isActive
   String?   donorTier
@@ -158,6 +167,44 @@ Has: fromFirestore(), toMap(), copyWith()
 Does NOT use Freezed (plain Dart class).
 
 
+DONOR LOCATION MODEL — DonorLocationModel (donor_location_model.dart)
+───────────────────────────────────────────────────────────────────────
+Freezed class (const DonorLocationModel._() pattern for custom methods).
+Represents user_locations/{uid} — the searchable donor index.
+Fields: uid, fullName, bloodGroup, district, thana, isActive, donorTier,
+        totalDonations, photoUrl, latitude?, longitude?, geohash?
+Methods:
+  factory fromFirestore(DocumentSnapshot doc)
+  Map<String,dynamic> toInfoMap()   — info fields only (no coords), written at registration
+  static Map<String,dynamic> coordsMap(lat, lng)  — GPS fields only, written on app open
+  String get initials               — 1 or 2 letter avatar fallback
+
+
+NEARBY DONOR — NearbyDonor (nearby_donor.dart)
+───────────────────────────────────────────────
+Freezed wrapper: { DonorLocationModel donor, double distanceKm }
+Delegating getters: uid, name, bloodGroup, district, thana, isActive,
+                    totalDonations, donorTier, photoUrl, initials
+distanceKm is query-time only — never persisted.
+factory NearbyDonor.fromLocationDoc(doc, distanceKm)
+
+
+DONATION HISTORY ENTRY — DonationHistoryEntry (donation_history_entry.dart)
+─────────────────────────────────────────────────────────────────────────────
+Freezed class with extra methods via const DonationHistoryEntry._() pattern.
+Fields:
+  String    id
+  DateTime  date         ← DateTime (NOT String). Format for display with intl.
+  String    hospital
+  String    bloodGroup
+  String    status
+  DateTime? createdAt
+
+Methods:
+  factory DonationHistoryEntry.fromFirestore(DocumentSnapshot doc)
+  Map<String, dynamic> toMap()  — createdAt uses FieldValue.serverTimestamp() if null
+
+
 AUTH FLOW
 ─────────
 1. Splash → AuthController._init() reads SharedPreferences (profileCompleted?)
@@ -169,9 +216,9 @@ AUTH FLOW
              Step 1: fullName, gender, phone, bloodGroup, age
              Step 2: district, thana, confirmation checkbox
              Optional: lastDonation (DateTime picker), fbId
-             On submit: GPS location fetched → writes profile/{uid}
+             On submit: WriteBatch writes profile/{uid} + user_locations/{uid} info fields
              AuthController.onProfileCompleted()
-4. Home → HomeBloc.started() → fetches profile/{uid} → stores in HomeState
+4. Home → HomeBloc.started() → fetches profile/{uid} + fire-and-forget GPS location update
 5. Logout → SignInBloc.signOut() → AuthController.logout() → GoRouter redirects
 
 
@@ -180,8 +227,8 @@ HOME SCREEN FLOW
 HomeScreen creates: getIt<HomeBloc>()..add(HomeEvent.started())
 HomeBloc.started():
   - reads AuthController.user.uid
-  - calls AuthenticationUseCase.getProfile(uid)
-  - emits HomeState with UserProfileModel? profile
+  - calls RegistrationUserUseCase.getProfile(uid) → emits HomeState with profile
+  - calls unawaited(locationUseCase.updateLocation(uid)) — fire-and-forget GPS update
 
 HomeState fields: showSidebar, sosPressed, UserProfileModel? profile
 
@@ -191,6 +238,75 @@ _WelcomeCard reads from profile:
   donations       = profile?.totalDonations ?? 0
   days to donate  = profile?.daysToNextDonation ?? 0
   isActive        = profile?.isActive ?? false
+
+
+LOCATION UPDATE FLOW
+─────────────────────
+LocationRepositoryImpl.updateLocation(uid):
+  1. Checks location service enabled
+  2. Checks/requests permission
+  3. Geolocator.getCurrentPosition(accuracy: high)
+  4. Writes {latitude, longitude, geohash, locationUpdatedAt} to user_locations/{uid} (merge:true)
+  Returns Either<Failure, void> — failures silently ignored by HomeBloc (best-effort).
+
+
+DONORS SCREEN — REAL FIRESTORE (donors feature)
+─────────────────────────────────────────────────
+DonorsScreen (bottom nav tab 1) — Find Donors with real data.
+
+DonorsBloc (@injectable) depends on NearbyDonorsUseCase.
+  Events:
+    started / refreshed          — load from Firestore (radius ring 0 = 5km)
+    loadMoreRequested            — widen radius to next ring (5→10→25→50→100km)
+    searchChanged(String)        — local filter only (instant, no Firestore)
+    bloodGroupSelected(String)   — local filter only (instant, no Firestore)
+    distanceSelected(String)     — re-fetch with new radius from Firestore
+    filtersOpened / filtersClosed
+    filtersApplied               — close sheet + apply local filters (Apply button)
+    filtersReset                 — reset all + Firestore re-fetch
+
+  State fields: status, donors (all loaded), filtered (locally filtered),
+                hasReachedMax, radiusIndex, search, selectedBloodGroup,
+                selectedDistance, showFilters, errorMessage
+
+  Filter design:
+    Blood group → LOCAL filter on loaded donors (no Firestore composite index needed)
+    Search text → LOCAL filter on loaded donors
+    Distance    → changes max radius → Firestore re-fetch
+    "Apply" btn → applies local filters (blood group + search) + closes sheet
+
+NearbyDonorsRepositoryImpl.getNearbyDonors():
+  - Computes geohash range bounds for the radius circle (GeoQueryUtil.queryBounds)
+  - Runs one Firestore query per range concurrently (orderBy geohash + startAt/endAt)
+  - Merges, dedupes by uid, drops docs outside true circle, sorts by distance
+  - NO bloodGroup in Firestore query — filtered locally after fetch
+
+NearbyDonorsRepositoryImpl.getOrigin(uid):
+  - Reads user_locations/{uid} for the current user's lat/lng (set by LocationUseCase)
+  - Returns failure if lat/lng null (GPS not yet written)
+
+DonorCard in donors_screen.dart uses NearbyDonor fields:
+  name, bloodGroup, thana+district, distanceKm, totalDonations, isActive
+  Avatar: photoUrl if available, else Avatar(initials, colorHex derived from uid.hashCode)
+  Status chip: isActive → 'Available' (green) / 'Unavailable' (red-surface)
+
+
+DONATION RECORD FLOW
+──────────────────────
+DonationRepositoryImpl.addDonation(uid, entry):
+  Firestore transaction:
+    1. Read current profile.totalDonations
+    2. newCount = currentCount + 1
+    3. Write entry.toMap() to donations/{uid}/records/{auto-id}
+    4. Update profile: totalDonations = newCount, lastDonation = entry.date,
+       donorTier = _computeTier(newCount)
+
+donorTier thresholds (computed in DonationRepositoryImpl._computeTier):
+  '' (empty) = 0 donations
+  Bronze     = 1–5
+  Silver     = 6–11
+  Gold       = 12–24
+  Platinum   = 25+
 
 
 PROFILE SCREEN — LOGOUT FLOW
@@ -227,11 +343,18 @@ DEPENDENCY INJECTION
 Injectable classes:
   @injectable  RegistrationBloc         — needs RegistrationUserUseCase
   @injectable  SignInBloc               — needs AuthenticationUseCase
-  @injectable  HomeBloc                 — needs AuthenticationUseCase
+  @injectable  HomeBloc                 — needs RegistrationUserUseCase + LocationUseCase
+  @injectable  DonorsBloc               — needs NearbyDonorsUseCase
   @injectable  RegistrationUserUseCase
   @injectable  AuthenticationUseCase
-  @Injectable(as: RegistrationRepository)   RegistrationRepositoryIml
-  @Injectable(as: AuthenticationRepository) AuthenticationRepositoriesIml
+  @injectable  LocationUseCase
+  @injectable  DonationUseCase
+  @injectable  NearbyDonorsUseCase
+  @Injectable(as: RegistrationRepository)    RegistrationRepositoryIml
+  @Injectable(as: AuthenticationRepository)  AuthenticationRepositoriesIml
+  @Injectable(as: LocationRepository)        LocationRepositoryImpl
+  @Injectable(as: DonationRepository)        DonationRepositoryImpl
+  @Injectable(as: NearbyDonorsRepository)    NearbyDonorsRepositoryImpl
   @lazySingleton AuthController         — needs SpService, FirebaseAuth
   @LazySingleton(as: SpService) SpServiceImpl
   @lazySingleton AppRouter
@@ -253,38 +376,40 @@ Utils.showErrorDialog(context, title:, message:, buttonLabel:)
 WHAT IS DONE
 ─────────────
 [x] Google Sign-In with Firebase Auth
-[x] Registration flow (2-step form, GPS location, Firestore write)
+[x] Registration flow (2-step form, WriteBatch: profile/{uid} + user_locations/{uid} info fields)
 [x] GoRouter auth guards (splash → signin → register → home)
 [x] Bottom navigation with BottomNavBloc
 [x] Home screen — WelcomeCard connected to real UserProfileModel from Firestore
 [x] HomeBloc fetches real profile on started event (not mock data)
-[x] UserProfileModel.totalDonations field (default 0, for future use)
 [x] Logout confirmation dialog → loading overlay → success/error dialog
 [x] Fixed: emit-after-handler-completed crash in signOut (awaited fold)
 [x] Fixed: lastDonation always null bug (stored as DateTime? not String)
-[x] getProfile(uid) added to AuthenticationRepository + implementation
 [x] Utils dialog helpers (confirm, success, error)
-[x] Location split: user_locations/{uid} collection with lat, lng, geohash, updatedAt
-    - GeohashUtil (lib/utils/geohash_util.dart) — pure Dart, no package needed
-    - LocationRepository + LocationRepositoryImpl + LocationUseCase
-    - Registration writes to user_locations (lat/lng removed from profile.toMap())
-    - HomeBloc updates user_locations fire-and-forget on every app open
-[x] Donations subcollection: donations/{uid}/records/{donationId}
+[x] Location split — user_locations/{uid} GPS fields (lat, lng, geohash, locationUpdatedAt)
+    - LocationRepository + LocationRepositoryImpl (owns GPS fetch logic) + LocationUseCase
+    - lat/lng removed from profile.toMap() — NOT written to profile doc
+    - HomeBloc calls unawaited(locationUseCase.updateLocation(uid)) on every app open
+[x] user_locations info fields — written at registration via WriteBatch
+    - fullName, bloodGroup, district, thana, isActive, donorTier, totalDonations, photoUrl
+    - Enables nearby donor search without reading profile docs
+[x] Donations subcollection — donations/{uid}/records/{donationId}
     - DonationRepository + DonationRepositoryImpl + DonationUseCase
-    - addDonation: Firestore transaction → writes record + increments totalDonations
-      + updates lastDonation + recalculates donorTier on profile
-    - getDonationHistory: queries records ordered by date desc
-    - DonationHistoryEntry.date changed from String to DateTime
-    - DonationHistoryEntry.fromFirestore() + toMap() added
+    - addDonation: Firestore transaction — record + totalDonations increment + lastDonation + donorTier
+    - getDonationHistory: queries subcollection ordered by date desc
+    - DonationHistoryEntry.date is DateTime (not String); fromFirestore() + toMap() added
+    - Profile screen formats date with DateFormat('dd MMM yyyy') from intl
+[x] donorTier auto-calculation in DonationRepositoryImpl._computeTier (Bronze/Silver/Gold/Platinum)
+[x] Donors screen — real Firestore via NearbyDonorsUseCase + geohash radius search
+    - NearbyDonorsRepository + NearbyDonorsRepositoryImpl + NearbyDonorsUseCase
+    - DonorLocationModel (user_locations doc model) + NearbyDonor (wrapper with distanceKm)
+    - GeoQueryUtil: geohash range bounds + true distance filtering
+    - DonorsBloc: radius pagination (5→10→25→50→100km), local filters (blood group, search)
+    - Donors screen: search bar, blood group chips, distance filter, donor cards
+    - Separate nearby_donors feature DELETED — merged into donors feature
 
 
 WHAT IS NOT YET DONE (PENDING)
 ───────────────────────────────
-
-[ ] Nearby donors — connect to real Firestore data (currently mock)
-    - Query user_locations where geohash is within radius (GeohashUtil already available)
-    - Map to Donor model
-
 [ ] Blood requests — connect to real Firestore (currently mock)
     - Collection: blood_requests/{requestId}
 
@@ -293,47 +418,49 @@ WHAT IS NOT YET DONE (PENDING)
 
 [ ] Profile screen — show real UserProfileModel data (currently hardcoded)
     - Name, blood group, location, donation count, last donation
-    - Fetch same profile used by HomeBloc
+    - Use DonationUseCase.getDonationHistory() for real donation history
 
 [ ] Create blood request — wire CreateRequestBloc to Firestore
 
 [ ] Push notifications — when nearby SOS request is sent
 
-[ ] donorTier auto-calculation:
-    Bronze  = 1-5 donations
-    Silver  = 6-11 donations
-    Gold    = 12-24 donations
-    Platinum = 25+ donations
-    Update tier whenever totalDonations changes.
-
 [ ] isActive toggle — user can mark themselves unavailable to donate
 
 [ ] Profile edit — allow updating fields after registration
 
+[ ] Home screen donor strip — still uses mockDonors (Donor model)
+    Replace with real NearbyDonor data from NearbyDonorsUseCase
+
 
 MOCK DATA (lib/data/mock_data.dart)
 ─────────────────────────────────────
-mockDonors           — List<Donor>  (used in home screen + donors screen)
-mockRequests         — List<BloodRequest>  (used in home screen)
-mockDonationHistory  — List<DonationHistoryEntry>  (used in profile screen)
-mockChats            — List<ChatSummary>  (used in chat list screen)
-
-All of these need to be replaced with real Firestore queries eventually.
+mockDonors           — List<Donor>  (home screen strip only — needs replacing)
+mockRequests         — List<BloodRequest>  (home screen — needs replacing)
+mockDonationHistory  — final List<DonationHistoryEntry>  (profile screen — needs replacing)
+mockChats            — List<ChatSummary>  (chat list screen — needs replacing)
 
 
 KEY DESIGN DECISIONS
 ─────────────────────
-1. UserProfileModel is a plain Dart class (not Freezed) — has fromFirestore() + toMap()
-2. All other models (Donor, BloodRequest, etc.) use Freezed
-3. Either<Failure, T> from dartz for all repository return types
-4. Await result.fold() when fold callbacks are async (BLoC emit safety)
-5. lastDonation stored as DateTime? in state — never as String
-6. HomeBloc is @injectable and fetches real Firestore profile on HomeEvent.started()
-7. SparkleLoadingOverlay is a Positioned.fill widget — must be inside a Stack
-8. Location is fetched once at registration time (GPS required)
-   — frequent location updates should go to user_locations collection, NOT profile
-9. totalDonations uses FieldValue.increment(1) when implemented — never manually set
-10. donorTier is stored as plain String: 'Bronze', 'Silver', 'Gold', 'Platinum'
+1.  UserProfileModel is a plain Dart class (not Freezed) — has fromFirestore() + toMap()
+2.  All other models (Donor, BloodRequest, etc.) use Freezed
+3.  DonationHistoryEntry uses Freezed + custom methods via const DonationHistoryEntry._()
+4.  Either<Failure, T> from dartz for all repository return types
+5.  Await result.fold() when fold callbacks are async (BLoC emit safety)
+6.  lastDonation stored as DateTime? in state — never as String
+7.  HomeBloc uses RegistrationUserUseCase (not AuthenticationUseCase) for getProfile
+8.  SparkleLoadingOverlay is a Positioned.fill widget — must be inside a Stack
+9.  GPS is NOT fetched at registration — only on app open via LocationRepositoryImpl
+10. Location updates are fire-and-forget — failures silently ignored (best-effort)
+11. totalDonations is updated via Firestore transaction in addDonation — never manually set
+12. donorTier is stored as plain String: '', 'Bronze', 'Silver', 'Gold', 'Platinum'
+13. GeohashUtil is pure Dart (no external package) — used for user_locations geo-queries
+14. Blood group + search filtering is LOCAL (on loaded donors) — no Firestore composite index needed
+15. Distance filter changes the Firestore query radius — triggers re-fetch
+16. All BLoC event.when() handlers must be async when using await event.when() — mixed
+    sync/async handlers make when() return void, breaking the await
+17. user_locations has TWO separate merge writes: info (registration) + coords (app open)
+    They never clobber each other because both use SetOptions(merge:true)
 
 
 BLOOD GROUP OPTIONS
@@ -349,14 +476,19 @@ Used in registration Step 2 for district/thana dropdowns.
 
 IMPORTANT FILES TO READ FIRST IN A NEW SESSION
 ────────────────────────────────────────────────
-1. lib/domain/models/user_profile_model.dart
-2. lib/application/pages/features/home/bloc/home_bloc.dart
-3. lib/application/pages/features/home/view/home_screen.dart
-4. lib/data/repositories/authentication_repositories_iml.dart
-5. lib/application/pages/features/registration/bloc/registration_bloc.dart
-6. lib/di/register_module.dart
-7. lib/application/core/auth/auth_controller.dart
-8. lib/utils/utils.dart
+1.  lib/domain/models/user_profile_model.dart
+2.  lib/domain/models/donor_location_model.dart
+3.  lib/domain/models/nearby_donor.dart
+4.  lib/application/pages/features/donors/bloc/donors_bloc.dart
+5.  lib/application/pages/features/donors/view/donors_screen.dart
+6.  lib/data/repositories/nearby_donors_repository_impl.dart
+7.  lib/application/pages/features/home/bloc/home_bloc.dart
+8.  lib/data/repositories/registration_repository_iml.dart
+9.  lib/data/repositories/location_repository_impl.dart
+10. lib/data/repositories/donation_repository_impl.dart
+11. lib/application/core/auth/auth_controller.dart
+12. lib/di/register_module.dart
+13. lib/utils/utils.dart
 
 ================================================================================
 END OF CONTEXT
