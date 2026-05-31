@@ -1,6 +1,6 @@
 import 'package:blood_setu/domain/failures/failures.dart';
+import 'package:blood_setu/domain/models/donor_location_model.dart';
 import 'package:blood_setu/domain/repositories/location_repository.dart';
-import 'package:blood_setu/utils/geohash_util.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
 import 'package:geolocator/geolocator.dart';
@@ -13,7 +13,7 @@ class LocationRepositoryImpl extends LocationRepository {
   LocationRepositoryImpl(this._firestore);
 
   @override
-  Future<Either<Failure, void>> updateLocation(String uid) async {
+  Future<Either<Failure, void>> updateGps(String uid) async {
     try {
       final locationResult = await _fetchCurrentPosition();
       if (locationResult.isLeft()) {
@@ -21,15 +21,14 @@ class LocationRepositoryImpl extends LocationRepository {
       }
       final position = locationResult.getOrElse(() => throw StateError(''));
 
+      // Coordinates only — leaves the searchable donor fields untouched.
       await _firestore.collection('user_locations').doc(uid).set(
-        {
-          'latitude': position.latitude,
-          'longitude': position.longitude,
-          'geohash': GeohashUtil.encode(position.latitude, position.longitude),
-          'updatedAt': FieldValue.serverTimestamp(),
-        },
-        SetOptions(merge: true),
-      );
+            DonorLocationModel.coordsMap(
+              position.latitude,
+              position.longitude,
+            ),
+            SetOptions(merge: true),
+          );
       return const Right(null);
     } on FirebaseException catch (e) {
       return Left(GeneralFailure(e.message ?? 'Failed to update location.'));
