@@ -26,7 +26,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           final result = await _registrationUserUseCase.getProfile(uid);
           result.fold((_) {}, (profile) => emit(state.copyWith(profile: profile)));
 
-          unawaited(_locationUseCase.updateLocation(uid));
+          // Fire-and-forget: refresh only GPS coordinates in user_locations.
+          // The searchable donor fields are written separately at registration
+          // / profile edit, so we don't re-push them on every app open.
+          unawaited(_locationUseCase.updateGps(uid));
         },
         sidebarOpened: () async => emit(state.copyWith(showSidebar: true)),
         sidebarClosed: () async => emit(state.copyWith(showSidebar: false)),
