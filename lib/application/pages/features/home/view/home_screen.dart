@@ -1,3 +1,4 @@
+import 'package:blood_setu/application/core/services/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -7,6 +8,7 @@ import '../../../../../domain/models/blood_request.dart';
 import '../../../../../domain/models/donor.dart';
 import '../../../../../domain/models/user_profile_model.dart';
 import '../../../../../widgets/avatar.dart';
+import '../../../../core/services/routing/routing_utils.dart';
 import '../../../../core/theme/colors.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
@@ -98,7 +100,9 @@ class _HomeView extends StatelessWidget {
                           ),
                           const SizedBox(height: 20),
                           _NearbyDonors(
-                            onSeeAll: () {},
+                            onSeeAll: () {
+                              AppRouter.router.push(PAGES.donors.screenPath);
+                            },
                             onMessage: (donor) {},
                             // context.read<AppNavigationBloc>().add(
                             //       AppNavigationEvent.navigated(
