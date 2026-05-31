@@ -13,6 +13,19 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
   NearbyDonorsRepositoryImpl(this._firestore);
 
   @override
+  Future<Either<Failure, int>> getTotalDonorCount() async {
+    try {
+      final snap =
+          await _firestore.collection('user_locations').count().get();
+      return Right(snap.count ?? 0);
+    } on FirebaseException catch (e) {
+      return Left(GeneralFailure(e.message ?? 'Failed to get donor count.'));
+    } catch (_) {
+      return Left(GeneralFailure('Failed to get donor count.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, ({double latitude, double longitude})>> getOrigin(
     String uid,
   ) async {
