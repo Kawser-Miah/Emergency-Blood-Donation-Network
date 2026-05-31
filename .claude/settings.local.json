@@ -19,7 +19,18 @@
       "mcp__ide__getDiagnostics",
       "Bash(python3 -c ' *)",
       "Bash(grep \"\\\\.dart$\")",
-      "Bash(grep -v \"^--$\")"
+      "Bash(grep -v \"^--$\")",
+      "Read(//tmp/**)",
+      "Bash(echo \"EXIT=$?\")",
+      "Bash(echo \"RESULT_EXIT=$?\")",
+      "Bash(echo \"EXIT_GREP=$?\")",
+      "Bash(echo \"rc=$?\")",
+      "Bash(echo \"BUILD_EXIT=$?\")",
+      "Bash(awk *)",
+      "Bash(echo \"=== EXIT $? ===\")",
+      "Bash(echo \"DONE rc=$?\")",
+      "Bash(grep -vE \"^\\\\s*$\")",
+      "Bash(git checkout *)"
     ]
   }
 }
