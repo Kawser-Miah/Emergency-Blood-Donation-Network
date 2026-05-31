@@ -27,6 +27,7 @@ mixin _$DonorsEvent {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -39,6 +40,7 @@ mixin _$DonorsEvent {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -51,6 +53,7 @@ mixin _$DonorsEvent {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -64,6 +67,7 @@ mixin _$DonorsEvent {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -76,6 +80,7 @@ mixin _$DonorsEvent {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -88,6 +93,7 @@ mixin _$DonorsEvent {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -166,6 +172,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) {
     return started();
@@ -182,6 +189,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) {
     return started?.call();
@@ -198,6 +206,7 @@ class _$StartedImpl implements _Started {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) {
@@ -218,6 +227,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) {
     return started(this);
@@ -234,6 +244,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) {
     return started?.call(this);
@@ -250,6 +261,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) {
@@ -315,6 +327,7 @@ class _$RefreshedImpl implements _Refreshed {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) {
     return refreshed();
@@ -331,6 +344,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) {
     return refreshed?.call();
@@ -347,6 +361,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) {
@@ -367,6 +382,7 @@ class _$RefreshedImpl implements _Refreshed {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) {
     return refreshed(this);
@@ -383,6 +399,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) {
     return refreshed?.call(this);
@@ -399,6 +416,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) {
@@ -464,6 +482,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) {
     return loadMoreRequested();
@@ -480,6 +499,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) {
     return loadMoreRequested?.call();
@@ -496,6 +516,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) {
@@ -516,6 +537,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) {
     return loadMoreRequested(this);
@@ -532,6 +554,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) {
     return loadMoreRequested?.call(this);
@@ -548,6 +571,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) {
@@ -640,6 +664,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) {
     return searchChanged(value);
@@ -656,6 +681,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) {
     return searchChanged?.call(value);
@@ -672,6 +698,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) {
@@ -692,6 +719,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) {
     return searchChanged(this);
@@ -708,6 +736,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) {
     return searchChanged?.call(this);
@@ -724,6 +753,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) {
@@ -827,6 +857,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) {
     return bloodGroupSelected(value);
@@ -843,6 +874,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) {
     return bloodGroupSelected?.call(value);
@@ -859,6 +891,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) {
@@ -879,6 +912,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) {
     return bloodGroupSelected(this);
@@ -895,6 +929,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) {
     return bloodGroupSelected?.call(this);
@@ -911,6 +946,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) {
@@ -1015,6 +1051,7 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) {
     return distanceSelected(value);
@@ -1031,6 +1068,7 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) {
     return distanceSelected?.call(value);
@@ -1047,6 +1085,7 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) {
@@ -1067,6 +1106,7 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) {
     return distanceSelected(this);
@@ -1083,6 +1123,7 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) {
     return distanceSelected?.call(this);
@@ -1099,6 +1140,7 @@ class _$DistanceSelectedImpl implements _DistanceSelected {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) {
@@ -1172,6 +1214,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) {
     return filtersOpened();
@@ -1188,6 +1231,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) {
     return filtersOpened?.call();
@@ -1204,6 +1248,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) {
@@ -1224,6 +1269,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) {
     return filtersOpened(this);
@@ -1240,6 +1286,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) {
     return filtersOpened?.call(this);
@@ -1256,6 +1303,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) {
@@ -1321,6 +1369,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) {
     return filtersClosed();
@@ -1337,6 +1386,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) {
     return filtersClosed?.call();
@@ -1353,6 +1403,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) {
@@ -1373,6 +1424,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) {
     return filtersClosed(this);
@@ -1389,6 +1441,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) {
     return filtersClosed?.call(this);
@@ -1405,6 +1458,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) {
@@ -1417,6 +1471,161 @@ class _$FiltersClosedImpl implements _FiltersClosed {
 
 abstract class _FiltersClosed implements DonorsEvent {
   const factory _FiltersClosed() = _$FiltersClosedImpl;
+}
+
+/// @nodoc
+abstract class _$$FiltersAppliedImplCopyWith<$Res> {
+  factory _$$FiltersAppliedImplCopyWith(
+    _$FiltersAppliedImpl value,
+    $Res Function(_$FiltersAppliedImpl) then,
+  ) = __$$FiltersAppliedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$FiltersAppliedImplCopyWithImpl<$Res>
+    extends _$DonorsEventCopyWithImpl<$Res, _$FiltersAppliedImpl>
+    implements _$$FiltersAppliedImplCopyWith<$Res> {
+  __$$FiltersAppliedImplCopyWithImpl(
+    _$FiltersAppliedImpl _value,
+    $Res Function(_$FiltersAppliedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of DonorsEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$FiltersAppliedImpl implements _FiltersApplied {
+  const _$FiltersAppliedImpl();
+
+  @override
+  String toString() {
+    return 'DonorsEvent.filtersApplied()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$FiltersAppliedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
+    required TResult Function(String value) searchChanged,
+    required TResult Function(String value) bloodGroupSelected,
+    required TResult Function(String value) distanceSelected,
+    required TResult Function() filtersOpened,
+    required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
+    required TResult Function() filtersReset,
+  }) {
+    return filtersApplied();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
+    TResult? Function(String value)? searchChanged,
+    TResult? Function(String value)? bloodGroupSelected,
+    TResult? Function(String value)? distanceSelected,
+    TResult? Function()? filtersOpened,
+    TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
+    TResult? Function()? filtersReset,
+  }) {
+    return filtersApplied?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
+    TResult Function(String value)? searchChanged,
+    TResult Function(String value)? bloodGroupSelected,
+    TResult Function(String value)? distanceSelected,
+    TResult Function()? filtersOpened,
+    TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
+    TResult Function()? filtersReset,
+    required TResult orElse(),
+  }) {
+    if (filtersApplied != null) {
+      return filtersApplied();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
+    required TResult Function(_SearchChanged value) searchChanged,
+    required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
+    required TResult Function(_DistanceSelected value) distanceSelected,
+    required TResult Function(_FiltersOpened value) filtersOpened,
+    required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
+    required TResult Function(_FiltersReset value) filtersReset,
+  }) {
+    return filtersApplied(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult? Function(_SearchChanged value)? searchChanged,
+    TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult? Function(_DistanceSelected value)? distanceSelected,
+    TResult? Function(_FiltersOpened value)? filtersOpened,
+    TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
+    TResult? Function(_FiltersReset value)? filtersReset,
+  }) {
+    return filtersApplied?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult Function(_SearchChanged value)? searchChanged,
+    TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult Function(_DistanceSelected value)? distanceSelected,
+    TResult Function(_FiltersOpened value)? filtersOpened,
+    TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
+    TResult Function(_FiltersReset value)? filtersReset,
+    required TResult orElse(),
+  }) {
+    if (filtersApplied != null) {
+      return filtersApplied(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _FiltersApplied implements DonorsEvent {
+  const factory _FiltersApplied() = _$FiltersAppliedImpl;
 }
 
 /// @nodoc
@@ -1470,6 +1679,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     required TResult Function(String value) distanceSelected,
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
+    required TResult Function() filtersApplied,
     required TResult Function() filtersReset,
   }) {
     return filtersReset();
@@ -1486,6 +1696,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     TResult? Function(String value)? distanceSelected,
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
+    TResult? Function()? filtersApplied,
     TResult? Function()? filtersReset,
   }) {
     return filtersReset?.call();
@@ -1502,6 +1713,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     TResult Function(String value)? distanceSelected,
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
+    TResult Function()? filtersApplied,
     TResult Function()? filtersReset,
     required TResult orElse(),
   }) {
@@ -1522,6 +1734,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     required TResult Function(_DistanceSelected value) distanceSelected,
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersApplied value) filtersApplied,
     required TResult Function(_FiltersReset value) filtersReset,
   }) {
     return filtersReset(this);
@@ -1538,6 +1751,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     TResult? Function(_DistanceSelected value)? distanceSelected,
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersApplied value)? filtersApplied,
     TResult? Function(_FiltersReset value)? filtersReset,
   }) {
     return filtersReset?.call(this);
@@ -1554,6 +1768,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     TResult Function(_DistanceSelected value)? distanceSelected,
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersApplied value)? filtersApplied,
     TResult Function(_FiltersReset value)? filtersReset,
     required TResult orElse(),
   }) {
