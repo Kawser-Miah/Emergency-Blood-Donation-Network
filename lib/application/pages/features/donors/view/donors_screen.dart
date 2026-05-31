@@ -20,7 +20,7 @@ const List<String> _bloodGroups = [
   'AB+',
   'AB-',
 ];
-const List<String> _distances = ['All', '2km', '5km', '10km', '20km'];
+const List<String> _distances = ['All', '10km', '50km', '100km', '500km'];
 
 const List<String> _avatarColors = [
   '#1E88E5',
