@@ -17,12 +17,16 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$DonorsState {
+  DonorsStatus get status => throw _privateConstructorUsedError;
+  List<NearbyDonor> get donors => throw _privateConstructorUsedError;
+  List<NearbyDonor> get filtered => throw _privateConstructorUsedError;
+  bool get hasReachedMax => throw _privateConstructorUsedError;
+  int get radiusIndex => throw _privateConstructorUsedError;
   String get search => throw _privateConstructorUsedError;
   String get selectedBloodGroup => throw _privateConstructorUsedError;
   String get selectedDistance => throw _privateConstructorUsedError;
-  double get minRating => throw _privateConstructorUsedError;
   bool get showFilters => throw _privateConstructorUsedError;
-  List<Donor> get filtered => throw _privateConstructorUsedError;
+  String? get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of DonorsState
   /// with the given fields replaced by the non-null parameter values.
@@ -39,12 +43,16 @@ abstract class $DonorsStateCopyWith<$Res> {
   ) = _$DonorsStateCopyWithImpl<$Res, DonorsState>;
   @useResult
   $Res call({
+    DonorsStatus status,
+    List<NearbyDonor> donors,
+    List<NearbyDonor> filtered,
+    bool hasReachedMax,
+    int radiusIndex,
     String search,
     String selectedBloodGroup,
     String selectedDistance,
-    double minRating,
     bool showFilters,
-    List<Donor> filtered,
+    String? errorMessage,
   });
 }
 
@@ -63,15 +71,39 @@ class _$DonorsStateCopyWithImpl<$Res, $Val extends DonorsState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? status = null,
+    Object? donors = null,
+    Object? filtered = null,
+    Object? hasReachedMax = null,
+    Object? radiusIndex = null,
     Object? search = null,
     Object? selectedBloodGroup = null,
     Object? selectedDistance = null,
-    Object? minRating = null,
     Object? showFilters = null,
-    Object? filtered = null,
+    Object? errorMessage = freezed,
   }) {
     return _then(
       _value.copyWith(
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as DonorsStatus,
+            donors: null == donors
+                ? _value.donors
+                : donors // ignore: cast_nullable_to_non_nullable
+                      as List<NearbyDonor>,
+            filtered: null == filtered
+                ? _value.filtered
+                : filtered // ignore: cast_nullable_to_non_nullable
+                      as List<NearbyDonor>,
+            hasReachedMax: null == hasReachedMax
+                ? _value.hasReachedMax
+                : hasReachedMax // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            radiusIndex: null == radiusIndex
+                ? _value.radiusIndex
+                : radiusIndex // ignore: cast_nullable_to_non_nullable
+                      as int,
             search: null == search
                 ? _value.search
                 : search // ignore: cast_nullable_to_non_nullable
@@ -84,18 +116,14 @@ class _$DonorsStateCopyWithImpl<$Res, $Val extends DonorsState>
                 ? _value.selectedDistance
                 : selectedDistance // ignore: cast_nullable_to_non_nullable
                       as String,
-            minRating: null == minRating
-                ? _value.minRating
-                : minRating // ignore: cast_nullable_to_non_nullable
-                      as double,
             showFilters: null == showFilters
                 ? _value.showFilters
                 : showFilters // ignore: cast_nullable_to_non_nullable
                       as bool,
-            filtered: null == filtered
-                ? _value.filtered
-                : filtered // ignore: cast_nullable_to_non_nullable
-                      as List<Donor>,
+            errorMessage: freezed == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -112,12 +140,16 @@ abstract class _$$DonorsStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    DonorsStatus status,
+    List<NearbyDonor> donors,
+    List<NearbyDonor> filtered,
+    bool hasReachedMax,
+    int radiusIndex,
     String search,
     String selectedBloodGroup,
     String selectedDistance,
-    double minRating,
     bool showFilters,
-    List<Donor> filtered,
+    String? errorMessage,
   });
 }
 
@@ -135,15 +167,39 @@ class __$$DonorsStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? status = null,
+    Object? donors = null,
+    Object? filtered = null,
+    Object? hasReachedMax = null,
+    Object? radiusIndex = null,
     Object? search = null,
     Object? selectedBloodGroup = null,
     Object? selectedDistance = null,
-    Object? minRating = null,
     Object? showFilters = null,
-    Object? filtered = null,
+    Object? errorMessage = freezed,
   }) {
     return _then(
       _$DonorsStateImpl(
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as DonorsStatus,
+        donors: null == donors
+            ? _value._donors
+            : donors // ignore: cast_nullable_to_non_nullable
+                  as List<NearbyDonor>,
+        filtered: null == filtered
+            ? _value._filtered
+            : filtered // ignore: cast_nullable_to_non_nullable
+                  as List<NearbyDonor>,
+        hasReachedMax: null == hasReachedMax
+            ? _value.hasReachedMax
+            : hasReachedMax // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        radiusIndex: null == radiusIndex
+            ? _value.radiusIndex
+            : radiusIndex // ignore: cast_nullable_to_non_nullable
+                  as int,
         search: null == search
             ? _value.search
             : search // ignore: cast_nullable_to_non_nullable
@@ -156,18 +212,14 @@ class __$$DonorsStateImplCopyWithImpl<$Res>
             ? _value.selectedDistance
             : selectedDistance // ignore: cast_nullable_to_non_nullable
                   as String,
-        minRating: null == minRating
-            ? _value.minRating
-            : minRating // ignore: cast_nullable_to_non_nullable
-                  as double,
         showFilters: null == showFilters
             ? _value.showFilters
             : showFilters // ignore: cast_nullable_to_non_nullable
                   as bool,
-        filtered: null == filtered
-            ? _value._filtered
-            : filtered // ignore: cast_nullable_to_non_nullable
-                  as List<Donor>,
+        errorMessage: freezed == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -175,16 +227,49 @@ class __$$DonorsStateImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$DonorsStateImpl implements _DonorsState {
+class _$DonorsStateImpl extends _DonorsState {
   const _$DonorsStateImpl({
+    this.status = DonorsStatus.initial,
+    final List<NearbyDonor> donors = const <NearbyDonor>[],
+    final List<NearbyDonor> filtered = const <NearbyDonor>[],
+    this.hasReachedMax = false,
+    this.radiusIndex = 0,
     this.search = '',
     this.selectedBloodGroup = 'All',
     this.selectedDistance = 'All',
-    this.minRating = 0.0,
     this.showFilters = false,
-    final List<Donor> filtered = const <Donor>[],
-  }) : _filtered = filtered;
+    this.errorMessage,
+  }) : _donors = donors,
+       _filtered = filtered,
+       super._();
 
+  @override
+  @JsonKey()
+  final DonorsStatus status;
+  final List<NearbyDonor> _donors;
+  @override
+  @JsonKey()
+  List<NearbyDonor> get donors {
+    if (_donors is EqualUnmodifiableListView) return _donors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_donors);
+  }
+
+  final List<NearbyDonor> _filtered;
+  @override
+  @JsonKey()
+  List<NearbyDonor> get filtered {
+    if (_filtered is EqualUnmodifiableListView) return _filtered;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_filtered);
+  }
+
+  @override
+  @JsonKey()
+  final bool hasReachedMax;
+  @override
+  @JsonKey()
+  final int radiusIndex;
   @override
   @JsonKey()
   final String search;
@@ -196,22 +281,13 @@ class _$DonorsStateImpl implements _DonorsState {
   final String selectedDistance;
   @override
   @JsonKey()
-  final double minRating;
-  @override
-  @JsonKey()
   final bool showFilters;
-  final List<Donor> _filtered;
   @override
-  @JsonKey()
-  List<Donor> get filtered {
-    if (_filtered is EqualUnmodifiableListView) return _filtered;
-    // ignore: implicit_dynamic_type
-    return EqualUnmodifiableListView(_filtered);
-  }
+  final String? errorMessage;
 
   @override
   String toString() {
-    return 'DonorsState(search: $search, selectedBloodGroup: $selectedBloodGroup, selectedDistance: $selectedDistance, minRating: $minRating, showFilters: $showFilters, filtered: $filtered)';
+    return 'DonorsState(status: $status, donors: $donors, filtered: $filtered, hasReachedMax: $hasReachedMax, radiusIndex: $radiusIndex, search: $search, selectedBloodGroup: $selectedBloodGroup, selectedDistance: $selectedDistance, showFilters: $showFilters, errorMessage: $errorMessage)';
   }
 
   @override
@@ -219,27 +295,37 @@ class _$DonorsStateImpl implements _DonorsState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$DonorsStateImpl &&
+            (identical(other.status, status) || other.status == status) &&
+            const DeepCollectionEquality().equals(other._donors, _donors) &&
+            const DeepCollectionEquality().equals(other._filtered, _filtered) &&
+            (identical(other.hasReachedMax, hasReachedMax) ||
+                other.hasReachedMax == hasReachedMax) &&
+            (identical(other.radiusIndex, radiusIndex) ||
+                other.radiusIndex == radiusIndex) &&
             (identical(other.search, search) || other.search == search) &&
             (identical(other.selectedBloodGroup, selectedBloodGroup) ||
                 other.selectedBloodGroup == selectedBloodGroup) &&
             (identical(other.selectedDistance, selectedDistance) ||
                 other.selectedDistance == selectedDistance) &&
-            (identical(other.minRating, minRating) ||
-                other.minRating == minRating) &&
             (identical(other.showFilters, showFilters) ||
                 other.showFilters == showFilters) &&
-            const DeepCollectionEquality().equals(other._filtered, _filtered));
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    status,
+    const DeepCollectionEquality().hash(_donors),
+    const DeepCollectionEquality().hash(_filtered),
+    hasReachedMax,
+    radiusIndex,
     search,
     selectedBloodGroup,
     selectedDistance,
-    minRating,
     showFilters,
-    const DeepCollectionEquality().hash(_filtered),
+    errorMessage,
   );
 
   /// Create a copy of DonorsState
@@ -251,16 +337,31 @@ class _$DonorsStateImpl implements _DonorsState {
       __$$DonorsStateImplCopyWithImpl<_$DonorsStateImpl>(this, _$identity);
 }
 
-abstract class _DonorsState implements DonorsState {
+abstract class _DonorsState extends DonorsState {
   const factory _DonorsState({
+    final DonorsStatus status,
+    final List<NearbyDonor> donors,
+    final List<NearbyDonor> filtered,
+    final bool hasReachedMax,
+    final int radiusIndex,
     final String search,
     final String selectedBloodGroup,
     final String selectedDistance,
-    final double minRating,
     final bool showFilters,
-    final List<Donor> filtered,
+    final String? errorMessage,
   }) = _$DonorsStateImpl;
+  const _DonorsState._() : super._();
 
+  @override
+  DonorsStatus get status;
+  @override
+  List<NearbyDonor> get donors;
+  @override
+  List<NearbyDonor> get filtered;
+  @override
+  bool get hasReachedMax;
+  @override
+  int get radiusIndex;
   @override
   String get search;
   @override
@@ -268,11 +369,9 @@ abstract class _DonorsState implements DonorsState {
   @override
   String get selectedDistance;
   @override
-  double get minRating;
-  @override
   bool get showFilters;
   @override
-  List<Donor> get filtered;
+  String? get errorMessage;
 
   /// Create a copy of DonorsState
   /// with the given fields replaced by the non-null parameter values.
