@@ -13,31 +13,48 @@ import 'donors_state.dart';
 class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
   final NearbyDonorsUseCase _useCase;
 
-  static const List<double> _radiusStepsKm = [5, 10, 25, 50, 100];
+  static const int _pageSize = 50;
+  static const double _maxRadiusKm = 1000;
 
   static const Map<String, double> _distanceFilterMap = {
-    '2km': 2,
-    '5km': 5,
     '10km': 10,
-    '20km': 20,
+    '50km': 50,
+    '100km': 100,
+    '500km': 500,
   };
 
   double? _latitude;
   double? _longitude;
+  // Cached from Firestore count() — 1 cheap read per session, no docs read.
+  int? _totalDonorCount;
 
   DonorsBloc(this._useCase) : super(DonorsState.initial()) {
     on<DonorsEvent>((event, emit) async {
       await event.when(
-        started: () => _load(emit, radiusIndex: 0, reset: true),
-        refreshed: () =>
-            _load(emit, radiusIndex: 0, reset: true, refreshOrigin: true),
+        started: () => _load(
+          emit,
+          startRadius: 10,
+          targetCount: _pageSize,
+          reset: true,
+        ),
+        refreshed: () => _load(
+          emit,
+          startRadius: 10,
+          targetCount: _pageSize,
+          reset: true,
+          refreshOrigin: true,
+        ),
         loadMoreRequested: () async {
           if (state.hasReachedMax) { return; }
           if (state.status == DonorsStatus.loading ||
               state.status == DonorsStatus.loadingMore) { return; }
-          await _load(emit, radiusIndex: state.radiusIndex + 1);
+          await _load(
+            emit,
+            startRadius: _nextRadius(state.currentRadiusKm),
+            targetCount: state.donors.length + _pageSize,
+          );
         },
-        // Local filters — no Firestore re-fetch, instant response.
+        // All filters are local — instant, no Firestore call.
         searchChanged: (value) async {
           final next = state.copyWith(search: value);
           emit(next.copyWith(filtered: _localFilter(next, next.donors)));
@@ -46,14 +63,12 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
           final next = state.copyWith(selectedBloodGroup: value);
           emit(next.copyWith(filtered: _localFilter(next, next.donors)));
         },
-        // Distance changes the Firestore radius — re-fetch, then close sheet.
         distanceSelected: (value) async {
-          emit(state.copyWith(selectedDistance: value, showFilters: false));
-          await _load(emit, radiusIndex: 0, reset: true);
+          final next = state.copyWith(selectedDistance: value);
+          emit(next.copyWith(filtered: _localFilter(next, next.donors)));
         },
         filtersOpened: () async => emit(state.copyWith(showFilters: true)),
         filtersClosed: () async => emit(state.copyWith(showFilters: false)),
-        // Apply button: re-apply local filters and close the sheet.
         filtersApplied: () async {
           final next = state.copyWith(showFilters: false);
           emit(next.copyWith(filtered: _localFilter(next, next.donors)));
@@ -66,18 +81,25 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
             showFilters: false,
           );
           emit(next.copyWith(filtered: next.donors));
-          await _load(emit, radiusIndex: 0, reset: true);
+          await _load(
+              emit, startRadius: 10, targetCount: _pageSize, reset: true);
         },
       );
     });
   }
 
-  double get _maxRadius =>
-      _distanceFilterMap[state.selectedDistance] ?? _radiusStepsKm.last;
+  /// Radius progression: 10→20→40→80 (doubling), then +20 each step.
+  static double _nextRadius(double current) {
+    if (current < 80) return current * 2;
+    return current + 20;
+  }
 
+  /// Expands radius automatically until [targetCount] donors found,
+  /// all donors loaded (via collection count), or 1000km reached.
   Future<void> _load(
     Emitter<DonorsState> emit, {
-    required int radiusIndex,
+    required double startRadius,
+    required int targetCount,
     bool reset = false,
     bool refreshOrigin = false,
   }) async {
@@ -94,9 +116,7 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
       final originResult = await _useCase.getOrigin(uid);
       final ok = originResult.fold((f) {
         emit(state.copyWith(
-          status: DonorsStatus.failure,
-          errorMessage: _msg(f),
-        ));
+            status: DonorsStatus.failure, errorMessage: _msg(f)));
         return false;
       }, (origin) {
         _latitude = origin.latitude;
@@ -106,54 +126,90 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
       if (!ok) { return; }
     }
 
-    final clampedIndex = radiusIndex.clamp(0, _radiusStepsKm.length - 1);
-    final radius = _radiusStepsKm[clampedIndex].clamp(0, _maxRadius).toDouble();
+    // Fetch total count once per bloc lifetime (count() reads 0 documents).
+    if (_totalDonorCount == null) {
+      final countResult = await _useCase.getTotalDonorCount();
+      countResult.fold((_) {}, (n) => _totalDonorCount = n);
+    }
 
     emit(state.copyWith(
       status: reset ? DonorsStatus.loading : DonorsStatus.loadingMore,
       errorMessage: null,
     ));
 
-    // Blood group filtering is done locally — no composite Firestore index needed.
-    final result = await _useCase(
-      latitude: _latitude!,
-      longitude: _longitude!,
-      radiusKm: radius,
-      excludeUid: uid,
-    );
+    // Total donors in collection minus the current user = true max.
+    final maxDonors = _totalDonorCount != null ? _totalDonorCount! - 1 : null;
 
-    result.fold(
-      (f) => emit(state.copyWith(
-        status: DonorsStatus.failure,
-        errorMessage: _msg(f),
-      )),
-      (donors) {
-        final atMax =
-            clampedIndex >= _radiusStepsKm.length - 1 || radius >= _maxRadius;
-        final noNew = !reset && donors.length <= state.donors.length;
-        final next = state.copyWith(
-          status: DonorsStatus.success,
-          donors: donors,
-          radiusIndex: clampedIndex,
-          hasReachedMax: atMax || noNew,
-          errorMessage: null,
-        );
-        emit(next.copyWith(filtered: _localFilter(next, donors)));
-      },
+    double radius = startRadius;
+    List<NearbyDonor> donors = [];
+    bool reachedMax = false;
+    bool hadError = false;
+
+    while (true) {
+      final result = await _useCase(
+        latitude: _latitude!,
+        longitude: _longitude!,
+        radiusKm: radius,
+        excludeUid: uid,
+      );
+
+      bool shouldBreak = false;
+      result.fold(
+        (f) {
+          emit(state.copyWith(
+              status: DonorsStatus.failure, errorMessage: _msg(f)));
+          hadError = true;
+          shouldBreak = true;
+        },
+        (fetched) {
+          donors = fetched;
+          // All donors in the platform are loaded.
+          final allLoaded = maxDonors != null && fetched.length >= maxDonors;
+          if (allLoaded) {
+            reachedMax = true;
+            shouldBreak = true;
+          } else if (fetched.length >= targetCount) {
+            // Enough for this page — more may exist.
+            shouldBreak = true;
+          } else if (radius >= _maxRadiusKm) {
+            // Hard 1000km limit reached.
+            reachedMax = true;
+            shouldBreak = true;
+          } else {
+            radius = _nextRadius(radius);
+          }
+        },
+      );
+
+      if (hadError || shouldBreak) break;
+    }
+
+    if (hadError) { return; }
+
+    final next = state.copyWith(
+      status: DonorsStatus.success,
+      donors: donors,
+      currentRadiusKm: radius,
+      hasReachedMax: reachedMax,
+      errorMessage: null,
     );
+    emit(next.copyWith(filtered: _localFilter(next, donors)));
   }
 
-  // Filters by blood group and search text on the in-memory donor list.
   static List<NearbyDonor> _localFilter(
     DonorsState state,
     List<NearbyDonor> donors,
   ) {
     var results = donors;
 
+    final maxDist = _distanceFilterMap[state.selectedDistance];
+    if (maxDist != null) {
+      results = results.where((d) => d.distanceKm <= maxDist).toList();
+    }
+
     if (state.selectedBloodGroup != 'All') {
-      results = results
-          .where((d) => d.bloodGroup == state.selectedBloodGroup)
-          .toList();
+      results =
+          results.where((d) => d.bloodGroup == state.selectedBloodGroup).toList();
     }
 
     final q = state.search.toLowerCase().trim();
