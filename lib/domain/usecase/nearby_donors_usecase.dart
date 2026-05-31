@@ -11,6 +11,9 @@ class NearbyDonorsUseCase {
 
   NearbyDonorsUseCase(this._repository);
 
+  Future<Either<Failure, int>> getTotalDonorCount() =>
+      _repository.getTotalDonorCount();
+
   Future<Either<Failure, ({double latitude, double longitude})>> getOrigin(
     String uid,
   ) => _repository.getOrigin(uid);
