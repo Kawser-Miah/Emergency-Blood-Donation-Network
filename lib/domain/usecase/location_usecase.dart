@@ -10,6 +10,7 @@ class LocationUseCase {
 
   LocationUseCase(this._locationRepository);
 
-  Future<Either<Failure, void>> updateLocation(String uid) =>
-      _locationRepository.updateLocation(uid);
+  /// Refresh GPS coordinates only (app open).
+  Future<Either<Failure, void>> updateGps(String uid) =>
+      _locationRepository.updateGps(uid);
 }
