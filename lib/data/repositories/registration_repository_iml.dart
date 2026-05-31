@@ -1,4 +1,5 @@
 import 'package:blood_setu/domain/failures/failures.dart';
+import 'package:blood_setu/domain/models/donor_location_model.dart';
 import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:blood_setu/domain/repositories/registration_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -37,8 +38,31 @@ class RegistrationRepositoryIml extends RegistrationRepository {
         photoUrl: user.photoURL,
       );
 
-      final docRef = _firebaseFirestore.collection('profile').doc(user.uid);
-      await docRef.set(finalProfile.toMap(), SetOptions(merge: true));
+      // Both documents are born here, in one place: the full profile, and the
+      // searchable donor index (user_locations) with info ONLY — coordinates
+      // auto-fill on first home-page open via LocationRepository.updateGps.
+      final batch = _firebaseFirestore.batch();
+      batch.set(
+        _firebaseFirestore.collection('profile').doc(user.uid),
+        finalProfile.toMap(),
+        SetOptions(merge: true),
+      );
+      batch.set(
+        _firebaseFirestore.collection('user_locations').doc(user.uid),
+        DonorLocationModel(
+          uid: user.uid,
+          fullName: finalProfile.fullName ?? '',
+          bloodGroup: finalProfile.bloodGroup ?? '',
+          district: finalProfile.district ?? '',
+          thana: finalProfile.thana ?? '',
+          isActive: finalProfile.isActive ?? true,
+          donorTier: finalProfile.donorTier ?? '',
+          totalDonations: finalProfile.totalDonations,
+          photoUrl: finalProfile.photoUrl,
+        ).toInfoMap(),
+        SetOptions(merge: true),
+      );
+      await batch.commit();
 
       return const Right(null);
     } on FirebaseAuthException catch (e) {
