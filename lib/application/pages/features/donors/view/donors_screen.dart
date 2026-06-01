@@ -152,7 +152,7 @@ class _Body extends StatelessWidget {
               ),
               const SizedBox(height: 12),
               Text(
-                state.errorMessage ?? 'Failed to load donors.',
+                state.error ?? 'Failed to load donors.',
                 textAlign: TextAlign.center,
                 style: const TextStyle(color: AppColors.textTertiary),
               ),
@@ -179,7 +179,7 @@ class _Body extends StatelessWidget {
       );
     }
 
-    if (state.filtered.isEmpty && state.status == DonorsStatus.success) {
+    if (state.filtered.isEmpty && !state.isLoading && !state.isLoadingMore && state.error == null) {
       return _Empty(
         onReset: () =>
             context.read<DonorsBloc>().add(const DonorsEvent.filtersReset()),
@@ -226,7 +226,7 @@ class _ListFooter extends StatelessWidget {
         ),
       );
     }
-    if (state.hasReachedMax && state.donors.isNotEmpty) {
+    if (!state.hasMore && state.donors.isNotEmpty) {
       return const Padding(
         padding: EdgeInsets.symmetric(vertical: 20),
         child: Center(
