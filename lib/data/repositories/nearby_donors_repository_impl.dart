@@ -15,8 +15,7 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
   @override
   Future<Either<Failure, int>> getTotalDonorCount() async {
     try {
-      final snap =
-          await _firestore.collection('user_locations').count().get();
+      final snap = await _firestore.collection('user_locations').count().get();
       return Right(snap.count ?? 0);
     } on FirebaseException catch (e) {
       return Left(GeneralFailure(e.message ?? 'Failed to get donor count.'));
@@ -30,8 +29,7 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
     String uid,
   ) async {
     try {
-      final doc =
-          await _firestore.collection('user_locations').doc(uid).get();
+      final doc = await _firestore.collection('user_locations').doc(uid).get();
       final data = doc.data();
       final lat = (data?['latitude'] as num?)?.toDouble();
       final lng = (data?['longitude'] as num?)?.toDouble();
@@ -61,8 +59,11 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
   }) async {
     try {
       final radiusMeters = radiusKm * 1000;
-      final bounds =
-          GeoQueryUtil.queryBounds(latitude, longitude, radiusMeters);
+      final bounds = GeoQueryUtil.queryBounds(
+        latitude,
+        longitude,
+        radiusMeters,
+      );
       final collection = _firestore.collection('user_locations');
 
       // One query per covering geohash range, run concurrently.
@@ -100,11 +101,10 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
       final donors = byUid.values.toList()
         ..sort((a, b) => a.distanceKm.compareTo(b.distanceKm));
 
+
       return Right(donors);
     } on FirebaseException catch (e) {
-      return Left(
-        GeneralFailure(e.message ?? 'Failed to load nearby donors.'),
-      );
+      return Left(GeneralFailure(e.message ?? 'Failed to load nearby donors.'));
     } catch (_) {
       return Left(GeneralFailure('Failed to load nearby donors.'));
     }
