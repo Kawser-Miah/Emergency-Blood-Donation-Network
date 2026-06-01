@@ -1,0 +1,392 @@
+================================================================================
+  BLOOD SETU — NEARBY DONORS PAGINATION SYSTEM
+  Technical Documentation
+  Date: 2026-05-31
+================================================================================
+
+
+────────────────────────────────────────────────────────────────────────────────
+1. OVERVIEW
+────────────────────────────────────────────────────────────────────────────────
+
+The Nearby Donors screen uses a radius-expansion pagination system backed by
+Firestore geohash queries. Instead of loading all donors at once or using
+Firestore's cursor-based pagination (which doesn't support distance sorting),
+the system expands a search radius ring by ring, accumulating donors as it goes,
+and stops as soon as enough results are found.
+
+This design solves a fundamental problem: Firestore cannot query
+"give me the 50 closest donors to this point" directly. There is no native
+ORDER BY distance in Firestore. The only way to do proximity search is through
+geohash range queries, which require knowing the radius in advance.
+
+
+────────────────────────────────────────────────────────────────────────────────
+2. HOW THE GEOHASH QUERY WORKS (PER ITERATION)
+────────────────────────────────────────────────────────────────────────────────
+
+Every "page" of results is a single Firestore search call internally made up
+of up to 9 parallel range queries. Here is the exact sequence:
+
+  Step 1 — Compute bounding box
+    Given the searcher's (lat, lng) and a radius in km, divide the circular
+    search area into a bounding box. This produces 9 corner/edge coordinates
+    (center, N, S, E, W, NE, NW, SE, SW).
+
+  Step 2 — Encode geohash ranges
+    Each of the 9 coordinates is encoded into a geohash prefix at the
+    appropriate precision level. Adjacent cells are merged and deduplicated,
+    producing R unique [start, end] string ranges (1 ≤ R ≤ 9).
+
+    Precision vs radius:
+      Radius  10 km  →  geohash precision 5  (cell ≈ 4.9 km × 4.9 km)
+      Radius  25 km  →  geohash precision 4  (cell ≈ 39 km × 20 km)
+      Radius 100 km  →  geohash precision 3  (cell ≈ 156 km × 156 km)
+
+  Step 3 — Fire R Firestore queries in parallel (Future.wait)
+    For each range:
+      db.collection('user_locations')
+        .orderBy('geohash')
+        .startAt([range.start])
+        .endAt([range.end])
+        .limit(50)
+        .get()
+
+    All R queries run concurrently. Wall-clock time = 1 network round trip,
+    regardless of how many ranges there are.
+
+  Step 4 — Merge, deduplicate, distance-filter, sort
+    All returned documents are merged into a Map<uid, NearbyDonor>.
+    Deduplication is automatic (same uid overwrites itself).
+    Documents where actual great-circle distance > radius are dropped
+    (geohash cells are rectangular and overshoot circles at the edges).
+    Result is sorted ascending by distanceKm.
+
+  Step 5 — Emit to UI
+    The sorted list is emitted immediately. The UI updates after each
+    iteration, so the user sees donors appearing progressively.
+
+
+────────────────────────────────────────────────────────────────────────────────
+3. RADIUS EXPANSION PROGRESSION
+────────────────────────────────────────────────────────────────────────────────
+
+The system starts small and expands outward until enough donors are found.
+The progression is designed in three phases:
+
+  Phase 1 — First jump (captures same-location users)
+    0 km  →  10 km
+
+  Phase 2 — Doubling (fast growth through urban areas)
+    10 km  →  20 km  →  40 km  →  80 km
+
+  Phase 3 — Linear +50 km steps (slower growth through rural/remote areas)
+    80 km  →  130 km  →  180 km  →  230 km  →  …  →  1000 km  (hard cap)
+
+Full sequence of queries (worst case, if no donors found anywhere):
+  10, 20, 40, 80, 130, 180, 230, 280, 330, 380, 430, 480, 530,
+  580, 630, 680, 730, 780, 830, 880, 930, 980, 1000 km
+
+  Total: 4 doubling steps + 19 linear steps = 23 iterations MAXIMUM.
+
+The loop stops as soon as ONE of these conditions is true:
+  • Accumulated unique donor count >= targetCount (50 for page 1)
+  • All donors in the platform are found (via count() comparison)
+  • Radius reaches 1000 km hard cap
+
+
+────────────────────────────────────────────────────────────────────────────────
+4. DONOR ACCUMULATION (KEY DESIGN DECISION)
+────────────────────────────────────────────────────────────────────────────────
+
+Unlike the old implementation (which REPLACED donors on each iteration),
+the new system ACCUMULATES donors across iterations using a Map<uid, NearbyDonor>.
+
+  Old behaviour:
+    Iteration 1 (10 km):  donors = [A, B]           ← keeps 2
+    Iteration 2 (20 km):  donors = [A, B, C, D]      ← replaces with 4
+    Iteration 3 (40 km):  donors = [A, B, C, D, E]   ← replaces with 5
+    ...50 found at 80 km  donors = [50 donors]        ← replaces again
+
+  New behaviour:
+    Iteration 1 (10 km):  byUid = {A, B}             ← merges 2
+    Iteration 2 (20 km):  byUid = {A, B, C, D}       ← merges 2 more (A,B already there)
+    Iteration 3 (40 km):  byUid = {A, B, C, D, E}    ← merges 1 more
+    ...50 found at 80 km  byUid = {50 donors}         ← cumulative total
+
+Why this matters:
+  • Donors at 0.0 km (same location as searcher) found in first 10 km query
+    and kept forever — never discarded by a later larger-radius replace.
+  • Donors at geohash cell boundaries (missed by one range, caught by
+    the next radius's wider ranges) are eventually included.
+  • Load More is seamless: the map is pre-seeded with existing state.donors
+    before expanding, so page 2 truly adds ON TOP of page 1.
+
+Deduplication cost: O(1) per donor — Map.[]= overwrite.
+Sort cost: O(n log n) per iteration, n ≤ 450 (9 ranges × 50 limit).
+Both are negligible compared to network time.
+
+
+────────────────────────────────────────────────────────────────────────────────
+5. LOAD MORE BEHAVIOUR
+────────────────────────────────────────────────────────────────────────────────
+
+When the user scrolls to the bottom, DonorsEvent.loadMoreRequested() fires.
+
+  State at end of page 1:
+    donors: [50 donors]
+    currentRadiusKm: 80.0    ← where the loop stopped
+    hasMore: true
+
+  Load More call:
+    startRadius = _nextRadius(80.0) = 130 km
+    targetCount = 50 + 50 = 100
+
+  Execution:
+    byUid is pre-seeded with the 50 existing donors.
+    Loop starts at 130 km. The 130 km query returns all donors within 130 km.
+    New donors (those between 80–130 km) are added to byUid.
+    If byUid.length >= 100, stop. Otherwise expand to 180 km, etc.
+
+  Result: page 2 adds donors 51–100 sorted by distance, fully accumulated.
+
+  Guard conditions (prevent double-firing):
+    if (!state.hasMore) return;
+    if (state.isLoading || state.isLoadingMore) return;
+
+
+────────────────────────────────────────────────────────────────────────────────
+6. SHAREDPREFERENCES RADIUS CACHE
+────────────────────────────────────────────────────────────────────────────────
+
+The system caches the last successful search radius per blood group so that
+subsequent opens skip the small warm-up iterations.
+
+  Cache key format:
+    "donor_radius_All"    — for "All" blood groups
+    "donor_radius_Op"     — for O+ (+ → p)
+    "donor_radius_ABm"    — for AB- (- → m)
+
+  On save: stores the radius (in km) where the loop stopped (found ≥ 50 donors).
+
+  On load: returns (saved × 0.8) clamped to [10, 1000].
+    The 80% factor gives a safety buffer — if the user has moved to a less
+    dense area, we don't start at a radius that's too large and miss nearby donors.
+
+  Example:
+    First open (no cache):   starts at 10 km
+    50 donors found at 40 km → saves 40 km
+    Second open:             starts at 40 × 0.8 = 32 km (skips 10 and 20 km queries)
+    User moves to rural area: 32 km finds only 10 donors → expands normally
+
+  Per blood group rationale:
+    O+ is very common → donors found at ~20 km, cache 20 km
+    AB- is very rare  → donors found at ~200 km, cache 200 km
+    Using separate caches prevents the AB- search from starting at 20 km
+    and wasting 8+ round trips before reaching useful radius.
+
+
+────────────────────────────────────────────────────────────────────────────────
+7. PROGRESSIVE UI EMISSION
+────────────────────────────────────────────────────────────────────────────────
+
+State is emitted after EVERY Firestore round trip, not only at the end.
+
+  Timeline for a user in a medium-density area:
+
+    t=0ms    → DonorsEvent.started() fired
+    t=1ms    → emit(isLoading: true, donors: [])        ← spinner shows
+    t=301ms  → 10 km query completes
+               emit(donors: [3], isLoadingMore: true)   ← 3 donors appear
+    t=601ms  → 20 km query completes
+               emit(donors: [8], isLoadingMore: true)   ← 8 donors appear
+    t=901ms  → 40 km query completes
+               emit(donors: [22], isLoadingMore: true)  ← 22 donors appear
+    t=1201ms → 80 km query completes (≥ 50 found)
+               emit(donors: [54], isLoadingMore: false) ← 54 donors, done
+
+  Without progressive emission, the user would stare at a spinner for 1.2 s.
+  With progressive emission, they see content after the first 300 ms.
+
+  The isLoadingMore: true flag shows a small spinner at the bottom of the list
+  while more donors load in, without blocking the already-visible results.
+
+
+────────────────────────────────────────────────────────────────────────────────
+8. PROBLEMS SOLVED
+────────────────────────────────────────────────────────────────────────────────
+
+  PROBLEM 1 — 0.0 km users not appearing
+    Cause: Old code replaced donors each iteration. If a 0 km user was found
+           at 10 km but the final stop was at 40 km, they appeared in the
+           final result only if the 40 km query also returned them (which it
+           should, but geohash boundary edge cases could cause misses).
+    Fix:   Accumulation — once found, a donor is never removed from byUid.
+
+  PROBLEM 2 — 17-second worst-case load time
+    Cause: Sequential while-loop (56 iterations × ~300 ms = ~17 s).
+    Fix:   Radius progression capped at 23 iterations maximum (was 56).
+           SharedPreferences cache reduces typical iterations to 1–3.
+           Progressive emission means users see data at ~300 ms even in
+           worst-case scenarios.
+
+  PROBLEM 3 — Load More discarding page 1 results
+    Cause: donors = fetched replaced the entire list each iteration,
+           including on the first load-more iteration.
+    Fix:   byUid is seeded with state.donors at the start of every load-more
+           call. New donors are merged on top. Old donors are preserved.
+
+  PROBLEM 4 — Start radius too small (0.1 km) causing many warm-up round trips
+    Cause: Starting at 0.1 km → 56 iterations to reach 1000 km.
+    Fix:   Start at 10 km → max 23 iterations. SharedPreferences cache
+           further reduces this to 1–3 iterations in most cases.
+
+  PROBLEM 5 — Rare blood groups wasting iterations
+    Cause: AB- donors might only exist at 300 km. Starting at 10 km wastes
+           20+ iterations before finding any.
+    Fix:   Separate cache key per blood group. AB- remembers 300 km and
+           starts at 240 km next time (300 × 0.8).
+
+
+────────────────────────────────────────────────────────────────────────────────
+9. TIME COMPLEXITY — CURRENT SYSTEM
+────────────────────────────────────────────────────────────────────────────────
+
+SETUP (once per page open):
+  ┌─────────────────────────────────────────┬────────────┬─────────────┐
+  │ Operation                               │ Doc Reads  │ Wall Time   │
+  ├─────────────────────────────────────────┼────────────┼─────────────┤
+  │ getTotalDonorCount() — count() query    │ 0 docs     │ 1 round trip│
+  │ getOrigin(uid) — read own location      │ 1 doc      │ 1 round trip│
+  │ SharedPreferences.getDouble()           │ local read │ ~0 ms       │
+  └─────────────────────────────────────────┴────────────┴─────────────┘
+  Setup cost: 2 round trips total (count + origin).
+  count() is cached for BLoC lifetime — only paid once per screen open.
+  origin is cached after first load — refreshed only on pull-to-refresh.
+
+PER EXPANSION ITERATION:
+  ┌─────────────────────────────────────────┬────────────┬─────────────┐
+  │ Operation                               │ Doc Reads  │ Wall Time   │
+  ├─────────────────────────────────────────┼────────────┼─────────────┤
+  │ queryBounds() — bounding box math       │ 0          │ ~0 ms       │
+  │ R Firestore range queries (parallel)    │ R × 50 max │ 1 round trip│
+  │ Merge + deduplicate (Map upsert)        │ 0          │ O(n), ~0 ms │
+  │ Distance filter + sort                  │ 0          │ O(n log n)  │
+  │ emit() to UI                            │ 0          │ ~0 ms       │
+  └─────────────────────────────────────────┴────────────┴─────────────┘
+  Where R = unique geohash ranges (1 ≤ R ≤ 9).
+  All R queries run in parallel via Future.wait → wall time = 1 round trip.
+
+TOTAL (worst case, no cache, no nearby donors):
+  ┌─────────────────────────────────────────┬────────────┬─────────────┐
+  │                                         │ Doc Reads  │ Wall Time   │
+  ├─────────────────────────────────────────┼────────────┼─────────────┤
+  │ Setup (count + origin)                  │ 1 doc      │ 2 × 300 ms  │
+  │ 23 expansion iterations × 9 ranges      │ 10,350 max │ 23 × 300 ms │
+  │ TOTAL                                   │ 10,351 max │ ~7.5 seconds│
+  └─────────────────────────────────────────┴────────────┴─────────────┘
+
+TOTAL (typical case, no cache, donors within 40 km):
+  ┌─────────────────────────────────────────┬────────────┬─────────────┐
+  │                                         │ Doc Reads  │ Wall Time   │
+  ├─────────────────────────────────────────┼────────────┼─────────────┤
+  │ Setup (count + origin)                  │ 1 doc      │ 2 × 300 ms  │
+  │ 3 iterations (10→20→40 km)              │ 3 × 9 × 50 │ 3 × 300 ms  │
+  │ TOTAL                                   │ 1,351 max  │ ~1.5 seconds│
+  └─────────────────────────────────────────┴────────────┴─────────────┘
+
+TOTAL (with cache hit, donors within 40 km, cached = 40 km):
+  Start radius = 40 × 0.8 = 32 km → first query finds 50+ donors → stop.
+  ┌─────────────────────────────────────────┬────────────┬─────────────┐
+  │                                         │ Doc Reads  │ Wall Time   │
+  ├─────────────────────────────────────────┼────────────┼─────────────┤
+  │ Setup (count + origin, both cached)     │ 0 docs     │ 0 ms        │
+  │ 1 iteration (32 km)                     │ 9 × 50     │ 1 × 300 ms  │
+  │ TOTAL                                   │ 450 max    │ ~300 ms     │
+  └─────────────────────────────────────────┴────────────┴─────────────┘
+
+Time notation:
+  Round trip time ≈ 200–400 ms on a typical mobile connection.
+  300 ms used as the average in all calculations above.
+
+
+────────────────────────────────────────────────────────────────────────────────
+10. PAGINATION VS FULL LOAD — COMPARISON TABLE
+────────────────────────────────────────────────────────────────────────────────
+
+┌────────────────────────────┬──────────────────────────────┬──────────────────────────────┐
+│ Dimension                  │ FULL LOAD (load everything)  │ RADIUS PAGINATION (this app) │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Strategy                   │ Fetch all donors in one shot │ Expand radius until 50 found │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ First byte to user         │ After ALL docs downloaded    │ After first 10 km query      │
+│ (time to first content)    │ could be 10–30 seconds       │ ~300–600 ms                  │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Firestore doc reads        │ ALL donors in collection     │ Only donors in search area   │
+│ (per page open)            │ e.g. 10,000 reads            │ 50–450 reads typical         │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Firestore cost             │ Very high — pays for every   │ Low — pays only for the      │
+│                            │ document regardless of       │ radius that has donors        │
+│                            │ whether user reads them      │ (50 docs ≈ $0.00003)         │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Memory usage (device)      │ All donors held in RAM       │ Only current page in RAM     │
+│                            │ could be MB of data          │ ~50 donors ≈ few KB          │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Network bandwidth          │ Downloads entire collection  │ Downloads only nearby donors │
+│                            │ on every open                │ minimal data transfer        │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Offline / poor connection  │ Fails entirely or is very    │ Shows partial results quickly │
+│                            │ slow. User sees nothing.     │ even on slow connections      │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Distance sorting           │ Easy — all data in memory    │ Done per-iteration client     │
+│                            │ sort once O(n log n)         │ side O(n log n), n ≤ 450     │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Load More support          │ Not needed (everything       │ Native — resume from last    │
+│                            │ already loaded)              │ radius, add 50 more donors   │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Scalability                │ Gets SLOWER as app grows     │ Stays constant — always      │
+│                            │ 1,000 users = fast           │ fetches only 50 donors       │
+│                            │ 100,000 users = broken       │ regardless of total users    │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Filtering (blood group)    │ Fast — filter in memory      │ Fast — filter in memory      │
+│                            │ after full load              │ after each iteration         │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Real-time updates          │ Data goes stale immediately  │ Refresh re-queries Firestore │
+│                            │ (snapshot taken at load)     │ with fresh GPS origin        │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Worst-case load time       │ Unbounded — grows with       │ Bounded at 23 iterations     │
+│                            │ collection size              │ ≤ 7.5 seconds                │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Typical load time          │ Proportional to total donors │ 1–3 iterations ≈ 300–900 ms │
+│                            │ (gets worse over time)       │ (constant regardless of size)│
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Same-location users (0 km) │ Found correctly              │ Found in first iteration     │
+│                            │ if distance computed right   │ (10 km radius covers 0 m)    │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Firestore index required   │ Simple collection scan       │ Single-field index on        │
+│                            │ no special index             │ 'geohash' field (auto-index) │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Battery usage              │ High — large network payload │ Low — minimal data transfer  │
+│                            │ on every open                │ per session                  │
+├────────────────────────────┼──────────────────────────────┼──────────────────────────────┤
+│ Suitable for               │ Small, static datasets       │ Large, growing, geographic   │
+│                            │ (< 500 records, rarely       │ datasets (thousands of users,│
+│                            │ changes)                     │ real-time locations)         │
+└────────────────────────────┴──────────────────────────────┴──────────────────────────────┘
+
+
+────────────────────────────────────────────────────────────────────────────────
+11. SUMMARY — KEY NUMBERS
+────────────────────────────────────────────────────────────────────────────────
+
+  Maximum iterations:      23     (was 56 in old code)
+  Maximum Firestore reads: 10,351 (was 25,200 in old code)
+  Typical Firestore reads: 450    (9 ranges × 50 docs, 1 iteration)
+  Worst-case wall time:    7.5 s  (was ~17 s in old code)
+  Typical wall time:       300 ms (with cache hit)
+  Time to first content:   ~300 ms (first iteration result shown immediately)
+  Load More round trips:   1–3    (from cached currentRadiusKm)
+
+================================================================================
+  END OF DOCUMENT
+================================================================================
