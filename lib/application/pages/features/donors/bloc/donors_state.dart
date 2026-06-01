@@ -4,28 +4,31 @@ import '../../../../../domain/models/nearby_donor.dart';
 
 part 'donors_state.freezed.dart';
 
-enum DonorsStatus { initial, loading, loadingMore, success, failure }
-
 @freezed
 class DonorsState with _$DonorsState {
   const DonorsState._();
 
   const factory DonorsState({
-    @Default(DonorsStatus.initial) DonorsStatus status,
     @Default(<NearbyDonor>[]) List<NearbyDonor> donors,
     @Default(<NearbyDonor>[]) List<NearbyDonor> filtered,
-    @Default(false) bool hasReachedMax,
-    @Default(10.0) double currentRadiusKm,
+    @Default(0.0) double currentRadiusKm,
+    @Default(true) bool hasMore,
+    @Default(false) bool isLoading,
+    @Default(false) bool isLoadingMore,
     @Default('') String search,
     @Default('All') String selectedBloodGroup,
     @Default('All') String selectedDistance,
     @Default(false) bool showFilters,
-    String? errorMessage,
+    String? error,
   }) = _DonorsState;
 
   factory DonorsState.initial() => const DonorsState();
 
-  bool get isInitialLoading => status == DonorsStatus.loading && donors.isEmpty;
-  bool get isLoadingMore => status == DonorsStatus.loadingMore;
-  bool get hasError => status == DonorsStatus.failure && donors.isEmpty;
+  // UI convenience getters.
+  bool get isInitialLoading => isLoading && donors.isEmpty;
+  bool get hasError => error != null && donors.isEmpty;
+  bool get hasFilters =>
+      selectedBloodGroup != 'All' ||
+      selectedDistance != 'All' ||
+      search.isNotEmpty;
 }
