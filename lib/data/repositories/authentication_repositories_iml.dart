@@ -1,3 +1,4 @@
+import 'package:blood_setu/application/core/services/sp_service/sp_service.dart';
 import 'package:blood_setu/domain/repositories/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -12,11 +13,13 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
   final FirebaseAuth _firebaseAuth;
   final FirebaseFirestore _firebaseFirestore;
   final GoogleSignIn _googleSignIn;
+  final SpService _spService;
 
   AuthenticationRepositoriesIml(
     this._firebaseAuth,
     this._firebaseFirestore,
     this._googleSignIn,
+    this._spService,
   );
 
   @override
@@ -87,7 +90,11 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
   @override
   Future<Either<Failure, void>> signOut() async {
     try {
-      await Future.wait([_firebaseAuth.signOut(), _googleSignIn.signOut()]);
+      await Future.wait([
+        _firebaseAuth.signOut(),
+        _googleSignIn.signOut(),
+        _spService.clearAll(),
+      ]);
 
       return const Right(null);
     } catch (e) {
