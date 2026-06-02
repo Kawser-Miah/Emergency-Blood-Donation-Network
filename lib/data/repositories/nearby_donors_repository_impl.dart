@@ -55,7 +55,6 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
     required double radiusKm,
     String? bloodGroup,
     String? excludeUid,
-    int limitPerRange = 50,
   }) async {
     try {
       final radiusMeters = radiusKm * 1000;
@@ -72,12 +71,9 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
         if (bloodGroup != null && bloodGroup.isNotEmpty) {
           query = query.where('bloodGroup', isEqualTo: bloodGroup);
         }
-        return query
-            .orderBy('geohash')
-            .startAt([range.start])
-            .endAt([range.end])
-            .limit(limitPerRange)
-            .get();
+        return query.orderBy('geohash').startAt([range.start]).endAt([
+          range.end,
+        ]).get();
       });
 
       final snapshots = await Future.wait(futures);
@@ -100,7 +96,6 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
 
       final donors = byUid.values.toList()
         ..sort((a, b) => a.distanceKm.compareTo(b.distanceKm));
-
 
       return Right(donors);
     } on FirebaseException catch (e) {

@@ -17,14 +17,12 @@ abstract class NearbyDonorsRepository {
   /// Returns donors within [radiusKm] of ([latitude], [longitude]), sorted by
   /// ascending distance. When [bloodGroup] is non-null/non-empty it is applied
   /// at the query level (requires a `bloodGroup + geohash` composite index).
-  /// [excludeUid] drops the searching user from the results. [limitPerRange]
-  /// caps reads per geohash range so a dense area never loads unbounded docs.
+  /// [excludeUid] drops the searching user from the results.
   Future<Either<Failure, List<NearbyDonor>>> getNearbyDonors({
     required double latitude,
     required double longitude,
     required double radiusKm,
     String? bloodGroup,
     String? excludeUid,
-    int limitPerRange,
   });
 }
