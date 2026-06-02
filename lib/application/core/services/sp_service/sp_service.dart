@@ -17,6 +17,8 @@ abstract interface class SpService {
   Future<List<String>?> readList(StorageKey key);
 
   Future<void> writeList(List<String> value, StorageKey key);
+
+  Future<void> clearAll();
 }
 
 @LazySingleton(as: SpService)
@@ -38,20 +40,15 @@ class SpServiceImpl implements SpService {
 
   @override
   Future<void> write<T>(T value, StorageKey key) async {
-    switch (value.runtimeType) {
-      case int:
+    switch (value) {
+      case int _:
         await _sp.setInt(key.name, value as int);
-        break;
-      case String:
+      case String _:
         await _sp.setString(key.name, value as String);
-        break;
-      case bool:
+      case bool _:
         await _sp.setBool(key.name, value as bool);
-        break;
-      case double:
+      case double _:
         await _sp.setDouble(key.name, value as double);
-        break;
-      // ToDo: write code for list and objects
       default:
         throw ArgumentError('Unsupported type: ${value.runtimeType}');
     }
@@ -76,16 +73,28 @@ class SpServiceImpl implements SpService {
 
   @override
   Future<void> writeRandom<T>(T value, String key) async {
-    // TODO: implement writeRandom
-    await _sp.setString(key, value.toString());
+    switch (value) {
+      case int _:
+        await _sp.setInt(key, value as int);
+      case String _:
+        await _sp.setString(key, value as String);
+      case bool _:
+        await _sp.setBool(key, value as bool);
+      case double _:
+        await _sp.setDouble(key, value as double);
+      default:
+        throw ArgumentError('Unsupported type: ${value.runtimeType}');
+    }
   }
 
   @override
   Future<T?> readRandom<T>(String key) async {
-    // Assume _sp is an instance of SharedPreferences
-    final value = _sp.getString(key);
-    // Attempt to cast the value to T
-    return value as T?;
+    return _sp.get(key) as T?;
+  }
+
+  @override
+  Future<void> clearAll() async {
+    await _sp.clear();
   }
 }
 
