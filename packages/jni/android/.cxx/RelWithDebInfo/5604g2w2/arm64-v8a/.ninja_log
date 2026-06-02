@@ -1,0 +1,5 @@
+# ninja log v5
+1	78	1780326568925035934	CMakeFiles/jni.dir/include/dart_api_dl.c.o	8b8c145a4720b388
+0	117	1780326568964033857	CMakeFiles/jni.dir/dartjni.c.o	6786452867b401c9
+0	615	1780326569458007554	CMakeFiles/jni.dir/third_party/global_jni_env.c.o	b890680aea6386c0
+615	629	1780326569477006542	/home/kawser-miah/Documents/flutter_project/blood_setu/build/jni/intermediates/cxx/RelWithDebInfo/5604g2w2/obj/arm64-v8a/libdartjni.so	842c71e7d2127c24
