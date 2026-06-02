@@ -1,11 +1,11 @@
 import 'package:blood_setu/application/core/auth/auth_controller.dart';
+import 'package:blood_setu/application/core/services/sp_service/sp_service.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/failures/failures.dart';
 import 'package:blood_setu/domain/models/nearby_donor.dart';
 import 'package:blood_setu/domain/usecase/nearby_donors_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import 'donors_event.dart';
 import 'donors_state.dart';
@@ -13,6 +13,7 @@ import 'donors_state.dart';
 @injectable
 class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
   final NearbyDonorsUseCase _useCase;
+  final SpService _spService;
 
   static const int _pageSize = 50;
   static const double _maxRadiusKm = 1000;
@@ -28,8 +29,9 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
   double? _latitude;
   double? _longitude;
   int? _totalDonorCount;
+  String _lastSearchBloodGroup = '';
 
-  DonorsBloc(this._useCase) : super(DonorsState.initial()) {
+  DonorsBloc(this._useCase, this._spService) : super(DonorsState.initial()) {
     on<DonorsEvent>((event, emit) async {
       await event.when(
         started: () async {
@@ -77,8 +79,19 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
         filtersOpened: () async => emit(state.copyWith(showFilters: true)),
         filtersClosed: () async => emit(state.copyWith(showFilters: false)),
         filtersApplied: () async {
+          final bloodGroupChanged =
+              state.selectedBloodGroup != _lastSearchBloodGroup;
           final next = state.copyWith(showFilters: false);
           emit(next.copyWith(filtered: _applyFilters(next, next.donors)));
+          if (bloodGroupChanged) {
+            final start = await _cachedStartRadius(state.selectedBloodGroup);
+            await _load(
+              emit,
+              startRadius: start,
+              targetCount: _pageSize,
+              reset: true,
+            );
+          }
         },
         filtersReset: () async {
           final next = state.copyWith(
@@ -88,9 +101,10 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
             showFilters: false,
           );
           emit(next.copyWith(filtered: next.donors));
+          final start = await _cachedStartRadius('All');
           await _load(
             emit,
-            startRadius: 10,
+            startRadius: start,
             targetCount: _pageSize,
             reset: true,
           );
@@ -125,15 +139,13 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
       '$_radiusCachePrefix${bg.replaceAll('+', 'p').replaceAll('-', 'm')}';
 
   Future<double> _cachedStartRadius(String bloodGroup) async {
-    final prefs = await SharedPreferences.getInstance();
-    final saved = prefs.getDouble(_cacheKey(bloodGroup));
-    if (saved == null) return 10; // no cache → first query at 10 km
+    final saved = await _spService.readRandom<double>(_cacheKey(bloodGroup));
+    if (saved == null) return 10;
     return (saved * 0.8).clamp(10.0, _maxRadiusKm);
   }
 
   Future<void> _cacheRadius(double radius, String bloodGroup) async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.setDouble(_cacheKey(bloodGroup), radius);
+    await _spService.writeRandom<double>(radius, _cacheKey(bloodGroup));
   }
 
   // ── Core load logic ───────────────────────────────────────────────────────
@@ -216,7 +228,12 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
         for (final d in state.donors) d.uid: d,
     };
 
-    final maxDonors = _totalDonorCount != null ? _totalDonorCount! - 1 : null;
+    // allLoaded check only applies to "All" — for a specific blood group we
+    // don't have a per-group count, so the radius cap terminates the loop.
+    final maxDonors =
+        (state.selectedBloodGroup == 'All' && _totalDonorCount != null)
+        ? _totalDonorCount! - 1
+        : null;
     double radius = startRadius;
 
     while (true) {
@@ -225,6 +242,9 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
         longitude: _longitude!,
         radiusKm: radius,
         excludeUid: uid,
+        bloodGroup: state.selectedBloodGroup == 'All'
+            ? null
+            : state.selectedBloodGroup,
       );
 
       bool hadError = false;
@@ -278,7 +298,7 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
       radius = _nextRadius(radius);
     }
 
-    // Remember this radius so the next session skips early warm-up queries.
+    _lastSearchBloodGroup = state.selectedBloodGroup;
     if (byUid.isNotEmpty) {
       await _cacheRadius(radius, state.selectedBloodGroup);
     }
