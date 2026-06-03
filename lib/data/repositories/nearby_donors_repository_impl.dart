@@ -15,7 +15,7 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
   @override
   Future<Either<Failure, int>> getTotalDonorCount() async {
     try {
-      final snap = await _firestore.collection('user_locations').count().get();
+      final snap = await _firestore.collection('user_locations').where('isActive', isEqualTo: true).count().get();
       return Right(snap.count ?? 0);
     } on FirebaseException catch (e) {
       return Left(GeneralFailure(e.message ?? 'Failed to get donor count.'));
@@ -67,7 +67,7 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
 
       // One query per covering geohash range, run concurrently.
       final futures = bounds.map((range) {
-        Query<Map<String, dynamic>> query = collection;
+        Query<Map<String, dynamic>> query = collection.where('isActive', isEqualTo: true);
         if (bloodGroup != null && bloodGroup.isNotEmpty) {
           query = query.where('bloodGroup', isEqualTo: bloodGroup);
         }
