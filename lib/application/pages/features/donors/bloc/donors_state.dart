@@ -13,7 +13,7 @@ class DonorsState with _$DonorsState {
     @Default(<NearbyDonor>[]) List<NearbyDonor> filtered,
     @Default(0.0) double currentRadiusKm,
     @Default(true) bool hasMore,
-    @Default(false) bool isLoading,
+    @Default(true) bool isLoading,
     @Default(false) bool isLoadingMore,
     @Default('') String search,
     @Default('All') String selectedBloodGroup,
