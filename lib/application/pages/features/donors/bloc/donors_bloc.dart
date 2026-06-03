@@ -69,7 +69,13 @@ class DonorsBloc extends Bloc<DonorsEvent, DonorsState> {
           emit(next.copyWith(filtered: _applyFilters(next, next.donors)));
         },
         bloodGroupSelected: (value) async {
-          final next = state.copyWith(selectedBloodGroup: value);
+          final hasMoreAfterSwitch = _totalDonorCount != null
+              ? state.donors.length < _totalDonorCount! - 1
+              : state.hasMore;
+          final next = state.copyWith(
+            selectedBloodGroup: value,
+            hasMore: hasMoreAfterSwitch,
+          );
           emit(next.copyWith(filtered: _applyFilters(next, next.donors)));
         },
         distanceSelected: (value) async {
