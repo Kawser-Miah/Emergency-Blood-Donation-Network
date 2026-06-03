@@ -246,7 +246,7 @@ class _$DonorsStateImpl extends _DonorsState {
     final List<NearbyDonor> filtered = const <NearbyDonor>[],
     this.currentRadiusKm = 0.0,
     this.hasMore = true,
-    this.isLoading = false,
+    this.isLoading = true,
     this.isLoadingMore = false,
     this.search = '',
     this.selectedBloodGroup = 'All',
