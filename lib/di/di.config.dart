@@ -129,6 +129,7 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i579.HomeBloc(
         gh<_i881.RegistrationUserUseCase>(),
         gh<_i1060.LocationUseCase>(),
+        gh<_i859.NearbyDonorsUseCase>(),
       ),
     );
     gh.factory<_i405.DonorsBloc>(
