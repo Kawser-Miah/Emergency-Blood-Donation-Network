@@ -86,7 +86,9 @@ class _CreateRequestView extends StatelessWidget {
               Column(
                 children: [
                   _Header(
-                    onBack: () {}
+                    onBack: () {
+                      Navigator.pop(context);
+                    }
                         // context.read<AppNavigationBloc>().add(
                         //   const AppNavigationEvent.navigated(AppScreen.home),
                         // ),
