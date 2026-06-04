@@ -145,7 +145,9 @@ class _HomeView extends StatelessWidget {
                 right: 20,
                 bottom: 80,
                 child: FloatingActionButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    AppRouter.router.push(PAGES.createRequest.screenPath);
+                  },
                   // context.read<AppNavigationBloc>().add(
                   //   const AppNavigationEvent.navigated(
                   //       AppScreen.createRequest),
