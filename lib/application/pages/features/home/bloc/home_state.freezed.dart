@@ -20,6 +20,9 @@ mixin _$HomeState {
   bool get showSidebar => throw _privateConstructorUsedError;
   bool get sosPressed => throw _privateConstructorUsedError;
   UserProfileModel? get profile => throw _privateConstructorUsedError;
+  List<NearbyDonor> get nearbyDonors => throw _privateConstructorUsedError;
+  bool get isLoadingNearby => throw _privateConstructorUsedError;
+  String? get nearbyError => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -33,7 +36,14 @@ abstract class $HomeStateCopyWith<$Res> {
   factory $HomeStateCopyWith(HomeState value, $Res Function(HomeState) then) =
       _$HomeStateCopyWithImpl<$Res, HomeState>;
   @useResult
-  $Res call({bool showSidebar, bool sosPressed, UserProfileModel? profile});
+  $Res call({
+    bool showSidebar,
+    bool sosPressed,
+    UserProfileModel? profile,
+    List<NearbyDonor> nearbyDonors,
+    bool isLoadingNearby,
+    String? nearbyError,
+  });
 }
 
 /// @nodoc
@@ -54,6 +64,9 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? showSidebar = null,
     Object? sosPressed = null,
     Object? profile = freezed,
+    Object? nearbyDonors = null,
+    Object? isLoadingNearby = null,
+    Object? nearbyError = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -69,6 +82,18 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                 ? _value.profile
                 : profile // ignore: cast_nullable_to_non_nullable
                       as UserProfileModel?,
+            nearbyDonors: null == nearbyDonors
+                ? _value.nearbyDonors
+                : nearbyDonors // ignore: cast_nullable_to_non_nullable
+                      as List<NearbyDonor>,
+            isLoadingNearby: null == isLoadingNearby
+                ? _value.isLoadingNearby
+                : isLoadingNearby // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            nearbyError: freezed == nearbyError
+                ? _value.nearbyError
+                : nearbyError // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -84,7 +109,14 @@ abstract class _$$HomeStateImplCopyWith<$Res>
   ) = __$$HomeStateImplCopyWithImpl<$Res>;
   @override
   @useResult
-  $Res call({bool showSidebar, bool sosPressed, UserProfileModel? profile});
+  $Res call({
+    bool showSidebar,
+    bool sosPressed,
+    UserProfileModel? profile,
+    List<NearbyDonor> nearbyDonors,
+    bool isLoadingNearby,
+    String? nearbyError,
+  });
 }
 
 /// @nodoc
@@ -104,6 +136,9 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? showSidebar = null,
     Object? sosPressed = null,
     Object? profile = freezed,
+    Object? nearbyDonors = null,
+    Object? isLoadingNearby = null,
+    Object? nearbyError = freezed,
   }) {
     return _then(
       _$HomeStateImpl(
@@ -119,6 +154,18 @@ class __$$HomeStateImplCopyWithImpl<$Res>
             ? _value.profile
             : profile // ignore: cast_nullable_to_non_nullable
                   as UserProfileModel?,
+        nearbyDonors: null == nearbyDonors
+            ? _value._nearbyDonors
+            : nearbyDonors // ignore: cast_nullable_to_non_nullable
+                  as List<NearbyDonor>,
+        isLoadingNearby: null == isLoadingNearby
+            ? _value.isLoadingNearby
+            : isLoadingNearby // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        nearbyError: freezed == nearbyError
+            ? _value.nearbyError
+            : nearbyError // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -131,7 +178,10 @@ class _$HomeStateImpl implements _HomeState {
     this.showSidebar = false,
     this.sosPressed = false,
     this.profile,
-  });
+    final List<NearbyDonor> nearbyDonors = const <NearbyDonor>[],
+    this.isLoadingNearby = true,
+    this.nearbyError,
+  }) : _nearbyDonors = nearbyDonors;
 
   @override
   @JsonKey()
@@ -141,10 +191,24 @@ class _$HomeStateImpl implements _HomeState {
   final bool sosPressed;
   @override
   final UserProfileModel? profile;
+  final List<NearbyDonor> _nearbyDonors;
+  @override
+  @JsonKey()
+  List<NearbyDonor> get nearbyDonors {
+    if (_nearbyDonors is EqualUnmodifiableListView) return _nearbyDonors;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_nearbyDonors);
+  }
+
+  @override
+  @JsonKey()
+  final bool isLoadingNearby;
+  @override
+  final String? nearbyError;
 
   @override
   String toString() {
-    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed, profile: $profile)';
+    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed, profile: $profile, nearbyDonors: $nearbyDonors, isLoadingNearby: $isLoadingNearby, nearbyError: $nearbyError)';
   }
 
   @override
@@ -156,12 +220,27 @@ class _$HomeStateImpl implements _HomeState {
                 other.showSidebar == showSidebar) &&
             (identical(other.sosPressed, sosPressed) ||
                 other.sosPressed == sosPressed) &&
-            (identical(other.profile, profile) || other.profile == profile));
+            (identical(other.profile, profile) || other.profile == profile) &&
+            const DeepCollectionEquality().equals(
+              other._nearbyDonors,
+              _nearbyDonors,
+            ) &&
+            (identical(other.isLoadingNearby, isLoadingNearby) ||
+                other.isLoadingNearby == isLoadingNearby) &&
+            (identical(other.nearbyError, nearbyError) ||
+                other.nearbyError == nearbyError));
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, showSidebar, sosPressed, profile);
+  int get hashCode => Object.hash(
+    runtimeType,
+    showSidebar,
+    sosPressed,
+    profile,
+    const DeepCollectionEquality().hash(_nearbyDonors),
+    isLoadingNearby,
+    nearbyError,
+  );
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -177,6 +256,9 @@ abstract class _HomeState implements HomeState {
     final bool showSidebar,
     final bool sosPressed,
     final UserProfileModel? profile,
+    final List<NearbyDonor> nearbyDonors,
+    final bool isLoadingNearby,
+    final String? nearbyError,
   }) = _$HomeStateImpl;
 
   @override
@@ -185,6 +267,12 @@ abstract class _HomeState implements HomeState {
   bool get sosPressed;
   @override
   UserProfileModel? get profile;
+  @override
+  List<NearbyDonor> get nearbyDonors;
+  @override
+  bool get isLoadingNearby;
+  @override
+  String? get nearbyError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
