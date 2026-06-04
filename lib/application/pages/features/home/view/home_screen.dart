@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../../../../data/mock_data.dart';
 import '../../../../../di/di.dart';
 import '../../../../../domain/models/blood_request.dart';
-import '../../../../../domain/models/donor.dart';
+import '../../../../../domain/models/nearby_donor.dart';
 import '../../../../../domain/models/user_profile_model.dart';
 import '../../../../../widgets/avatar.dart';
 import '../../../../core/services/routing/routing_utils.dart';
@@ -13,6 +13,20 @@ import '../../../../core/theme/colors.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
+
+const List<String> _avatarColors = [
+  '#1E88E5',
+  '#43A047',
+  '#E53935',
+  '#FB8C00',
+  '#9C27B0',
+  '#00ACC1',
+  '#F06292',
+  '#26A69A',
+];
+
+String _colorFor(String uid) =>
+    _avatarColors[uid.hashCode.abs() % _avatarColors.length];
 
 class _UrgencyConfig {
   const _UrgencyConfig({
@@ -100,23 +114,11 @@ class _HomeView extends StatelessWidget {
                           ),
                           const SizedBox(height: 20),
                           _NearbyDonors(
+                            donors: state.nearbyDonors,
+                            isLoading: state.isLoadingNearby,
                             onSeeAll: () {
                               AppRouter.router.push(PAGES.donors.screenPath);
                             },
-                            onMessage: (donor) {},
-                            // context.read<AppNavigationBloc>().add(
-                            //       AppNavigationEvent.navigated(
-                            //         AppScreen.chat,
-                            //         contact: ChatContact(
-                            //           name: donor.name,
-                            //           bloodGroup: donor.bloodGroup,
-                            //           id: donor.id,
-                            //           initials: donor.initials,
-                            //           avatarColor: donor.avatarColor,
-                            //           online: donor.online,
-                            //         ),
-                            //       ),
-                            //     ),
                           ),
                           const SizedBox(height: 20),
                           _ActiveRequests(
@@ -497,14 +499,18 @@ class _SosButton extends StatelessWidget {
 }
 
 class _NearbyDonors extends StatelessWidget {
-  const _NearbyDonors({required this.onSeeAll, required this.onMessage});
+  const _NearbyDonors({
+    required this.donors,
+    required this.isLoading,
+    required this.onSeeAll,
+  });
 
+  final List<NearbyDonor> donors;
+  final bool isLoading;
   final VoidCallback onSeeAll;
-  final void Function(Donor) onMessage;
 
   @override
   Widget build(BuildContext context) {
-    final donors = mockDonors.take(5).toList();
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
@@ -536,20 +542,49 @@ class _NearbyDonors extends StatelessWidget {
           ),
         ),
         SizedBox(
-          height: 220,
-          child: ListView.separated(
-            scrollDirection: Axis.horizontal,
-            padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: donors.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (context, i) {
-              final donor = donors[i];
-              return _DonorCard(
-                donor: donor,
-                onMessage: () => onMessage(donor),
-              );
-            },
-          ),
+          height: 200,
+          child: isLoading
+              ? const Center(
+                  child: SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(strokeWidth: 2.5),
+                  ),
+                )
+              : donors.isEmpty
+              ? Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Text('🩸', style: TextStyle(fontSize: 32)),
+                      const SizedBox(height: 8),
+                      const Text(
+                        'No donors found nearby',
+                        style: TextStyle(
+                          fontSize: 13,
+                          color: AppColors.textTertiary,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: onSeeAll,
+                        child: const Text(
+                          'Search wider area',
+                          style: TextStyle(
+                            fontSize: 12,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : ListView.separated(
+                  scrollDirection: Axis.horizontal,
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  itemCount: donors.length,
+                  separatorBuilder: (_, _) => const SizedBox(width: 12),
+                  itemBuilder: (context, i) => _DonorCard(donor: donors[i]),
+                ),
         ),
       ],
     );
@@ -557,14 +592,14 @@ class _NearbyDonors extends StatelessWidget {
 }
 
 class _DonorCard extends StatelessWidget {
-  const _DonorCard({required this.donor, required this.onMessage});
+  const _DonorCard({required this.donor});
 
-  final Donor donor;
-  final VoidCallback onMessage;
+  final NearbyDonor donor;
 
   @override
   Widget build(BuildContext context) {
     final firstName = donor.name.split(' ').first;
+    final photoUrl = donor.photoUrl;
     return Container(
       width: 130,
       padding: const EdgeInsets.all(12),
@@ -582,12 +617,17 @@ class _DonorCard extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          Avatar(
-            initials: donor.initials,
-            colorHex: donor.avatarColor,
-            size: 44,
-            online: donor.online,
-          ),
+          photoUrl != null && photoUrl.isNotEmpty
+              ? CircleAvatar(
+                  radius: 22,
+                  backgroundImage: NetworkImage(photoUrl),
+                )
+              : Avatar(
+                  initials: donor.initials,
+                  colorHex: _colorFor(donor.uid),
+                  size: 44,
+                  online: donor.isActive,
+                ),
           const SizedBox(height: 8),
           Text(
             firstName,
@@ -626,7 +666,7 @@ class _DonorCard extends StatelessWidget {
               ),
               const SizedBox(width: 2),
               Text(
-                '${donor.distance} km',
+                '${donor.distanceKm.toStringAsFixed(1)} km',
                 style: const TextStyle(
                   fontSize: 10,
                   color: AppColors.textTertiary,
@@ -637,10 +677,10 @@ class _DonorCard extends StatelessWidget {
           Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.star, size: 10, color: AppColors.warning),
+              const Text('🩸', style: TextStyle(fontSize: 10)),
               const SizedBox(width: 2),
               Text(
-                donor.rating.toString(),
+                '${donor.totalDonations} donations',
                 style: const TextStyle(
                   fontSize: 10,
                   color: AppColors.textTertiary,
@@ -668,21 +708,17 @@ class _DonorCard extends StatelessWidget {
               ),
               const SizedBox(width: 4),
               Expanded(
-                child: InkWell(
-                  onTap: onMessage,
-                  borderRadius: BorderRadius.circular(12),
-                  child: Container(
-                    height: 28,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: AppColors.primary,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Icon(
-                      Icons.chat_bubble_outline,
-                      size: 12,
-                      color: Colors.white,
-                    ),
+                child: Container(
+                  height: 28,
+                  alignment: Alignment.center,
+                  decoration: BoxDecoration(
+                    color: AppColors.primary,
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: const Icon(
+                    Icons.chat_bubble_outline,
+                    size: 12,
+                    color: Colors.white,
                   ),
                 ),
               ),
