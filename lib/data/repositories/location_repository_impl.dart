@@ -22,11 +22,11 @@ class LocationRepositoryImpl extends LocationRepository {
       final position = locationResult.getOrElse(() => throw StateError(''));
 
       // Coordinates only — leaves the searchable donor fields untouched.
-      await _firestore.collection('user_locations').doc(uid).set(
-            DonorLocationModel.coordsMap(
-              position.latitude,
-              position.longitude,
-            ),
+      await _firestore
+          .collection('user_locations')
+          .doc(uid)
+          .set(
+            DonorLocationModel.coordsMap(position.latitude, position.longitude),
             SetOptions(merge: true),
           );
       return const Right(null);
