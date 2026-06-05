@@ -60,6 +60,12 @@ class CreateRequestBloc
             status: CreateRequestStatus.initial,
           ),
         ),
+        mapLocationPicked: (lat, lng, address) async => emit(state.copyWith(
+          address: address,
+          latitude: lat,
+          longitude: lng,
+          status: CreateRequestStatus.initial,
+        )),
         gpsLocationRequested: () async {
           emit(state.copyWith(isGpsLoading: true));
           final result = await _locationUseCase.getAddressData();
