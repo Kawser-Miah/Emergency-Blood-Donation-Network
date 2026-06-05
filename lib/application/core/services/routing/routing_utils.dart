@@ -8,6 +8,7 @@ enum PAGES {
   chat,
   createRequest,
   profile,
+  mapPicker,
 }
 
 extension AppPageExtention on PAGES {
@@ -31,6 +32,8 @@ extension AppPageExtention on PAGES {
         return '/createRequest';
       case PAGES.profile:
         return '/profile';
+      case PAGES.mapPicker:
+        return '/mapPicker';
     }
   }
 
@@ -54,6 +57,8 @@ extension AppPageExtention on PAGES {
         return 'Create Request';
       case PAGES.profile:
         return 'Profile';
+      case PAGES.mapPicker:
+        return 'Map Picker';
     }
   }
 }
