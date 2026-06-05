@@ -26,12 +26,13 @@ mixin _$CreateRequestEvent {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -42,12 +43,13 @@ mixin _$CreateRequestEvent {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -58,12 +60,13 @@ mixin _$CreateRequestEvent {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -78,9 +81,10 @@ mixin _$CreateRequestEvent {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -94,9 +98,10 @@ mixin _$CreateRequestEvent {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -110,9 +115,10 @@ mixin _$CreateRequestEvent {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -219,12 +225,13 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return patientNameChanged(value);
   }
@@ -239,12 +246,13 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return patientNameChanged?.call(value);
   }
@@ -259,12 +267,13 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (patientNameChanged != null) {
@@ -286,9 +295,10 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return patientNameChanged(this);
   }
@@ -306,9 +316,10 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return patientNameChanged?.call(this);
   }
@@ -326,9 +337,10 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (patientNameChanged != null) {
@@ -431,12 +443,13 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return bloodGroupChanged(value);
   }
@@ -451,12 +464,13 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return bloodGroupChanged?.call(value);
   }
@@ -471,12 +485,13 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (bloodGroupChanged != null) {
@@ -498,9 +513,10 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return bloodGroupChanged(this);
   }
@@ -518,9 +534,10 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return bloodGroupChanged?.call(this);
   }
@@ -538,9 +555,10 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (bloodGroupChanged != null) {
@@ -613,12 +631,13 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return unitsIncremented();
   }
@@ -633,12 +652,13 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return unitsIncremented?.call();
   }
@@ -653,12 +673,13 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (unitsIncremented != null) {
@@ -680,9 +701,10 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return unitsIncremented(this);
   }
@@ -700,9 +722,10 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return unitsIncremented?.call(this);
   }
@@ -720,9 +743,10 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (unitsIncremented != null) {
@@ -786,12 +810,13 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return unitsDecremented();
   }
@@ -806,12 +831,13 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return unitsDecremented?.call();
   }
@@ -826,12 +852,13 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (unitsDecremented != null) {
@@ -853,9 +880,10 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return unitsDecremented(this);
   }
@@ -873,9 +901,10 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return unitsDecremented?.call(this);
   }
@@ -893,9 +922,10 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (unitsDecremented != null) {
@@ -989,12 +1019,13 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return hospitalChanged(value);
   }
@@ -1009,12 +1040,13 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return hospitalChanged?.call(value);
   }
@@ -1029,12 +1061,13 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (hospitalChanged != null) {
@@ -1056,9 +1089,10 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return hospitalChanged(this);
   }
@@ -1076,9 +1110,10 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return hospitalChanged?.call(this);
   }
@@ -1096,9 +1131,10 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (hospitalChanged != null) {
@@ -1200,12 +1236,13 @@ class _$AddressChangedImpl implements _AddressChanged {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return addressChanged(value);
   }
@@ -1220,12 +1257,13 @@ class _$AddressChangedImpl implements _AddressChanged {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return addressChanged?.call(value);
   }
@@ -1240,12 +1278,13 @@ class _$AddressChangedImpl implements _AddressChanged {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (addressChanged != null) {
@@ -1267,9 +1306,10 @@ class _$AddressChangedImpl implements _AddressChanged {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return addressChanged(this);
   }
@@ -1287,9 +1327,10 @@ class _$AddressChangedImpl implements _AddressChanged {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return addressChanged?.call(this);
   }
@@ -1307,9 +1348,10 @@ class _$AddressChangedImpl implements _AddressChanged {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (addressChanged != null) {
@@ -1411,12 +1453,13 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return urgencyChanged(value);
   }
@@ -1431,12 +1474,13 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return urgencyChanged?.call(value);
   }
@@ -1451,12 +1495,13 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (urgencyChanged != null) {
@@ -1478,9 +1523,10 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return urgencyChanged(this);
   }
@@ -1498,9 +1544,10 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return urgencyChanged?.call(this);
   }
@@ -1518,9 +1565,10 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (urgencyChanged != null) {
@@ -1549,7 +1597,7 @@ abstract class _$$NeedByChangedImplCopyWith<$Res> {
     $Res Function(_$NeedByChangedImpl) then,
   ) = __$$NeedByChangedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({String value});
+  $Res call({DateTime value});
 }
 
 /// @nodoc
@@ -1571,7 +1619,7 @@ class __$$NeedByChangedImplCopyWithImpl<$Res>
         null == value
             ? _value.value
             : value // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as DateTime,
       ),
     );
   }
@@ -1583,7 +1631,7 @@ class _$NeedByChangedImpl implements _NeedByChanged {
   const _$NeedByChangedImpl(this.value);
 
   @override
-  final String value;
+  final DateTime value;
 
   @override
   String toString() {
@@ -1619,12 +1667,13 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return needByChanged(value);
   }
@@ -1639,12 +1688,13 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return needByChanged?.call(value);
   }
@@ -1659,12 +1709,13 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (needByChanged != null) {
@@ -1686,9 +1737,10 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return needByChanged(this);
   }
@@ -1706,9 +1758,10 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return needByChanged?.call(this);
   }
@@ -1726,9 +1779,10 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (needByChanged != null) {
@@ -1739,9 +1793,9 @@ class _$NeedByChangedImpl implements _NeedByChanged {
 }
 
 abstract class _NeedByChanged implements CreateRequestEvent {
-  const factory _NeedByChanged(final String value) = _$NeedByChangedImpl;
+  const factory _NeedByChanged(final DateTime value) = _$NeedByChangedImpl;
 
-  String get value;
+  DateTime get value;
 
   /// Create a copy of CreateRequestEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1830,12 +1884,13 @@ class _$ContactChangedImpl implements _ContactChanged {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return contactChanged(value);
   }
@@ -1850,12 +1905,13 @@ class _$ContactChangedImpl implements _ContactChanged {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return contactChanged?.call(value);
   }
@@ -1870,12 +1926,13 @@ class _$ContactChangedImpl implements _ContactChanged {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (contactChanged != null) {
@@ -1897,9 +1954,10 @@ class _$ContactChangedImpl implements _ContactChanged {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return contactChanged(this);
   }
@@ -1917,9 +1975,10 @@ class _$ContactChangedImpl implements _ContactChanged {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return contactChanged?.call(this);
   }
@@ -1937,9 +1996,10 @@ class _$ContactChangedImpl implements _ContactChanged {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (contactChanged != null) {
@@ -2038,12 +2098,13 @@ class _$NotesChangedImpl implements _NotesChanged {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return notesChanged(value);
   }
@@ -2058,12 +2119,13 @@ class _$NotesChangedImpl implements _NotesChanged {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return notesChanged?.call(value);
   }
@@ -2078,12 +2140,13 @@ class _$NotesChangedImpl implements _NotesChanged {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (notesChanged != null) {
@@ -2105,9 +2168,10 @@ class _$NotesChangedImpl implements _NotesChanged {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return notesChanged(this);
   }
@@ -2125,9 +2189,10 @@ class _$NotesChangedImpl implements _NotesChanged {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return notesChanged?.call(this);
   }
@@ -2145,9 +2210,10 @@ class _$NotesChangedImpl implements _NotesChanged {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (notesChanged != null) {
@@ -2167,180 +2233,6 @@ abstract class _NotesChanged implements CreateRequestEvent {
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$NotesChangedImplCopyWith<_$NotesChangedImpl> get copyWith =>
       throw _privateConstructorUsedError;
-}
-
-/// @nodoc
-abstract class _$$ShareFacebookToggledImplCopyWith<$Res> {
-  factory _$$ShareFacebookToggledImplCopyWith(
-    _$ShareFacebookToggledImpl value,
-    $Res Function(_$ShareFacebookToggledImpl) then,
-  ) = __$$ShareFacebookToggledImplCopyWithImpl<$Res>;
-}
-
-/// @nodoc
-class __$$ShareFacebookToggledImplCopyWithImpl<$Res>
-    extends _$CreateRequestEventCopyWithImpl<$Res, _$ShareFacebookToggledImpl>
-    implements _$$ShareFacebookToggledImplCopyWith<$Res> {
-  __$$ShareFacebookToggledImplCopyWithImpl(
-    _$ShareFacebookToggledImpl _value,
-    $Res Function(_$ShareFacebookToggledImpl) _then,
-  ) : super(_value, _then);
-
-  /// Create a copy of CreateRequestEvent
-  /// with the given fields replaced by the non-null parameter values.
-}
-
-/// @nodoc
-
-class _$ShareFacebookToggledImpl implements _ShareFacebookToggled {
-  const _$ShareFacebookToggledImpl();
-
-  @override
-  String toString() {
-    return 'CreateRequestEvent.shareFacebookToggled()';
-  }
-
-  @override
-  bool operator ==(Object other) {
-    return identical(this, other) ||
-        (other.runtimeType == runtimeType &&
-            other is _$ShareFacebookToggledImpl);
-  }
-
-  @override
-  int get hashCode => runtimeType.hashCode;
-
-  @override
-  @optionalTypeArgs
-  TResult when<TResult extends Object?>({
-    required TResult Function(String value) patientNameChanged,
-    required TResult Function(String value) bloodGroupChanged,
-    required TResult Function() unitsIncremented,
-    required TResult Function() unitsDecremented,
-    required TResult Function(String value) hospitalChanged,
-    required TResult Function(String value) addressChanged,
-    required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
-    required TResult Function(String value) contactChanged,
-    required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
-    required TResult Function() confirmed1Toggled,
-    required TResult Function() confirmed2Toggled,
-  }) {
-    return shareFacebookToggled();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function(String value)? patientNameChanged,
-    TResult? Function(String value)? bloodGroupChanged,
-    TResult? Function()? unitsIncremented,
-    TResult? Function()? unitsDecremented,
-    TResult? Function(String value)? hospitalChanged,
-    TResult? Function(String value)? addressChanged,
-    TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
-    TResult? Function(String value)? contactChanged,
-    TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
-    TResult? Function()? confirmed1Toggled,
-    TResult? Function()? confirmed2Toggled,
-  }) {
-    return shareFacebookToggled?.call();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeWhen<TResult extends Object?>({
-    TResult Function(String value)? patientNameChanged,
-    TResult Function(String value)? bloodGroupChanged,
-    TResult Function()? unitsIncremented,
-    TResult Function()? unitsDecremented,
-    TResult Function(String value)? hospitalChanged,
-    TResult Function(String value)? addressChanged,
-    TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
-    TResult Function(String value)? contactChanged,
-    TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
-    TResult Function()? confirmed1Toggled,
-    TResult Function()? confirmed2Toggled,
-    required TResult orElse(),
-  }) {
-    if (shareFacebookToggled != null) {
-      return shareFacebookToggled();
-    }
-    return orElse();
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult map<TResult extends Object?>({
-    required TResult Function(_PatientNameChanged value) patientNameChanged,
-    required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
-    required TResult Function(_UnitsIncremented value) unitsIncremented,
-    required TResult Function(_UnitsDecremented value) unitsDecremented,
-    required TResult Function(_HospitalChanged value) hospitalChanged,
-    required TResult Function(_AddressChanged value) addressChanged,
-    required TResult Function(_UrgencyChanged value) urgencyChanged,
-    required TResult Function(_NeedByChanged value) needByChanged,
-    required TResult Function(_ContactChanged value) contactChanged,
-    required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
-    required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
-    required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
-  }) {
-    return shareFacebookToggled(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_PatientNameChanged value)? patientNameChanged,
-    TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
-    TResult? Function(_UnitsIncremented value)? unitsIncremented,
-    TResult? Function(_UnitsDecremented value)? unitsDecremented,
-    TResult? Function(_HospitalChanged value)? hospitalChanged,
-    TResult? Function(_AddressChanged value)? addressChanged,
-    TResult? Function(_UrgencyChanged value)? urgencyChanged,
-    TResult? Function(_NeedByChanged value)? needByChanged,
-    TResult? Function(_ContactChanged value)? contactChanged,
-    TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
-    TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
-    TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
-  }) {
-    return shareFacebookToggled?.call(this);
-  }
-
-  @override
-  @optionalTypeArgs
-  TResult maybeMap<TResult extends Object?>({
-    TResult Function(_PatientNameChanged value)? patientNameChanged,
-    TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
-    TResult Function(_UnitsIncremented value)? unitsIncremented,
-    TResult Function(_UnitsDecremented value)? unitsDecremented,
-    TResult Function(_HospitalChanged value)? hospitalChanged,
-    TResult Function(_AddressChanged value)? addressChanged,
-    TResult Function(_UrgencyChanged value)? urgencyChanged,
-    TResult Function(_NeedByChanged value)? needByChanged,
-    TResult Function(_ContactChanged value)? contactChanged,
-    TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
-    TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
-    TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
-    required TResult orElse(),
-  }) {
-    if (shareFacebookToggled != null) {
-      return shareFacebookToggled(this);
-    }
-    return orElse();
-  }
-}
-
-abstract class _ShareFacebookToggled implements CreateRequestEvent {
-  const factory _ShareFacebookToggled() = _$ShareFacebookToggledImpl;
 }
 
 /// @nodoc
@@ -2393,12 +2285,13 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return confirmed1Toggled();
   }
@@ -2413,12 +2306,13 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return confirmed1Toggled?.call();
   }
@@ -2433,12 +2327,13 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (confirmed1Toggled != null) {
@@ -2460,9 +2355,10 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return confirmed1Toggled(this);
   }
@@ -2480,9 +2376,10 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return confirmed1Toggled?.call(this);
   }
@@ -2500,9 +2397,10 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (confirmed1Toggled != null) {
@@ -2566,12 +2464,13 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     required TResult Function(String value) hospitalChanged,
     required TResult Function(String value) addressChanged,
     required TResult Function(String value) urgencyChanged,
-    required TResult Function(String value) needByChanged,
+    required TResult Function(DateTime value) needByChanged,
     required TResult Function(String value) contactChanged,
     required TResult Function(String value) notesChanged,
-    required TResult Function() shareFacebookToggled,
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
   }) {
     return confirmed2Toggled();
   }
@@ -2586,12 +2485,13 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     TResult? Function(String value)? hospitalChanged,
     TResult? Function(String value)? addressChanged,
     TResult? Function(String value)? urgencyChanged,
-    TResult? Function(String value)? needByChanged,
+    TResult? Function(DateTime value)? needByChanged,
     TResult? Function(String value)? contactChanged,
     TResult? Function(String value)? notesChanged,
-    TResult? Function()? shareFacebookToggled,
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
   }) {
     return confirmed2Toggled?.call();
   }
@@ -2606,12 +2506,13 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     TResult Function(String value)? hospitalChanged,
     TResult Function(String value)? addressChanged,
     TResult Function(String value)? urgencyChanged,
-    TResult Function(String value)? needByChanged,
+    TResult Function(DateTime value)? needByChanged,
     TResult Function(String value)? contactChanged,
     TResult Function(String value)? notesChanged,
-    TResult Function()? shareFacebookToggled,
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
     if (confirmed2Toggled != null) {
@@ -2633,9 +2534,10 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     required TResult Function(_NeedByChanged value) needByChanged,
     required TResult Function(_ContactChanged value) contactChanged,
     required TResult Function(_NotesChanged value) notesChanged,
-    required TResult Function(_ShareFacebookToggled value) shareFacebookToggled,
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return confirmed2Toggled(this);
   }
@@ -2653,9 +2555,10 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     TResult? Function(_NeedByChanged value)? needByChanged,
     TResult? Function(_ContactChanged value)? contactChanged,
     TResult? Function(_NotesChanged value)? notesChanged,
-    TResult? Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return confirmed2Toggled?.call(this);
   }
@@ -2673,9 +2576,10 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     TResult Function(_NeedByChanged value)? needByChanged,
     TResult Function(_ContactChanged value)? contactChanged,
     TResult Function(_NotesChanged value)? notesChanged,
-    TResult Function(_ShareFacebookToggled value)? shareFacebookToggled,
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
     if (confirmed2Toggled != null) {
@@ -2687,4 +2591,363 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
 
 abstract class _Confirmed2Toggled implements CreateRequestEvent {
   const factory _Confirmed2Toggled() = _$Confirmed2ToggledImpl;
+}
+
+/// @nodoc
+abstract class _$$GpsLocationRequestedImplCopyWith<$Res> {
+  factory _$$GpsLocationRequestedImplCopyWith(
+    _$GpsLocationRequestedImpl value,
+    $Res Function(_$GpsLocationRequestedImpl) then,
+  ) = __$$GpsLocationRequestedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$GpsLocationRequestedImplCopyWithImpl<$Res>
+    extends _$CreateRequestEventCopyWithImpl<$Res, _$GpsLocationRequestedImpl>
+    implements _$$GpsLocationRequestedImplCopyWith<$Res> {
+  __$$GpsLocationRequestedImplCopyWithImpl(
+    _$GpsLocationRequestedImpl _value,
+    $Res Function(_$GpsLocationRequestedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of CreateRequestEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$GpsLocationRequestedImpl implements _GpsLocationRequested {
+  const _$GpsLocationRequestedImpl();
+
+  @override
+  String toString() {
+    return 'CreateRequestEvent.gpsLocationRequested()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$GpsLocationRequestedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) patientNameChanged,
+    required TResult Function(String value) bloodGroupChanged,
+    required TResult Function() unitsIncremented,
+    required TResult Function() unitsDecremented,
+    required TResult Function(String value) hospitalChanged,
+    required TResult Function(String value) addressChanged,
+    required TResult Function(String value) urgencyChanged,
+    required TResult Function(DateTime value) needByChanged,
+    required TResult Function(String value) contactChanged,
+    required TResult Function(String value) notesChanged,
+    required TResult Function() confirmed1Toggled,
+    required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
+  }) {
+    return gpsLocationRequested();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? patientNameChanged,
+    TResult? Function(String value)? bloodGroupChanged,
+    TResult? Function()? unitsIncremented,
+    TResult? Function()? unitsDecremented,
+    TResult? Function(String value)? hospitalChanged,
+    TResult? Function(String value)? addressChanged,
+    TResult? Function(String value)? urgencyChanged,
+    TResult? Function(DateTime value)? needByChanged,
+    TResult? Function(String value)? contactChanged,
+    TResult? Function(String value)? notesChanged,
+    TResult? Function()? confirmed1Toggled,
+    TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
+  }) {
+    return gpsLocationRequested?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? patientNameChanged,
+    TResult Function(String value)? bloodGroupChanged,
+    TResult Function()? unitsIncremented,
+    TResult Function()? unitsDecremented,
+    TResult Function(String value)? hospitalChanged,
+    TResult Function(String value)? addressChanged,
+    TResult Function(String value)? urgencyChanged,
+    TResult Function(DateTime value)? needByChanged,
+    TResult Function(String value)? contactChanged,
+    TResult Function(String value)? notesChanged,
+    TResult Function()? confirmed1Toggled,
+    TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
+    required TResult orElse(),
+  }) {
+    if (gpsLocationRequested != null) {
+      return gpsLocationRequested();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PatientNameChanged value) patientNameChanged,
+    required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
+    required TResult Function(_UnitsIncremented value) unitsIncremented,
+    required TResult Function(_UnitsDecremented value) unitsDecremented,
+    required TResult Function(_HospitalChanged value) hospitalChanged,
+    required TResult Function(_AddressChanged value) addressChanged,
+    required TResult Function(_UrgencyChanged value) urgencyChanged,
+    required TResult Function(_NeedByChanged value) needByChanged,
+    required TResult Function(_ContactChanged value) contactChanged,
+    required TResult Function(_NotesChanged value) notesChanged,
+    required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
+    required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
+  }) {
+    return gpsLocationRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_PatientNameChanged value)? patientNameChanged,
+    TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult? Function(_UnitsIncremented value)? unitsIncremented,
+    TResult? Function(_UnitsDecremented value)? unitsDecremented,
+    TResult? Function(_HospitalChanged value)? hospitalChanged,
+    TResult? Function(_AddressChanged value)? addressChanged,
+    TResult? Function(_UrgencyChanged value)? urgencyChanged,
+    TResult? Function(_NeedByChanged value)? needByChanged,
+    TResult? Function(_ContactChanged value)? contactChanged,
+    TResult? Function(_NotesChanged value)? notesChanged,
+    TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
+    TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
+  }) {
+    return gpsLocationRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PatientNameChanged value)? patientNameChanged,
+    TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult Function(_UnitsIncremented value)? unitsIncremented,
+    TResult Function(_UnitsDecremented value)? unitsDecremented,
+    TResult Function(_HospitalChanged value)? hospitalChanged,
+    TResult Function(_AddressChanged value)? addressChanged,
+    TResult Function(_UrgencyChanged value)? urgencyChanged,
+    TResult Function(_NeedByChanged value)? needByChanged,
+    TResult Function(_ContactChanged value)? contactChanged,
+    TResult Function(_NotesChanged value)? notesChanged,
+    TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
+    TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
+    required TResult orElse(),
+  }) {
+    if (gpsLocationRequested != null) {
+      return gpsLocationRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _GpsLocationRequested implements CreateRequestEvent {
+  const factory _GpsLocationRequested() = _$GpsLocationRequestedImpl;
+}
+
+/// @nodoc
+abstract class _$$RequestSubmittedImplCopyWith<$Res> {
+  factory _$$RequestSubmittedImplCopyWith(
+    _$RequestSubmittedImpl value,
+    $Res Function(_$RequestSubmittedImpl) then,
+  ) = __$$RequestSubmittedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$RequestSubmittedImplCopyWithImpl<$Res>
+    extends _$CreateRequestEventCopyWithImpl<$Res, _$RequestSubmittedImpl>
+    implements _$$RequestSubmittedImplCopyWith<$Res> {
+  __$$RequestSubmittedImplCopyWithImpl(
+    _$RequestSubmittedImpl _value,
+    $Res Function(_$RequestSubmittedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of CreateRequestEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$RequestSubmittedImpl implements _RequestSubmitted {
+  const _$RequestSubmittedImpl();
+
+  @override
+  String toString() {
+    return 'CreateRequestEvent.requestSubmitted()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$RequestSubmittedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) patientNameChanged,
+    required TResult Function(String value) bloodGroupChanged,
+    required TResult Function() unitsIncremented,
+    required TResult Function() unitsDecremented,
+    required TResult Function(String value) hospitalChanged,
+    required TResult Function(String value) addressChanged,
+    required TResult Function(String value) urgencyChanged,
+    required TResult Function(DateTime value) needByChanged,
+    required TResult Function(String value) contactChanged,
+    required TResult Function(String value) notesChanged,
+    required TResult Function() confirmed1Toggled,
+    required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function() requestSubmitted,
+  }) {
+    return requestSubmitted();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? patientNameChanged,
+    TResult? Function(String value)? bloodGroupChanged,
+    TResult? Function()? unitsIncremented,
+    TResult? Function()? unitsDecremented,
+    TResult? Function(String value)? hospitalChanged,
+    TResult? Function(String value)? addressChanged,
+    TResult? Function(String value)? urgencyChanged,
+    TResult? Function(DateTime value)? needByChanged,
+    TResult? Function(String value)? contactChanged,
+    TResult? Function(String value)? notesChanged,
+    TResult? Function()? confirmed1Toggled,
+    TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function()? requestSubmitted,
+  }) {
+    return requestSubmitted?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? patientNameChanged,
+    TResult Function(String value)? bloodGroupChanged,
+    TResult Function()? unitsIncremented,
+    TResult Function()? unitsDecremented,
+    TResult Function(String value)? hospitalChanged,
+    TResult Function(String value)? addressChanged,
+    TResult Function(String value)? urgencyChanged,
+    TResult Function(DateTime value)? needByChanged,
+    TResult Function(String value)? contactChanged,
+    TResult Function(String value)? notesChanged,
+    TResult Function()? confirmed1Toggled,
+    TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function()? requestSubmitted,
+    required TResult orElse(),
+  }) {
+    if (requestSubmitted != null) {
+      return requestSubmitted();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PatientNameChanged value) patientNameChanged,
+    required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
+    required TResult Function(_UnitsIncremented value) unitsIncremented,
+    required TResult Function(_UnitsDecremented value) unitsDecremented,
+    required TResult Function(_HospitalChanged value) hospitalChanged,
+    required TResult Function(_AddressChanged value) addressChanged,
+    required TResult Function(_UrgencyChanged value) urgencyChanged,
+    required TResult Function(_NeedByChanged value) needByChanged,
+    required TResult Function(_ContactChanged value) contactChanged,
+    required TResult Function(_NotesChanged value) notesChanged,
+    required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
+    required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
+  }) {
+    return requestSubmitted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_PatientNameChanged value)? patientNameChanged,
+    TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult? Function(_UnitsIncremented value)? unitsIncremented,
+    TResult? Function(_UnitsDecremented value)? unitsDecremented,
+    TResult? Function(_HospitalChanged value)? hospitalChanged,
+    TResult? Function(_AddressChanged value)? addressChanged,
+    TResult? Function(_UrgencyChanged value)? urgencyChanged,
+    TResult? Function(_NeedByChanged value)? needByChanged,
+    TResult? Function(_ContactChanged value)? contactChanged,
+    TResult? Function(_NotesChanged value)? notesChanged,
+    TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
+    TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
+  }) {
+    return requestSubmitted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PatientNameChanged value)? patientNameChanged,
+    TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult Function(_UnitsIncremented value)? unitsIncremented,
+    TResult Function(_UnitsDecremented value)? unitsDecremented,
+    TResult Function(_HospitalChanged value)? hospitalChanged,
+    TResult Function(_AddressChanged value)? addressChanged,
+    TResult Function(_UrgencyChanged value)? urgencyChanged,
+    TResult Function(_NeedByChanged value)? needByChanged,
+    TResult Function(_ContactChanged value)? contactChanged,
+    TResult Function(_NotesChanged value)? notesChanged,
+    TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
+    TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
+    required TResult orElse(),
+  }) {
+    if (requestSubmitted != null) {
+      return requestSubmitted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _RequestSubmitted implements CreateRequestEvent {
+  const factory _RequestSubmitted() = _$RequestSubmittedImpl;
 }
