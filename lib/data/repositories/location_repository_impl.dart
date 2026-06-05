@@ -1,8 +1,10 @@
 import 'package:blood_setu/domain/failures/failures.dart';
 import 'package:blood_setu/domain/models/donor_location_model.dart';
+import 'package:blood_setu/domain/models/location_address_data.dart';
 import 'package:blood_setu/domain/repositories/location_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
+import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:injectable/injectable.dart';
 
@@ -34,6 +36,49 @@ class LocationRepositoryImpl extends LocationRepository {
       return Left(GeneralFailure(e.message ?? 'Failed to update location.'));
     } catch (_) {
       return Left(GeneralFailure('Failed to update location.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, LocationAddressData>> getAddressData() async {
+    try {
+      final locationResult = await _fetchCurrentPosition();
+      if (locationResult.isLeft()) {
+        return locationResult.fold(
+          (f) => Left(f),
+          (_) => throw StateError(''),
+        );
+      }
+      final position = locationResult.getOrElse(() => throw StateError(''));
+
+      final placemarks = await placemarkFromCoordinates(
+        position.latitude,
+        position.longitude,
+      );
+
+      String address = '';
+      if (placemarks.isNotEmpty) {
+        final p = placemarks.first;
+        final parts = [
+          p.street,
+          p.subLocality,
+          p.locality,
+          p.administrativeArea,
+        ].where((s) => s != null && s.isNotEmpty).map((s) => s!).toList();
+        address = parts.join(', ');
+      }
+
+      return Right(
+        LocationAddressData(
+          latitude: position.latitude,
+          longitude: position.longitude,
+          address: address,
+        ),
+      );
+    } on FirebaseException catch (e) {
+      return Left(GeneralFailure(e.message ?? 'Failed to get address.'));
+    } catch (_) {
+      return Left(GeneralFailure('Failed to get address from GPS.'));
     }
   }
 
