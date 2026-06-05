@@ -16,6 +16,8 @@ import 'package:blood_setu/application/core/services/sp_service/sp_service.dart'
     as _i181;
 import 'package:blood_setu/application/pages/features/bottom_nav/bloc/bottom_nav_bloc.dart'
     as _i619;
+import 'package:blood_setu/application/pages/features/create_request/bloc/create_request_bloc.dart'
+    as _i879;
 import 'package:blood_setu/application/pages/features/donors/bloc/donors_bloc.dart'
     as _i405;
 import 'package:blood_setu/application/pages/features/home/bloc/home_bloc.dart'
@@ -26,6 +28,8 @@ import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.
     as _i18;
 import 'package:blood_setu/data/repositories/authentication_repositories_iml.dart'
     as _i310;
+import 'package:blood_setu/data/repositories/blood_request_repository_impl.dart'
+    as _i811;
 import 'package:blood_setu/data/repositories/donation_repository_impl.dart'
     as _i76;
 import 'package:blood_setu/data/repositories/location_repository_impl.dart'
@@ -37,6 +41,8 @@ import 'package:blood_setu/data/repositories/registration_repository_iml.dart'
 import 'package:blood_setu/di/register_module.dart' as _i599;
 import 'package:blood_setu/domain/repositories/authentication_repository.dart'
     as _i546;
+import 'package:blood_setu/domain/repositories/blood_request_repository.dart'
+    as _i3;
 import 'package:blood_setu/domain/repositories/donation_repository.dart'
     as _i133;
 import 'package:blood_setu/domain/repositories/location_repository.dart'
@@ -46,6 +52,7 @@ import 'package:blood_setu/domain/repositories/nearby_donors_repository.dart'
 import 'package:blood_setu/domain/repositories/registration_repository.dart'
     as _i268;
 import 'package:blood_setu/domain/usecase/authentication_usecase.dart' as _i39;
+import 'package:blood_setu/domain/usecase/create_request_usecase.dart' as _i309;
 import 'package:blood_setu/domain/usecase/donation_usecase.dart' as _i141;
 import 'package:blood_setu/domain/usecase/location_usecase.dart' as _i1060;
 import 'package:blood_setu/domain/usecase/nearby_donors_usecase.dart' as _i859;
@@ -66,11 +73,11 @@ extension GetItInjectableX on _i174.GetIt {
   }) async {
     final gh = _i526.GetItHelper(this, environment, environmentFilter);
     final registerModule = _$RegisterModule();
+    gh.factory<_i619.BottomNavBloc>(() => _i619.BottomNavBloc());
     await gh.factoryAsync<_i460.SharedPreferences>(
       () => registerModule.prefs,
       preResolve: true,
     );
-    gh.factory<_i619.BottomNavBloc>(() => _i619.BottomNavBloc());
     gh.singleton<_i59.FirebaseAuth>(() => registerModule.firebaseAuth);
     gh.singleton<_i974.FirebaseFirestore>(() => registerModule.firestore);
     gh.singleton<_i116.GoogleSignIn>(() => registerModule.googleSignIn);
@@ -99,6 +106,9 @@ extension GetItInjectableX on _i174.GetIt {
       () =>
           _i839.AuthController(gh<_i181.SpService>(), gh<_i59.FirebaseAuth>()),
     );
+    gh.factory<_i3.BloodRequestRepository>(
+      () => _i811.BloodRequestRepositoryImpl(gh<_i974.FirebaseFirestore>()),
+    );
     gh.factory<_i766.LocationRepository>(
       () => _i470.LocationRepositoryImpl(gh<_i974.FirebaseFirestore>()),
     );
@@ -109,6 +119,9 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i116.GoogleSignIn>(),
         gh<_i181.SpService>(),
       ),
+    );
+    gh.factory<_i309.CreateRequestUseCase>(
+      () => _i309.CreateRequestUseCase(gh<_i3.BloodRequestRepository>()),
     );
     gh.factory<_i670.RegistrationBloc>(
       () => _i670.RegistrationBloc(gh<_i881.RegistrationUserUseCase>()),
@@ -141,6 +154,12 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i18.SignInBloc>(
       () => _i18.SignInBloc(
         authenticationUseCase: gh<_i39.AuthenticationUseCase>(),
+      ),
+    );
+    gh.factory<_i879.CreateRequestBloc>(
+      () => _i879.CreateRequestBloc(
+        gh<_i309.CreateRequestUseCase>(),
+        gh<_i1060.LocationUseCase>(),
       ),
     );
     return this;
