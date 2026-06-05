@@ -17,5 +17,10 @@ class CreateRequestEvent with _$CreateRequestEvent {
   const factory CreateRequestEvent.confirmed1Toggled() = _Confirmed1Toggled;
   const factory CreateRequestEvent.confirmed2Toggled() = _Confirmed2Toggled;
   const factory CreateRequestEvent.gpsLocationRequested() = _GpsLocationRequested;
+  const factory CreateRequestEvent.mapLocationPicked({
+    required double lat,
+    required double lng,
+    required String address,
+  }) = _MapLocationPicked;
   const factory CreateRequestEvent.requestSubmitted() = _RequestSubmitted;
 }
