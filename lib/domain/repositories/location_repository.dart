@@ -13,4 +13,11 @@ abstract class LocationRepository {
   /// Gets the current GPS position and reverse-geocodes it into a human-readable
   /// address. Used when the user taps "Use my GPS location" on a form.
   Future<Either<Failure, LocationAddressData>> getAddressData();
+
+  /// Reverse-geocodes a known coordinate pair into a human-readable address.
+  /// Used after the user picks a point on the map.
+  Future<Either<Failure, LocationAddressData>> getAddressFromCoordinates(
+    double lat,
+    double lng,
+  );
 }
