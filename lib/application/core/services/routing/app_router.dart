@@ -12,6 +12,7 @@ import 'package:injectable/injectable.dart';
 
 import '../../../pages/features/chat_list/view/chat_list_screen.dart';
 import '../../../pages/features/donors/view/donors_screen.dart';
+import '../../../pages/features/map_picker/map_picker_screen.dart';
 import '../../../pages/features/profile/view/profile_screen.dart';
 
 @lazySingleton
@@ -91,6 +92,18 @@ class AppRouter {
           path: PAGES.profile.screenPath,
           name: PAGES.profile.screenName,
           builder: (context, state) => const ProfileScreen(),
+        ),
+        GoRoute(
+          path: PAGES.mapPicker.screenPath,
+          name: PAGES.mapPicker.screenName,
+          builder: (context, state) {
+            final extra =
+                state.extra as ({double? initialLat, double? initialLng})?;
+            return MapPickerScreen(
+              initialLat: extra?.initialLat,
+              initialLng: extra?.initialLng,
+            );
+          },
         ),
       ],
     );
