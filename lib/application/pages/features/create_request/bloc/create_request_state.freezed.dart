@@ -23,12 +23,16 @@ mixin _$CreateRequestState {
   String get hospital => throw _privateConstructorUsedError;
   String get address => throw _privateConstructorUsedError;
   String get urgency => throw _privateConstructorUsedError;
-  String get needBy => throw _privateConstructorUsedError;
+  DateTime? get needBy => throw _privateConstructorUsedError;
   String get contact => throw _privateConstructorUsedError;
   String get notes => throw _privateConstructorUsedError;
-  bool get shareFacebook => throw _privateConstructorUsedError;
   bool get confirmed1 => throw _privateConstructorUsedError;
   bool get confirmed2 => throw _privateConstructorUsedError;
+  bool get isGpsLoading => throw _privateConstructorUsedError;
+  double? get latitude => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
+  CreateRequestStatus get status => throw _privateConstructorUsedError;
+  String get errorMessage => throw _privateConstructorUsedError;
 
   /// Create a copy of CreateRequestState
   /// with the given fields replaced by the non-null parameter values.
@@ -51,12 +55,16 @@ abstract class $CreateRequestStateCopyWith<$Res> {
     String hospital,
     String address,
     String urgency,
-    String needBy,
+    DateTime? needBy,
     String contact,
     String notes,
-    bool shareFacebook,
     bool confirmed1,
     bool confirmed2,
+    bool isGpsLoading,
+    double? latitude,
+    double? longitude,
+    CreateRequestStatus status,
+    String errorMessage,
   });
 }
 
@@ -81,12 +89,16 @@ class _$CreateRequestStateCopyWithImpl<$Res, $Val extends CreateRequestState>
     Object? hospital = null,
     Object? address = null,
     Object? urgency = null,
-    Object? needBy = null,
+    Object? needBy = freezed,
     Object? contact = null,
     Object? notes = null,
-    Object? shareFacebook = null,
     Object? confirmed1 = null,
     Object? confirmed2 = null,
+    Object? isGpsLoading = null,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+    Object? status = null,
+    Object? errorMessage = null,
   }) {
     return _then(
       _value.copyWith(
@@ -114,10 +126,10 @@ class _$CreateRequestStateCopyWithImpl<$Res, $Val extends CreateRequestState>
                 ? _value.urgency
                 : urgency // ignore: cast_nullable_to_non_nullable
                       as String,
-            needBy: null == needBy
+            needBy: freezed == needBy
                 ? _value.needBy
                 : needBy // ignore: cast_nullable_to_non_nullable
-                      as String,
+                      as DateTime?,
             contact: null == contact
                 ? _value.contact
                 : contact // ignore: cast_nullable_to_non_nullable
@@ -126,10 +138,6 @@ class _$CreateRequestStateCopyWithImpl<$Res, $Val extends CreateRequestState>
                 ? _value.notes
                 : notes // ignore: cast_nullable_to_non_nullable
                       as String,
-            shareFacebook: null == shareFacebook
-                ? _value.shareFacebook
-                : shareFacebook // ignore: cast_nullable_to_non_nullable
-                      as bool,
             confirmed1: null == confirmed1
                 ? _value.confirmed1
                 : confirmed1 // ignore: cast_nullable_to_non_nullable
@@ -138,6 +146,26 @@ class _$CreateRequestStateCopyWithImpl<$Res, $Val extends CreateRequestState>
                 ? _value.confirmed2
                 : confirmed2 // ignore: cast_nullable_to_non_nullable
                       as bool,
+            isGpsLoading: null == isGpsLoading
+                ? _value.isGpsLoading
+                : isGpsLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            latitude: freezed == latitude
+                ? _value.latitude
+                : latitude // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            longitude: freezed == longitude
+                ? _value.longitude
+                : longitude // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as CreateRequestStatus,
+            errorMessage: null == errorMessage
+                ? _value.errorMessage
+                : errorMessage // ignore: cast_nullable_to_non_nullable
+                      as String,
           )
           as $Val,
     );
@@ -160,12 +188,16 @@ abstract class _$$CreateRequestStateImplCopyWith<$Res>
     String hospital,
     String address,
     String urgency,
-    String needBy,
+    DateTime? needBy,
     String contact,
     String notes,
-    bool shareFacebook,
     bool confirmed1,
     bool confirmed2,
+    bool isGpsLoading,
+    double? latitude,
+    double? longitude,
+    CreateRequestStatus status,
+    String errorMessage,
   });
 }
 
@@ -189,12 +221,16 @@ class __$$CreateRequestStateImplCopyWithImpl<$Res>
     Object? hospital = null,
     Object? address = null,
     Object? urgency = null,
-    Object? needBy = null,
+    Object? needBy = freezed,
     Object? contact = null,
     Object? notes = null,
-    Object? shareFacebook = null,
     Object? confirmed1 = null,
     Object? confirmed2 = null,
+    Object? isGpsLoading = null,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+    Object? status = null,
+    Object? errorMessage = null,
   }) {
     return _then(
       _$CreateRequestStateImpl(
@@ -222,10 +258,10 @@ class __$$CreateRequestStateImplCopyWithImpl<$Res>
             ? _value.urgency
             : urgency // ignore: cast_nullable_to_non_nullable
                   as String,
-        needBy: null == needBy
+        needBy: freezed == needBy
             ? _value.needBy
             : needBy // ignore: cast_nullable_to_non_nullable
-                  as String,
+                  as DateTime?,
         contact: null == contact
             ? _value.contact
             : contact // ignore: cast_nullable_to_non_nullable
@@ -234,10 +270,6 @@ class __$$CreateRequestStateImplCopyWithImpl<$Res>
             ? _value.notes
             : notes // ignore: cast_nullable_to_non_nullable
                   as String,
-        shareFacebook: null == shareFacebook
-            ? _value.shareFacebook
-            : shareFacebook // ignore: cast_nullable_to_non_nullable
-                  as bool,
         confirmed1: null == confirmed1
             ? _value.confirmed1
             : confirmed1 // ignore: cast_nullable_to_non_nullable
@@ -246,6 +278,26 @@ class __$$CreateRequestStateImplCopyWithImpl<$Res>
             ? _value.confirmed2
             : confirmed2 // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isGpsLoading: null == isGpsLoading
+            ? _value.isGpsLoading
+            : isGpsLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        latitude: freezed == latitude
+            ? _value.latitude
+            : latitude // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        longitude: freezed == longitude
+            ? _value.longitude
+            : longitude // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as CreateRequestStatus,
+        errorMessage: null == errorMessage
+            ? _value.errorMessage
+            : errorMessage // ignore: cast_nullable_to_non_nullable
+                  as String,
       ),
     );
   }
@@ -261,12 +313,16 @@ class _$CreateRequestStateImpl implements _CreateRequestState {
     this.hospital = '',
     this.address = '',
     this.urgency = 'URGENT',
-    this.needBy = '',
-    this.contact = '01700000000',
+    this.needBy,
+    this.contact = '',
     this.notes = '',
-    this.shareFacebook = false,
     this.confirmed1 = false,
     this.confirmed2 = false,
+    this.isGpsLoading = false,
+    this.latitude,
+    this.longitude,
+    this.status = CreateRequestStatus.initial,
+    this.errorMessage = '',
   });
 
   @override
@@ -288,8 +344,7 @@ class _$CreateRequestStateImpl implements _CreateRequestState {
   @JsonKey()
   final String urgency;
   @override
-  @JsonKey()
-  final String needBy;
+  final DateTime? needBy;
   @override
   @JsonKey()
   final String contact;
@@ -298,17 +353,27 @@ class _$CreateRequestStateImpl implements _CreateRequestState {
   final String notes;
   @override
   @JsonKey()
-  final bool shareFacebook;
-  @override
-  @JsonKey()
   final bool confirmed1;
   @override
   @JsonKey()
   final bool confirmed2;
+  @override
+  @JsonKey()
+  final bool isGpsLoading;
+  @override
+  final double? latitude;
+  @override
+  final double? longitude;
+  @override
+  @JsonKey()
+  final CreateRequestStatus status;
+  @override
+  @JsonKey()
+  final String errorMessage;
 
   @override
   String toString() {
-    return 'CreateRequestState(patientName: $patientName, bloodGroup: $bloodGroup, units: $units, hospital: $hospital, address: $address, urgency: $urgency, needBy: $needBy, contact: $contact, notes: $notes, shareFacebook: $shareFacebook, confirmed1: $confirmed1, confirmed2: $confirmed2)';
+    return 'CreateRequestState(patientName: $patientName, bloodGroup: $bloodGroup, units: $units, hospital: $hospital, address: $address, urgency: $urgency, needBy: $needBy, contact: $contact, notes: $notes, confirmed1: $confirmed1, confirmed2: $confirmed2, isGpsLoading: $isGpsLoading, latitude: $latitude, longitude: $longitude, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
@@ -328,12 +393,19 @@ class _$CreateRequestStateImpl implements _CreateRequestState {
             (identical(other.needBy, needBy) || other.needBy == needBy) &&
             (identical(other.contact, contact) || other.contact == contact) &&
             (identical(other.notes, notes) || other.notes == notes) &&
-            (identical(other.shareFacebook, shareFacebook) ||
-                other.shareFacebook == shareFacebook) &&
             (identical(other.confirmed1, confirmed1) ||
                 other.confirmed1 == confirmed1) &&
             (identical(other.confirmed2, confirmed2) ||
-                other.confirmed2 == confirmed2));
+                other.confirmed2 == confirmed2) &&
+            (identical(other.isGpsLoading, isGpsLoading) ||
+                other.isGpsLoading == isGpsLoading) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.errorMessage, errorMessage) ||
+                other.errorMessage == errorMessage));
   }
 
   @override
@@ -348,9 +420,13 @@ class _$CreateRequestStateImpl implements _CreateRequestState {
     needBy,
     contact,
     notes,
-    shareFacebook,
     confirmed1,
     confirmed2,
+    isGpsLoading,
+    latitude,
+    longitude,
+    status,
+    errorMessage,
   );
 
   /// Create a copy of CreateRequestState
@@ -373,12 +449,16 @@ abstract class _CreateRequestState implements CreateRequestState {
     final String hospital,
     final String address,
     final String urgency,
-    final String needBy,
+    final DateTime? needBy,
     final String contact,
     final String notes,
-    final bool shareFacebook,
     final bool confirmed1,
     final bool confirmed2,
+    final bool isGpsLoading,
+    final double? latitude,
+    final double? longitude,
+    final CreateRequestStatus status,
+    final String errorMessage,
   }) = _$CreateRequestStateImpl;
 
   @override
@@ -394,17 +474,25 @@ abstract class _CreateRequestState implements CreateRequestState {
   @override
   String get urgency;
   @override
-  String get needBy;
+  DateTime? get needBy;
   @override
   String get contact;
   @override
   String get notes;
   @override
-  bool get shareFacebook;
-  @override
   bool get confirmed1;
   @override
   bool get confirmed2;
+  @override
+  bool get isGpsLoading;
+  @override
+  double? get latitude;
+  @override
+  double? get longitude;
+  @override
+  CreateRequestStatus get status;
+  @override
+  String get errorMessage;
 
   /// Create a copy of CreateRequestState
   /// with the given fields replaced by the non-null parameter values.
