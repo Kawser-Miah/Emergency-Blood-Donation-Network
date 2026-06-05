@@ -2,6 +2,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'create_request_state.freezed.dart';
 
+enum CreateRequestStatus { initial, loading, success, failure }
+
 @freezed
 class CreateRequestState with _$CreateRequestState {
   const factory CreateRequestState({
@@ -11,12 +13,16 @@ class CreateRequestState with _$CreateRequestState {
     @Default('') String hospital,
     @Default('') String address,
     @Default('URGENT') String urgency,
-    @Default('') String needBy,
-    @Default('01700000000') String contact,
+    DateTime? needBy,
+    @Default('') String contact,
     @Default('') String notes,
-    @Default(false) bool shareFacebook,
     @Default(false) bool confirmed1,
     @Default(false) bool confirmed2,
+    @Default(false) bool isGpsLoading,
+    double? latitude,
+    double? longitude,
+    @Default(CreateRequestStatus.initial) CreateRequestStatus status,
+    @Default('') String errorMessage,
   }) = _CreateRequestState;
 
   factory CreateRequestState.initial() => const CreateRequestState();
