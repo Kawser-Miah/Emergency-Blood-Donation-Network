@@ -31,7 +31,8 @@
       "Bash(echo \"DONE rc=$?\")",
       "Bash(grep -vE \"^\\\\s*$\")",
       "Bash(git checkout *)",
-      "Bash(python3 *)"
+      "Bash(python3 *)",
+      "Bash(grep -v \"^Analyzing\\\\|^$\")"
     ]
   }
 }
