@@ -18,4 +18,10 @@ class LocationUseCase {
   /// Get current GPS position and reverse-geocode to a full address.
   Future<Either<Failure, LocationAddressData>> getAddressData() =>
       _locationRepository.getAddressData();
+
+  /// Reverse-geocode a known coordinate pair to a full address.
+  Future<Either<Failure, LocationAddressData>> getAddressFromCoordinates(
+    double lat,
+    double lng,
+  ) => _locationRepository.getAddressFromCoordinates(lat, lng);
 }
