@@ -32,6 +32,8 @@ mixin _$CreateRequestEvent {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -49,6 +51,8 @@ mixin _$CreateRequestEvent {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -66,6 +70,7 @@ mixin _$CreateRequestEvent {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -84,6 +89,7 @@ mixin _$CreateRequestEvent {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -101,6 +107,7 @@ mixin _$CreateRequestEvent {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -118,6 +125,7 @@ mixin _$CreateRequestEvent {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -231,6 +239,8 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return patientNameChanged(value);
@@ -252,6 +262,8 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return patientNameChanged?.call(value);
@@ -273,6 +285,7 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -298,6 +311,7 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return patientNameChanged(this);
@@ -319,6 +333,7 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return patientNameChanged?.call(this);
@@ -340,6 +355,7 @@ class _$PatientNameChangedImpl implements _PatientNameChanged {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -449,6 +465,8 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return bloodGroupChanged(value);
@@ -470,6 +488,8 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return bloodGroupChanged?.call(value);
@@ -491,6 +511,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -516,6 +537,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return bloodGroupChanged(this);
@@ -537,6 +559,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return bloodGroupChanged?.call(this);
@@ -558,6 +581,7 @@ class _$BloodGroupChangedImpl implements _BloodGroupChanged {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -637,6 +661,8 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return unitsIncremented();
@@ -658,6 +684,8 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return unitsIncremented?.call();
@@ -679,6 +707,7 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -704,6 +733,7 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return unitsIncremented(this);
@@ -725,6 +755,7 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return unitsIncremented?.call(this);
@@ -746,6 +777,7 @@ class _$UnitsIncrementedImpl implements _UnitsIncremented {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -816,6 +848,8 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return unitsDecremented();
@@ -837,6 +871,8 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return unitsDecremented?.call();
@@ -858,6 +894,7 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -883,6 +920,7 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return unitsDecremented(this);
@@ -904,6 +942,7 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return unitsDecremented?.call(this);
@@ -925,6 +964,7 @@ class _$UnitsDecrementedImpl implements _UnitsDecremented {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1025,6 +1065,8 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return hospitalChanged(value);
@@ -1046,6 +1088,8 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return hospitalChanged?.call(value);
@@ -1067,6 +1111,7 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1092,6 +1137,7 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return hospitalChanged(this);
@@ -1113,6 +1159,7 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return hospitalChanged?.call(this);
@@ -1134,6 +1181,7 @@ class _$HospitalChangedImpl implements _HospitalChanged {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1242,6 +1290,8 @@ class _$AddressChangedImpl implements _AddressChanged {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return addressChanged(value);
@@ -1263,6 +1313,8 @@ class _$AddressChangedImpl implements _AddressChanged {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return addressChanged?.call(value);
@@ -1284,6 +1336,7 @@ class _$AddressChangedImpl implements _AddressChanged {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1309,6 +1362,7 @@ class _$AddressChangedImpl implements _AddressChanged {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return addressChanged(this);
@@ -1330,6 +1384,7 @@ class _$AddressChangedImpl implements _AddressChanged {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return addressChanged?.call(this);
@@ -1351,6 +1406,7 @@ class _$AddressChangedImpl implements _AddressChanged {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1459,6 +1515,8 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return urgencyChanged(value);
@@ -1480,6 +1538,8 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return urgencyChanged?.call(value);
@@ -1501,6 +1561,7 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1526,6 +1587,7 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return urgencyChanged(this);
@@ -1547,6 +1609,7 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return urgencyChanged?.call(this);
@@ -1568,6 +1631,7 @@ class _$UrgencyChangedImpl implements _UrgencyChanged {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1673,6 +1737,8 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return needByChanged(value);
@@ -1694,6 +1760,8 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return needByChanged?.call(value);
@@ -1715,6 +1783,7 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1740,6 +1809,7 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return needByChanged(this);
@@ -1761,6 +1831,7 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return needByChanged?.call(this);
@@ -1782,6 +1853,7 @@ class _$NeedByChangedImpl implements _NeedByChanged {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1890,6 +1962,8 @@ class _$ContactChangedImpl implements _ContactChanged {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return contactChanged(value);
@@ -1911,6 +1985,8 @@ class _$ContactChangedImpl implements _ContactChanged {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return contactChanged?.call(value);
@@ -1932,6 +2008,7 @@ class _$ContactChangedImpl implements _ContactChanged {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -1957,6 +2034,7 @@ class _$ContactChangedImpl implements _ContactChanged {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return contactChanged(this);
@@ -1978,6 +2056,7 @@ class _$ContactChangedImpl implements _ContactChanged {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return contactChanged?.call(this);
@@ -1999,6 +2078,7 @@ class _$ContactChangedImpl implements _ContactChanged {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2104,6 +2184,8 @@ class _$NotesChangedImpl implements _NotesChanged {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return notesChanged(value);
@@ -2125,6 +2207,8 @@ class _$NotesChangedImpl implements _NotesChanged {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return notesChanged?.call(value);
@@ -2146,6 +2230,7 @@ class _$NotesChangedImpl implements _NotesChanged {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2171,6 +2256,7 @@ class _$NotesChangedImpl implements _NotesChanged {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return notesChanged(this);
@@ -2192,6 +2278,7 @@ class _$NotesChangedImpl implements _NotesChanged {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return notesChanged?.call(this);
@@ -2213,6 +2300,7 @@ class _$NotesChangedImpl implements _NotesChanged {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2291,6 +2379,8 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return confirmed1Toggled();
@@ -2312,6 +2402,8 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return confirmed1Toggled?.call();
@@ -2333,6 +2425,7 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2358,6 +2451,7 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return confirmed1Toggled(this);
@@ -2379,6 +2473,7 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return confirmed1Toggled?.call(this);
@@ -2400,6 +2495,7 @@ class _$Confirmed1ToggledImpl implements _Confirmed1Toggled {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2470,6 +2566,8 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return confirmed2Toggled();
@@ -2491,6 +2589,8 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return confirmed2Toggled?.call();
@@ -2512,6 +2612,7 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2537,6 +2638,7 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return confirmed2Toggled(this);
@@ -2558,6 +2660,7 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return confirmed2Toggled?.call(this);
@@ -2579,6 +2682,7 @@ class _$Confirmed2ToggledImpl implements _Confirmed2Toggled {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2650,6 +2754,8 @@ class _$GpsLocationRequestedImpl implements _GpsLocationRequested {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return gpsLocationRequested();
@@ -2671,6 +2777,8 @@ class _$GpsLocationRequestedImpl implements _GpsLocationRequested {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return gpsLocationRequested?.call();
@@ -2692,6 +2800,7 @@ class _$GpsLocationRequestedImpl implements _GpsLocationRequested {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2717,6 +2826,7 @@ class _$GpsLocationRequestedImpl implements _GpsLocationRequested {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return gpsLocationRequested(this);
@@ -2738,6 +2848,7 @@ class _$GpsLocationRequestedImpl implements _GpsLocationRequested {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return gpsLocationRequested?.call(this);
@@ -2759,6 +2870,7 @@ class _$GpsLocationRequestedImpl implements _GpsLocationRequested {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2771,6 +2883,255 @@ class _$GpsLocationRequestedImpl implements _GpsLocationRequested {
 
 abstract class _GpsLocationRequested implements CreateRequestEvent {
   const factory _GpsLocationRequested() = _$GpsLocationRequestedImpl;
+}
+
+/// @nodoc
+abstract class _$$MapLocationPickedImplCopyWith<$Res> {
+  factory _$$MapLocationPickedImplCopyWith(
+    _$MapLocationPickedImpl value,
+    $Res Function(_$MapLocationPickedImpl) then,
+  ) = __$$MapLocationPickedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({double lat, double lng, String address});
+}
+
+/// @nodoc
+class __$$MapLocationPickedImplCopyWithImpl<$Res>
+    extends _$CreateRequestEventCopyWithImpl<$Res, _$MapLocationPickedImpl>
+    implements _$$MapLocationPickedImplCopyWith<$Res> {
+  __$$MapLocationPickedImplCopyWithImpl(
+    _$MapLocationPickedImpl _value,
+    $Res Function(_$MapLocationPickedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of CreateRequestEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? lat = null, Object? lng = null, Object? address = null}) {
+    return _then(
+      _$MapLocationPickedImpl(
+        lat: null == lat
+            ? _value.lat
+            : lat // ignore: cast_nullable_to_non_nullable
+                  as double,
+        lng: null == lng
+            ? _value.lng
+            : lng // ignore: cast_nullable_to_non_nullable
+                  as double,
+        address: null == address
+            ? _value.address
+            : address // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$MapLocationPickedImpl implements _MapLocationPicked {
+  const _$MapLocationPickedImpl({
+    required this.lat,
+    required this.lng,
+    required this.address,
+  });
+
+  @override
+  final double lat;
+  @override
+  final double lng;
+  @override
+  final String address;
+
+  @override
+  String toString() {
+    return 'CreateRequestEvent.mapLocationPicked(lat: $lat, lng: $lng, address: $address)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MapLocationPickedImpl &&
+            (identical(other.lat, lat) || other.lat == lat) &&
+            (identical(other.lng, lng) || other.lng == lng) &&
+            (identical(other.address, address) || other.address == address));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, lat, lng, address);
+
+  /// Create a copy of CreateRequestEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MapLocationPickedImplCopyWith<_$MapLocationPickedImpl> get copyWith =>
+      __$$MapLocationPickedImplCopyWithImpl<_$MapLocationPickedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String value) patientNameChanged,
+    required TResult Function(String value) bloodGroupChanged,
+    required TResult Function() unitsIncremented,
+    required TResult Function() unitsDecremented,
+    required TResult Function(String value) hospitalChanged,
+    required TResult Function(String value) addressChanged,
+    required TResult Function(String value) urgencyChanged,
+    required TResult Function(DateTime value) needByChanged,
+    required TResult Function(String value) contactChanged,
+    required TResult Function(String value) notesChanged,
+    required TResult Function() confirmed1Toggled,
+    required TResult Function() confirmed2Toggled,
+    required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
+    required TResult Function() requestSubmitted,
+  }) {
+    return mapLocationPicked(lat, lng, address);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String value)? patientNameChanged,
+    TResult? Function(String value)? bloodGroupChanged,
+    TResult? Function()? unitsIncremented,
+    TResult? Function()? unitsDecremented,
+    TResult? Function(String value)? hospitalChanged,
+    TResult? Function(String value)? addressChanged,
+    TResult? Function(String value)? urgencyChanged,
+    TResult? Function(DateTime value)? needByChanged,
+    TResult? Function(String value)? contactChanged,
+    TResult? Function(String value)? notesChanged,
+    TResult? Function()? confirmed1Toggled,
+    TResult? Function()? confirmed2Toggled,
+    TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
+    TResult? Function()? requestSubmitted,
+  }) {
+    return mapLocationPicked?.call(lat, lng, address);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String value)? patientNameChanged,
+    TResult Function(String value)? bloodGroupChanged,
+    TResult Function()? unitsIncremented,
+    TResult Function()? unitsDecremented,
+    TResult Function(String value)? hospitalChanged,
+    TResult Function(String value)? addressChanged,
+    TResult Function(String value)? urgencyChanged,
+    TResult Function(DateTime value)? needByChanged,
+    TResult Function(String value)? contactChanged,
+    TResult Function(String value)? notesChanged,
+    TResult Function()? confirmed1Toggled,
+    TResult Function()? confirmed2Toggled,
+    TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
+    TResult Function()? requestSubmitted,
+    required TResult orElse(),
+  }) {
+    if (mapLocationPicked != null) {
+      return mapLocationPicked(lat, lng, address);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_PatientNameChanged value) patientNameChanged,
+    required TResult Function(_BloodGroupChanged value) bloodGroupChanged,
+    required TResult Function(_UnitsIncremented value) unitsIncremented,
+    required TResult Function(_UnitsDecremented value) unitsDecremented,
+    required TResult Function(_HospitalChanged value) hospitalChanged,
+    required TResult Function(_AddressChanged value) addressChanged,
+    required TResult Function(_UrgencyChanged value) urgencyChanged,
+    required TResult Function(_NeedByChanged value) needByChanged,
+    required TResult Function(_ContactChanged value) contactChanged,
+    required TResult Function(_NotesChanged value) notesChanged,
+    required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
+    required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
+    required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
+    required TResult Function(_RequestSubmitted value) requestSubmitted,
+  }) {
+    return mapLocationPicked(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_PatientNameChanged value)? patientNameChanged,
+    TResult? Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult? Function(_UnitsIncremented value)? unitsIncremented,
+    TResult? Function(_UnitsDecremented value)? unitsDecremented,
+    TResult? Function(_HospitalChanged value)? hospitalChanged,
+    TResult? Function(_AddressChanged value)? addressChanged,
+    TResult? Function(_UrgencyChanged value)? urgencyChanged,
+    TResult? Function(_NeedByChanged value)? needByChanged,
+    TResult? Function(_ContactChanged value)? contactChanged,
+    TResult? Function(_NotesChanged value)? notesChanged,
+    TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
+    TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
+    TResult? Function(_RequestSubmitted value)? requestSubmitted,
+  }) {
+    return mapLocationPicked?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_PatientNameChanged value)? patientNameChanged,
+    TResult Function(_BloodGroupChanged value)? bloodGroupChanged,
+    TResult Function(_UnitsIncremented value)? unitsIncremented,
+    TResult Function(_UnitsDecremented value)? unitsDecremented,
+    TResult Function(_HospitalChanged value)? hospitalChanged,
+    TResult Function(_AddressChanged value)? addressChanged,
+    TResult Function(_UrgencyChanged value)? urgencyChanged,
+    TResult Function(_NeedByChanged value)? needByChanged,
+    TResult Function(_ContactChanged value)? contactChanged,
+    TResult Function(_NotesChanged value)? notesChanged,
+    TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
+    TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
+    TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
+    TResult Function(_RequestSubmitted value)? requestSubmitted,
+    required TResult orElse(),
+  }) {
+    if (mapLocationPicked != null) {
+      return mapLocationPicked(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _MapLocationPicked implements CreateRequestEvent {
+  const factory _MapLocationPicked({
+    required final double lat,
+    required final double lng,
+    required final String address,
+  }) = _$MapLocationPickedImpl;
+
+  double get lat;
+  double get lng;
+  String get address;
+
+  /// Create a copy of CreateRequestEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MapLocationPickedImplCopyWith<_$MapLocationPickedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -2829,6 +3190,8 @@ class _$RequestSubmittedImpl implements _RequestSubmitted {
     required TResult Function() confirmed1Toggled,
     required TResult Function() confirmed2Toggled,
     required TResult Function() gpsLocationRequested,
+    required TResult Function(double lat, double lng, String address)
+    mapLocationPicked,
     required TResult Function() requestSubmitted,
   }) {
     return requestSubmitted();
@@ -2850,6 +3213,8 @@ class _$RequestSubmittedImpl implements _RequestSubmitted {
     TResult? Function()? confirmed1Toggled,
     TResult? Function()? confirmed2Toggled,
     TResult? Function()? gpsLocationRequested,
+    TResult? Function(double lat, double lng, String address)?
+    mapLocationPicked,
     TResult? Function()? requestSubmitted,
   }) {
     return requestSubmitted?.call();
@@ -2871,6 +3236,7 @@ class _$RequestSubmittedImpl implements _RequestSubmitted {
     TResult Function()? confirmed1Toggled,
     TResult Function()? confirmed2Toggled,
     TResult Function()? gpsLocationRequested,
+    TResult Function(double lat, double lng, String address)? mapLocationPicked,
     TResult Function()? requestSubmitted,
     required TResult orElse(),
   }) {
@@ -2896,6 +3262,7 @@ class _$RequestSubmittedImpl implements _RequestSubmitted {
     required TResult Function(_Confirmed1Toggled value) confirmed1Toggled,
     required TResult Function(_Confirmed2Toggled value) confirmed2Toggled,
     required TResult Function(_GpsLocationRequested value) gpsLocationRequested,
+    required TResult Function(_MapLocationPicked value) mapLocationPicked,
     required TResult Function(_RequestSubmitted value) requestSubmitted,
   }) {
     return requestSubmitted(this);
@@ -2917,6 +3284,7 @@ class _$RequestSubmittedImpl implements _RequestSubmitted {
     TResult? Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult? Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult? Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult? Function(_MapLocationPicked value)? mapLocationPicked,
     TResult? Function(_RequestSubmitted value)? requestSubmitted,
   }) {
     return requestSubmitted?.call(this);
@@ -2938,6 +3306,7 @@ class _$RequestSubmittedImpl implements _RequestSubmitted {
     TResult Function(_Confirmed1Toggled value)? confirmed1Toggled,
     TResult Function(_Confirmed2Toggled value)? confirmed2Toggled,
     TResult Function(_GpsLocationRequested value)? gpsLocationRequested,
+    TResult Function(_MapLocationPicked value)? mapLocationPicked,
     TResult Function(_RequestSubmitted value)? requestSubmitted,
     required TResult orElse(),
   }) {
