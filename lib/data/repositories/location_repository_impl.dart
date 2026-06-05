@@ -50,29 +50,11 @@ class LocationRepositoryImpl extends LocationRepository {
         );
       }
       final position = locationResult.getOrElse(() => throw StateError(''));
-
-      final placemarks = await placemarkFromCoordinates(
-        position.latitude,
-        position.longitude,
-      );
-
-      String address = '';
-      if (placemarks.isNotEmpty) {
-        final p = placemarks.first;
-        final parts = [
-          p.street,
-          p.subLocality,
-          p.locality,
-          p.administrativeArea,
-        ].where((s) => s != null && s.isNotEmpty).map((s) => s!).toList();
-        address = parts.join(', ');
-      }
-
       return Right(
         LocationAddressData(
           latitude: position.latitude,
           longitude: position.longitude,
-          address: address,
+          address: await _reverseGeocode(position.latitude, position.longitude),
         ),
       );
     } on FirebaseException catch (e) {
@@ -80,6 +62,34 @@ class LocationRepositoryImpl extends LocationRepository {
     } catch (_) {
       return Left(GeneralFailure('Failed to get address from GPS.'));
     }
+  }
+
+  @override
+  Future<Either<Failure, LocationAddressData>> getAddressFromCoordinates(
+    double lat,
+    double lng,
+  ) async {
+    try {
+      return Right(
+        LocationAddressData(
+          latitude: lat,
+          longitude: lng,
+          address: await _reverseGeocode(lat, lng),
+        ),
+      );
+    } catch (_) {
+      return Left(GeneralFailure('Failed to get address for selected location.'));
+    }
+  }
+
+  static Future<String> _reverseGeocode(double lat, double lng) async {
+    final placemarks = await placemarkFromCoordinates(lat, lng);
+    if (placemarks.isEmpty) return '';
+    final p = placemarks.first;
+    return [p.street, p.subLocality, p.locality, p.administrativeArea]
+        .where((s) => s != null && s.isNotEmpty)
+        .map((s) => s!)
+        .join(', ');
   }
 
   Future<Either<Failure, Position>> _fetchCurrentPosition() async {
