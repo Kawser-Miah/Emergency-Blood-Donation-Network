@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../../../../../di/di.dart';
+import '../../../../../utils/utils.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../core/widgets/sparkle_loading_overlay.dart';
 import '../bloc/create_request_bloc.dart';
 import '../bloc/create_request_event.dart';
 import '../bloc/create_request_state.dart';
 
 const List<String> _bloodGroups = [
-  'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-'
+  'A+',
+  'A-',
+  'B+',
+  'B-',
+  'O+',
+  'O-',
+  'AB+',
+  'AB-',
 ];
 
 class _UrgencyOption {
@@ -66,7 +76,7 @@ class CreateRequestScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => CreateRequestBloc(),
+      create: (_) => getIt<CreateRequestBloc>(),
       child: const _CreateRequestView(),
     );
   }
@@ -77,7 +87,26 @@ class _CreateRequestView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<CreateRequestBloc, CreateRequestState>(
+    return BlocConsumer<CreateRequestBloc, CreateRequestState>(
+      listenWhen: (prev, curr) => prev.status != curr.status,
+      listener: (context, state) {
+        if (state.status == CreateRequestStatus.failure) {
+          Utils.showSnackBar(
+            context,
+            content: state.errorMessage.isNotEmpty
+                ? state.errorMessage
+                : 'Please fix the errors and try again.',
+            color: Colors.red.shade600,
+          );
+        } else if (state.status == CreateRequestStatus.success) {
+          Utils.showSnackBar(
+            context,
+            content: 'Blood request posted successfully!',
+            color: Colors.green.shade600,
+          );
+          Navigator.pop(context);
+        }
+      },
       builder: (context, state) {
         return Scaffold(
           backgroundColor: AppColors.background,
@@ -88,15 +117,17 @@ class _CreateRequestView extends StatelessWidget {
                   _Header(
                     onBack: () {
                       Navigator.pop(context);
-                    }
-                        // context.read<AppNavigationBloc>().add(
-                        //   const AppNavigationEvent.navigated(AppScreen.home),
-                        // ),
+                    },
+                    // context.read<AppNavigationBloc>().add(
+                    //   const AppNavigationEvent.navigated(AppScreen.home),
+                    // ),
                   ),
                   Container(
                     color: Colors.white,
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 16, vertical: 8),
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(99),
                       child: SizedBox(
@@ -115,8 +146,7 @@ class _CreateRequestView extends StatelessWidget {
                   ),
                   Expanded(
                     child: SingleChildScrollView(
-                      padding:
-                          const EdgeInsets.fromLTRB(16, 16, 16, 96),
+                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
                       child: Column(
                         children: [
                           _CardPatientInfo(state: state),
@@ -141,18 +171,17 @@ class _CreateRequestView extends StatelessWidget {
                 child: Container(
                   decoration: const BoxDecoration(
                     color: AppColors.background,
-                    border: Border(
-                      top: BorderSide(color: AppColors.divider),
-                    ),
+                    border: Border(top: BorderSide(color: AppColors.divider)),
                   ),
                   padding: const EdgeInsets.all(16),
                   child: SizedBox(
                     width: double.infinity,
                     child: ElevatedButton(
-                      onPressed: () {},
-                          // context.read<AppNavigationBloc>().add(
-                          //   const AppNavigationEvent.navigated(AppScreen.home),
-                          // ),
+                      onPressed: state.status == CreateRequestStatus.loading
+                          ? null
+                          : () => context.read<CreateRequestBloc>().add(
+                              const CreateRequestEvent.requestSubmitted(),
+                            ),
                       style: ElevatedButton.styleFrom(
                         padding: const EdgeInsets.symmetric(vertical: 16),
                         shape: RoundedRectangleBorder(
@@ -174,6 +203,8 @@ class _CreateRequestView extends StatelessWidget {
                   ),
                 ),
               ),
+              if (state.status == CreateRequestStatus.loading)
+                const SparkleLoadingOverlay(),
             ],
           ),
         );
@@ -191,7 +222,12 @@ class _Header extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      padding: EdgeInsets.fromLTRB(16, MediaQuery.of(context).padding.top + 4, 16, 16),
+      padding: EdgeInsets.fromLTRB(
+        16,
+        MediaQuery.of(context).padding.top + 4,
+        16,
+        16,
+      ),
       child: Row(
         children: [
           IconButton(
@@ -216,8 +252,7 @@ class _Header extends StatelessWidget {
                 ),
                 Text(
                   'Help reach the right donors fast',
-                  style: TextStyle(
-                      fontSize: 12, color: AppColors.textTertiary),
+                  style: TextStyle(fontSize: 12, color: AppColors.textTertiary),
                 ),
               ],
             ),
@@ -268,6 +303,134 @@ class _Card extends StatelessWidget {
   }
 }
 
+class _DateTimePickerField extends StatelessWidget {
+  const _DateTimePickerField({required this.value, required this.onPicked});
+
+  final DateTime? value;
+  final ValueChanged<DateTime> onPicked;
+
+  String _format(DateTime dt) {
+    final months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    final hour = dt.hour % 12 == 0 ? 12 : dt.hour % 12;
+    final minute = dt.minute.toString().padLeft(2, '0');
+    final period = dt.hour < 12 ? 'AM' : 'PM';
+    return '${dt.day} ${months[dt.month - 1]} ${dt.year}, $hour:$minute $period';
+  }
+
+  Future<void> _pick(BuildContext context) async {
+    final now = DateTime.now();
+    final date = await showDatePicker(
+      context: context,
+      initialDate: value != null && value!.isAfter(now) ? value! : now,
+      firstDate: now,
+      lastDate: DateTime(now.year + 2),
+      builder: (ctx, child) => Theme(
+        data: Theme.of(ctx).copyWith(
+          colorScheme: Theme.of(
+            ctx,
+          ).colorScheme.copyWith(primary: AppColors.primary),
+        ),
+        child: child!,
+      ),
+    );
+    if (date == null || !context.mounted) return;
+
+    final time = await showTimePicker(
+      context: context,
+      initialTime: value != null
+          ? TimeOfDay.fromDateTime(value!)
+          : TimeOfDay.now(),
+      builder: (ctx, child) => Theme(
+        data: Theme.of(ctx).copyWith(
+          colorScheme: Theme.of(
+            ctx,
+          ).colorScheme.copyWith(primary: AppColors.primary),
+        ),
+        child: child!,
+      ),
+    );
+    if (time == null) return;
+
+    final picked = DateTime(
+      date.year,
+      date.month,
+      date.day,
+      time.hour,
+      time.minute,
+    );
+    onPicked(picked);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final hasValue = value != null;
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          const Text(
+            'Need by (Date & Time) *',
+            style: TextStyle(fontSize: 11, color: AppColors.textMuted),
+          ),
+          const SizedBox(height: 6),
+          GestureDetector(
+            onTap: () => _pick(context),
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+              decoration: BoxDecoration(
+                color: AppColors.dividerLightest,
+                borderRadius: BorderRadius.circular(12),
+                border: Border.all(color: AppColors.dividerLight, width: 1.5),
+              ),
+              child: Row(
+                children: [
+                  Icon(
+                    Icons.calendar_today_outlined,
+                    size: 16,
+                    color: hasValue ? AppColors.primary : AppColors.textMuted,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Text(
+                      hasValue ? _format(value!) : 'Select date and time',
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: hasValue
+                            ? AppColors.textPrimary
+                            : AppColors.textMuted,
+                      ),
+                    ),
+                  ),
+                  if (hasValue)
+                    const Icon(
+                      Icons.edit_outlined,
+                      size: 14,
+                      color: AppColors.textMuted,
+                    ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
 class _InputField extends StatelessWidget {
   const _InputField({
     required this.icon,
@@ -298,8 +461,7 @@ class _InputField extends StatelessWidget {
           ),
           const SizedBox(height: 6),
           Container(
-            padding:
-                const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
             decoration: BoxDecoration(
               color: AppColors.dividerLightest,
               borderRadius: BorderRadius.circular(12),
@@ -314,6 +476,68 @@ class _InputField extends StatelessWidget {
                     initialValue: value,
                     onChanged: onChanged,
                     keyboardType: keyboardType,
+                    decoration: InputDecoration(
+                      isDense: true,
+                      border: InputBorder.none,
+                      hintText: hint,
+                    ),
+                    style: const TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textPrimary,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _InputFieldWithController extends StatelessWidget {
+  const _InputFieldWithController({
+    required this.controller,
+    required this.icon,
+    required this.label,
+    required this.hint,
+    required this.onChanged,
+  });
+
+  final TextEditingController controller;
+  final IconData icon;
+  final String label;
+  final String hint;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            label,
+            style: const TextStyle(fontSize: 11, color: AppColors.textMuted),
+          ),
+          const SizedBox(height: 6),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
+            decoration: BoxDecoration(
+              color: AppColors.dividerLightest,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.dividerLight, width: 1.5),
+            ),
+            child: Row(
+              children: [
+                Icon(icon, size: 16, color: AppColors.textMuted),
+                const SizedBox(width: 12),
+                Expanded(
+                  child: TextFormField(
+                    controller: controller,
+                    onChanged: onChanged,
                     decoration: InputDecoration(
                       isDense: true,
                       border: InputBorder.none,
@@ -350,8 +574,7 @@ class _CardPatientInfo extends StatelessWidget {
           label: 'Patient Name *',
           hint: "Patient's full name",
           value: state.patientName,
-          onChanged: (v) =>
-              bloc.add(CreateRequestEvent.patientNameChanged(v)),
+          onChanged: (v) => bloc.add(CreateRequestEvent.patientNameChanged(v)),
         ),
         const Text(
           'Blood Group Needed *',
@@ -364,14 +587,16 @@ class _CardPatientInfo extends StatelessWidget {
           children: _bloodGroups.map((bg) {
             final selected = state.bloodGroup == bg;
             return GestureDetector(
-              onTap: () =>
-                  bloc.add(CreateRequestEvent.bloodGroupChanged(bg)),
+              onTap: () => bloc.add(CreateRequestEvent.bloodGroupChanged(bg)),
               child: Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 6,
+                ),
                 decoration: BoxDecoration(
-                  color:
-                      selected ? AppColors.primary : AppColors.dividerLightest,
+                  color: selected
+                      ? AppColors.primary
+                      : AppColors.dividerLightest,
                   borderRadius: BorderRadius.circular(99),
                   border: Border.all(
                     color: selected ? AppColors.primary : AppColors.divider,
@@ -410,8 +635,11 @@ class _CardPatientInfo extends StatelessWidget {
                   shape: BoxShape.circle,
                   border: Border.all(color: AppColors.divider, width: 1.5),
                 ),
-                child: const Icon(Icons.remove,
-                    size: 16, color: AppColors.textSecondary),
+                child: const Icon(
+                  Icons.remove,
+                  size: 16,
+                  color: AppColors.textSecondary,
+                ),
               ),
             ),
             const SizedBox(width: 16),
@@ -446,7 +674,9 @@ class _CardPatientInfo extends StatelessWidget {
             Text(
               'unit${state.units > 1 ? 's' : ''}',
               style: const TextStyle(
-                  fontSize: 13, color: AppColors.textTertiary),
+                fontSize: 13,
+                color: AppColors.textTertiary,
+              ),
             ),
           ],
         ),
@@ -455,14 +685,47 @@ class _CardPatientInfo extends StatelessWidget {
   }
 }
 
-class _CardLocation extends StatelessWidget {
+class _CardLocation extends StatefulWidget {
   const _CardLocation({required this.state});
 
   final CreateRequestState state;
 
   @override
+  State<_CardLocation> createState() => _CardLocationState();
+}
+
+class _CardLocationState extends State<_CardLocation> {
+  late final TextEditingController _addressController;
+
+  @override
+  void initState() {
+    super.initState();
+    _addressController = TextEditingController(text: widget.state.address);
+  }
+
+  @override
+  void didUpdateWidget(_CardLocation oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Sync controller when GPS fills in the address from outside the field.
+    if (widget.state.address != oldWidget.state.address &&
+        _addressController.text != widget.state.address) {
+      _addressController.value = TextEditingValue(
+        text: widget.state.address,
+        selection: TextSelection.collapsed(offset: widget.state.address.length),
+      );
+    }
+  }
+
+  @override
+  void dispose() {
+    _addressController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final bloc = context.read<CreateRequestBloc>();
+    final state = widget.state;
     return _Card(
       title: '📍 Location Details',
       children: [
@@ -476,24 +739,50 @@ class _CardLocation extends StatelessWidget {
         Row(
           children: [
             Expanded(
-              child: Container(
-                padding: const EdgeInsets.symmetric(vertical: 12),
-                decoration: BoxDecoration(
-                  color: AppColors.dividerLightest,
-                  borderRadius: BorderRadius.circular(12),
-                  border: Border.all(color: AppColors.divider, width: 1.5),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: const [
-                    Icon(Icons.near_me, size: 14, color: AppColors.primary),
-                    SizedBox(width: 8),
-                    Text(
-                      'Use my GPS',
-                      style: TextStyle(
-                          fontSize: 12, color: AppColors.textSecondary),
-                    ),
-                  ],
+              child: GestureDetector(
+                onTap: state.isGpsLoading
+                    ? null
+                    : () => bloc.add(
+                        const CreateRequestEvent.gpsLocationRequested(),
+                      ),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(vertical: 12),
+                  decoration: BoxDecoration(
+                    color: state.isGpsLoading
+                        ? AppColors.primaryBorder
+                        : AppColors.dividerLightest,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: AppColors.divider, width: 1.5),
+                  ),
+                  child: state.isGpsLoading
+                      ? const Center(
+                          child: SizedBox(
+                            width: 14,
+                            height: 14,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        )
+                      : Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: const [
+                            Icon(
+                              Icons.near_me,
+                              size: 14,
+                              color: AppColors.primary,
+                            ),
+                            SizedBox(width: 8),
+                            Text(
+                              'Use my GPS',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: AppColors.textSecondary,
+                              ),
+                            ),
+                          ],
+                        ),
                 ),
               ),
             ),
@@ -514,7 +803,9 @@ class _CardLocation extends StatelessWidget {
                     Text(
                       'Pick on map',
                       style: TextStyle(
-                          fontSize: 12, color: AppColors.textSecondary),
+                        fontSize: 12,
+                        color: AppColors.textSecondary,
+                      ),
                     ),
                   ],
                 ),
@@ -523,11 +814,11 @@ class _CardLocation extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16),
-        _InputField(
+        _InputFieldWithController(
+          controller: _addressController,
           icon: Icons.location_on_outlined,
           label: 'Full Address',
           hint: 'Street, Area, City',
-          value: state.address,
           onChanged: (v) => bloc.add(CreateRequestEvent.addressChanged(v)),
         ),
       ],
@@ -557,11 +848,13 @@ class _CardUrgency extends StatelessWidget {
             return Padding(
               padding: const EdgeInsets.only(bottom: 8),
               child: GestureDetector(
-                onTap: () => bloc
-                    .add(CreateRequestEvent.urgencyChanged(opt.id)),
+                onTap: () =>
+                    bloc.add(CreateRequestEvent.urgencyChanged(opt.id)),
                 child: Container(
                   padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 12),
+                    horizontal: 16,
+                    vertical: 12,
+                  ),
                   decoration: BoxDecoration(
                     color: selected
                         ? (opt.gradient == null ? Colors.transparent : null)
@@ -592,8 +885,7 @@ class _CardUrgency extends StatelessWidget {
                   ),
                   child: Row(
                     children: [
-                      Text(opt.emoji,
-                          style: const TextStyle(fontSize: 20)),
+                      Text(opt.emoji, style: const TextStyle(fontSize: 20)),
                       const SizedBox(width: 12),
                       Expanded(
                         child: Column(
@@ -604,9 +896,7 @@ class _CardUrgency extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 13,
                                 fontWeight: FontWeight.w700,
-                                color: selected
-                                    ? opt.textColor
-                                    : opt.color,
+                                color: selected ? opt.textColor : opt.color,
                               ),
                             ),
                             Text(
@@ -631,12 +921,9 @@ class _CardUrgency extends StatelessWidget {
           }).toList(),
         ),
         const SizedBox(height: 8),
-        _InputField(
-          icon: Icons.calendar_today_outlined,
-          label: 'Need by (Date & Time)',
-          hint: 'Select date and time',
+        _DateTimePickerField(
           value: state.needBy,
-          onChanged: (v) => bloc.add(CreateRequestEvent.needByChanged(v)),
+          onPicked: (dt) => bloc.add(CreateRequestEvent.needByChanged(dt)),
         ),
         _InputField(
           icon: Icons.phone_outlined,
@@ -691,78 +978,6 @@ class _CardAdditional extends StatelessWidget {
             ),
           ),
         ),
-        const SizedBox(height: 16),
-        Container(
-          padding: const EdgeInsets.symmetric(vertical: 8),
-          decoration: const BoxDecoration(
-            border: Border(
-              top: BorderSide(color: AppColors.dividerLightest),
-            ),
-          ),
-          child: Row(
-            children: [
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: const [
-                    Text(
-                      'Share on Facebook',
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    Text(
-                      'Reach more potential donors',
-                      style: TextStyle(
-                          fontSize: 11, color: AppColors.textMuted),
-                    ),
-                  ],
-                ),
-              ),
-              GestureDetector(
-                onTap: () => bloc.add(
-                    const CreateRequestEvent.shareFacebookToggled()),
-                child: AnimatedContainer(
-                  duration: const Duration(milliseconds: 200),
-                  width: 44,
-                  height: 24,
-                  decoration: BoxDecoration(
-                    color: state.shareFacebook
-                        ? AppColors.primary
-                        : AppColors.divider,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Stack(
-                    children: [
-                      AnimatedPositioned(
-                        duration: const Duration(milliseconds: 200),
-                        left: state.shareFacebook ? 22 : 2,
-                        top: 2,
-                        child: Container(
-                          width: 20,
-                          height: 20,
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withOpacity(0.2),
-                                blurRadius: 4,
-                                offset: const Offset(0, 1),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
       ],
     );
   }
@@ -780,14 +995,12 @@ class _Confirmations extends StatelessWidget {
       _ConfirmItem(
         text: 'I confirm this is a genuine blood request',
         value: state.confirmed1,
-        onTap: () =>
-            bloc.add(const CreateRequestEvent.confirmed1Toggled()),
+        onTap: () => bloc.add(const CreateRequestEvent.confirmed1Toggled()),
       ),
       _ConfirmItem(
         text: 'I have permission to receive blood for this patient',
         value: state.confirmed2,
-        onTap: () =>
-            bloc.add(const CreateRequestEvent.confirmed2Toggled()),
+        onTap: () => bloc.add(const CreateRequestEvent.confirmed2Toggled()),
       ),
     ];
     return Column(
@@ -828,8 +1041,7 @@ class _Confirmations extends StatelessWidget {
                       ),
                     ),
                     child: it.value
-                        ? const Icon(Icons.check,
-                            size: 12, color: Colors.white)
+                        ? const Icon(Icons.check, size: 12, color: Colors.white)
                         : null,
                   ),
                   Expanded(
