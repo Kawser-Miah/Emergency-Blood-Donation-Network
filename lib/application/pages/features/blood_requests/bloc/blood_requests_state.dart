@@ -22,6 +22,7 @@ class BloodRequestsState with _$BloodRequestsState {
     double? userLng,
     @Default(false) bool imComingSuccess,
     @Default(false) bool imComingFailed,
+    @Default(true) bool userIsActive,
   }) = _BloodRequestsState;
 
   factory BloodRequestsState.initial() => const BloodRequestsState();
