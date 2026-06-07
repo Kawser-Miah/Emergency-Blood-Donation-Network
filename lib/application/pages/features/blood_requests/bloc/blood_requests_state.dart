@@ -20,6 +20,8 @@ class BloodRequestsState with _$BloodRequestsState {
     String? error,
     double? userLat,
     double? userLng,
+    @Default(false) bool imComingSuccess,
+    @Default(false) bool imComingFailed,
   }) = _BloodRequestsState;
 
   factory BloodRequestsState.initial() => const BloodRequestsState();
