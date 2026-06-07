@@ -24,6 +24,7 @@ mixin _$HomeEvent {
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
     required TResult Function() sosReleased,
+    required TResult Function(String requestId) imComing,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -32,6 +33,7 @@ mixin _$HomeEvent {
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
     TResult? Function()? sosReleased,
+    TResult? Function(String requestId)? imComing,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -40,6 +42,7 @@ mixin _$HomeEvent {
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
     TResult Function()? sosReleased,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -49,6 +52,7 @@ mixin _$HomeEvent {
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
     required TResult Function(_SosReleased value) sosReleased,
+    required TResult Function(_ImComing value) imComing,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -57,6 +61,7 @@ mixin _$HomeEvent {
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
     TResult? Function(_SosReleased value)? sosReleased,
+    TResult? Function(_ImComing value)? imComing,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -65,6 +70,7 @@ mixin _$HomeEvent {
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
     TResult Function(_SosReleased value)? sosReleased,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -137,6 +143,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
     required TResult Function() sosReleased,
+    required TResult Function(String requestId) imComing,
   }) {
     return started();
   }
@@ -149,6 +156,7 @@ class _$StartedImpl implements _Started {
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
     TResult? Function()? sosReleased,
+    TResult? Function(String requestId)? imComing,
   }) {
     return started?.call();
   }
@@ -161,6 +169,7 @@ class _$StartedImpl implements _Started {
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
     TResult Function()? sosReleased,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -177,6 +186,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
     required TResult Function(_SosReleased value) sosReleased,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return started(this);
   }
@@ -189,6 +199,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
     TResult? Function(_SosReleased value)? sosReleased,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return started?.call(this);
   }
@@ -201,6 +212,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
     TResult Function(_SosReleased value)? sosReleased,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -262,6 +274,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
     required TResult Function() sosReleased,
+    required TResult Function(String requestId) imComing,
   }) {
     return sidebarOpened();
   }
@@ -274,6 +287,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
     TResult? Function()? sosReleased,
+    TResult? Function(String requestId)? imComing,
   }) {
     return sidebarOpened?.call();
   }
@@ -286,6 +300,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
     TResult Function()? sosReleased,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (sidebarOpened != null) {
@@ -302,6 +317,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
     required TResult Function(_SosReleased value) sosReleased,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return sidebarOpened(this);
   }
@@ -314,6 +330,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
     TResult? Function(_SosReleased value)? sosReleased,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return sidebarOpened?.call(this);
   }
@@ -326,6 +343,7 @@ class _$SidebarOpenedImpl implements _SidebarOpened {
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
     TResult Function(_SosReleased value)? sosReleased,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (sidebarOpened != null) {
@@ -387,6 +405,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
     required TResult Function() sosReleased,
+    required TResult Function(String requestId) imComing,
   }) {
     return sidebarClosed();
   }
@@ -399,6 +418,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
     TResult? Function()? sosReleased,
+    TResult? Function(String requestId)? imComing,
   }) {
     return sidebarClosed?.call();
   }
@@ -411,6 +431,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
     TResult Function()? sosReleased,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (sidebarClosed != null) {
@@ -427,6 +448,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
     required TResult Function(_SosReleased value) sosReleased,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return sidebarClosed(this);
   }
@@ -439,6 +461,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
     TResult? Function(_SosReleased value)? sosReleased,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return sidebarClosed?.call(this);
   }
@@ -451,6 +474,7 @@ class _$SidebarClosedImpl implements _SidebarClosed {
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
     TResult Function(_SosReleased value)? sosReleased,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (sidebarClosed != null) {
@@ -512,6 +536,7 @@ class _$SosPressedImpl implements _SosPressed {
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
     required TResult Function() sosReleased,
+    required TResult Function(String requestId) imComing,
   }) {
     return sosPressed();
   }
@@ -524,6 +549,7 @@ class _$SosPressedImpl implements _SosPressed {
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
     TResult? Function()? sosReleased,
+    TResult? Function(String requestId)? imComing,
   }) {
     return sosPressed?.call();
   }
@@ -536,6 +562,7 @@ class _$SosPressedImpl implements _SosPressed {
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
     TResult Function()? sosReleased,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (sosPressed != null) {
@@ -552,6 +579,7 @@ class _$SosPressedImpl implements _SosPressed {
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
     required TResult Function(_SosReleased value) sosReleased,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return sosPressed(this);
   }
@@ -564,6 +592,7 @@ class _$SosPressedImpl implements _SosPressed {
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
     TResult? Function(_SosReleased value)? sosReleased,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return sosPressed?.call(this);
   }
@@ -576,6 +605,7 @@ class _$SosPressedImpl implements _SosPressed {
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
     TResult Function(_SosReleased value)? sosReleased,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (sosPressed != null) {
@@ -637,6 +667,7 @@ class _$SosReleasedImpl implements _SosReleased {
     required TResult Function() sidebarClosed,
     required TResult Function() sosPressed,
     required TResult Function() sosReleased,
+    required TResult Function(String requestId) imComing,
   }) {
     return sosReleased();
   }
@@ -649,6 +680,7 @@ class _$SosReleasedImpl implements _SosReleased {
     TResult? Function()? sidebarClosed,
     TResult? Function()? sosPressed,
     TResult? Function()? sosReleased,
+    TResult? Function(String requestId)? imComing,
   }) {
     return sosReleased?.call();
   }
@@ -661,6 +693,7 @@ class _$SosReleasedImpl implements _SosReleased {
     TResult Function()? sidebarClosed,
     TResult Function()? sosPressed,
     TResult Function()? sosReleased,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (sosReleased != null) {
@@ -677,6 +710,7 @@ class _$SosReleasedImpl implements _SosReleased {
     required TResult Function(_SidebarClosed value) sidebarClosed,
     required TResult Function(_SosPressed value) sosPressed,
     required TResult Function(_SosReleased value) sosReleased,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return sosReleased(this);
   }
@@ -689,6 +723,7 @@ class _$SosReleasedImpl implements _SosReleased {
     TResult? Function(_SidebarClosed value)? sidebarClosed,
     TResult? Function(_SosPressed value)? sosPressed,
     TResult? Function(_SosReleased value)? sosReleased,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return sosReleased?.call(this);
   }
@@ -701,6 +736,7 @@ class _$SosReleasedImpl implements _SosReleased {
     TResult Function(_SidebarClosed value)? sidebarClosed,
     TResult Function(_SosPressed value)? sosPressed,
     TResult Function(_SosReleased value)? sosReleased,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (sosReleased != null) {
@@ -712,4 +748,171 @@ class _$SosReleasedImpl implements _SosReleased {
 
 abstract class _SosReleased implements HomeEvent {
   const factory _SosReleased() = _$SosReleasedImpl;
+}
+
+/// @nodoc
+abstract class _$$ImComingImplCopyWith<$Res> {
+  factory _$$ImComingImplCopyWith(
+    _$ImComingImpl value,
+    $Res Function(_$ImComingImpl) then,
+  ) = __$$ImComingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String requestId});
+}
+
+/// @nodoc
+class __$$ImComingImplCopyWithImpl<$Res>
+    extends _$HomeEventCopyWithImpl<$Res, _$ImComingImpl>
+    implements _$$ImComingImplCopyWith<$Res> {
+  __$$ImComingImplCopyWithImpl(
+    _$ImComingImpl _value,
+    $Res Function(_$ImComingImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? requestId = null}) {
+    return _then(
+      _$ImComingImpl(
+        null == requestId
+            ? _value.requestId
+            : requestId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$ImComingImpl implements _ImComing {
+  const _$ImComingImpl(this.requestId);
+
+  @override
+  final String requestId;
+
+  @override
+  String toString() {
+    return 'HomeEvent.imComing(requestId: $requestId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImComingImpl &&
+            (identical(other.requestId, requestId) ||
+                other.requestId == requestId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, requestId);
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImComingImplCopyWith<_$ImComingImpl> get copyWith =>
+      __$$ImComingImplCopyWithImpl<_$ImComingImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() sidebarOpened,
+    required TResult Function() sidebarClosed,
+    required TResult Function() sosPressed,
+    required TResult Function() sosReleased,
+    required TResult Function(String requestId) imComing,
+  }) {
+    return imComing(requestId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? sidebarOpened,
+    TResult? Function()? sidebarClosed,
+    TResult? Function()? sosPressed,
+    TResult? Function()? sosReleased,
+    TResult? Function(String requestId)? imComing,
+  }) {
+    return imComing?.call(requestId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? sidebarOpened,
+    TResult Function()? sidebarClosed,
+    TResult Function()? sosPressed,
+    TResult Function()? sosReleased,
+    TResult Function(String requestId)? imComing,
+    required TResult orElse(),
+  }) {
+    if (imComing != null) {
+      return imComing(requestId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_SidebarOpened value) sidebarOpened,
+    required TResult Function(_SidebarClosed value) sidebarClosed,
+    required TResult Function(_SosPressed value) sosPressed,
+    required TResult Function(_SosReleased value) sosReleased,
+    required TResult Function(_ImComing value) imComing,
+  }) {
+    return imComing(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_SidebarOpened value)? sidebarOpened,
+    TResult? Function(_SidebarClosed value)? sidebarClosed,
+    TResult? Function(_SosPressed value)? sosPressed,
+    TResult? Function(_SosReleased value)? sosReleased,
+    TResult? Function(_ImComing value)? imComing,
+  }) {
+    return imComing?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_SidebarOpened value)? sidebarOpened,
+    TResult Function(_SidebarClosed value)? sidebarClosed,
+    TResult Function(_SosPressed value)? sosPressed,
+    TResult Function(_SosReleased value)? sosReleased,
+    TResult Function(_ImComing value)? imComing,
+    required TResult orElse(),
+  }) {
+    if (imComing != null) {
+      return imComing(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ImComing implements HomeEvent {
+  const factory _ImComing(final String requestId) = _$ImComingImpl;
+
+  String get requestId;
+
+  /// Create a copy of HomeEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ImComingImplCopyWith<_$ImComingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
