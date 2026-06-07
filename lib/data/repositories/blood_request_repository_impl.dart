@@ -154,7 +154,16 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
   @override
   Future<Either<Failure, void>> deleteRequest(String id) async {
     try {
-      await _firestore.collection('blood_requests').doc(id).delete();
+      final docRef = _firestore.collection('blood_requests').doc(id);
+
+      final subSnap = await docRef.collection('interested_donors').get();
+      final batch = _firestore.batch();
+      for (final doc in subSnap.docs) {
+        batch.delete(doc.reference);
+      }
+      if (subSnap.docs.isNotEmpty) await batch.commit();
+
+      await docRef.delete();
       return const Right(null);
     } on FirebaseException catch (e) {
       return Left(GeneralFailure(e.message ?? 'Failed to delete request.'));
