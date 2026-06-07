@@ -754,7 +754,8 @@ class _ActiveRequests extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () =>
+                    AppRouter.router.push(PAGES.bloodRequests.screenPath),
                 child: const Text(
                   'See All',
                   style: TextStyle(
