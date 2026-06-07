@@ -7,6 +7,7 @@ part 'blood_request.freezed.dart';
 @freezed
 class BloodRequest with _$BloodRequest {
   const factory BloodRequest({
+    required String id,
     required String uid,
     required String patientName,
     required String bloodGroup,
@@ -20,12 +21,12 @@ class BloodRequest with _$BloodRequest {
     double? latitude,
     double? longitude,
     required RequestStatus status,
-    CloseReason? closeReason,
     DateTime? createdAt,
   }) = _BloodRequest;
 
   factory BloodRequest.fromMap(String id, Map<String, dynamic> map) =>
       BloodRequest(
+        id: id,
         uid: map['uid'] as String,
         patientName: map['patientName'] as String,
         bloodGroup: map['bloodGroup'] as String,
@@ -39,9 +40,6 @@ class BloodRequest with _$BloodRequest {
         latitude: map['latitude'] as double?,
         longitude: map['longitude'] as double?,
         status: RequestStatus.fromString(map['status'] as String? ?? 'active'),
-        closeReason: map['closeReason'] != null
-            ? CloseReason.fromString(map['closeReason'] as String)
-            : null,
         createdAt: (map['createdAt'] as Timestamp?)?.toDate(),
       );
 }
