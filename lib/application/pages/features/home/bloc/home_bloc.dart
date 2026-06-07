@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/di/di.dart';
+import 'package:blood_setu/domain/usecase/blood_requests_usecase.dart';
 import 'package:blood_setu/domain/usecase/location_usecase.dart';
 import 'package:blood_setu/domain/usecase/nearby_donors_usecase.dart';
 import 'package:blood_setu/domain/usecase/registration_user_usecase.dart';
@@ -16,11 +17,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final RegistrationUserUseCase _registrationUserUseCase;
   final LocationUseCase _locationUseCase;
   final NearbyDonorsUseCase _nearbyDonorsUseCase;
+  final BloodRequestsUseCase _bloodRequestsUseCase;
 
   HomeBloc(
     this._registrationUserUseCase,
     this._locationUseCase,
     this._nearbyDonorsUseCase,
+    this._bloodRequestsUseCase,
   ) : super(HomeState.initial()) {
     on<HomeEvent>((event, emit) async {
       await event.when(
@@ -47,6 +50,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               lat = origin.latitude;
               lng = origin.longitude;
               hasOrigin = true;
+              emit(state.copyWith(userLat: lat, userLng: lng));
             },
           );
           if (!hasOrigin) return;
@@ -69,6 +73,17 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
                 ),
               );
             },
+          );
+
+          final requestsResult = await _bloodRequestsUseCase(limit: 5);
+          requestsResult.fold(
+            (_) => emit(state.copyWith(isLoadingRequests: false)),
+            (requests) => emit(
+              state.copyWith(
+                bloodRequests: requests,
+                isLoadingRequests: false,
+              ),
+            ),
           );
         },
         sidebarOpened: () async => emit(state.copyWith(showSidebar: true)),
