@@ -14,8 +14,10 @@ class BloodRequestsUseCase {
   Future<Either<Failure, List<BloodRequest>>> call({
     int limit = 20,
     DateTime? startAfterNeedBy,
+    String? excludeUid,
   }) => _repository.getActiveRequests(
         limit: limit,
         startAfterNeedBy: startAfterNeedBy,
+        excludeUid: excludeUid,
       );
 }
