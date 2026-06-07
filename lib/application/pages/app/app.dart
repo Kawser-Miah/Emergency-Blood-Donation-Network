@@ -16,6 +16,9 @@ class BloodConnectApp extends StatelessWidget {
         fontFamily: AppColors.fontFamily,
         scaffoldBackgroundColor: AppColors.background,
         useMaterial3: false,
+        progressIndicatorTheme: const ProgressIndicatorThemeData(
+          color: AppColors.primary,
+        ),
       ),
       routeInformationParser: AppRouter.router.routeInformationParser,
       routeInformationProvider: AppRouter.router.routeInformationProvider,
