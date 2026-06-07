@@ -33,7 +33,10 @@
       "Bash(git checkout *)",
       "Bash(python3 *)",
       "Bash(grep -v \"^Analyzing\\\\|^$\")",
-      "Bash(grep -v \"^$\")"
+      "Bash(grep -v \"^$\")",
+      "Bash(grep -v \"fromMap\\\\|freezed\\\\|BloodRequest\\(\\\\$\\\\|BloodRequestsBloc\\\\|BloodRequestCard\\\\|BloodRequestRepository\\\\|BloodRequestUseCase\\\\|BloodRequestDetailsSheet\\\\|BloodRequestsState\\\\|BloodRequestsEvent\\\\|BloodRequestsScreen\\\\|BloodRequestsUseCase\")",
+      "Bash(grep -v \"^Analyzing\\\\|^  hint\\\\|withOpacity\\\\|^$\")",
+      "Bash(grep -v \"^Analyzing\\\\|^  hint\\\\|withOpacity\\\\|^$\\\\|^  info\\\\|^  warning\")"
     ]
   }
 }
