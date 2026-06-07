@@ -2,56 +2,12 @@ import 'package:blood_setu/application/pages/features/donors/bloc/donors_bloc.da
 import 'package:blood_setu/application/pages/features/donors/bloc/donors_event.dart';
 import 'package:blood_setu/application/pages/features/donors/bloc/donors_state.dart';
 import 'package:blood_setu/di/di.dart';
-import 'package:blood_setu/domain/models/nearby_donor.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/colors.dart';
-import '../../../../core/widgets/avatar.dart';
-
-const List<String> _bloodGroups = [
-  'All',
-  'A+',
-  'A-',
-  'B+',
-  'B-',
-  'O+',
-  'O-',
-  'AB+',
-  'AB-',
-];
-const List<String> _distances = ['All', '10km', '50km', '100km', '500km'];
-
-const List<String> _avatarColors = [
-  '#1E88E5',
-  '#43A047',
-  '#E53935',
-  '#FB8C00',
-  '#9C27B0',
-  '#00ACC1',
-  '#F06292',
-  '#26A69A',
-];
-
-String _colorFor(String uid) =>
-    _avatarColors[uid.hashCode.abs() % _avatarColors.length];
-
-class _StatusStyle {
-  const _StatusStyle({required this.bg, required this.color});
-  final Color bg;
-  final Color color;
-}
-
-const Map<String, _StatusStyle> _statusColors = {
-  'Available': _StatusStyle(
-    bg: AppColors.successSurface,
-    color: AppColors.success,
-  ),
-  'Unavailable': _StatusStyle(
-    bg: AppColors.primarySurface,
-    color: AppColors.primary,
-  ),
-};
+import '../widgets/donor_card.dart';
+import '../widgets/donor_filters_sheet.dart';
 
 class DonorsScreen extends StatelessWidget {
   const DonorsScreen({super.key});
@@ -117,7 +73,7 @@ class _DonorsViewState extends State<_DonorsView> {
                   ),
                 ],
               ),
-              if (state.showFilters) _FiltersSheet(state: state),
+              if (state.showFilters) DonorFiltersSheet(state: state),
             ],
           ),
         );
@@ -125,6 +81,8 @@ class _DonorsViewState extends State<_DonorsView> {
     );
   }
 }
+
+// ─── Body ─────────────────────────────────────────────────────────────────────
 
 class _Body extends StatelessWidget {
   const _Body({required this.state, required this.scrollController});
@@ -179,7 +137,10 @@ class _Body extends StatelessWidget {
       );
     }
 
-    if (state.filtered.isEmpty && !state.isLoading && !state.isLoadingMore && state.error == null) {
+    if (state.filtered.isEmpty &&
+        !state.isLoading &&
+        !state.isLoadingMore &&
+        state.error == null) {
       return _Empty(
         onReset: () =>
             context.read<DonorsBloc>().add(const DonorsEvent.filtersReset()),
@@ -200,12 +161,14 @@ class _Body extends StatelessWidget {
           if (i >= state.filtered.length) {
             return _ListFooter(state: state);
           }
-          return _DonorCard(donor: state.filtered[i]);
+          return DonorCard(donor: state.filtered[i]);
         },
       ),
     );
   }
 }
+
+// ─── List Footer ──────────────────────────────────────────────────────────────
 
 class _ListFooter extends StatelessWidget {
   const _ListFooter({required this.state});
@@ -240,6 +203,8 @@ class _ListFooter extends StatelessWidget {
     return const SizedBox(height: 24);
   }
 }
+
+// ─── Header ───────────────────────────────────────────────────────────────────
 
 class _Header extends StatelessWidget {
   const _Header({required this.state});
@@ -344,7 +309,7 @@ class _Header extends StatelessWidget {
               scrollDirection: Axis.horizontal,
               padding: const EdgeInsets.symmetric(horizontal: 16),
               children: [
-                ..._bloodGroups.take(5).map((bg) {
+                ...bloodGroupOptions.take(5).map((bg) {
                   final selected = state.selectedBloodGroup == bg;
                   return Padding(
                     padding: const EdgeInsets.only(right: 6),
@@ -367,9 +332,8 @@ class _Header extends StatelessWidget {
                           bg,
                           style: TextStyle(
                             fontSize: 12,
-                            fontWeight: selected
-                                ? FontWeight.w700
-                                : FontWeight.w500,
+                            fontWeight:
+                                selected ? FontWeight.w700 : FontWeight.w500,
                             color: selected
                                 ? Colors.white
                                 : AppColors.textSecondary,
@@ -391,9 +355,9 @@ class _Header extends StatelessWidget {
                       borderRadius: BorderRadius.circular(99),
                       border: Border.all(color: AppColors.divider),
                     ),
-                    child: Row(
+                    child: const Row(
                       mainAxisSize: MainAxisSize.min,
-                      children: const [
+                      children: [
                         Icon(
                           Icons.tune,
                           size: 12,
@@ -419,6 +383,8 @@ class _Header extends StatelessWidget {
     );
   }
 }
+
+// ─── Empty State ──────────────────────────────────────────────────────────────
 
 class _Empty extends StatelessWidget {
   const _Empty({required this.onReset});
@@ -461,672 +427,6 @@ class _Empty extends StatelessWidget {
             child: const Text(
               'Reset Filters',
               style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DonorCard extends StatelessWidget {
-  const _DonorCard({required this.donor});
-
-  final NearbyDonor donor;
-
-  void _openDetails(BuildContext context) {
-    showModalBottomSheet<void>(
-      context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder: (_) => _DonorDetailsSheet(donor: donor),
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    final statusLabel = donor.isActive ? 'Available' : 'Unavailable';
-    final statusStyle =
-        _statusColors[statusLabel] ?? _statusColors['Available']!;
-
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.07),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildAvatar(),
-              const SizedBox(width: 12),
-              Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Wrap(
-                      spacing: 8,
-                      crossAxisAlignment: WrapCrossAlignment.center,
-                      children: [
-                        Text(
-                          donor.name,
-                          style: const TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 8,
-                            vertical: 2,
-                          ),
-                          decoration: BoxDecoration(
-                            color: AppColors.primarySurface,
-                            borderRadius: BorderRadius.circular(99),
-                          ),
-                          child: Text(
-                            donor.bloodGroup,
-                            style: const TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w700,
-                              color: AppColors.primary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 2),
-                    Row(
-                      children: [
-                        const Icon(
-                          Icons.location_on,
-                          size: 11,
-                          color: AppColors.textMuted,
-                        ),
-                        const SizedBox(width: 2),
-                        Text(
-                          '${donor.thana}, ${donor.district}',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.textTertiary,
-                          ),
-                        ),
-                      ],
-                    ),
-                    const SizedBox(height: 4),
-                    Row(
-                      children: [
-                        Text(
-                          '${donor.distanceKm.toStringAsFixed(1)} km away',
-                          style: const TextStyle(
-                            fontSize: 12,
-                            color: AppColors.success,
-                            fontWeight: FontWeight.w600,
-                          ),
-                        ),
-                        const SizedBox(width: 12),
-                        Text(
-                          '🩸${donor.totalDonations} donations',
-                          style: const TextStyle(
-                            fontSize: 11,
-                            color: AppColors.textTertiary,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: statusStyle.bg,
-                  borderRadius: BorderRadius.circular(99),
-                ),
-                child: Text(
-                  statusLabel,
-                  style: TextStyle(
-                    fontSize: 10,
-                    fontWeight: FontWeight.w700,
-                    color: statusStyle.color,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.phone, size: 14),
-                  label: const Text('Call'),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.textSecondary,
-                    side: const BorderSide(
-                      color: AppColors.divider,
-                      width: 1.5,
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: ElevatedButton.icon(
-                  onPressed: () {},
-                  icon: const Icon(Icons.chat_bubble_outline, size: 14),
-                  label: const Text('Message'),
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    elevation: 0,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 6),
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () => _openDetails(context),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primary,
-                    side: const BorderSide(
-                      color: AppColors.primary,
-                      width: 1.5,
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: const Text(
-                    'View Profile',
-                    style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildAvatar() {
-    final photoUrl = donor.photoUrl;
-    if (photoUrl != null && photoUrl.isNotEmpty) {
-      return CircleAvatar(radius: 25, backgroundImage: NetworkImage(photoUrl));
-    }
-    return Avatar(
-      initials: donor.initials,
-      colorHex: _colorFor(donor.uid),
-      size: 50,
-      online: donor.isActive,
-    );
-  }
-}
-
-// ─── Donor Details Sheet ──────────────────────────────────────────────────────
-
-class _DonorDetailsSheet extends StatelessWidget {
-  const _DonorDetailsSheet({required this.donor});
-
-  final NearbyDonor donor;
-
-  @override
-  Widget build(BuildContext context) {
-    final bottomPad = MediaQuery.of(context).padding.bottom;
-    final statusLabel = donor.isActive ? 'Available' : 'Unavailable';
-    final statusStyle =
-        _statusColors[statusLabel] ?? _statusColors['Available']!;
-
-    return Container(
-      margin: const EdgeInsets.only(top: 60),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          const SizedBox(height: 12),
-          Container(
-            width: 40,
-            height: 4,
-            decoration: BoxDecoration(
-              color: AppColors.divider,
-              borderRadius: BorderRadius.circular(99),
-            ),
-          ),
-          Flexible(
-            child: SingleChildScrollView(
-              padding: EdgeInsets.fromLTRB(24, 20, 24, bottomPad + 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: [
-                  // Header
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      _buildLargeAvatar(),
-                      const SizedBox(width: 16),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              donor.name.isNotEmpty ? donor.name : 'Anonymous',
-                              style: const TextStyle(
-                                fontSize: 18,
-                                fontWeight: FontWeight.w700,
-                                color: AppColors.textPrimary,
-                              ),
-                            ),
-                            const SizedBox(height: 6),
-                            Row(
-                              children: [
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: AppColors.primarySurface,
-                                    borderRadius: BorderRadius.circular(8),
-                                    border: Border.all(
-                                      color: AppColors.primaryBorder,
-                                    ),
-                                  ),
-                                  child: Text(
-                                    donor.bloodGroup,
-                                    style: const TextStyle(
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w800,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                ),
-                                const SizedBox(width: 8),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 10,
-                                    vertical: 4,
-                                  ),
-                                  decoration: BoxDecoration(
-                                    color: statusStyle.bg,
-                                    borderRadius: BorderRadius.circular(8),
-                                  ),
-                                  child: Text(
-                                    statusLabel,
-                                    style: TextStyle(
-                                      fontSize: 11,
-                                      fontWeight: FontWeight.w700,
-                                      color: statusStyle.color,
-                                    ),
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  const Divider(height: 1),
-                  const SizedBox(height: 20),
-                  _DonorDetailRow(
-                    icon: Icons.location_on_outlined,
-                    label: 'Location',
-                    value: '${donor.thana}, ${donor.district}',
-                  ),
-                  _DonorDetailRow(
-                    icon: Icons.near_me_outlined,
-                    label: 'Distance',
-                    value: '${donor.distanceKm.toStringAsFixed(1)} km away',
-                    valueColor: AppColors.success,
-                    valueBold: true,
-                  ),
-                  _DonorDetailRow(
-                    icon: Icons.water_drop_outlined,
-                    label: 'Total Donations',
-                    value:
-                        '${donor.totalDonations} donation${donor.totalDonations != 1 ? 's' : ''}',
-                  ),
-                  if (donor.donorTier.isNotEmpty)
-                    _DonorDetailRow(
-                      icon: Icons.emoji_events_outlined,
-                      label: 'Donor Tier',
-                      value: donor.donorTier,
-                    ),
-                  const SizedBox(height: 24),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: OutlinedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.phone, size: 16),
-                          label: const Text('Call'),
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.textSecondary,
-                            side: const BorderSide(
-                              color: AppColors.divider,
-                              width: 1.5,
-                            ),
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton.icon(
-                          onPressed: () {},
-                          icon: const Icon(Icons.chat_bubble_outline, size: 16),
-                          label: const Text('Message'),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            elevation: 0,
-                            textStyle: const TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildLargeAvatar() {
-    final photoUrl = donor.photoUrl;
-    if (photoUrl != null && photoUrl.isNotEmpty) {
-      return CircleAvatar(radius: 32, backgroundImage: NetworkImage(photoUrl));
-    }
-    return Avatar(
-      initials: donor.initials,
-      colorHex: _colorFor(donor.uid),
-      size: 64,
-      online: donor.isActive,
-    );
-  }
-}
-
-class _DonorDetailRow extends StatelessWidget {
-  const _DonorDetailRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-    this.valueColor,
-    this.valueBold = false,
-  });
-
-  final IconData icon;
-  final String label;
-  final String value;
-  final Color? valueColor;
-  final bool valueBold;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.dividerLightest,
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Icon(icon, size: 18, color: AppColors.textSecondary),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: AppColors.textMuted,
-                    fontWeight: FontWeight.w500,
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: valueBold ? FontWeight.w700 : FontWeight.w500,
-                    color: valueColor ?? AppColors.textPrimary,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _FiltersSheet extends StatelessWidget {
-  const _FiltersSheet({required this.state});
-
-  final DonorsState state;
-
-  @override
-  Widget build(BuildContext context) {
-    final bloc = context.read<DonorsBloc>();
-    return Positioned.fill(
-      child: Stack(
-        children: [
-          GestureDetector(
-            onTap: () => bloc.add(const DonorsEvent.filtersClosed()),
-            child: Container(color: Colors.black.withValues(alpha: 0.4)),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Filter Donors',
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                      GestureDetector(
-                        onTap: () =>
-                            bloc.add(const DonorsEvent.filtersClosed()),
-                        child: const Icon(
-                          Icons.close,
-                          size: 20,
-                          color: AppColors.textTertiary,
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SizedBox(height: 20),
-                  const Text(
-                    'Blood Group',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    alignment: WrapAlignment.center,
-                    children: _bloodGroups.map((bg) {
-                      final selected = state.selectedBloodGroup == bg;
-                      return GestureDetector(
-                        onTap: () =>
-                            bloc.add(DonorsEvent.bloodGroupSelected(bg)),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: selected
-                                ? AppColors.primary
-                                : AppColors.dividerLightest,
-                            borderRadius: BorderRadius.circular(99),
-                          ),
-                          child: Text(
-                            bg,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: selected
-                                  ? Colors.white
-                                  : AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 16),
-                  const Text(
-                    'Distance',
-                    style: TextStyle(
-                      fontSize: 13,
-                      fontWeight: FontWeight.w600,
-                      color: AppColors.textSecondary,
-                    ),
-                  ),
-                  const SizedBox(height: 10),
-                  Wrap(
-                    spacing: 8,
-                    runSpacing: 8,
-                    children: _distances.map((d) {
-                      final selected = state.selectedDistance == d;
-                      return GestureDetector(
-                        onTap: () => bloc.add(DonorsEvent.distanceSelected(d)),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: selected
-                                ? AppColors.primary
-                                : AppColors.dividerLightest,
-                            borderRadius: BorderRadius.circular(99),
-                          ),
-                          child: Text(
-                            d,
-                            style: TextStyle(
-                              fontSize: 12,
-                              fontWeight: FontWeight.w600,
-                              color: selected
-                                  ? Colors.white
-                                  : AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  const SizedBox(height: 24),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () =>
-                              bloc.add(const DonorsEvent.filtersReset()),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.dividerLightest,
-                            foregroundColor: AppColors.textSecondary,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            elevation: 0,
-                          ),
-                          child: const Text('Reset'),
-                        ),
-                      ),
-                      const SizedBox(width: 12),
-                      Expanded(
-                        child: ElevatedButton(
-                          onPressed: () =>
-                              bloc.add(const DonorsEvent.filtersClosed()),
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: AppColors.primary,
-                            foregroundColor: Colors.white,
-                            padding: const EdgeInsets.symmetric(vertical: 12),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                            elevation: 0,
-                          ),
-                          child: const Text('Apply'),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
             ),
           ),
         ],
