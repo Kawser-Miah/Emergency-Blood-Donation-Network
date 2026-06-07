@@ -4,6 +4,7 @@ import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/usecase/blood_requests_usecase.dart';
 import 'package:blood_setu/domain/usecase/location_usecase.dart';
+import 'package:blood_setu/domain/usecase/mark_im_coming_usecase.dart';
 import 'package:blood_setu/domain/usecase/nearby_donors_usecase.dart';
 import 'package:blood_setu/domain/usecase/registration_user_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,12 +19,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final LocationUseCase _locationUseCase;
   final NearbyDonorsUseCase _nearbyDonorsUseCase;
   final BloodRequestsUseCase _bloodRequestsUseCase;
+  final MarkImComingUseCase _markImComingUseCase;
 
   HomeBloc(
     this._registrationUserUseCase,
     this._locationUseCase,
     this._nearbyDonorsUseCase,
     this._bloodRequestsUseCase,
+    this._markImComingUseCase,
   ) : super(HomeState.initial()) {
     on<HomeEvent>((event, emit) async {
       await event.when(
@@ -34,7 +37,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           final result = await _registrationUserUseCase.getProfile(uid);
           result.fold(
             (_) {},
-            (profile) => emit(state.copyWith(profile: profile)),
+            (profile) {
+              getIt<AuthController>().updateProfile(profile);
+              emit(state.copyWith(profile: profile));
+            },
           );
 
           // Fire-and-forget: refresh only GPS coordinates in user_locations.
@@ -94,6 +100,24 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           if (!isClosed) add(const HomeEvent.sosReleased());
         },
         sosReleased: () async => emit(state.copyWith(sosPressed: false)),
+        imComing: (requestId) async {
+          final auth = getIt<AuthController>();
+          final uid = auth.user?.uid;
+          if (uid == null) return;
+          final p = auth.profile;
+          final result = await _markImComingUseCase(
+            requestId: requestId,
+            donorUid: uid,
+            donorName: p?.fullName ?? '',
+            donorBloodGroup: p?.bloodGroup ?? '',
+            lastDonation: p?.lastDonation,
+            totalDonations: p?.totalDonations ?? 0,
+          );
+          result.fold(
+            (_) => emit(state.copyWith(imComingFailed: !state.imComingFailed)),
+            (_) => emit(state.copyWith(imComingSuccess: !state.imComingSuccess)),
+          );
+        },
       );
     });
   }
