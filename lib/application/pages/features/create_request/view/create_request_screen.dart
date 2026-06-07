@@ -236,7 +236,7 @@ class _Header extends StatelessWidget {
         children: [
           IconButton(
             onPressed: onBack,
-            icon: const Icon(Icons.arrow_back, size: 20),
+            icon: const Icon(Icons.arrow_back_ios_new, size: 20),
             color: AppColors.textTertiary,
             padding: const EdgeInsets.all(4),
             constraints: const BoxConstraints(),
@@ -738,11 +738,13 @@ class _CardLocationState extends State<_CardLocation> {
       ),
     );
     if (result != null) {
-      bloc.add(CreateRequestEvent.mapLocationPicked(
-        lat: result.lat,
-        lng: result.lng,
-        address: result.address,
-      ));
+      bloc.add(
+        CreateRequestEvent.mapLocationPicked(
+          lat: result.lat,
+          lng: result.lng,
+          address: result.address,
+        ),
+      );
     }
   }
 
@@ -774,8 +776,8 @@ class _CardLocationState extends State<_CardLocation> {
                 onTap: state.isGpsLoading
                     ? null
                     : () => bloc.add(
-                          const CreateRequestEvent.gpsLocationRequested(),
-                        ),
+                        const CreateRequestEvent.gpsLocationRequested(),
+                      ),
                 child: Container(
                   padding: const EdgeInsets.symmetric(vertical: 12),
                   decoration: BoxDecoration(
