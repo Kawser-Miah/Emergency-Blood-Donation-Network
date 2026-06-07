@@ -2,12 +2,12 @@ import 'package:blood_setu/application/core/services/routing/app_router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/mock_data.dart';
 import '../../../../../di/di.dart';
 import '../../../../../domain/models/blood_request.dart';
 import '../../../../../domain/models/nearby_donor.dart';
 import '../../../../../domain/models/user_profile_model.dart';
-import '../../../../../widgets/avatar.dart';
+import '../../../../core/widgets/avatar.dart';
+import '../../../../core/widgets/blood_request_card.dart';
 import '../../../../core/services/routing/routing_utils.dart';
 import '../../../../core/theme/colors.dart';
 import '../bloc/home_bloc.dart';
@@ -27,41 +27,6 @@ const List<String> _avatarColors = [
 
 String _colorFor(String uid) =>
     _avatarColors[uid.hashCode.abs() % _avatarColors.length];
-
-class _UrgencyConfig {
-  const _UrgencyConfig({
-    required this.color,
-    required this.bg,
-    required this.emoji,
-    required this.label,
-  });
-
-  final Color color;
-  final Color bg;
-  final String emoji;
-  final String label;
-}
-
-const Map<String, _UrgencyConfig> _urgencyConfig = {
-  'CRITICAL': _UrgencyConfig(
-    color: AppColors.primary,
-    bg: AppColors.primarySurface,
-    emoji: '🔴',
-    label: 'CRITICAL',
-  ),
-  'URGENT': _UrgencyConfig(
-    color: AppColors.warning,
-    bg: AppColors.warningSurface,
-    emoji: '🟠',
-    label: 'URGENT',
-  ),
-  'NORMAL': _UrgencyConfig(
-    color: AppColors.info,
-    bg: AppColors.infoSurface,
-    emoji: '🔵',
-    label: 'NORMAL',
-  ),
-};
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -122,6 +87,10 @@ class _HomeView extends StatelessWidget {
                           ),
                           const SizedBox(height: 20),
                           _ActiveRequests(
+                            requests: state.bloodRequests,
+                            isLoading: state.isLoadingRequests,
+                            userLat: state.userLat,
+                            userLng: state.userLng,
                             onMessage: (req) {},
                             // context.read<AppNavigationBloc>().add(
                             //       AppNavigationEvent.navigated(
@@ -731,9 +700,19 @@ class _DonorCard extends StatelessWidget {
 }
 
 class _ActiveRequests extends StatelessWidget {
-  const _ActiveRequests({required this.onMessage});
+  const _ActiveRequests({
+    required this.requests,
+    required this.isLoading,
+    required this.onMessage,
+    this.userLat,
+    this.userLng,
+  });
 
+  final List<BloodRequest> requests;
+  final bool isLoading;
   final void Function(BloodRequest) onMessage;
+  final double? userLat;
+  final double? userLng;
 
   @override
   Widget build(BuildContext context) {
@@ -768,218 +747,43 @@ class _ActiveRequests extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          for (final req in mockRequests) ...[
-            _RequestCard(request: req, onMessage: () => onMessage(req)),
-            const SizedBox(height: 12),
-          ],
+          if (isLoading)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 24),
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                  strokeWidth: 2,
+                ),
+              ),
+            )
+          else if (requests.isEmpty)
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 24),
+              child: Center(
+                child: Text(
+                  'No active blood requests',
+                  style: TextStyle(fontSize: 14, color: AppColors.textTertiary),
+                ),
+              ),
+            )
+          else
+            for (final req in requests) ...[
+              BloodRequestCard(
+                request: req,
+                userLat: userLat,
+                userLng: userLng,
+                onMessage: () => onMessage(req),
+              ),
+              const SizedBox(height: 12),
+            ],
         ],
       ),
     );
   }
 }
 
-class _RequestCard extends StatelessWidget {
-  const _RequestCard({required this.request, required this.onMessage});
 
-  final BloodRequest request;
-  final VoidCallback onMessage;
-
-  @override
-  Widget build(BuildContext context) {
-    final urg = _urgencyConfig[request.urgency] ?? _urgencyConfig['NORMAL']!;
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        border: Border(left: BorderSide(color: urg.color, width: 4)),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.07),
-            blurRadius: 10,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 10,
-                  vertical: 4,
-                ),
-                decoration: BoxDecoration(
-                  color: urg.bg,
-                  borderRadius: BorderRadius.circular(99),
-                ),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(urg.emoji, style: const TextStyle(fontSize: 10)),
-                    const SizedBox(width: 6),
-                    Text(
-                      urg.label,
-                      style: TextStyle(
-                        fontSize: 11,
-                        fontWeight: FontWeight.w700,
-                        color: urg.color,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Text(
-                _formatDate(request.createdAt),
-                style: const TextStyle(
-                  fontSize: 11,
-                  color: AppColors.textMuted,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    request.bloodGroup,
-                    style: const TextStyle(
-                      fontSize: 24,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.primary,
-                      height: 1,
-                    ),
-                  ),
-                  const Text(
-                    'Blood Needed',
-                    style: TextStyle(fontSize: 10, color: AppColors.textMuted),
-                  ),
-                ],
-              ),
-              Flexible(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      request.hospital,
-                      textAlign: TextAlign.right,
-                      style: const TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                        color: AppColors.textPrimary,
-                      ),
-                    ),
-                    const SizedBox(height: 2),
-                    Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(
-                          Icons.location_on,
-                          size: 10,
-                          color: AppColors.textTertiary,
-                        ),
-                        const SizedBox(width: 2),
-                        Flexible(
-                          child: Text(
-                            request.address,
-                            overflow: TextOverflow.ellipsis,
-                            style: const TextStyle(
-                              fontSize: 11,
-                              color: AppColors.textTertiary,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: [
-              Text(
-                '🩸 ${request.units} units needed',
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textTertiary,
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            children: [
-              Expanded(
-                child: ElevatedButton(
-                  onPressed: onMessage,
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                    elevation: 0,
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
-                      Icon(Icons.chat_bubble_outline, size: 14),
-                      SizedBox(width: 6),
-                      Text(
-                        'Message',
-                        style: TextStyle(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              const SizedBox(width: 8),
-              Expanded(
-                child: OutlinedButton(
-                  onPressed: () {},
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primary,
-                    padding: const EdgeInsets.symmetric(vertical: 10),
-                    side: const BorderSide(color: AppColors.primary, width: 2),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(16),
-                    ),
-                  ),
-                  child: const Text(
-                    "🤲 I'm Coming",
-                    style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
-    );
-  }
-
-  static String _formatDate(DateTime? date) {
-    if (date == null) return '';
-    final diff = DateTime.now().difference(date);
-    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
-    if (diff.inHours < 24) return '${diff.inHours}h ago';
-    return '${diff.inDays}d ago';
-  }
-}
 
 class _Sidebar extends StatelessWidget {
   const _Sidebar();
