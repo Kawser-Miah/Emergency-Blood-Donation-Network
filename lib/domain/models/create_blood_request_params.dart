@@ -1,3 +1,6 @@
+import 'package:blood_setu/domain/models/blood_request_enums.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class CreateBloodRequestParams {
   const CreateBloodRequestParams({
     required this.uid,
@@ -26,4 +29,21 @@ class CreateBloodRequestParams {
   final String notes;
   final double? latitude;
   final double? longitude;
+
+  Map<String, dynamic> toMap() => {
+        'uid': uid,
+        'patientName': patientName,
+        'bloodGroup': bloodGroup,
+        'units': units,
+        'hospital': hospital,
+        'address': address,
+        'urgency': urgency,
+        'needBy': Timestamp.fromDate(needBy),
+        'contact': contact,
+        'notes': notes,
+        if (latitude != null) 'latitude': latitude,
+        if (longitude != null) 'longitude': longitude,
+        'status': RequestStatus.active.value,
+        'createdAt': FieldValue.serverTimestamp(),
+      };
 }
