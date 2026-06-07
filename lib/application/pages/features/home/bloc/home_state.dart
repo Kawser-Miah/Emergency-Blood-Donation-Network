@@ -19,6 +19,8 @@ class HomeState with _$HomeState {
     double? userLng,
     @Default(<BloodRequest>[]) List<BloodRequest> bloodRequests,
     @Default(true) bool isLoadingRequests,
+    @Default(false) bool imComingSuccess,
+    @Default(false) bool imComingFailed,
   }) = _HomeState;
 
   factory HomeState.initial() => const HomeState();
