@@ -31,6 +31,7 @@ mixin _$BloodRequestsState {
   double? get userLng => throw _privateConstructorUsedError;
   bool get imComingSuccess => throw _privateConstructorUsedError;
   bool get imComingFailed => throw _privateConstructorUsedError;
+  bool get userIsActive => throw _privateConstructorUsedError;
 
   /// Create a copy of BloodRequestsState
   /// with the given fields replaced by the non-null parameter values.
@@ -61,6 +62,7 @@ abstract class $BloodRequestsStateCopyWith<$Res> {
     double? userLng,
     bool imComingSuccess,
     bool imComingFailed,
+    bool userIsActive,
   });
 }
 
@@ -93,6 +95,7 @@ class _$BloodRequestsStateCopyWithImpl<$Res, $Val extends BloodRequestsState>
     Object? userLng = freezed,
     Object? imComingSuccess = null,
     Object? imComingFailed = null,
+    Object? userIsActive = null,
   }) {
     return _then(
       _value.copyWith(
@@ -152,6 +155,10 @@ class _$BloodRequestsStateCopyWithImpl<$Res, $Val extends BloodRequestsState>
                 ? _value.imComingFailed
                 : imComingFailed // ignore: cast_nullable_to_non_nullable
                       as bool,
+            userIsActive: null == userIsActive
+                ? _value.userIsActive
+                : userIsActive // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -182,6 +189,7 @@ abstract class _$$BloodRequestsStateImplCopyWith<$Res>
     double? userLng,
     bool imComingSuccess,
     bool imComingFailed,
+    bool userIsActive,
   });
 }
 
@@ -213,6 +221,7 @@ class __$$BloodRequestsStateImplCopyWithImpl<$Res>
     Object? userLng = freezed,
     Object? imComingSuccess = null,
     Object? imComingFailed = null,
+    Object? userIsActive = null,
   }) {
     return _then(
       _$BloodRequestsStateImpl(
@@ -272,6 +281,10 @@ class __$$BloodRequestsStateImplCopyWithImpl<$Res>
             ? _value.imComingFailed
             : imComingFailed // ignore: cast_nullable_to_non_nullable
                   as bool,
+        userIsActive: null == userIsActive
+            ? _value.userIsActive
+            : userIsActive // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -295,6 +308,7 @@ class _$BloodRequestsStateImpl extends _BloodRequestsState {
     this.userLng,
     this.imComingSuccess = false,
     this.imComingFailed = false,
+    this.userIsActive = true,
   }) : _requests = requests,
        _filtered = filtered,
        super._();
@@ -350,10 +364,13 @@ class _$BloodRequestsStateImpl extends _BloodRequestsState {
   @override
   @JsonKey()
   final bool imComingFailed;
+  @override
+  @JsonKey()
+  final bool userIsActive;
 
   @override
   String toString() {
-    return 'BloodRequestsState(requests: $requests, filtered: $filtered, hasMore: $hasMore, isLoading: $isLoading, isLoadingMore: $isLoadingMore, search: $search, selectedBloodGroup: $selectedBloodGroup, selectedUrgency: $selectedUrgency, showFilters: $showFilters, error: $error, userLat: $userLat, userLng: $userLng, imComingSuccess: $imComingSuccess, imComingFailed: $imComingFailed)';
+    return 'BloodRequestsState(requests: $requests, filtered: $filtered, hasMore: $hasMore, isLoading: $isLoading, isLoadingMore: $isLoadingMore, search: $search, selectedBloodGroup: $selectedBloodGroup, selectedUrgency: $selectedUrgency, showFilters: $showFilters, error: $error, userLat: $userLat, userLng: $userLng, imComingSuccess: $imComingSuccess, imComingFailed: $imComingFailed, userIsActive: $userIsActive)';
   }
 
   @override
@@ -381,7 +398,9 @@ class _$BloodRequestsStateImpl extends _BloodRequestsState {
             (identical(other.imComingSuccess, imComingSuccess) ||
                 other.imComingSuccess == imComingSuccess) &&
             (identical(other.imComingFailed, imComingFailed) ||
-                other.imComingFailed == imComingFailed));
+                other.imComingFailed == imComingFailed) &&
+            (identical(other.userIsActive, userIsActive) ||
+                other.userIsActive == userIsActive));
   }
 
   @override
@@ -401,6 +420,7 @@ class _$BloodRequestsStateImpl extends _BloodRequestsState {
     userLng,
     imComingSuccess,
     imComingFailed,
+    userIsActive,
   );
 
   /// Create a copy of BloodRequestsState
@@ -431,6 +451,7 @@ abstract class _BloodRequestsState extends BloodRequestsState {
     final double? userLng,
     final bool imComingSuccess,
     final bool imComingFailed,
+    final bool userIsActive,
   }) = _$BloodRequestsStateImpl;
   const _BloodRequestsState._() : super._();
 
@@ -462,6 +483,8 @@ abstract class _BloodRequestsState extends BloodRequestsState {
   bool get imComingSuccess;
   @override
   bool get imComingFailed;
+  @override
+  bool get userIsActive;
 
   /// Create a copy of BloodRequestsState
   /// with the given fields replaced by the non-null parameter values.
