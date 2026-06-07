@@ -1,4 +1,5 @@
 import '../domain/models/blood_request.dart';
+import '../domain/models/blood_request_enums.dart';
 import '../domain/models/chat_message.dart';
 import '../domain/models/chat_summary.dart';
 import '../domain/models/donation_history_entry.dart';
@@ -103,39 +104,46 @@ const List<Donor> mockDonors = [
   ),
 ];
 
-const List<BloodRequest> mockRequests = [
+final List<BloodRequest> mockRequests = [
   BloodRequest(
-    id: '1',
-    urgency: 'CRITICAL',
-    bloodGroup: 'O-',
-    hospital: 'Dhaka Medical College Hospital',
-    distance: 2.0,
-    unitsNeeded: 2,
-    respondents: 3,
-    timePosted: '2 min ago',
+
+    uid: 'mock_uid_1',
     patientName: 'Rahim Uddin',
+    bloodGroup: 'O-',
+    units: 2,
+    hospital: 'Dhaka Medical College Hospital',
+    address: 'Bakshi Bazar, Dhaka',
+    urgency: 'CRITICAL',
+    needBy: DateTime.now().add(const Duration(days: 1)),
+    contact: '01700000001',
+    notes: '',
+    status: RequestStatus.active,
   ),
   BloodRequest(
-    id: '2',
-    urgency: 'URGENT',
-    bloodGroup: 'A+',
-    hospital: 'Square Hospital',
-    distance: 3.5,
-    unitsNeeded: 1,
-    respondents: 1,
-    timePosted: '15 min ago',
+    uid: 'mock_uid_2',
     patientName: 'Marium Khatun',
+    bloodGroup: 'A+',
+    units: 1,
+    hospital: 'Square Hospital',
+    address: 'Panthapath, Dhaka',
+    urgency: 'URGENT',
+    needBy: DateTime.now().add(const Duration(days: 2)),
+    contact: '01700000002',
+    notes: '',
+    status: RequestStatus.active,
   ),
   BloodRequest(
-    id: '3',
-    urgency: 'NORMAL',
-    bloodGroup: 'B+',
-    hospital: 'United Hospital',
-    distance: 5.8,
-    unitsNeeded: 3,
-    respondents: 0,
-    timePosted: '1 hr ago',
+    uid: 'mock_uid_3',
     patientName: 'Shafiqul Islam',
+    bloodGroup: 'B+',
+    units: 3,
+    hospital: 'United Hospital',
+    address: 'Gulshan, Dhaka',
+    urgency: 'NORMAL',
+    needBy: DateTime.now().add(const Duration(days: 3)),
+    contact: '01700000003',
+    notes: '',
+    status: RequestStatus.active,
   ),
 ];
 
