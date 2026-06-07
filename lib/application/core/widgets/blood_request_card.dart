@@ -1,6 +1,7 @@
 import 'package:blood_setu/application/core/theme/colors.dart';
 import 'package:blood_setu/domain/models/blood_request.dart';
 import 'package:blood_setu/utils/geo_query_util.dart';
+import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
@@ -70,12 +71,14 @@ class BloodRequestCard extends StatelessWidget {
     this.userLat,
     this.userLng,
     this.onMessage,
+    this.onImComing,
   });
 
   final BloodRequest request;
   final double? userLat;
   final double? userLng;
   final VoidCallback? onMessage;
+  final VoidCallback? onImComing;
 
   String? get _distanceText {
     final rLat = request.latitude;
@@ -96,6 +99,7 @@ class BloodRequestCard extends StatelessWidget {
         request: request,
         userLat: userLat,
         userLng: userLng,
+        onImComing: onImComing,
       ),
     );
   }
@@ -271,7 +275,7 @@ class BloodRequestCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: OutlinedButton(
-                    onPressed: () {},
+                    onPressed: onImComing,
                     style: OutlinedButton.styleFrom(
                       foregroundColor: AppColors.primary,
                       padding: const EdgeInsets.symmetric(vertical: 10),
@@ -304,11 +308,13 @@ class BloodRequestDetailsSheet extends StatelessWidget {
     required this.request,
     this.userLat,
     this.userLng,
+    this.onImComing,
   });
 
   final BloodRequest request;
   final double? userLat;
   final double? userLng;
+  final VoidCallback? onImComing;
 
   String? get _distanceText {
     final rLat = request.latitude;
@@ -381,11 +387,10 @@ class BloodRequestDetailsSheet extends StatelessWidget {
                         : null,
                     onCopy: () {
                       Clipboard.setData(ClipboardData(text: request.address));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Address copied to clipboard'),
-                          duration: Duration(seconds: 2),
-                        ),
+                      Utils.showSnackBar(
+                        context,
+                        content: 'Address copied to clipboard',
+                        color: AppColors.primary,
                       );
                     },
                   ),
@@ -401,11 +406,10 @@ class BloodRequestDetailsSheet extends StatelessWidget {
                     value: request.contact,
                     onCopy: () {
                       Clipboard.setData(ClipboardData(text: request.contact));
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Number copied to clipboard'),
-                          duration: Duration(seconds: 2),
-                        ),
+                      Utils.showSnackBar(
+                        context,
+                        content: 'Number copied to clipboard',
+                        color: AppColors.primary,
                       );
                     },
                   ),
@@ -447,7 +451,12 @@ class BloodRequestDetailsSheet extends StatelessWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: onImComing == null
+                              ? null
+                              : () {
+                                  Navigator.of(context).pop();
+                                  onImComing!();
+                                },
                           style: OutlinedButton.styleFrom(
                             foregroundColor: AppColors.primary,
                             padding: const EdgeInsets.symmetric(vertical: 14),
