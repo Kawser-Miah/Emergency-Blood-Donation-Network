@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$BloodRequest {
+  String get id => throw _privateConstructorUsedError;
   String get uid => throw _privateConstructorUsedError;
   String get patientName => throw _privateConstructorUsedError;
   String get bloodGroup => throw _privateConstructorUsedError;
@@ -30,7 +31,6 @@ mixin _$BloodRequest {
   double? get latitude => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
   RequestStatus get status => throw _privateConstructorUsedError;
-  CloseReason? get closeReason => throw _privateConstructorUsedError;
   DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Create a copy of BloodRequest
@@ -48,6 +48,7 @@ abstract class $BloodRequestCopyWith<$Res> {
   ) = _$BloodRequestCopyWithImpl<$Res, BloodRequest>;
   @useResult
   $Res call({
+    String id,
     String uid,
     String patientName,
     String bloodGroup,
@@ -61,7 +62,6 @@ abstract class $BloodRequestCopyWith<$Res> {
     double? latitude,
     double? longitude,
     RequestStatus status,
-    CloseReason? closeReason,
     DateTime? createdAt,
   });
 }
@@ -81,6 +81,7 @@ class _$BloodRequestCopyWithImpl<$Res, $Val extends BloodRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? uid = null,
     Object? patientName = null,
     Object? bloodGroup = null,
@@ -94,11 +95,14 @@ class _$BloodRequestCopyWithImpl<$Res, $Val extends BloodRequest>
     Object? latitude = freezed,
     Object? longitude = freezed,
     Object? status = null,
-    Object? closeReason = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(
       _value.copyWith(
+            id: null == id
+                ? _value.id
+                : id // ignore: cast_nullable_to_non_nullable
+                      as String,
             uid: null == uid
                 ? _value.uid
                 : uid // ignore: cast_nullable_to_non_nullable
@@ -151,10 +155,6 @@ class _$BloodRequestCopyWithImpl<$Res, $Val extends BloodRequest>
                 ? _value.status
                 : status // ignore: cast_nullable_to_non_nullable
                       as RequestStatus,
-            closeReason: freezed == closeReason
-                ? _value.closeReason
-                : closeReason // ignore: cast_nullable_to_non_nullable
-                      as CloseReason?,
             createdAt: freezed == createdAt
                 ? _value.createdAt
                 : createdAt // ignore: cast_nullable_to_non_nullable
@@ -175,6 +175,7 @@ abstract class _$$BloodRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    String id,
     String uid,
     String patientName,
     String bloodGroup,
@@ -188,7 +189,6 @@ abstract class _$$BloodRequestImplCopyWith<$Res>
     double? latitude,
     double? longitude,
     RequestStatus status,
-    CloseReason? closeReason,
     DateTime? createdAt,
   });
 }
@@ -207,6 +207,7 @@ class __$$BloodRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? id = null,
     Object? uid = null,
     Object? patientName = null,
     Object? bloodGroup = null,
@@ -220,11 +221,14 @@ class __$$BloodRequestImplCopyWithImpl<$Res>
     Object? latitude = freezed,
     Object? longitude = freezed,
     Object? status = null,
-    Object? closeReason = freezed,
     Object? createdAt = freezed,
   }) {
     return _then(
       _$BloodRequestImpl(
+        id: null == id
+            ? _value.id
+            : id // ignore: cast_nullable_to_non_nullable
+                  as String,
         uid: null == uid
             ? _value.uid
             : uid // ignore: cast_nullable_to_non_nullable
@@ -277,10 +281,6 @@ class __$$BloodRequestImplCopyWithImpl<$Res>
             ? _value.status
             : status // ignore: cast_nullable_to_non_nullable
                   as RequestStatus,
-        closeReason: freezed == closeReason
-            ? _value.closeReason
-            : closeReason // ignore: cast_nullable_to_non_nullable
-                  as CloseReason?,
         createdAt: freezed == createdAt
             ? _value.createdAt
             : createdAt // ignore: cast_nullable_to_non_nullable
@@ -294,6 +294,7 @@ class __$$BloodRequestImplCopyWithImpl<$Res>
 
 class _$BloodRequestImpl implements _BloodRequest {
   const _$BloodRequestImpl({
+    required this.id,
     required this.uid,
     required this.patientName,
     required this.bloodGroup,
@@ -307,10 +308,11 @@ class _$BloodRequestImpl implements _BloodRequest {
     this.latitude,
     this.longitude,
     required this.status,
-    this.closeReason,
     this.createdAt,
   });
 
+  @override
+  final String id;
   @override
   final String uid;
   @override
@@ -338,13 +340,11 @@ class _$BloodRequestImpl implements _BloodRequest {
   @override
   final RequestStatus status;
   @override
-  final CloseReason? closeReason;
-  @override
   final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'BloodRequest(uid: $uid, patientName: $patientName, bloodGroup: $bloodGroup, units: $units, hospital: $hospital, address: $address, urgency: $urgency, needBy: $needBy, contact: $contact, notes: $notes, latitude: $latitude, longitude: $longitude, status: $status, closeReason: $closeReason, createdAt: $createdAt)';
+    return 'BloodRequest(id: $id, uid: $uid, patientName: $patientName, bloodGroup: $bloodGroup, units: $units, hospital: $hospital, address: $address, urgency: $urgency, needBy: $needBy, contact: $contact, notes: $notes, latitude: $latitude, longitude: $longitude, status: $status, createdAt: $createdAt)';
   }
 
   @override
@@ -352,6 +352,7 @@ class _$BloodRequestImpl implements _BloodRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BloodRequestImpl &&
+            (identical(other.id, id) || other.id == id) &&
             (identical(other.uid, uid) || other.uid == uid) &&
             (identical(other.patientName, patientName) ||
                 other.patientName == patientName) &&
@@ -370,8 +371,6 @@ class _$BloodRequestImpl implements _BloodRequest {
             (identical(other.longitude, longitude) ||
                 other.longitude == longitude) &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.closeReason, closeReason) ||
-                other.closeReason == closeReason) &&
             (identical(other.createdAt, createdAt) ||
                 other.createdAt == createdAt));
   }
@@ -379,6 +378,7 @@ class _$BloodRequestImpl implements _BloodRequest {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    id,
     uid,
     patientName,
     bloodGroup,
@@ -392,7 +392,6 @@ class _$BloodRequestImpl implements _BloodRequest {
     latitude,
     longitude,
     status,
-    closeReason,
     createdAt,
   );
 
@@ -407,6 +406,7 @@ class _$BloodRequestImpl implements _BloodRequest {
 
 abstract class _BloodRequest implements BloodRequest {
   const factory _BloodRequest({
+    required final String id,
     required final String uid,
     required final String patientName,
     required final String bloodGroup,
@@ -420,10 +420,11 @@ abstract class _BloodRequest implements BloodRequest {
     final double? latitude,
     final double? longitude,
     required final RequestStatus status,
-    final CloseReason? closeReason,
     final DateTime? createdAt,
   }) = _$BloodRequestImpl;
 
+  @override
+  String get id;
   @override
   String get uid;
   @override
@@ -450,8 +451,6 @@ abstract class _BloodRequest implements BloodRequest {
   double? get longitude;
   @override
   RequestStatus get status;
-  @override
-  CloseReason? get closeReason;
   @override
   DateTime? get createdAt;
 
