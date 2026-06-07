@@ -390,9 +390,11 @@ class _Body extends StatelessWidget {
             userLat: state.userLat,
             userLng: state.userLng,
             onMessage: () {},
-            onImComing: () => context
-                .read<BloodRequestsBloc>()
-                .add(BloodRequestsEvent.imComing(req.id)),
+            onImComing: state.userIsActive
+                ? () => context
+                    .read<BloodRequestsBloc>()
+                    .add(BloodRequestsEvent.imComing(req.id))
+                : null,
           );
         },
       ),
