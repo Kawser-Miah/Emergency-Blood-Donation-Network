@@ -1,7 +1,10 @@
+import 'package:blood_setu/application/core/auth/auth_controller.dart';
+import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/failures/failures.dart';
 import 'package:blood_setu/domain/models/blood_request.dart';
 import 'package:blood_setu/domain/usecase/blood_requests_usecase.dart';
 import 'package:blood_setu/domain/usecase/location_usecase.dart';
+import 'package:blood_setu/domain/usecase/mark_im_coming_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
 
@@ -12,10 +15,11 @@ import 'blood_requests_state.dart';
 class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
   final BloodRequestsUseCase _useCase;
   final LocationUseCase _locationUseCase;
+  final MarkImComingUseCase _markImComingUseCase;
 
   static const int _pageSize = 20;
 
-  BloodRequestsBloc(this._useCase, this._locationUseCase)
+  BloodRequestsBloc(this._useCase, this._locationUseCase, this._markImComingUseCase)
       : super(BloodRequestsState.initial()) {
     on<BloodRequestsEvent>((event, emit) async {
       await event.when(
@@ -47,6 +51,24 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
             showFilters: false,
           );
           emit(next.copyWith(filtered: next.requests));
+        },
+        imComing: (requestId) async {
+          final auth = getIt<AuthController>();
+          final uid = auth.user?.uid;
+          if (uid == null) return;
+          final p = auth.profile;
+          final result = await _markImComingUseCase(
+            requestId: requestId,
+            donorUid: uid,
+            donorName: p?.fullName ?? '',
+            donorBloodGroup: p?.bloodGroup ?? '',
+            lastDonation: p?.lastDonation,
+            totalDonations: p?.totalDonations ?? 0,
+          );
+          result.fold(
+            (_) => emit(state.copyWith(imComingFailed: !state.imComingFailed)),
+            (_) => emit(state.copyWith(imComingSuccess: !state.imComingSuccess)),
+          );
         },
       );
     });
