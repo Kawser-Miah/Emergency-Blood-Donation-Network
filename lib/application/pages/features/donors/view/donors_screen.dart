@@ -4,6 +4,7 @@ import 'package:blood_setu/application/pages/features/donors/bloc/donors_state.d
 import 'package:blood_setu/di/di.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../core/theme/colors.dart';
 import '../widgets/donor_card.dart';
@@ -236,23 +237,39 @@ class _Header extends StatelessWidget {
         children: [
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const Text(
-                  'Find Donors',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.textPrimary,
+                if (context.canPop()) ...[
+                  GestureDetector(
+                    onTap: () => context.pop(),
+                    child: const Icon(
+                      Icons.arrow_back_ios_new,
+                      size: 18,
+                      color: AppColors.textPrimary,
+                    ),
                   ),
-                ),
-                Text(
-                  '${state.filtered.length} donors available near you',
-                  style: const TextStyle(
-                    fontSize: 12,
-                    color: AppColors.textTertiary,
-                  ),
+                  const SizedBox(width: 12),
+                ],
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Text(
+                      'Find Donors',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.textPrimary,
+                      ),
+                    ),
+                    Text(
+                      '${state.filtered.length} donors available near you',
+                      style: const TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textTertiary,
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
