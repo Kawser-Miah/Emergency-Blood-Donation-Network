@@ -81,7 +81,10 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             },
           );
 
-          final requestsResult = await _bloodRequestsUseCase(limit: 5);
+          final requestsResult = await _bloodRequestsUseCase(
+            limit: 5,
+            excludeUid: uid,
+          );
           requestsResult.fold(
             (_) => emit(state.copyWith(isLoadingRequests: false)),
             (requests) => emit(
