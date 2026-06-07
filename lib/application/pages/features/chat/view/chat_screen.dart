@@ -3,8 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../domain/models/chat_contact.dart';
 import '../../../../../domain/models/chat_message.dart';
-import '../../../../../widgets/avatar.dart';
-import '../../../../../widgets/typing_dots.dart';
+import '../../../../core/widgets/avatar.dart';
+import '../../../../core/widgets/typing_dots.dart';
 import '../../../../core/theme/colors.dart';
 // import '../../../app/bloc/app_navigation_bloc.dart';
 // import '../../../app/bloc/app_navigation_event.dart';
