@@ -6,6 +6,7 @@ import '../../../../../di/di.dart';
 import '../../../../../domain/models/blood_request.dart';
 import '../../../../../domain/models/nearby_donor.dart';
 import '../../../../../domain/models/user_profile_model.dart';
+import '../../../../../utils/utils.dart';
 import '../../../../core/widgets/avatar.dart';
 import '../../../../core/widgets/blood_request_card.dart';
 import '../../../../core/services/routing/routing_utils.dart';
@@ -45,9 +46,28 @@ class _HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<HomeBloc, HomeState>(
-      builder: (context, state) {
-        return Scaffold(
+    return MultiBlocListener(
+      listeners: [
+        BlocListener<HomeBloc, HomeState>(
+          listenWhen: (p, c) => p.imComingSuccess != c.imComingSuccess,
+          listener: (context, _) => Utils.showSnackBar(
+            context,
+            content: "You're registered as coming!",
+            color: AppColors.success,
+          ),
+        ),
+        BlocListener<HomeBloc, HomeState>(
+          listenWhen: (p, c) => p.imComingFailed != c.imComingFailed,
+          listener: (context, _) => Utils.showSnackBar(
+            context,
+            content: 'Failed to register interest. Please try again.',
+            color: AppColors.primary,
+          ),
+        ),
+      ],
+      child: BlocBuilder<HomeBloc, HomeState>(
+        builder: (context, state) {
+          return Scaffold(
           backgroundColor: AppColors.background,
           body: Stack(
             children: [
@@ -92,19 +112,6 @@ class _HomeView extends StatelessWidget {
                             userLat: state.userLat,
                             userLng: state.userLng,
                             onMessage: (req) {},
-                            // context.read<AppNavigationBloc>().add(
-                            //       AppNavigationEvent.navigated(
-                            //         AppScreen.chat,
-                            //         contact: ChatContact(
-                            //           name: 'Blood Request',
-                            //           bloodGroup: req.bloodGroup,
-                            //           id: req.id,
-                            //           initials: 'BR',
-                            //           avatarColor: '#E53935',
-                            //           online: true,
-                            //         ),
-                            //       ),
-                            //     ),
                           ),
                         ],
                       ),
@@ -132,6 +139,7 @@ class _HomeView extends StatelessWidget {
           ),
         );
       },
+      ),
     );
   }
 }
@@ -774,6 +782,9 @@ class _ActiveRequests extends StatelessWidget {
                 userLat: userLat,
                 userLng: userLng,
                 onMessage: () => onMessage(req),
+                onImComing: () => context
+                    .read<HomeBloc>()
+                    .add(HomeEvent.imComing(req.id)),
               ),
               const SizedBox(height: 12),
             ],
@@ -781,9 +792,8 @@ class _ActiveRequests extends StatelessWidget {
       ),
     );
   }
+
 }
-
-
 
 class _Sidebar extends StatelessWidget {
   const _Sidebar();
@@ -851,15 +861,12 @@ class _Sidebar extends StatelessWidget {
                   ..._sidebarItems.map((it) {
                     return InkWell(
                       onTap: () {
-                        // context
-                        //     .read<HomeBloc>()
-                        //     .add(const HomeEvent.sidebarClosed());
-                        // final s = AppScreenX.fromSlug(it.screen);
-                        // if (s != null) {
-                        //   context.read<AppNavigationBloc>().add(
-                        //         AppNavigationEvent.navigated(s),
-                        //       );
-                        // }
+                        context.read<HomeBloc>().add(
+                          const HomeEvent.sidebarClosed(),
+                        );
+                        if (it.route != null) {
+                          AppRouter.router.push(it.route!);
+                        }
                       },
                       child: Container(
                         padding: const EdgeInsets.symmetric(vertical: 12),
@@ -934,21 +941,16 @@ class _Sidebar extends StatelessWidget {
 }
 
 class _SidebarItem {
-  const _SidebarItem({
-    required this.emoji,
-    required this.label,
-    required this.screen,
-  });
+  const _SidebarItem({required this.emoji, required this.label, this.route});
   final String emoji;
   final String label;
-  final String screen;
+  final String? route;
 }
 
 const _sidebarItems = [
-  _SidebarItem(emoji: '🏠', label: 'Home', screen: 'home'),
-  _SidebarItem(emoji: '👤', label: 'My Profile', screen: 'profile'),
-  _SidebarItem(emoji: '🩸', label: 'My Donations', screen: 'profile'),
-  _SidebarItem(emoji: '📋', label: 'My Requests', screen: 'home'),
-  _SidebarItem(emoji: '🔔', label: 'Notifications', screen: 'home'),
-  _SidebarItem(emoji: '⚙️', label: 'Settings', screen: 'profile'),
+  _SidebarItem(emoji: '🏠', label: 'Home'),
+  _SidebarItem(emoji: '👤', label: 'My Profile', route: '/profile'),
+  _SidebarItem(emoji: '📋', label: 'My Requests', route: '/myRequests'),
+  _SidebarItem(emoji: '🔔', label: 'Notifications'),
+  _SidebarItem(emoji: '⚙️', label: 'Settings'),
 ];
