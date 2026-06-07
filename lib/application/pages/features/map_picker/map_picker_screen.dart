@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:blood_setu/application/core/theme/colors.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/usecase/location_usecase.dart';
+import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -119,14 +120,7 @@ class _MapPickerScreenState extends State<MapPickerScreen> {
 
   void _showLocationError(String message) {
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(message),
-        backgroundColor: AppColors.primary,
-        behavior: SnackBarBehavior.floating,
-        margin: const EdgeInsets.fromLTRB(16, 0, 16, 100),
-      ),
-    );
+    Utils.showSnackBar(context, content: message, color: AppColors.primary);
   }
 
   @override
