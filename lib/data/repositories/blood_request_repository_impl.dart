@@ -32,6 +32,7 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
   Future<Either<Failure, List<BloodRequest>>> getActiveRequests({
     int limit = 20,
     DateTime? startAfterNeedBy,
+    String? excludeUid,
   }) async {
     try {
       Query<Map<String, dynamic>> query = _firestore
@@ -45,9 +46,12 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
       }
 
       final snapshot = await query.get();
-      final requests = snapshot.docs
+      var requests = snapshot.docs
           .map((doc) => BloodRequest.fromMap(doc.id, doc.data()))
           .toList();
+      if (excludeUid != null) {
+        requests = requests.where((r) => r.uid != excludeUid).toList();
+      }
       return Right(requests);
     } on FirebaseException catch (e) {
       return Left(
