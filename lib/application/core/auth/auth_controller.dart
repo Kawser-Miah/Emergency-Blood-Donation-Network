@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:blood_setu/application/core/services/sp_service/sp_service.dart';
+import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
 import 'package:geolocator/geolocator.dart';
@@ -14,6 +15,7 @@ class AuthController extends ChangeNotifier {
   User? _user;
   bool _profileCompleted = false;
   bool _isInitialized = false;
+  UserProfileModel? _profile;
   StreamSubscription<User?>? _authSubscription;
 
   AuthController(this._spService, this._firebaseAuth) {
@@ -24,6 +26,11 @@ class AuthController extends ChangeNotifier {
   bool get isLoggedIn => _user != null;
   bool get profileCompleted => _profileCompleted;
   bool get isInitialized => _isInitialized;
+  UserProfileModel? get profile => _profile;
+
+  void updateProfile(UserProfileModel profile) {
+    _profile = profile;
+  }
 
   Future<void> _init() async {
     _profileCompleted = _spService.readSync<bool>(StorageKey.register) ?? false;
@@ -77,6 +84,7 @@ class AuthController extends ChangeNotifier {
   Future<void> logout() async {
     _user = null;
     _profileCompleted = false;
+    _profile = null;
     await _spService.delete(StorageKey.register);
     notifyListeners();
   }
