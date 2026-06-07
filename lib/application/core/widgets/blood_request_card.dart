@@ -1,5 +1,7 @@
 import 'package:blood_setu/application/core/theme/colors.dart';
+import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/models/blood_request.dart';
+import 'package:blood_setu/domain/usecase/get_interested_donors_usecase.dart';
 import 'package:blood_setu/utils/geo_query_util.dart';
 import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -302,7 +304,7 @@ class BloodRequestCard extends StatelessWidget {
   }
 }
 
-class BloodRequestDetailsSheet extends StatelessWidget {
+class BloodRequestDetailsSheet extends StatefulWidget {
   const BloodRequestDetailsSheet({
     super.key,
     required this.request,
@@ -316,20 +318,45 @@ class BloodRequestDetailsSheet extends StatelessWidget {
   final double? userLng;
   final VoidCallback? onImComing;
 
+  @override
+  State<BloodRequestDetailsSheet> createState() =>
+      _BloodRequestDetailsSheetState();
+}
+
+class _BloodRequestDetailsSheetState extends State<BloodRequestDetailsSheet> {
+  int? _donorCount;
+
   String? get _distanceText {
-    final rLat = request.latitude;
-    final rLng = request.longitude;
-    if (rLat == null || rLng == null || userLat == null || userLng == null) {
+    final rLat = widget.request.latitude;
+    final rLng = widget.request.longitude;
+    if (rLat == null || rLng == null || widget.userLat == null || widget.userLng == null) {
       return null;
     }
-    final km = GeoQueryUtil.distanceKm(userLat!, userLng!, rLat, rLng);
+    final km = GeoQueryUtil.distanceKm(widget.userLat!, widget.userLng!, rLat, rLng);
     return '${km.toStringAsFixed(1)} km away';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchDonorCount();
+  }
+
+  Future<void> _fetchDonorCount() async {
+    final result =
+        await getIt<GetInterestedDonorsUseCase>()(widget.request.id);
+    result.fold(
+      (_) {},
+      (donors) {
+        if (mounted) setState(() => _donorCount = donors.length);
+      },
+    );
   }
 
   @override
   Widget build(BuildContext context) {
     final urg =
-        bloodRequestUrgencyConfig[request.urgency] ??
+        bloodRequestUrgencyConfig[widget.request.urgency] ??
         bloodRequestUrgencyConfig['NORMAL']!;
     final bottomPad = MediaQuery.of(context).padding.bottom;
 
@@ -357,36 +384,37 @@ class BloodRequestDetailsSheet extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
-                  _SheetHeader(request: request, urg: urg),
+                  _SheetHeader(request: widget.request, urg: urg),
                   const SizedBox(height: 20),
                   const Divider(height: 1),
                   const SizedBox(height: 20),
                   _DetailRow(
                     icon: Icons.person_outline,
                     label: 'Patient',
-                    value: request.patientName,
+                    value: widget.request.patientName,
                   ),
                   _DetailRow(
                     icon: Icons.calendar_today_outlined,
                     label: 'Needed By',
-                    value: formatNeedBy(request.needBy),
+                    value: formatNeedBy(widget.request.needBy),
                     valueColor: urg.color,
                     valueBold: true,
                   ),
                   _DetailRow(
                     icon: Icons.local_hospital_outlined,
                     label: 'Hospital',
-                    value: request.hospital,
+                    value: widget.request.hospital,
                   ),
                   _DetailRow(
                     icon: Icons.location_on_outlined,
                     label: 'Location',
-                    value: request.address,
+                    value: widget.request.address,
                     trailing: _distanceText != null
                         ? _DistanceBadge(text: _distanceText!)
                         : null,
                     onCopy: () {
-                      Clipboard.setData(ClipboardData(text: request.address));
+                      Clipboard.setData(
+                          ClipboardData(text: widget.request.address));
                       Utils.showSnackBar(
                         context,
                         content: 'Address copied to clipboard',
@@ -398,14 +426,15 @@ class BloodRequestDetailsSheet extends StatelessWidget {
                     icon: Icons.water_drop_outlined,
                     label: 'Units Required',
                     value:
-                        '${request.units} unit${request.units > 1 ? 's' : ''}',
+                        '${widget.request.units} unit${widget.request.units > 1 ? 's' : ''}',
                   ),
                   _DetailRow(
                     icon: Icons.phone_outlined,
                     label: 'Contact',
-                    value: request.contact,
+                    value: widget.request.contact,
                     onCopy: () {
-                      Clipboard.setData(ClipboardData(text: request.contact));
+                      Clipboard.setData(
+                          ClipboardData(text: widget.request.contact));
                       Utils.showSnackBar(
                         context,
                         content: 'Number copied to clipboard',
@@ -413,16 +442,28 @@ class BloodRequestDetailsSheet extends StatelessWidget {
                       );
                     },
                   ),
-                  if (request.notes.isNotEmpty)
+                  if (widget.request.notes.isNotEmpty)
                     _DetailRow(
                       icon: Icons.notes_outlined,
                       label: 'Notes',
-                      value: request.notes,
+                      value: widget.request.notes,
                     ),
                   _DetailRow(
                     icon: Icons.access_time_outlined,
                     label: 'Posted',
-                    value: formatPosted(request.createdAt),
+                    value: formatPosted(widget.request.createdAt),
+                  ),
+                  _DetailRow(
+                    icon: Icons.people_outline,
+                    label: 'Donors Coming',
+                    value: _donorCount == null
+                        ? '...'
+                        : _donorCount == 0
+                            ? 'None yet'
+                            : '$_donorCount donor${_donorCount! > 1 ? 's' : ''} coming',
+                    valueColor: _donorCount != null && _donorCount! > 0
+                        ? AppColors.success
+                        : null,
                   ),
                   const SizedBox(height: 24),
                   Row(
@@ -451,11 +492,11 @@ class BloodRequestDetailsSheet extends StatelessWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: OutlinedButton(
-                          onPressed: onImComing == null
+                          onPressed: widget.onImComing == null
                               ? null
                               : () {
                                   Navigator.of(context).pop();
-                                  onImComing!();
+                                  widget.onImComing!();
                                 },
                           style: OutlinedButton.styleFrom(
                             foregroundColor: AppColors.primary,
