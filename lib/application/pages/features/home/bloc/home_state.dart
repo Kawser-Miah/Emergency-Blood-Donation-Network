@@ -1,5 +1,6 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 
+import '../../../../../domain/models/blood_request.dart';
 import '../../../../../domain/models/nearby_donor.dart';
 import '../../../../../domain/models/user_profile_model.dart';
 
@@ -14,6 +15,10 @@ class HomeState with _$HomeState {
     @Default(<NearbyDonor>[]) List<NearbyDonor> nearbyDonors,
     @Default(true) bool isLoadingNearby,
     String? nearbyError,
+    double? userLat,
+    double? userLng,
+    @Default(<BloodRequest>[]) List<BloodRequest> bloodRequests,
+    @Default(true) bool isLoadingRequests,
   }) = _HomeState;
 
   factory HomeState.initial() => const HomeState();
