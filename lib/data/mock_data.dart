@@ -106,7 +106,7 @@ const List<Donor> mockDonors = [
 
 final List<BloodRequest> mockRequests = [
   BloodRequest(
-
+    id: 'mock_1',
     uid: 'mock_uid_1',
     patientName: 'Rahim Uddin',
     bloodGroup: 'O-',
@@ -120,6 +120,7 @@ final List<BloodRequest> mockRequests = [
     status: RequestStatus.active,
   ),
   BloodRequest(
+    id: 'mock_2',
     uid: 'mock_uid_2',
     patientName: 'Marium Khatun',
     bloodGroup: 'A+',
@@ -133,6 +134,7 @@ final List<BloodRequest> mockRequests = [
     status: RequestStatus.active,
   ),
   BloodRequest(
+    id: 'mock_3',
     uid: 'mock_uid_3',
     patientName: 'Shafiqul Islam',
     bloodGroup: 'B+',
