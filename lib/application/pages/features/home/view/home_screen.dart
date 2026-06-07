@@ -832,7 +832,7 @@ class _RequestCard extends StatelessWidget {
                 ),
               ),
               Text(
-                request.timePosted,
+                _formatDate(request.createdAt),
                 style: const TextStyle(
                   fontSize: 11,
                   color: AppColors.textMuted,
@@ -886,11 +886,14 @@ class _RequestCard extends StatelessWidget {
                           color: AppColors.textTertiary,
                         ),
                         const SizedBox(width: 2),
-                        Text(
-                          '${request.distance} km',
-                          style: const TextStyle(
-                            fontSize: 11,
-                            color: AppColors.textTertiary,
+                        Flexible(
+                          child: Text(
+                            request.address,
+                            overflow: TextOverflow.ellipsis,
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: AppColors.textTertiary,
+                            ),
                           ),
                         ),
                       ],
@@ -904,16 +907,11 @@ class _RequestCard extends StatelessWidget {
           Row(
             children: [
               Text(
-                '🩸 ${request.unitsNeeded} units needed',
+                '🩸 ${request.units} units needed',
                 style: const TextStyle(
                   fontSize: 12,
                   color: AppColors.textTertiary,
                 ),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                '👤 ${request.respondents} donors coming',
-                style: const TextStyle(fontSize: 12, color: AppColors.success),
               ),
             ],
           ),
@@ -971,6 +969,14 @@ class _RequestCard extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  static String _formatDate(DateTime? date) {
+    if (date == null) return '';
+    final diff = DateTime.now().difference(date);
+    if (diff.inMinutes < 60) return '${diff.inMinutes}m ago';
+    if (diff.inHours < 24) return '${diff.inHours}h ago';
+    return '${diff.inDays}d ago';
   }
 }
 
