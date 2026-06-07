@@ -23,6 +23,10 @@ mixin _$HomeState {
   List<NearbyDonor> get nearbyDonors => throw _privateConstructorUsedError;
   bool get isLoadingNearby => throw _privateConstructorUsedError;
   String? get nearbyError => throw _privateConstructorUsedError;
+  double? get userLat => throw _privateConstructorUsedError;
+  double? get userLng => throw _privateConstructorUsedError;
+  List<BloodRequest> get bloodRequests => throw _privateConstructorUsedError;
+  bool get isLoadingRequests => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -43,6 +47,10 @@ abstract class $HomeStateCopyWith<$Res> {
     List<NearbyDonor> nearbyDonors,
     bool isLoadingNearby,
     String? nearbyError,
+    double? userLat,
+    double? userLng,
+    List<BloodRequest> bloodRequests,
+    bool isLoadingRequests,
   });
 }
 
@@ -67,6 +75,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? nearbyDonors = null,
     Object? isLoadingNearby = null,
     Object? nearbyError = freezed,
+    Object? userLat = freezed,
+    Object? userLng = freezed,
+    Object? bloodRequests = null,
+    Object? isLoadingRequests = null,
   }) {
     return _then(
       _value.copyWith(
@@ -94,6 +106,22 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                 ? _value.nearbyError
                 : nearbyError // ignore: cast_nullable_to_non_nullable
                       as String?,
+            userLat: freezed == userLat
+                ? _value.userLat
+                : userLat // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            userLng: freezed == userLng
+                ? _value.userLng
+                : userLng // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            bloodRequests: null == bloodRequests
+                ? _value.bloodRequests
+                : bloodRequests // ignore: cast_nullable_to_non_nullable
+                      as List<BloodRequest>,
+            isLoadingRequests: null == isLoadingRequests
+                ? _value.isLoadingRequests
+                : isLoadingRequests // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -116,6 +144,10 @@ abstract class _$$HomeStateImplCopyWith<$Res>
     List<NearbyDonor> nearbyDonors,
     bool isLoadingNearby,
     String? nearbyError,
+    double? userLat,
+    double? userLng,
+    List<BloodRequest> bloodRequests,
+    bool isLoadingRequests,
   });
 }
 
@@ -139,6 +171,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? nearbyDonors = null,
     Object? isLoadingNearby = null,
     Object? nearbyError = freezed,
+    Object? userLat = freezed,
+    Object? userLng = freezed,
+    Object? bloodRequests = null,
+    Object? isLoadingRequests = null,
   }) {
     return _then(
       _$HomeStateImpl(
@@ -166,6 +202,22 @@ class __$$HomeStateImplCopyWithImpl<$Res>
             ? _value.nearbyError
             : nearbyError // ignore: cast_nullable_to_non_nullable
                   as String?,
+        userLat: freezed == userLat
+            ? _value.userLat
+            : userLat // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        userLng: freezed == userLng
+            ? _value.userLng
+            : userLng // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        bloodRequests: null == bloodRequests
+            ? _value._bloodRequests
+            : bloodRequests // ignore: cast_nullable_to_non_nullable
+                  as List<BloodRequest>,
+        isLoadingRequests: null == isLoadingRequests
+            ? _value.isLoadingRequests
+            : isLoadingRequests // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -181,7 +233,12 @@ class _$HomeStateImpl implements _HomeState {
     final List<NearbyDonor> nearbyDonors = const <NearbyDonor>[],
     this.isLoadingNearby = true,
     this.nearbyError,
-  }) : _nearbyDonors = nearbyDonors;
+    this.userLat,
+    this.userLng,
+    final List<BloodRequest> bloodRequests = const <BloodRequest>[],
+    this.isLoadingRequests = true,
+  }) : _nearbyDonors = nearbyDonors,
+       _bloodRequests = bloodRequests;
 
   @override
   @JsonKey()
@@ -205,10 +262,26 @@ class _$HomeStateImpl implements _HomeState {
   final bool isLoadingNearby;
   @override
   final String? nearbyError;
+  @override
+  final double? userLat;
+  @override
+  final double? userLng;
+  final List<BloodRequest> _bloodRequests;
+  @override
+  @JsonKey()
+  List<BloodRequest> get bloodRequests {
+    if (_bloodRequests is EqualUnmodifiableListView) return _bloodRequests;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_bloodRequests);
+  }
+
+  @override
+  @JsonKey()
+  final bool isLoadingRequests;
 
   @override
   String toString() {
-    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed, profile: $profile, nearbyDonors: $nearbyDonors, isLoadingNearby: $isLoadingNearby, nearbyError: $nearbyError)';
+    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed, profile: $profile, nearbyDonors: $nearbyDonors, isLoadingNearby: $isLoadingNearby, nearbyError: $nearbyError, userLat: $userLat, userLng: $userLng, bloodRequests: $bloodRequests, isLoadingRequests: $isLoadingRequests)';
   }
 
   @override
@@ -228,7 +301,15 @@ class _$HomeStateImpl implements _HomeState {
             (identical(other.isLoadingNearby, isLoadingNearby) ||
                 other.isLoadingNearby == isLoadingNearby) &&
             (identical(other.nearbyError, nearbyError) ||
-                other.nearbyError == nearbyError));
+                other.nearbyError == nearbyError) &&
+            (identical(other.userLat, userLat) || other.userLat == userLat) &&
+            (identical(other.userLng, userLng) || other.userLng == userLng) &&
+            const DeepCollectionEquality().equals(
+              other._bloodRequests,
+              _bloodRequests,
+            ) &&
+            (identical(other.isLoadingRequests, isLoadingRequests) ||
+                other.isLoadingRequests == isLoadingRequests));
   }
 
   @override
@@ -240,6 +321,10 @@ class _$HomeStateImpl implements _HomeState {
     const DeepCollectionEquality().hash(_nearbyDonors),
     isLoadingNearby,
     nearbyError,
+    userLat,
+    userLng,
+    const DeepCollectionEquality().hash(_bloodRequests),
+    isLoadingRequests,
   );
 
   /// Create a copy of HomeState
@@ -259,6 +344,10 @@ abstract class _HomeState implements HomeState {
     final List<NearbyDonor> nearbyDonors,
     final bool isLoadingNearby,
     final String? nearbyError,
+    final double? userLat,
+    final double? userLng,
+    final List<BloodRequest> bloodRequests,
+    final bool isLoadingRequests,
   }) = _$HomeStateImpl;
 
   @override
@@ -273,6 +362,14 @@ abstract class _HomeState implements HomeState {
   bool get isLoadingNearby;
   @override
   String? get nearbyError;
+  @override
+  double? get userLat;
+  @override
+  double? get userLng;
+  @override
+  List<BloodRequest> get bloodRequests;
+  @override
+  bool get isLoadingRequests;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
