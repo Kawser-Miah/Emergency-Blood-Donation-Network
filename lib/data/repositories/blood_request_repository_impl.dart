@@ -16,22 +16,7 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
     CreateBloodRequestParams params,
   ) async {
     try {
-      await _firestore.collection('blood_requests').add({
-        'uid': params.uid,
-        'patientName': params.patientName,
-        'bloodGroup': params.bloodGroup,
-        'units': params.units,
-        'hospital': params.hospital,
-        'address': params.address,
-        'urgency': params.urgency,
-        'needBy': Timestamp.fromDate(params.needBy),
-        'contact': params.contact,
-        'notes': params.notes,
-        if (params.latitude != null) 'latitude': params.latitude,
-        if (params.longitude != null) 'longitude': params.longitude,
-        'status': 'active',
-        'createdAt': FieldValue.serverTimestamp(),
-      });
+      await _firestore.collection('blood_requests').add(params.toMap());
       return const Right(null);
     } on FirebaseException catch (e) {
       return Left(GeneralFailure(e.message ?? 'Failed to post blood request.'));
