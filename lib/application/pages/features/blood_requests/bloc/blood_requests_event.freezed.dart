@@ -28,6 +28,7 @@ mixin _$BloodRequestsEvent {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -40,6 +41,7 @@ mixin _$BloodRequestsEvent {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -52,6 +54,7 @@ mixin _$BloodRequestsEvent {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -65,6 +68,7 @@ mixin _$BloodRequestsEvent {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -77,6 +81,7 @@ mixin _$BloodRequestsEvent {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -89,6 +94,7 @@ mixin _$BloodRequestsEvent {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -167,6 +173,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) {
     return started();
   }
@@ -183,6 +190,7 @@ class _$StartedImpl implements _Started {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) {
     return started?.call();
   }
@@ -199,6 +207,7 @@ class _$StartedImpl implements _Started {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -219,6 +228,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return started(this);
   }
@@ -235,6 +245,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return started?.call(this);
   }
@@ -251,6 +262,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -316,6 +328,7 @@ class _$RefreshedImpl implements _Refreshed {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) {
     return refreshed();
   }
@@ -332,6 +345,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) {
     return refreshed?.call();
   }
@@ -348,6 +362,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (refreshed != null) {
@@ -368,6 +383,7 @@ class _$RefreshedImpl implements _Refreshed {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return refreshed(this);
   }
@@ -384,6 +400,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return refreshed?.call(this);
   }
@@ -400,6 +417,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (refreshed != null) {
@@ -465,6 +483,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) {
     return loadMoreRequested();
   }
@@ -481,6 +500,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) {
     return loadMoreRequested?.call();
   }
@@ -497,6 +517,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (loadMoreRequested != null) {
@@ -517,6 +538,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return loadMoreRequested(this);
   }
@@ -533,6 +555,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return loadMoreRequested?.call(this);
   }
@@ -549,6 +572,7 @@ class _$LoadMoreRequestedImpl implements _LoadMoreRequested {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (loadMoreRequested != null) {
@@ -641,6 +665,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) {
     return searchChanged(value);
   }
@@ -657,6 +682,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) {
     return searchChanged?.call(value);
   }
@@ -673,6 +699,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (searchChanged != null) {
@@ -693,6 +720,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return searchChanged(this);
   }
@@ -709,6 +737,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return searchChanged?.call(this);
   }
@@ -725,6 +754,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (searchChanged != null) {
@@ -828,6 +858,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) {
     return bloodGroupSelected(value);
   }
@@ -844,6 +875,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) {
     return bloodGroupSelected?.call(value);
   }
@@ -860,6 +892,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (bloodGroupSelected != null) {
@@ -880,6 +913,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return bloodGroupSelected(this);
   }
@@ -896,6 +930,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return bloodGroupSelected?.call(this);
   }
@@ -912,6 +947,7 @@ class _$BloodGroupSelectedImpl implements _BloodGroupSelected {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (bloodGroupSelected != null) {
@@ -1016,6 +1052,7 @@ class _$UrgencySelectedImpl implements _UrgencySelected {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) {
     return urgencySelected(value);
   }
@@ -1032,6 +1069,7 @@ class _$UrgencySelectedImpl implements _UrgencySelected {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) {
     return urgencySelected?.call(value);
   }
@@ -1048,6 +1086,7 @@ class _$UrgencySelectedImpl implements _UrgencySelected {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (urgencySelected != null) {
@@ -1068,6 +1107,7 @@ class _$UrgencySelectedImpl implements _UrgencySelected {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return urgencySelected(this);
   }
@@ -1084,6 +1124,7 @@ class _$UrgencySelectedImpl implements _UrgencySelected {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return urgencySelected?.call(this);
   }
@@ -1100,6 +1141,7 @@ class _$UrgencySelectedImpl implements _UrgencySelected {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (urgencySelected != null) {
@@ -1173,6 +1215,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) {
     return filtersOpened();
   }
@@ -1189,6 +1232,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) {
     return filtersOpened?.call();
   }
@@ -1205,6 +1249,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (filtersOpened != null) {
@@ -1225,6 +1270,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return filtersOpened(this);
   }
@@ -1241,6 +1287,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return filtersOpened?.call(this);
   }
@@ -1257,6 +1304,7 @@ class _$FiltersOpenedImpl implements _FiltersOpened {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (filtersOpened != null) {
@@ -1322,6 +1370,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) {
     return filtersClosed();
   }
@@ -1338,6 +1387,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) {
     return filtersClosed?.call();
   }
@@ -1354,6 +1404,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (filtersClosed != null) {
@@ -1374,6 +1425,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return filtersClosed(this);
   }
@@ -1390,6 +1442,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return filtersClosed?.call(this);
   }
@@ -1406,6 +1459,7 @@ class _$FiltersClosedImpl implements _FiltersClosed {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (filtersClosed != null) {
@@ -1471,6 +1525,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     required TResult Function() filtersOpened,
     required TResult Function() filtersClosed,
     required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
   }) {
     return filtersReset();
   }
@@ -1487,6 +1542,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     TResult? Function()? filtersOpened,
     TResult? Function()? filtersClosed,
     TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
   }) {
     return filtersReset?.call();
   }
@@ -1503,6 +1559,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     TResult Function()? filtersOpened,
     TResult Function()? filtersClosed,
     TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
     required TResult orElse(),
   }) {
     if (filtersReset != null) {
@@ -1523,6 +1580,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     required TResult Function(_FiltersOpened value) filtersOpened,
     required TResult Function(_FiltersClosed value) filtersClosed,
     required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
   }) {
     return filtersReset(this);
   }
@@ -1539,6 +1597,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     TResult? Function(_FiltersOpened value)? filtersOpened,
     TResult? Function(_FiltersClosed value)? filtersClosed,
     TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
   }) {
     return filtersReset?.call(this);
   }
@@ -1555,6 +1614,7 @@ class _$FiltersResetImpl implements _FiltersReset {
     TResult Function(_FiltersOpened value)? filtersOpened,
     TResult Function(_FiltersClosed value)? filtersClosed,
     TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
     required TResult orElse(),
   }) {
     if (filtersReset != null) {
@@ -1566,4 +1626,195 @@ class _$FiltersResetImpl implements _FiltersReset {
 
 abstract class _FiltersReset implements BloodRequestsEvent {
   const factory _FiltersReset() = _$FiltersResetImpl;
+}
+
+/// @nodoc
+abstract class _$$ImComingImplCopyWith<$Res> {
+  factory _$$ImComingImplCopyWith(
+    _$ImComingImpl value,
+    $Res Function(_$ImComingImpl) then,
+  ) = __$$ImComingImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String requestId});
+}
+
+/// @nodoc
+class __$$ImComingImplCopyWithImpl<$Res>
+    extends _$BloodRequestsEventCopyWithImpl<$Res, _$ImComingImpl>
+    implements _$$ImComingImplCopyWith<$Res> {
+  __$$ImComingImplCopyWithImpl(
+    _$ImComingImpl _value,
+    $Res Function(_$ImComingImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of BloodRequestsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? requestId = null}) {
+    return _then(
+      _$ImComingImpl(
+        null == requestId
+            ? _value.requestId
+            : requestId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$ImComingImpl implements _ImComing {
+  const _$ImComingImpl(this.requestId);
+
+  @override
+  final String requestId;
+
+  @override
+  String toString() {
+    return 'BloodRequestsEvent.imComing(requestId: $requestId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ImComingImpl &&
+            (identical(other.requestId, requestId) ||
+                other.requestId == requestId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, requestId);
+
+  /// Create a copy of BloodRequestsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ImComingImplCopyWith<_$ImComingImpl> get copyWith =>
+      __$$ImComingImplCopyWithImpl<_$ImComingImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function() loadMoreRequested,
+    required TResult Function(String value) searchChanged,
+    required TResult Function(String value) bloodGroupSelected,
+    required TResult Function(String value) urgencySelected,
+    required TResult Function() filtersOpened,
+    required TResult Function() filtersClosed,
+    required TResult Function() filtersReset,
+    required TResult Function(String requestId) imComing,
+  }) {
+    return imComing(requestId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function()? loadMoreRequested,
+    TResult? Function(String value)? searchChanged,
+    TResult? Function(String value)? bloodGroupSelected,
+    TResult? Function(String value)? urgencySelected,
+    TResult? Function()? filtersOpened,
+    TResult? Function()? filtersClosed,
+    TResult? Function()? filtersReset,
+    TResult? Function(String requestId)? imComing,
+  }) {
+    return imComing?.call(requestId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function()? loadMoreRequested,
+    TResult Function(String value)? searchChanged,
+    TResult Function(String value)? bloodGroupSelected,
+    TResult Function(String value)? urgencySelected,
+    TResult Function()? filtersOpened,
+    TResult Function()? filtersClosed,
+    TResult Function()? filtersReset,
+    TResult Function(String requestId)? imComing,
+    required TResult orElse(),
+  }) {
+    if (imComing != null) {
+      return imComing(requestId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_LoadMoreRequested value) loadMoreRequested,
+    required TResult Function(_SearchChanged value) searchChanged,
+    required TResult Function(_BloodGroupSelected value) bloodGroupSelected,
+    required TResult Function(_UrgencySelected value) urgencySelected,
+    required TResult Function(_FiltersOpened value) filtersOpened,
+    required TResult Function(_FiltersClosed value) filtersClosed,
+    required TResult Function(_FiltersReset value) filtersReset,
+    required TResult Function(_ImComing value) imComing,
+  }) {
+    return imComing(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult? Function(_SearchChanged value)? searchChanged,
+    TResult? Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult? Function(_UrgencySelected value)? urgencySelected,
+    TResult? Function(_FiltersOpened value)? filtersOpened,
+    TResult? Function(_FiltersClosed value)? filtersClosed,
+    TResult? Function(_FiltersReset value)? filtersReset,
+    TResult? Function(_ImComing value)? imComing,
+  }) {
+    return imComing?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_LoadMoreRequested value)? loadMoreRequested,
+    TResult Function(_SearchChanged value)? searchChanged,
+    TResult Function(_BloodGroupSelected value)? bloodGroupSelected,
+    TResult Function(_UrgencySelected value)? urgencySelected,
+    TResult Function(_FiltersOpened value)? filtersOpened,
+    TResult Function(_FiltersClosed value)? filtersClosed,
+    TResult Function(_FiltersReset value)? filtersReset,
+    TResult Function(_ImComing value)? imComing,
+    required TResult orElse(),
+  }) {
+    if (imComing != null) {
+      return imComing(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ImComing implements BloodRequestsEvent {
+  const factory _ImComing(final String requestId) = _$ImComingImpl;
+
+  String get requestId;
+
+  /// Create a copy of BloodRequestsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ImComingImplCopyWith<_$ImComingImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
