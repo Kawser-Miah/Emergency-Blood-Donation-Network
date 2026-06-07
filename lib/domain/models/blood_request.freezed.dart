@@ -17,15 +17,21 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$BloodRequest {
-  String get id => throw _privateConstructorUsedError;
-  String get urgency => throw _privateConstructorUsedError;
-  String get bloodGroup => throw _privateConstructorUsedError;
-  String get hospital => throw _privateConstructorUsedError;
-  double get distance => throw _privateConstructorUsedError;
-  int get unitsNeeded => throw _privateConstructorUsedError;
-  int get respondents => throw _privateConstructorUsedError;
-  String get timePosted => throw _privateConstructorUsedError;
+  String get uid => throw _privateConstructorUsedError;
   String get patientName => throw _privateConstructorUsedError;
+  String get bloodGroup => throw _privateConstructorUsedError;
+  int get units => throw _privateConstructorUsedError;
+  String get hospital => throw _privateConstructorUsedError;
+  String get address => throw _privateConstructorUsedError;
+  String get urgency => throw _privateConstructorUsedError;
+  DateTime get needBy => throw _privateConstructorUsedError;
+  String get contact => throw _privateConstructorUsedError;
+  String get notes => throw _privateConstructorUsedError;
+  double? get latitude => throw _privateConstructorUsedError;
+  double? get longitude => throw _privateConstructorUsedError;
+  RequestStatus get status => throw _privateConstructorUsedError;
+  CloseReason? get closeReason => throw _privateConstructorUsedError;
+  DateTime? get createdAt => throw _privateConstructorUsedError;
 
   /// Create a copy of BloodRequest
   /// with the given fields replaced by the non-null parameter values.
@@ -42,15 +48,21 @@ abstract class $BloodRequestCopyWith<$Res> {
   ) = _$BloodRequestCopyWithImpl<$Res, BloodRequest>;
   @useResult
   $Res call({
-    String id,
-    String urgency,
-    String bloodGroup,
-    String hospital,
-    double distance,
-    int unitsNeeded,
-    int respondents,
-    String timePosted,
+    String uid,
     String patientName,
+    String bloodGroup,
+    int units,
+    String hospital,
+    String address,
+    String urgency,
+    DateTime needBy,
+    String contact,
+    String notes,
+    double? latitude,
+    double? longitude,
+    RequestStatus status,
+    CloseReason? closeReason,
+    DateTime? createdAt,
   });
 }
 
@@ -69,54 +81,84 @@ class _$BloodRequestCopyWithImpl<$Res, $Val extends BloodRequest>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? urgency = null,
-    Object? bloodGroup = null,
-    Object? hospital = null,
-    Object? distance = null,
-    Object? unitsNeeded = null,
-    Object? respondents = null,
-    Object? timePosted = null,
+    Object? uid = null,
     Object? patientName = null,
+    Object? bloodGroup = null,
+    Object? units = null,
+    Object? hospital = null,
+    Object? address = null,
+    Object? urgency = null,
+    Object? needBy = null,
+    Object? contact = null,
+    Object? notes = null,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+    Object? status = null,
+    Object? closeReason = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(
       _value.copyWith(
-            id: null == id
-                ? _value.id
-                : id // ignore: cast_nullable_to_non_nullable
-                      as String,
-            urgency: null == urgency
-                ? _value.urgency
-                : urgency // ignore: cast_nullable_to_non_nullable
-                      as String,
-            bloodGroup: null == bloodGroup
-                ? _value.bloodGroup
-                : bloodGroup // ignore: cast_nullable_to_non_nullable
-                      as String,
-            hospital: null == hospital
-                ? _value.hospital
-                : hospital // ignore: cast_nullable_to_non_nullable
-                      as String,
-            distance: null == distance
-                ? _value.distance
-                : distance // ignore: cast_nullable_to_non_nullable
-                      as double,
-            unitsNeeded: null == unitsNeeded
-                ? _value.unitsNeeded
-                : unitsNeeded // ignore: cast_nullable_to_non_nullable
-                      as int,
-            respondents: null == respondents
-                ? _value.respondents
-                : respondents // ignore: cast_nullable_to_non_nullable
-                      as int,
-            timePosted: null == timePosted
-                ? _value.timePosted
-                : timePosted // ignore: cast_nullable_to_non_nullable
+            uid: null == uid
+                ? _value.uid
+                : uid // ignore: cast_nullable_to_non_nullable
                       as String,
             patientName: null == patientName
                 ? _value.patientName
                 : patientName // ignore: cast_nullable_to_non_nullable
                       as String,
+            bloodGroup: null == bloodGroup
+                ? _value.bloodGroup
+                : bloodGroup // ignore: cast_nullable_to_non_nullable
+                      as String,
+            units: null == units
+                ? _value.units
+                : units // ignore: cast_nullable_to_non_nullable
+                      as int,
+            hospital: null == hospital
+                ? _value.hospital
+                : hospital // ignore: cast_nullable_to_non_nullable
+                      as String,
+            address: null == address
+                ? _value.address
+                : address // ignore: cast_nullable_to_non_nullable
+                      as String,
+            urgency: null == urgency
+                ? _value.urgency
+                : urgency // ignore: cast_nullable_to_non_nullable
+                      as String,
+            needBy: null == needBy
+                ? _value.needBy
+                : needBy // ignore: cast_nullable_to_non_nullable
+                      as DateTime,
+            contact: null == contact
+                ? _value.contact
+                : contact // ignore: cast_nullable_to_non_nullable
+                      as String,
+            notes: null == notes
+                ? _value.notes
+                : notes // ignore: cast_nullable_to_non_nullable
+                      as String,
+            latitude: freezed == latitude
+                ? _value.latitude
+                : latitude // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            longitude: freezed == longitude
+                ? _value.longitude
+                : longitude // ignore: cast_nullable_to_non_nullable
+                      as double?,
+            status: null == status
+                ? _value.status
+                : status // ignore: cast_nullable_to_non_nullable
+                      as RequestStatus,
+            closeReason: freezed == closeReason
+                ? _value.closeReason
+                : closeReason // ignore: cast_nullable_to_non_nullable
+                      as CloseReason?,
+            createdAt: freezed == createdAt
+                ? _value.createdAt
+                : createdAt // ignore: cast_nullable_to_non_nullable
+                      as DateTime?,
           )
           as $Val,
     );
@@ -133,15 +175,21 @@ abstract class _$$BloodRequestImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    String id,
-    String urgency,
-    String bloodGroup,
-    String hospital,
-    double distance,
-    int unitsNeeded,
-    int respondents,
-    String timePosted,
+    String uid,
     String patientName,
+    String bloodGroup,
+    int units,
+    String hospital,
+    String address,
+    String urgency,
+    DateTime needBy,
+    String contact,
+    String notes,
+    double? latitude,
+    double? longitude,
+    RequestStatus status,
+    CloseReason? closeReason,
+    DateTime? createdAt,
   });
 }
 
@@ -159,54 +207,84 @@ class __$$BloodRequestImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
-    Object? id = null,
-    Object? urgency = null,
-    Object? bloodGroup = null,
-    Object? hospital = null,
-    Object? distance = null,
-    Object? unitsNeeded = null,
-    Object? respondents = null,
-    Object? timePosted = null,
+    Object? uid = null,
     Object? patientName = null,
+    Object? bloodGroup = null,
+    Object? units = null,
+    Object? hospital = null,
+    Object? address = null,
+    Object? urgency = null,
+    Object? needBy = null,
+    Object? contact = null,
+    Object? notes = null,
+    Object? latitude = freezed,
+    Object? longitude = freezed,
+    Object? status = null,
+    Object? closeReason = freezed,
+    Object? createdAt = freezed,
   }) {
     return _then(
       _$BloodRequestImpl(
-        id: null == id
-            ? _value.id
-            : id // ignore: cast_nullable_to_non_nullable
-                  as String,
-        urgency: null == urgency
-            ? _value.urgency
-            : urgency // ignore: cast_nullable_to_non_nullable
-                  as String,
-        bloodGroup: null == bloodGroup
-            ? _value.bloodGroup
-            : bloodGroup // ignore: cast_nullable_to_non_nullable
-                  as String,
-        hospital: null == hospital
-            ? _value.hospital
-            : hospital // ignore: cast_nullable_to_non_nullable
-                  as String,
-        distance: null == distance
-            ? _value.distance
-            : distance // ignore: cast_nullable_to_non_nullable
-                  as double,
-        unitsNeeded: null == unitsNeeded
-            ? _value.unitsNeeded
-            : unitsNeeded // ignore: cast_nullable_to_non_nullable
-                  as int,
-        respondents: null == respondents
-            ? _value.respondents
-            : respondents // ignore: cast_nullable_to_non_nullable
-                  as int,
-        timePosted: null == timePosted
-            ? _value.timePosted
-            : timePosted // ignore: cast_nullable_to_non_nullable
+        uid: null == uid
+            ? _value.uid
+            : uid // ignore: cast_nullable_to_non_nullable
                   as String,
         patientName: null == patientName
             ? _value.patientName
             : patientName // ignore: cast_nullable_to_non_nullable
                   as String,
+        bloodGroup: null == bloodGroup
+            ? _value.bloodGroup
+            : bloodGroup // ignore: cast_nullable_to_non_nullable
+                  as String,
+        units: null == units
+            ? _value.units
+            : units // ignore: cast_nullable_to_non_nullable
+                  as int,
+        hospital: null == hospital
+            ? _value.hospital
+            : hospital // ignore: cast_nullable_to_non_nullable
+                  as String,
+        address: null == address
+            ? _value.address
+            : address // ignore: cast_nullable_to_non_nullable
+                  as String,
+        urgency: null == urgency
+            ? _value.urgency
+            : urgency // ignore: cast_nullable_to_non_nullable
+                  as String,
+        needBy: null == needBy
+            ? _value.needBy
+            : needBy // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+        contact: null == contact
+            ? _value.contact
+            : contact // ignore: cast_nullable_to_non_nullable
+                  as String,
+        notes: null == notes
+            ? _value.notes
+            : notes // ignore: cast_nullable_to_non_nullable
+                  as String,
+        latitude: freezed == latitude
+            ? _value.latitude
+            : latitude // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        longitude: freezed == longitude
+            ? _value.longitude
+            : longitude // ignore: cast_nullable_to_non_nullable
+                  as double?,
+        status: null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as RequestStatus,
+        closeReason: freezed == closeReason
+            ? _value.closeReason
+            : closeReason // ignore: cast_nullable_to_non_nullable
+                  as CloseReason?,
+        createdAt: freezed == createdAt
+            ? _value.createdAt
+            : createdAt // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
       ),
     );
   }
@@ -216,39 +294,57 @@ class __$$BloodRequestImplCopyWithImpl<$Res>
 
 class _$BloodRequestImpl implements _BloodRequest {
   const _$BloodRequestImpl({
-    required this.id,
-    required this.urgency,
-    required this.bloodGroup,
-    required this.hospital,
-    required this.distance,
-    required this.unitsNeeded,
-    required this.respondents,
-    required this.timePosted,
+    required this.uid,
     required this.patientName,
+    required this.bloodGroup,
+    required this.units,
+    required this.hospital,
+    required this.address,
+    required this.urgency,
+    required this.needBy,
+    required this.contact,
+    required this.notes,
+    this.latitude,
+    this.longitude,
+    required this.status,
+    this.closeReason,
+    this.createdAt,
   });
 
   @override
-  final String id;
+  final String uid;
   @override
-  final String urgency;
+  final String patientName;
   @override
   final String bloodGroup;
   @override
+  final int units;
+  @override
   final String hospital;
   @override
-  final double distance;
+  final String address;
   @override
-  final int unitsNeeded;
+  final String urgency;
   @override
-  final int respondents;
+  final DateTime needBy;
   @override
-  final String timePosted;
+  final String contact;
   @override
-  final String patientName;
+  final String notes;
+  @override
+  final double? latitude;
+  @override
+  final double? longitude;
+  @override
+  final RequestStatus status;
+  @override
+  final CloseReason? closeReason;
+  @override
+  final DateTime? createdAt;
 
   @override
   String toString() {
-    return 'BloodRequest(id: $id, urgency: $urgency, bloodGroup: $bloodGroup, hospital: $hospital, distance: $distance, unitsNeeded: $unitsNeeded, respondents: $respondents, timePosted: $timePosted, patientName: $patientName)';
+    return 'BloodRequest(uid: $uid, patientName: $patientName, bloodGroup: $bloodGroup, units: $units, hospital: $hospital, address: $address, urgency: $urgency, needBy: $needBy, contact: $contact, notes: $notes, latitude: $latitude, longitude: $longitude, status: $status, closeReason: $closeReason, createdAt: $createdAt)';
   }
 
   @override
@@ -256,36 +352,48 @@ class _$BloodRequestImpl implements _BloodRequest {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$BloodRequestImpl &&
-            (identical(other.id, id) || other.id == id) &&
-            (identical(other.urgency, urgency) || other.urgency == urgency) &&
+            (identical(other.uid, uid) || other.uid == uid) &&
+            (identical(other.patientName, patientName) ||
+                other.patientName == patientName) &&
             (identical(other.bloodGroup, bloodGroup) ||
                 other.bloodGroup == bloodGroup) &&
+            (identical(other.units, units) || other.units == units) &&
             (identical(other.hospital, hospital) ||
                 other.hospital == hospital) &&
-            (identical(other.distance, distance) ||
-                other.distance == distance) &&
-            (identical(other.unitsNeeded, unitsNeeded) ||
-                other.unitsNeeded == unitsNeeded) &&
-            (identical(other.respondents, respondents) ||
-                other.respondents == respondents) &&
-            (identical(other.timePosted, timePosted) ||
-                other.timePosted == timePosted) &&
-            (identical(other.patientName, patientName) ||
-                other.patientName == patientName));
+            (identical(other.address, address) || other.address == address) &&
+            (identical(other.urgency, urgency) || other.urgency == urgency) &&
+            (identical(other.needBy, needBy) || other.needBy == needBy) &&
+            (identical(other.contact, contact) || other.contact == contact) &&
+            (identical(other.notes, notes) || other.notes == notes) &&
+            (identical(other.latitude, latitude) ||
+                other.latitude == latitude) &&
+            (identical(other.longitude, longitude) ||
+                other.longitude == longitude) &&
+            (identical(other.status, status) || other.status == status) &&
+            (identical(other.closeReason, closeReason) ||
+                other.closeReason == closeReason) &&
+            (identical(other.createdAt, createdAt) ||
+                other.createdAt == createdAt));
   }
 
   @override
   int get hashCode => Object.hash(
     runtimeType,
-    id,
-    urgency,
-    bloodGroup,
-    hospital,
-    distance,
-    unitsNeeded,
-    respondents,
-    timePosted,
+    uid,
     patientName,
+    bloodGroup,
+    units,
+    hospital,
+    address,
+    urgency,
+    needBy,
+    contact,
+    notes,
+    latitude,
+    longitude,
+    status,
+    closeReason,
+    createdAt,
   );
 
   /// Create a copy of BloodRequest
@@ -299,35 +407,53 @@ class _$BloodRequestImpl implements _BloodRequest {
 
 abstract class _BloodRequest implements BloodRequest {
   const factory _BloodRequest({
-    required final String id,
-    required final String urgency,
-    required final String bloodGroup,
-    required final String hospital,
-    required final double distance,
-    required final int unitsNeeded,
-    required final int respondents,
-    required final String timePosted,
+    required final String uid,
     required final String patientName,
+    required final String bloodGroup,
+    required final int units,
+    required final String hospital,
+    required final String address,
+    required final String urgency,
+    required final DateTime needBy,
+    required final String contact,
+    required final String notes,
+    final double? latitude,
+    final double? longitude,
+    required final RequestStatus status,
+    final CloseReason? closeReason,
+    final DateTime? createdAt,
   }) = _$BloodRequestImpl;
 
   @override
-  String get id;
+  String get uid;
   @override
-  String get urgency;
+  String get patientName;
   @override
   String get bloodGroup;
   @override
+  int get units;
+  @override
   String get hospital;
   @override
-  double get distance;
+  String get address;
   @override
-  int get unitsNeeded;
+  String get urgency;
   @override
-  int get respondents;
+  DateTime get needBy;
   @override
-  String get timePosted;
+  String get contact;
   @override
-  String get patientName;
+  String get notes;
+  @override
+  double? get latitude;
+  @override
+  double? get longitude;
+  @override
+  RequestStatus get status;
+  @override
+  CloseReason? get closeReason;
+  @override
+  DateTime? get createdAt;
 
   /// Create a copy of BloodRequest
   /// with the given fields replaced by the non-null parameter values.
