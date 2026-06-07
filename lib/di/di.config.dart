@@ -14,6 +14,8 @@ import 'package:blood_setu/application/core/services/routing/app_router.dart'
     as _i828;
 import 'package:blood_setu/application/core/services/sp_service/sp_service.dart'
     as _i181;
+import 'package:blood_setu/application/pages/features/blood_requests/bloc/blood_requests_bloc.dart'
+    as _i340;
 import 'package:blood_setu/application/pages/features/bottom_nav/bloc/bottom_nav_bloc.dart'
     as _i619;
 import 'package:blood_setu/application/pages/features/create_request/bloc/create_request_bloc.dart'
@@ -52,6 +54,7 @@ import 'package:blood_setu/domain/repositories/nearby_donors_repository.dart'
 import 'package:blood_setu/domain/repositories/registration_repository.dart'
     as _i268;
 import 'package:blood_setu/domain/usecase/authentication_usecase.dart' as _i39;
+import 'package:blood_setu/domain/usecase/blood_requests_usecase.dart' as _i269;
 import 'package:blood_setu/domain/usecase/create_request_usecase.dart' as _i309;
 import 'package:blood_setu/domain/usecase/donation_usecase.dart' as _i141;
 import 'package:blood_setu/domain/usecase/location_usecase.dart' as _i1060;
@@ -135,6 +138,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i859.NearbyDonorsUseCase>(
       () => _i859.NearbyDonorsUseCase(gh<_i377.NearbyDonorsRepository>()),
     );
+    gh.factory<_i269.BloodRequestsUseCase>(
+      () => _i269.BloodRequestsUseCase(gh<_i3.BloodRequestRepository>()),
+    );
     gh.factory<_i1060.LocationUseCase>(
       () => _i1060.LocationUseCase(gh<_i766.LocationRepository>()),
     );
@@ -143,6 +149,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i881.RegistrationUserUseCase>(),
         gh<_i1060.LocationUseCase>(),
         gh<_i859.NearbyDonorsUseCase>(),
+      ),
+    );
+    gh.factory<_i340.BloodRequestsBloc>(
+      () => _i340.BloodRequestsBloc(
+        gh<_i269.BloodRequestsUseCase>(),
+        gh<_i1060.LocationUseCase>(),
       ),
     );
     gh.factory<_i405.DonorsBloc>(
