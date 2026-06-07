@@ -105,7 +105,11 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
       emit(state.copyWith(isLoading: false, isLoadingMore: true, error: null));
     }
 
-    final result = await _useCase(limit: _pageSize, startAfterNeedBy: lastNeedBy);
+    final result = await _useCase(
+      limit: _pageSize,
+      startAfterNeedBy: lastNeedBy,
+      excludeUid: getIt<AuthController>().user?.uid,
+    );
 
     result.fold(
       (f) => emit(
