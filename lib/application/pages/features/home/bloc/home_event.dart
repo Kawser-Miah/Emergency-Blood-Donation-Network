@@ -9,4 +9,5 @@ class HomeEvent with _$HomeEvent {
   const factory HomeEvent.sidebarClosed() = _SidebarClosed;
   const factory HomeEvent.sosPressed() = _SosPressed;
   const factory HomeEvent.sosReleased() = _SosReleased;
+  const factory HomeEvent.imComing(String requestId) = _ImComing;
 }
