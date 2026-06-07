@@ -84,6 +84,7 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
             : null;
 
     if (reset) {
+      final auth = getIt<AuthController>();
       emit(
         state.copyWith(
           isLoading: true,
@@ -92,6 +93,7 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
           requests: const [],
           filtered: const [],
           hasMore: true,
+          userIsActive: auth.profile?.isActive ?? true,
         ),
       );
       final locationResult = await _locationUseCase.getAddressData();
