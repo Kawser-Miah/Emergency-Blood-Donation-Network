@@ -27,6 +27,8 @@ mixin _$HomeState {
   double? get userLng => throw _privateConstructorUsedError;
   List<BloodRequest> get bloodRequests => throw _privateConstructorUsedError;
   bool get isLoadingRequests => throw _privateConstructorUsedError;
+  bool get imComingSuccess => throw _privateConstructorUsedError;
+  bool get imComingFailed => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -51,6 +53,8 @@ abstract class $HomeStateCopyWith<$Res> {
     double? userLng,
     List<BloodRequest> bloodRequests,
     bool isLoadingRequests,
+    bool imComingSuccess,
+    bool imComingFailed,
   });
 }
 
@@ -79,6 +83,8 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? userLng = freezed,
     Object? bloodRequests = null,
     Object? isLoadingRequests = null,
+    Object? imComingSuccess = null,
+    Object? imComingFailed = null,
   }) {
     return _then(
       _value.copyWith(
@@ -122,6 +128,14 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                 ? _value.isLoadingRequests
                 : isLoadingRequests // ignore: cast_nullable_to_non_nullable
                       as bool,
+            imComingSuccess: null == imComingSuccess
+                ? _value.imComingSuccess
+                : imComingSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            imComingFailed: null == imComingFailed
+                ? _value.imComingFailed
+                : imComingFailed // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -148,6 +162,8 @@ abstract class _$$HomeStateImplCopyWith<$Res>
     double? userLng,
     List<BloodRequest> bloodRequests,
     bool isLoadingRequests,
+    bool imComingSuccess,
+    bool imComingFailed,
   });
 }
 
@@ -175,6 +191,8 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? userLng = freezed,
     Object? bloodRequests = null,
     Object? isLoadingRequests = null,
+    Object? imComingSuccess = null,
+    Object? imComingFailed = null,
   }) {
     return _then(
       _$HomeStateImpl(
@@ -218,6 +236,14 @@ class __$$HomeStateImplCopyWithImpl<$Res>
             ? _value.isLoadingRequests
             : isLoadingRequests // ignore: cast_nullable_to_non_nullable
                   as bool,
+        imComingSuccess: null == imComingSuccess
+            ? _value.imComingSuccess
+            : imComingSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        imComingFailed: null == imComingFailed
+            ? _value.imComingFailed
+            : imComingFailed // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -237,6 +263,8 @@ class _$HomeStateImpl implements _HomeState {
     this.userLng,
     final List<BloodRequest> bloodRequests = const <BloodRequest>[],
     this.isLoadingRequests = true,
+    this.imComingSuccess = false,
+    this.imComingFailed = false,
   }) : _nearbyDonors = nearbyDonors,
        _bloodRequests = bloodRequests;
 
@@ -278,10 +306,16 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final bool isLoadingRequests;
+  @override
+  @JsonKey()
+  final bool imComingSuccess;
+  @override
+  @JsonKey()
+  final bool imComingFailed;
 
   @override
   String toString() {
-    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed, profile: $profile, nearbyDonors: $nearbyDonors, isLoadingNearby: $isLoadingNearby, nearbyError: $nearbyError, userLat: $userLat, userLng: $userLng, bloodRequests: $bloodRequests, isLoadingRequests: $isLoadingRequests)';
+    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed, profile: $profile, nearbyDonors: $nearbyDonors, isLoadingNearby: $isLoadingNearby, nearbyError: $nearbyError, userLat: $userLat, userLng: $userLng, bloodRequests: $bloodRequests, isLoadingRequests: $isLoadingRequests, imComingSuccess: $imComingSuccess, imComingFailed: $imComingFailed)';
   }
 
   @override
@@ -309,7 +343,11 @@ class _$HomeStateImpl implements _HomeState {
               _bloodRequests,
             ) &&
             (identical(other.isLoadingRequests, isLoadingRequests) ||
-                other.isLoadingRequests == isLoadingRequests));
+                other.isLoadingRequests == isLoadingRequests) &&
+            (identical(other.imComingSuccess, imComingSuccess) ||
+                other.imComingSuccess == imComingSuccess) &&
+            (identical(other.imComingFailed, imComingFailed) ||
+                other.imComingFailed == imComingFailed));
   }
 
   @override
@@ -325,6 +363,8 @@ class _$HomeStateImpl implements _HomeState {
     userLng,
     const DeepCollectionEquality().hash(_bloodRequests),
     isLoadingRequests,
+    imComingSuccess,
+    imComingFailed,
   );
 
   /// Create a copy of HomeState
@@ -348,6 +388,8 @@ abstract class _HomeState implements HomeState {
     final double? userLng,
     final List<BloodRequest> bloodRequests,
     final bool isLoadingRequests,
+    final bool imComingSuccess,
+    final bool imComingFailed,
   }) = _$HomeStateImpl;
 
   @override
@@ -370,6 +412,10 @@ abstract class _HomeState implements HomeState {
   List<BloodRequest> get bloodRequests;
   @override
   bool get isLoadingRequests;
+  @override
+  bool get imComingSuccess;
+  @override
+  bool get imComingFailed;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
