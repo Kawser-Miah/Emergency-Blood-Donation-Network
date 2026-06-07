@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import '../failures/failures.dart';
 import '../models/blood_request.dart';
 import '../models/create_blood_request_params.dart';
+import '../models/interested_donor.dart';
 
 abstract class BloodRequestRepository {
   Future<Either<Failure, void>> createRequest(CreateBloodRequestParams params);
@@ -11,4 +12,26 @@ abstract class BloodRequestRepository {
     int limit = 20,
     DateTime? startAfterNeedBy,
   });
+
+  Future<Either<Failure, List<BloodRequest>>> getMyRequests(String uid);
+
+  Future<Either<Failure, void>> updateRequest(
+    String id,
+    Map<String, dynamic> fields,
+  );
+
+  Future<Either<Failure, void>> markImComing({
+    required String requestId,
+    required String donorUid,
+    required String donorName,
+    required String donorBloodGroup,
+    DateTime? lastDonation,
+    int totalDonations = 0,
+  });
+
+  Future<Either<Failure, List<InterestedDonor>>> getInterestedDonors(
+    String requestId,
+  );
+
+  Future<Either<Failure, void>> deleteRequest(String id);
 }
