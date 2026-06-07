@@ -11,6 +11,7 @@ abstract class BloodRequestRepository {
   Future<Either<Failure, List<BloodRequest>>> getActiveRequests({
     int limit = 20,
     DateTime? startAfterNeedBy,
+    String? excludeUid,
   });
 
   Future<Either<Failure, List<BloodRequest>>> getMyRequests(String uid);
