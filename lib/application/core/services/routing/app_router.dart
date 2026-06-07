@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:injectable/injectable.dart';
 
+import '../../../pages/features/blood_requests/view/blood_requests_screen.dart';
 import '../../../pages/features/chat_list/view/chat_list_screen.dart';
 import '../../../pages/features/donors/view/donors_screen.dart';
 import '../../../pages/features/map_picker/map_picker_screen.dart';
@@ -82,6 +83,11 @@ class AppRouter {
           path: PAGES.donors.screenPath,
           name: PAGES.donors.screenName,
           builder: (context, state) => const DonorsScreen(),
+        ),
+        GoRoute(
+          path: PAGES.bloodRequests.screenPath,
+          name: PAGES.bloodRequests.screenName,
+          builder: (context, state) => const BloodRequestsScreen(),
         ),
         GoRoute(
           path: PAGES.chats.screenPath,
