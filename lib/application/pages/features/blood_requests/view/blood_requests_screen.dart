@@ -4,6 +4,7 @@ import 'package:blood_setu/application/pages/features/blood_requests/bloc/blood_
 import 'package:blood_setu/application/pages/features/blood_requests/bloc/blood_requests_state.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/application/core/widgets/blood_request_card.dart';
+import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -28,7 +29,27 @@ class BloodRequestsScreen extends StatelessWidget {
     return BlocProvider(
       create: (_) =>
           getIt<BloodRequestsBloc>()..add(const BloodRequestsEvent.started()),
-      child: const _BloodRequestsView(),
+      child: MultiBlocListener(
+        listeners: [
+          BlocListener<BloodRequestsBloc, BloodRequestsState>(
+            listenWhen: (p, c) => p.imComingSuccess != c.imComingSuccess,
+            listener: (context, _) => Utils.showSnackBar(
+              context,
+              content: "You're registered as coming!",
+              color: AppColors.success,
+            ),
+          ),
+          BlocListener<BloodRequestsBloc, BloodRequestsState>(
+            listenWhen: (p, c) => p.imComingFailed != c.imComingFailed,
+            listener: (context, _) => Utils.showSnackBar(
+              context,
+              content: 'Failed to register interest. Please try again.',
+              color: AppColors.primary,
+            ),
+          ),
+        ],
+        child: const _BloodRequestsView(),
+      ),
     );
   }
 }
@@ -363,16 +384,21 @@ class _Body extends StatelessWidget {
           if (i >= state.filtered.length) {
             return _ListFooter(state: state);
           }
+          final req = state.filtered[i];
           return BloodRequestCard(
-            request: state.filtered[i],
+            request: req,
             userLat: state.userLat,
             userLng: state.userLng,
             onMessage: () {},
+            onImComing: () => context
+                .read<BloodRequestsBloc>()
+                .add(BloodRequestsEvent.imComing(req.id)),
           );
         },
       ),
     );
   }
+
 }
 
 class _ListFooter extends StatelessWidget {
