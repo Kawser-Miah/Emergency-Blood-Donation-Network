@@ -144,13 +144,6 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1060.LocationUseCase>(
       () => _i1060.LocationUseCase(gh<_i766.LocationRepository>()),
     );
-    gh.factory<_i579.HomeBloc>(
-      () => _i579.HomeBloc(
-        gh<_i881.RegistrationUserUseCase>(),
-        gh<_i1060.LocationUseCase>(),
-        gh<_i859.NearbyDonorsUseCase>(),
-      ),
-    );
     gh.factory<_i340.BloodRequestsBloc>(
       () => _i340.BloodRequestsBloc(
         gh<_i269.BloodRequestsUseCase>(),
@@ -172,6 +165,14 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i879.CreateRequestBloc(
         gh<_i309.CreateRequestUseCase>(),
         gh<_i1060.LocationUseCase>(),
+      ),
+    );
+    gh.factory<_i579.HomeBloc>(
+      () => _i579.HomeBloc(
+        gh<_i881.RegistrationUserUseCase>(),
+        gh<_i1060.LocationUseCase>(),
+        gh<_i859.NearbyDonorsUseCase>(),
+        gh<_i269.BloodRequestsUseCase>(),
       ),
     );
     return this;
