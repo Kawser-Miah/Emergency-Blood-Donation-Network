@@ -4,6 +4,7 @@ enum PAGES {
   register,
   home,
   donors,
+  bloodRequests,
   chats,
   chat,
   createRequest,
@@ -24,6 +25,8 @@ extension AppPageExtention on PAGES {
         return '/home';
       case PAGES.donors:
         return '/donors';
+      case PAGES.bloodRequests:
+        return '/bloodRequests';
       case PAGES.chats:
         return '/chats';
       case PAGES.chat:
@@ -49,6 +52,8 @@ extension AppPageExtention on PAGES {
         return 'Home';
       case PAGES.donors:
         return 'Donors';
+      case PAGES.bloodRequests:
+        return 'Blood Requests';
       case PAGES.chats:
         return 'Chats';
       case PAGES.chat:
