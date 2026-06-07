@@ -13,4 +13,5 @@ class BloodRequestsEvent with _$BloodRequestsEvent {
   const factory BloodRequestsEvent.filtersOpened() = _FiltersOpened;
   const factory BloodRequestsEvent.filtersClosed() = _FiltersClosed;
   const factory BloodRequestsEvent.filtersReset() = _FiltersReset;
+  const factory BloodRequestsEvent.imComing(String requestId) = _ImComing;
 }
