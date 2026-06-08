@@ -1,7 +1,7 @@
 import 'package:blood_setu/application/core/theme/colors.dart';
 import 'package:blood_setu/application/core/widgets/blood_request_card.dart';
-import 'package:blood_setu/domain/models/blood_request.dart';
 import 'package:blood_setu/domain/models/blood_request_enums.dart';
+import 'package:blood_setu/domain/models/my_interest_entry.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,16 +10,18 @@ import '../bloc/my_interests_event.dart';
 import '../bloc/my_interests_state.dart';
 
 class MyInterestDetailSheet extends StatelessWidget {
-  const MyInterestDetailSheet({super.key, required this.request});
+  const MyInterestDetailSheet({super.key, required this.entry});
 
-  final BloodRequest request;
+  final MyInterestEntry entry;
 
   @override
   Widget build(BuildContext context) {
     final bottomPad = MediaQuery.of(context).padding.bottom;
+    final request = entry.request;
     final urg =
         bloodRequestUrgencyConfig[request.urgency] ??
         bloodRequestUrgencyConfig['NORMAL']!;
+    final isActive = request.status == RequestStatus.active;
 
     return BlocListener<MyInterestsBloc, MyInterestsState>(
       listenWhen: (p, c) => p.withdrawSuccess != c.withdrawSuccess,
@@ -48,6 +50,7 @@ class MyInterestDetailSheet extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   children: [
+                    // Header
                     Row(
                       children: [
                         Container(
@@ -131,6 +134,8 @@ class MyInterestDetailSheet extends StatelessWidget {
                     const SizedBox(height: 20),
                     const Divider(height: 1),
                     const SizedBox(height: 20),
+
+                    // Details
                     _DetailRow(
                       icon: Icons.person_outline,
                       label: 'Patient',
@@ -175,78 +180,200 @@ class MyInterestDetailSheet extends StatelessWidget {
                       label: 'Posted',
                       value: formatPosted(request.createdAt),
                     ),
+
                     const SizedBox(height: 8),
                     const Divider(height: 1),
                     const SizedBox(height: 20),
-                    Container(
-                      padding: const EdgeInsets.all(14),
-                      decoration: BoxDecoration(
-                        color: AppColors.successSurface,
-                        borderRadius: BorderRadius.circular(12),
-                        border: Border.all(
-                          color: AppColors.success.withValues(alpha: 0.3),
-                        ),
-                      ),
-                      child: const Row(
-                        children: [
-                          Icon(
-                            Icons.check_circle,
-                            size: 18,
-                            color: AppColors.success,
-                          ),
-                          SizedBox(width: 10),
-                          Expanded(
-                            child: Text(
-                              "You've marked yourself as coming for this request.",
-                              style: TextStyle(
-                                fontSize: 13,
-                                color: AppColors.success,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 16),
+
+                    // Action area — driven by status and bloodGiven
                     BlocBuilder<MyInterestsBloc, MyInterestsState>(
-                      buildWhen: (p, c) => p.withdrawingId != c.withdrawingId,
+                      buildWhen: (p, c) =>
+                          p.withdrawingId != c.withdrawingId ||
+                          p.markingBloodGivenId != c.markingBloodGivenId ||
+                          p.interests != c.interests,
                       builder: (context, state) {
+                        final currentEntry = state.interests.firstWhere(
+                          (e) => e.request.id == request.id,
+                          orElse: () => entry,
+                        );
+                        final bloodGiven = currentEntry.bloodGiven;
                         final isWithdrawing =
                             state.withdrawingId == request.id;
-                        return SizedBox(
-                          width: double.infinity,
-                          child: OutlinedButton.icon(
-                            onPressed: isWithdrawing
-                                ? null
-                                : () => _confirmWithdraw(context),
-                            icon: isWithdrawing
-                                ? const SizedBox(
-                                    width: 14,
-                                    height: 14,
-                                    child: CircularProgressIndicator(
-                                      strokeWidth: 2,
+                        final isMarkingGiven =
+                            state.markingBloodGivenId == request.id;
+
+                        // Blood given — always show acknowledgment regardless of status
+                        if (bloodGiven) {
+                          return Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: AppColors.infoSurface,
+                              borderRadius: BorderRadius.circular(12),
+                              border: Border.all(
+                                color: AppColors.info.withValues(alpha: 0.3),
+                              ),
+                            ),
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Icons.volunteer_activism,
+                                  size: 18,
+                                  color: AppColors.info,
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    'You have acknowledged donating blood for this request. Thank you!',
+                                    style: TextStyle(
+                                      fontSize: 13,
+                                      color: AppColors.info,
+                                      fontWeight: FontWeight.w500,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
+                        // Request not active and blood not given — no actions
+                        if (!isActive) {
+                          return Container(
+                            padding: const EdgeInsets.all(14),
+                            decoration: BoxDecoration(
+                              color: AppColors.dividerLightest,
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            child: const Row(
+                              children: [
+                                Icon(
+                                  Icons.info_outline,
+                                  size: 16,
+                                  color: AppColors.textMuted,
+                                ),
+                                SizedBox(width: 10),
+                                Expanded(
+                                  child: Text(
+                                    'This request is no longer active.',
+                                    style: TextStyle(
+                                      fontSize: 13,
                                       color: AppColors.textMuted,
                                     ),
-                                  )
-                                : const Icon(Icons.cancel_outlined, size: 16),
-                            label: Text(
-                              isWithdrawing
-                                  ? 'Withdrawing...'
-                                  : 'Withdraw Interest',
+                                  ),
+                                ),
+                              ],
                             ),
-                            style: OutlinedButton.styleFrom(
-                              foregroundColor: Colors.red,
-                              side: const BorderSide(
-                                color: Colors.red,
-                                width: 1.5,
+                          );
+                        }
+
+                        // Active + not yet given — show both buttons
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(14),
+                              decoration: BoxDecoration(
+                                color: AppColors.successSurface,
+                                borderRadius: BorderRadius.circular(12),
+                                border: Border.all(
+                                  color:
+                                      AppColors.success.withValues(alpha: 0.3),
+                                ),
                               ),
-                              padding: const EdgeInsets.symmetric(vertical: 12),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(14),
+                              child: const Row(
+                                children: [
+                                  Icon(
+                                    Icons.check_circle,
+                                    size: 18,
+                                    color: AppColors.success,
+                                  ),
+                                  SizedBox(width: 10),
+                                  Expanded(
+                                    child: Text(
+                                      "You've marked yourself as coming for this request.",
+                                      style: TextStyle(
+                                        fontSize: 13,
+                                        color: AppColors.success,
+                                        fontWeight: FontWeight.w500,
+                                      ),
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                          ),
+                            const SizedBox(height: 12),
+                            ElevatedButton.icon(
+                              onPressed: isMarkingGiven
+                                  ? null
+                                  : () => _confirmBloodGiven(context),
+                              icon: isMarkingGiven
+                                  ? const SizedBox(
+                                      width: 14,
+                                      height: 14,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: Colors.white,
+                                      ),
+                                    )
+                                  : const Icon(
+                                      Icons.volunteer_activism,
+                                      size: 16,
+                                    ),
+                              label: Text(
+                                isMarkingGiven
+                                    ? 'Saving...'
+                                    : 'I Gave Blood',
+                              ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.info,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                                elevation: 0,
+                              ),
+                            ),
+                            const SizedBox(height: 10),
+                            OutlinedButton.icon(
+                              onPressed: isWithdrawing
+                                  ? null
+                                  : () => _confirmWithdraw(context),
+                              icon: isWithdrawing
+                                  ? const SizedBox(
+                                      width: 14,
+                                      height: 14,
+                                      child: CircularProgressIndicator(
+                                        strokeWidth: 2,
+                                        color: AppColors.textMuted,
+                                      ),
+                                    )
+                                  : const Icon(
+                                      Icons.cancel_outlined,
+                                      size: 16,
+                                    ),
+                              label: Text(
+                                isWithdrawing
+                                    ? 'Withdrawing...'
+                                    : 'Withdraw Interest',
+                              ),
+                              style: OutlinedButton.styleFrom(
+                                foregroundColor: Colors.red,
+                                side: const BorderSide(
+                                  color: Colors.red,
+                                  width: 1.5,
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 12,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(14),
+                                ),
+                              ),
+                            ),
+                          ],
                         );
                       },
                     ),
@@ -256,6 +383,37 @@ class MyInterestDetailSheet extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  void _confirmBloodGiven(BuildContext context) {
+    final bloc = context.read<MyInterestsBloc>();
+    showDialog<void>(
+      context: context,
+      builder: (dialogCtx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: const Text('Confirm Blood Donation'),
+        content: const Text(
+          'Did you actually donate blood for this request? This will be recorded as an acknowledgment.',
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.of(dialogCtx).pop(),
+            child: const Text('Cancel'),
+          ),
+          ElevatedButton(
+            onPressed: () {
+              Navigator.of(dialogCtx).pop();
+              bloc.add(MyInterestsEvent.bloodGivenMarked(entry.request.id));
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: AppColors.info,
+              foregroundColor: Colors.white,
+            ),
+            child: const Text('Yes, I Donated'),
+          ),
+        ],
       ),
     );
   }
@@ -278,7 +436,9 @@ class MyInterestDetailSheet extends StatelessWidget {
           ElevatedButton(
             onPressed: () {
               Navigator.of(dialogCtx).pop();
-              bloc.add(MyInterestsEvent.withdrawRequested(request.id));
+              bloc.add(
+                MyInterestsEvent.withdrawRequested(entry.request.id),
+              );
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.red,
