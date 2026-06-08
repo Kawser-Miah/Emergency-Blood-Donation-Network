@@ -28,6 +28,8 @@ class DonorLocationModel with _$DonorLocationModel {
     @Default('') String donorTier,
     @Default(0) int totalDonations,
     String? photoUrl,
+    String? phone,
+    String? fbId,
     double? latitude,
     double? longitude,
     String? geohash,
@@ -47,6 +49,8 @@ class DonorLocationModel with _$DonorLocationModel {
       donorTier: (data['donorTier'] as String?) ?? '',
       totalDonations: (data['totalDonations'] as num?)?.toInt() ?? 0,
       photoUrl: data['photoUrl'] as String?,
+      phone: data['phone'] as String?,
+      fbId: data['fbId'] as String?,
       latitude: (data['latitude'] as num?)?.toDouble(),
       longitude: (data['longitude'] as num?)?.toDouble(),
       geohash: data['geohash'] as String?,
@@ -64,6 +68,8 @@ class DonorLocationModel with _$DonorLocationModel {
     'donorTier': donorTier,
     'totalDonations': totalDonations,
     'photoUrl': photoUrl,
+    'phone': phone,
+    'fbId': fbId,
     'infoUpdatedAt': FieldValue.serverTimestamp(),
   };
 
