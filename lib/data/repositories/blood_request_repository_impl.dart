@@ -3,6 +3,7 @@ import 'package:blood_setu/domain/models/blood_request.dart';
 import 'package:blood_setu/domain/models/blood_request_enums.dart';
 import 'package:blood_setu/domain/models/create_blood_request_params.dart';
 import 'package:blood_setu/domain/models/interested_donor.dart';
+import 'package:blood_setu/domain/models/my_interest_entry.dart';
 import 'package:blood_setu/domain/repositories/blood_request_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -129,7 +130,11 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
             .doc(donorUid)
             .collection('my_interests')
             .doc(requestId),
-        {'requestId': requestId, 'timestamp': FieldValue.serverTimestamp()},
+        {
+          'requestId': requestId,
+          'bloodGiven': false,
+          'timestamp': FieldValue.serverTimestamp(),
+        },
       );
 
       await batch.commit();
@@ -166,7 +171,7 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
   }
 
   @override
-  Future<Either<Failure, List<BloodRequest>>> getMyInterests(
+  Future<Either<Failure, List<MyInterestEntry>>> getMyInterests(
     String donorUid,
   ) async {
     try {
@@ -179,18 +184,23 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
 
       if (snapshot.docs.isEmpty) return const Right([]);
 
-      final requests = <BloodRequest>[];
+      final entries = <MyInterestEntry>[];
       for (final doc in snapshot.docs) {
-        final requestId = doc.id;
+        final bloodGiven = doc.data()['bloodGiven'] as bool? ?? false;
         final reqDoc = await _firestore
             .collection('blood_requests')
-            .doc(requestId)
+            .doc(doc.id)
             .get();
         if (reqDoc.exists && reqDoc.data() != null) {
-          requests.add(BloodRequest.fromMap(reqDoc.id, reqDoc.data()!));
+          entries.add(
+            MyInterestEntry(
+              request: BloodRequest.fromMap(reqDoc.id, reqDoc.data()!),
+              bloodGiven: bloodGiven,
+            ),
+          );
         }
       }
-      return Right(requests);
+      return Right(entries);
     } on FirebaseException catch (e) {
       return Left(
         GeneralFailure(e.message ?? 'Failed to load your interests.'),
@@ -227,6 +237,28 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
       return Left(GeneralFailure(e.message ?? 'Failed to withdraw interest.'));
     } catch (_) {
       return Left(GeneralFailure('Failed to withdraw interest.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> markBloodGiven({
+    required String requestId,
+    required String donorUid,
+  }) async {
+    try {
+      await _firestore
+          .collection('profile')
+          .doc(donorUid)
+          .collection('my_interests')
+          .doc(requestId)
+          .update({'bloodGiven': true});
+      return const Right(null);
+    } on FirebaseException catch (e) {
+      return Left(
+        GeneralFailure(e.message ?? 'Failed to record blood donation.'),
+      );
+    } catch (_) {
+      return Left(GeneralFailure('Failed to record blood donation.'));
     }
   }
 
