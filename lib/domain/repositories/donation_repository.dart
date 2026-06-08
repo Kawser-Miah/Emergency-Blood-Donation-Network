@@ -12,4 +12,6 @@ abstract class DonationRepository {
   Future<Either<Failure, List<DonationHistoryEntry>>> getDonationHistory(
     String uid,
   );
+
+  Future<Either<Failure, void>> reactivateDonor(String uid);
 }
