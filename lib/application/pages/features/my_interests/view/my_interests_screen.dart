@@ -37,6 +37,22 @@ class MyInterestsScreen extends StatelessWidget {
               color: AppColors.primary,
             ),
           ),
+          BlocListener<MyInterestsBloc, MyInterestsState>(
+            listenWhen: (p, c) => p.bloodGivenSuccess != c.bloodGivenSuccess,
+            listener: (context, _) => Utils.showSnackBar(
+              context,
+              content: 'Thank you! Blood donation recorded.',
+              color: AppColors.info,
+            ),
+          ),
+          BlocListener<MyInterestsBloc, MyInterestsState>(
+            listenWhen: (p, c) => p.bloodGivenFailed != c.bloodGivenFailed,
+            listener: (context, _) => Utils.showSnackBar(
+              context,
+              content: 'Failed to record donation. Please try again.',
+              color: AppColors.primary,
+            ),
+          ),
         ],
         child: const _MyInterestsView(),
       ),
@@ -158,11 +174,11 @@ class _MyInterestsView extends StatelessWidget {
               itemCount: state.interests.length,
               separatorBuilder: (_, _) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
-                final req = state.interests[index];
+                final entry = state.interests[index];
                 return MyInterestCard(
-                  request: req,
-                  isWithdrawing: state.withdrawingId == req.id,
-                  onTap: () => _openDetail(context, req.id),
+                  entry: entry,
+                  isWithdrawing: state.withdrawingId == entry.request.id,
+                  onTap: () => _openDetail(context, entry.request.id),
                 );
               },
             ),
@@ -174,14 +190,16 @@ class _MyInterestsView extends StatelessWidget {
 
   void _openDetail(BuildContext context, String requestId) {
     final bloc = context.read<MyInterestsBloc>();
-    final request = bloc.state.interests.firstWhere((r) => r.id == requestId);
+    final entry = bloc.state.interests.firstWhere(
+      (e) => e.request.id == requestId,
+    );
     showModalBottomSheet<void>(
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
       builder: (_) => BlocProvider.value(
         value: bloc,
-        child: MyInterestDetailSheet(request: request),
+        child: MyInterestDetailSheet(entry: entry),
       ),
     );
   }
