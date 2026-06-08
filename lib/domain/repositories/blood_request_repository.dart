@@ -4,6 +4,7 @@ import '../failures/failures.dart';
 import '../models/blood_request.dart';
 import '../models/create_blood_request_params.dart';
 import '../models/interested_donor.dart';
+import '../models/my_interest_entry.dart';
 
 abstract class BloodRequestRepository {
   Future<Either<Failure, void>> createRequest(CreateBloodRequestParams params);
@@ -36,9 +37,14 @@ abstract class BloodRequestRepository {
 
   Future<Either<Failure, void>> deleteRequest(String id);
 
-  Future<Either<Failure, List<BloodRequest>>> getMyInterests(String donorUid);
+  Future<Either<Failure, List<MyInterestEntry>>> getMyInterests(String donorUid);
 
   Future<Either<Failure, void>> withdrawInterest({
+    required String requestId,
+    required String donorUid,
+  });
+
+  Future<Either<Failure, void>> markBloodGiven({
     required String requestId,
     required String donorUid,
   });
