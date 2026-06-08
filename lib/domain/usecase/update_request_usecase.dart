@@ -48,4 +48,7 @@ class UpdateRequestUseCase {
 
   Future<Either<Failure, void>> deleteRequest(String id) =>
       _repository.deleteRequest(id);
+
+  Future<Either<Failure, void>> markExpiredBatch(List<String> ids) =>
+      _repository.markExpiredBatch(ids);
 }
