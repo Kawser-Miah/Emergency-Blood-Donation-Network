@@ -75,6 +75,8 @@ class BloodRequestCard extends StatelessWidget {
     this.onMessage,
     this.onImComing,
     this.isInterested = false,
+    this.isCompatible = true,
+    this.userIsActive = true,
   });
 
   final BloodRequest request;
@@ -83,6 +85,8 @@ class BloodRequestCard extends StatelessWidget {
   final VoidCallback? onMessage;
   final VoidCallback? onImComing;
   final bool isInterested;
+  final bool isCompatible;
+  final bool userIsActive;
 
   String? get _distanceText {
     final rLat = request.latitude;
@@ -105,6 +109,8 @@ class BloodRequestCard extends StatelessWidget {
         userLng: userLng,
         onImComing: onImComing,
         isInterested: isInterested,
+        isCompatible: isCompatible,
+        userIsActive: userIsActive,
       ),
     );
   }
@@ -278,59 +284,14 @@ class BloodRequestCard extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(width: 8),
-                Expanded(
-                  child: isInterested
-                      ? Container(
-                          padding: const EdgeInsets.symmetric(vertical: 10),
-                          decoration: BoxDecoration(
-                            color: AppColors.successSurface,
-                            borderRadius: BorderRadius.circular(16),
-                            border: Border.all(
-                              color: AppColors.success.withValues(alpha: 0.4),
-                            ),
-                          ),
-                          child: const Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Icon(
-                                Icons.check_circle,
-                                size: 14,
-                                color: AppColors.success,
-                              ),
-                              SizedBox(width: 6),
-                              Text(
-                                'Interested',
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w600,
-                                  color: AppColors.success,
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
-                      : OutlinedButton(
-                          onPressed: onImComing,
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.primary,
-                            padding: const EdgeInsets.symmetric(vertical: 10),
-                            side: const BorderSide(
-                              color: AppColors.primary,
-                              width: 2,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child: const Text(
-                            "🤲 I'm Coming",
-                            style: TextStyle(
-                              fontSize: 13,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
-                        ),
-                ),
+                Expanded(child: _ImComingButton(
+                  isInterested: isInterested,
+                  isCompatible: isCompatible,
+                  userIsActive: userIsActive,
+                  onImComing: onImComing,
+                  padding: const EdgeInsets.symmetric(vertical: 10),
+                  fontSize: 13,
+                )),
               ],
             ),
           ],
@@ -348,6 +309,8 @@ class BloodRequestDetailsSheet extends StatefulWidget {
     this.userLng,
     this.onImComing,
     this.isInterested = false,
+    this.isCompatible = true,
+    this.userIsActive = true,
   });
 
   final BloodRequest request;
@@ -355,6 +318,8 @@ class BloodRequestDetailsSheet extends StatefulWidget {
   final double? userLng;
   final VoidCallback? onImComing;
   final bool isInterested;
+  final bool isCompatible;
+  final bool userIsActive;
 
   @override
   State<BloodRequestDetailsSheet> createState() =>
@@ -529,66 +494,19 @@ class _BloodRequestDetailsSheetState extends State<BloodRequestDetailsSheet> {
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: widget.isInterested
-                            ? Container(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 14),
-                                decoration: BoxDecoration(
-                                  color: AppColors.successSurface,
-                                  borderRadius: BorderRadius.circular(16),
-                                  border: Border.all(
-                                    color: AppColors.success
-                                        .withValues(alpha: 0.4),
-                                  ),
-                                ),
-                                child: const Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(
-                                      Icons.check_circle,
-                                      size: 16,
-                                      color: AppColors.success,
-                                    ),
-                                    SizedBox(width: 6),
-                                    Text(
-                                      'Interested',
-                                      style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.w700,
-                                        color: AppColors.success,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            : OutlinedButton(
-                                onPressed: widget.onImComing == null
-                                    ? null
-                                    : () {
-                                        Navigator.of(context).pop();
-                                        widget.onImComing!();
-                                      },
-                                style: OutlinedButton.styleFrom(
-                                  foregroundColor: AppColors.primary,
-                                  padding: const EdgeInsets.symmetric(
-                                    vertical: 14,
-                                  ),
-                                  side: const BorderSide(
-                                    color: AppColors.primary,
-                                    width: 2,
-                                  ),
-                                  shape: RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                ),
-                                child: const Text(
-                                  "🤲 I'm Coming",
-                                  style: TextStyle(
-                                    fontSize: 14,
-                                    fontWeight: FontWeight.w700,
-                                  ),
-                                ),
-                              ),
+                        child: _ImComingButton(
+                          isInterested: widget.isInterested,
+                          isCompatible: widget.isCompatible,
+                          userIsActive: widget.userIsActive,
+                          onImComing: widget.onImComing == null
+                              ? null
+                              : () {
+                                  Navigator.of(context).pop();
+                                  widget.onImComing!();
+                                },
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          fontSize: 14,
+                        ),
                       ),
                     ],
                   ),
@@ -806,6 +724,105 @@ class _DistanceBadge extends StatelessWidget {
               fontSize: 11,
               fontWeight: FontWeight.w600,
               color: AppColors.success,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+/// Renders the correct state for the "I'm Coming" button area:
+///   1. Already interested  → green "✓ Interested" badge
+///   2. Incompatible blood  → orange "✗ Incompatible" badge
+///   3. Donor inactive      → grey "Not Active" badge
+///   4. Ready to tap        → "🤲 I'm Coming" OutlinedButton
+class _ImComingButton extends StatelessWidget {
+  const _ImComingButton({
+    required this.isInterested,
+    required this.isCompatible,
+    required this.userIsActive,
+    required this.onImComing,
+    required this.padding,
+    required this.fontSize,
+  });
+
+  final bool isInterested;
+  final bool isCompatible;
+  final bool userIsActive;
+  final VoidCallback? onImComing;
+  final EdgeInsets padding;
+  final double fontSize;
+
+  @override
+  Widget build(BuildContext context) {
+    if (isInterested) {
+      return _badge(
+        icon: Icons.check_circle,
+        label: 'Interested',
+        color: AppColors.success,
+        bg: AppColors.successSurface,
+        borderColor: AppColors.success,
+      );
+    }
+    if (!isCompatible) {
+      return _badge(
+        icon: Icons.block,
+        label: 'Incompatible',
+        color: AppColors.warning,
+        bg: AppColors.warningSurface,
+        borderColor: AppColors.warning,
+      );
+    }
+    if (!userIsActive) {
+      return _badge(
+        icon: Icons.pause_circle_outline,
+        label: 'Not Active',
+        color: AppColors.textMuted,
+        bg: AppColors.dividerLightest,
+        borderColor: AppColors.divider,
+      );
+    }
+    return OutlinedButton(
+      onPressed: onImComing,
+      style: OutlinedButton.styleFrom(
+        foregroundColor: AppColors.primary,
+        padding: padding,
+        side: const BorderSide(color: AppColors.primary, width: 2),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+      ),
+      child: Text(
+        "🤲 I'm Coming",
+        style: TextStyle(fontSize: fontSize, fontWeight: FontWeight.w600),
+      ),
+    );
+  }
+
+  Widget _badge({
+    required IconData icon,
+    required String label,
+    required Color color,
+    required Color bg,
+    required Color borderColor,
+  }) {
+    return Container(
+      padding: padding,
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: borderColor.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Icon(icon, size: fontSize + 1, color: color),
+          SizedBox(width: fontSize * 0.4),
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: fontSize - 1,
+              fontWeight: FontWeight.w600,
+              color: color,
             ),
           ),
         ],
