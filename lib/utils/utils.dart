@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart' as url_launcher;
 
 class Utils {
   static void showSnackBar(
@@ -109,6 +110,29 @@ class Utils {
         ],
       ),
     );
+  }
+
+  static Future<void> launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    await url_launcher.launchUrl(
+      uri,
+      mode: url_launcher.LaunchMode.externalApplication,
+    );
+  }
+
+  /// Accepts a full Facebook URL or a bare username — always returns a
+  /// canonical `https://www.facebook.com/{username}` URL.
+  static String facebookUrl(String raw) {
+    final trimmed = raw.trim();
+    if (trimmed.contains('facebook.com')) {
+      final uri = Uri.tryParse(trimmed);
+      final segments =
+          uri?.pathSegments.where((s) => s.isNotEmpty).toList() ?? [];
+      if (segments.isNotEmpty) {
+        return 'https://www.facebook.com/${segments.first}';
+      }
+    }
+    return 'https://www.facebook.com/$trimmed';
   }
 
   static Future<void> showErrorDialog(
