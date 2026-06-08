@@ -7,6 +7,7 @@ import 'package:blood_setu/domain/usecase/location_usecase.dart';
 import 'package:blood_setu/domain/usecase/get_my_interest_ids_usecase.dart';
 import 'package:blood_setu/domain/usecase/mark_im_coming_usecase.dart';
 import 'package:blood_setu/domain/usecase/nearby_donors_usecase.dart';
+import 'package:blood_setu/domain/usecase/reactivate_donor_usecase.dart';
 import 'package:blood_setu/domain/usecase/registration_user_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -22,6 +23,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final BloodRequestsUseCase _bloodRequestsUseCase;
   final MarkImComingUseCase _markImComingUseCase;
   final GetMyInterestIdsUseCase _getMyInterestIdsUseCase;
+  final ReactivateDonorUseCase _reactivateDonorUseCase;
 
   HomeBloc(
     this._registrationUserUseCase,
@@ -30,6 +32,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     this._bloodRequestsUseCase,
     this._markImComingUseCase,
     this._getMyInterestIdsUseCase,
+    this._reactivateDonorUseCase,
   ) : super(HomeState.initial()) {
     on<HomeEvent>((event, emit) async {
       await event.when(
@@ -41,8 +44,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           result.fold(
             (_) {},
             (profile) {
-              getIt<AuthController>().updateProfile(profile);
-              emit(state.copyWith(profile: profile));
+              var activeProfile = profile;
+              if (profile.isActive == false &&
+                  (profile.daysToNextDonation ?? 1) <= 0) {
+                unawaited(_reactivateDonorUseCase(uid));
+                activeProfile = profile.copyWith(isActive: true);
+              }
+              getIt<AuthController>().updateProfile(activeProfile);
+              emit(state.copyWith(profile: activeProfile));
             },
           );
 
