@@ -35,4 +35,11 @@ abstract class BloodRequestRepository {
   );
 
   Future<Either<Failure, void>> deleteRequest(String id);
+
+  Future<Either<Failure, List<BloodRequest>>> getMyInterests(String donorUid);
+
+  Future<Either<Failure, void>> withdrawInterest({
+    required String requestId,
+    required String donorUid,
+  });
 }
