@@ -59,6 +59,8 @@ class RegistrationRepositoryIml extends RegistrationRepository {
           donorTier: finalProfile.donorTier ?? '',
           totalDonations: finalProfile.totalDonations,
           photoUrl: finalProfile.photoUrl,
+          phone: finalProfile.phone,
+          fbId: finalProfile.fbId,
         ).toInfoMap(),
         SetOptions(merge: true),
       );
