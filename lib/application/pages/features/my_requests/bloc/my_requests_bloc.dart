@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/di/di.dart';
+import 'package:blood_setu/domain/models/blood_request_enums.dart';
 import 'package:blood_setu/domain/usecase/get_interested_donors_usecase.dart';
 import 'package:blood_setu/domain/usecase/my_requests_usecase.dart';
 import 'package:blood_setu/domain/usecase/update_request_usecase.dart';
@@ -129,9 +132,23 @@ class MyRequestsBloc extends Bloc<MyRequestsEvent, MyRequestsState> {
         isLoading: false,
         error: 'Failed to load your requests.',
       )),
-      (requests) => emit(
-        state.copyWith(requests: requests, isLoading: false),
-      ),
+      (requests) {
+        emit(state.copyWith(requests: requests, isLoading: false));
+
+        final now = DateTime.now();
+        final startOfToday = DateTime(now.year, now.month, now.day);
+        final expiredIds = requests
+            .where(
+              (r) =>
+                  r.status == RequestStatus.active &&
+                  r.needBy.isBefore(startOfToday),
+            )
+            .map((r) => r.id)
+            .toList();
+        if (expiredIds.isNotEmpty) {
+          unawaited(_updateRequestUseCase.markExpiredBatch(expiredIds));
+        }
+      },
     );
   }
 }
