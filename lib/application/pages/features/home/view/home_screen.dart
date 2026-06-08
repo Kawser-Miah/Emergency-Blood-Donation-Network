@@ -769,13 +769,31 @@ class _ActiveRequests extends StatelessWidget {
               ),
             )
           else if (requests.isEmpty)
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 24),
-              child: Center(
-                child: Text(
-                  'No active blood requests',
-                  style: TextStyle(fontSize: 14, color: AppColors.textTertiary),
-                ),
+            Center(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const Text('🩸', style: TextStyle(fontSize: 32)),
+                  const SizedBox(height: 8),
+                  const Text(
+                    'No active blood requests',
+                    style: TextStyle(
+                      fontSize: 13,
+                      color: AppColors.textTertiary,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () =>
+                        AppRouter.router.push(PAGES.bloodRequests.screenPath),
+                    child: const Text(
+                      'See all requests',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ],
               ),
             )
           else
