@@ -159,7 +159,7 @@ class _MyRequestsView extends StatelessWidget {
           return ListView.separated(
             padding: const EdgeInsets.all(16),
             itemCount: state.requests.length,
-            separatorBuilder: (_, __) => const SizedBox(height: 12),
+            separatorBuilder: (_, _) => const SizedBox(height: 12),
             itemBuilder: (context, index) {
               final req = state.requests[index];
               return _MyRequestCard(
@@ -430,6 +430,7 @@ class _MyRequestDetailSheet extends StatelessWidget {
         bloodRequestUrgencyConfig[request.urgency] ??
         bloodRequestUrgencyConfig['NORMAL']!;
     final isActive = request.status == RequestStatus.active;
+    final isExpired = request.status == RequestStatus.expired;
 
     return MultiBlocListener(
       listeners: [
@@ -619,29 +620,31 @@ class _MyRequestDetailSheet extends StatelessWidget {
                     ),
 
                     // Owner actions
-                    if (isActive) ...[
+                    if (isActive || isExpired) ...[
                       const SizedBox(height: 24),
                       Row(
                         children: [
-                          Expanded(
-                            child: ElevatedButton.icon(
-                              onPressed: () => _openEditSheet(context),
-                              icon: const Icon(Icons.edit_outlined, size: 16),
-                              label: const Text('Edit Request'),
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.primary,
-                                foregroundColor: Colors.white,
-                                padding: const EdgeInsets.symmetric(
-                                  vertical: 12,
+                          if (isActive) ...[
+                            Expanded(
+                              child: ElevatedButton.icon(
+                                onPressed: () => _openEditSheet(context),
+                                icon: const Icon(Icons.edit_outlined, size: 16),
+                                label: const Text('Edit Request'),
+                                style: ElevatedButton.styleFrom(
+                                  backgroundColor: AppColors.primary,
+                                  foregroundColor: Colors.white,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 12,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(14),
+                                  ),
+                                  elevation: 0,
                                 ),
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(14),
-                                ),
-                                elevation: 0,
                               ),
                             ),
-                          ),
-                          const SizedBox(width: 10),
+                            const SizedBox(width: 10),
+                          ],
                           Expanded(
                             child: OutlinedButton.icon(
                               onPressed: () => _confirmFulfilled(context),
