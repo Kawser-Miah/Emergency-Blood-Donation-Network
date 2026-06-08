@@ -17,12 +17,15 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$MyInterestsState {
-  List<BloodRequest> get interests => throw _privateConstructorUsedError;
+  List<MyInterestEntry> get interests => throw _privateConstructorUsedError;
   bool get isLoading => throw _privateConstructorUsedError;
   String? get error => throw _privateConstructorUsedError;
   String? get withdrawingId => throw _privateConstructorUsedError;
+  String? get markingBloodGivenId => throw _privateConstructorUsedError;
   bool get withdrawSuccess => throw _privateConstructorUsedError;
   bool get withdrawFailed => throw _privateConstructorUsedError;
+  bool get bloodGivenSuccess => throw _privateConstructorUsedError;
+  bool get bloodGivenFailed => throw _privateConstructorUsedError;
 
   /// Create a copy of MyInterestsState
   /// with the given fields replaced by the non-null parameter values.
@@ -39,12 +42,15 @@ abstract class $MyInterestsStateCopyWith<$Res> {
   ) = _$MyInterestsStateCopyWithImpl<$Res, MyInterestsState>;
   @useResult
   $Res call({
-    List<BloodRequest> interests,
+    List<MyInterestEntry> interests,
     bool isLoading,
     String? error,
     String? withdrawingId,
+    String? markingBloodGivenId,
     bool withdrawSuccess,
     bool withdrawFailed,
+    bool bloodGivenSuccess,
+    bool bloodGivenFailed,
   });
 }
 
@@ -67,15 +73,18 @@ class _$MyInterestsStateCopyWithImpl<$Res, $Val extends MyInterestsState>
     Object? isLoading = null,
     Object? error = freezed,
     Object? withdrawingId = freezed,
+    Object? markingBloodGivenId = freezed,
     Object? withdrawSuccess = null,
     Object? withdrawFailed = null,
+    Object? bloodGivenSuccess = null,
+    Object? bloodGivenFailed = null,
   }) {
     return _then(
       _value.copyWith(
             interests: null == interests
                 ? _value.interests
                 : interests // ignore: cast_nullable_to_non_nullable
-                      as List<BloodRequest>,
+                      as List<MyInterestEntry>,
             isLoading: null == isLoading
                 ? _value.isLoading
                 : isLoading // ignore: cast_nullable_to_non_nullable
@@ -88,6 +97,10 @@ class _$MyInterestsStateCopyWithImpl<$Res, $Val extends MyInterestsState>
                 ? _value.withdrawingId
                 : withdrawingId // ignore: cast_nullable_to_non_nullable
                       as String?,
+            markingBloodGivenId: freezed == markingBloodGivenId
+                ? _value.markingBloodGivenId
+                : markingBloodGivenId // ignore: cast_nullable_to_non_nullable
+                      as String?,
             withdrawSuccess: null == withdrawSuccess
                 ? _value.withdrawSuccess
                 : withdrawSuccess // ignore: cast_nullable_to_non_nullable
@@ -95,6 +108,14 @@ class _$MyInterestsStateCopyWithImpl<$Res, $Val extends MyInterestsState>
             withdrawFailed: null == withdrawFailed
                 ? _value.withdrawFailed
                 : withdrawFailed // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            bloodGivenSuccess: null == bloodGivenSuccess
+                ? _value.bloodGivenSuccess
+                : bloodGivenSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            bloodGivenFailed: null == bloodGivenFailed
+                ? _value.bloodGivenFailed
+                : bloodGivenFailed // ignore: cast_nullable_to_non_nullable
                       as bool,
           )
           as $Val,
@@ -112,12 +133,15 @@ abstract class _$$MyInterestsStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
-    List<BloodRequest> interests,
+    List<MyInterestEntry> interests,
     bool isLoading,
     String? error,
     String? withdrawingId,
+    String? markingBloodGivenId,
     bool withdrawSuccess,
     bool withdrawFailed,
+    bool bloodGivenSuccess,
+    bool bloodGivenFailed,
   });
 }
 
@@ -139,15 +163,18 @@ class __$$MyInterestsStateImplCopyWithImpl<$Res>
     Object? isLoading = null,
     Object? error = freezed,
     Object? withdrawingId = freezed,
+    Object? markingBloodGivenId = freezed,
     Object? withdrawSuccess = null,
     Object? withdrawFailed = null,
+    Object? bloodGivenSuccess = null,
+    Object? bloodGivenFailed = null,
   }) {
     return _then(
       _$MyInterestsStateImpl(
         interests: null == interests
             ? _value._interests
             : interests // ignore: cast_nullable_to_non_nullable
-                  as List<BloodRequest>,
+                  as List<MyInterestEntry>,
         isLoading: null == isLoading
             ? _value.isLoading
             : isLoading // ignore: cast_nullable_to_non_nullable
@@ -160,6 +187,10 @@ class __$$MyInterestsStateImplCopyWithImpl<$Res>
             ? _value.withdrawingId
             : withdrawingId // ignore: cast_nullable_to_non_nullable
                   as String?,
+        markingBloodGivenId: freezed == markingBloodGivenId
+            ? _value.markingBloodGivenId
+            : markingBloodGivenId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         withdrawSuccess: null == withdrawSuccess
             ? _value.withdrawSuccess
             : withdrawSuccess // ignore: cast_nullable_to_non_nullable
@@ -167,6 +198,14 @@ class __$$MyInterestsStateImplCopyWithImpl<$Res>
         withdrawFailed: null == withdrawFailed
             ? _value.withdrawFailed
             : withdrawFailed // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        bloodGivenSuccess: null == bloodGivenSuccess
+            ? _value.bloodGivenSuccess
+            : bloodGivenSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        bloodGivenFailed: null == bloodGivenFailed
+            ? _value.bloodGivenFailed
+            : bloodGivenFailed // ignore: cast_nullable_to_non_nullable
                   as bool,
       ),
     );
@@ -177,18 +216,21 @@ class __$$MyInterestsStateImplCopyWithImpl<$Res>
 
 class _$MyInterestsStateImpl implements _MyInterestsState {
   const _$MyInterestsStateImpl({
-    final List<BloodRequest> interests = const <BloodRequest>[],
+    final List<MyInterestEntry> interests = const <MyInterestEntry>[],
     this.isLoading = true,
     this.error,
     this.withdrawingId,
+    this.markingBloodGivenId,
     this.withdrawSuccess = false,
     this.withdrawFailed = false,
+    this.bloodGivenSuccess = false,
+    this.bloodGivenFailed = false,
   }) : _interests = interests;
 
-  final List<BloodRequest> _interests;
+  final List<MyInterestEntry> _interests;
   @override
   @JsonKey()
-  List<BloodRequest> get interests {
+  List<MyInterestEntry> get interests {
     if (_interests is EqualUnmodifiableListView) return _interests;
     // ignore: implicit_dynamic_type
     return EqualUnmodifiableListView(_interests);
@@ -202,15 +244,23 @@ class _$MyInterestsStateImpl implements _MyInterestsState {
   @override
   final String? withdrawingId;
   @override
+  final String? markingBloodGivenId;
+  @override
   @JsonKey()
   final bool withdrawSuccess;
   @override
   @JsonKey()
   final bool withdrawFailed;
+  @override
+  @JsonKey()
+  final bool bloodGivenSuccess;
+  @override
+  @JsonKey()
+  final bool bloodGivenFailed;
 
   @override
   String toString() {
-    return 'MyInterestsState(interests: $interests, isLoading: $isLoading, error: $error, withdrawingId: $withdrawingId, withdrawSuccess: $withdrawSuccess, withdrawFailed: $withdrawFailed)';
+    return 'MyInterestsState(interests: $interests, isLoading: $isLoading, error: $error, withdrawingId: $withdrawingId, markingBloodGivenId: $markingBloodGivenId, withdrawSuccess: $withdrawSuccess, withdrawFailed: $withdrawFailed, bloodGivenSuccess: $bloodGivenSuccess, bloodGivenFailed: $bloodGivenFailed)';
   }
 
   @override
@@ -227,10 +277,16 @@ class _$MyInterestsStateImpl implements _MyInterestsState {
             (identical(other.error, error) || other.error == error) &&
             (identical(other.withdrawingId, withdrawingId) ||
                 other.withdrawingId == withdrawingId) &&
+            (identical(other.markingBloodGivenId, markingBloodGivenId) ||
+                other.markingBloodGivenId == markingBloodGivenId) &&
             (identical(other.withdrawSuccess, withdrawSuccess) ||
                 other.withdrawSuccess == withdrawSuccess) &&
             (identical(other.withdrawFailed, withdrawFailed) ||
-                other.withdrawFailed == withdrawFailed));
+                other.withdrawFailed == withdrawFailed) &&
+            (identical(other.bloodGivenSuccess, bloodGivenSuccess) ||
+                other.bloodGivenSuccess == bloodGivenSuccess) &&
+            (identical(other.bloodGivenFailed, bloodGivenFailed) ||
+                other.bloodGivenFailed == bloodGivenFailed));
   }
 
   @override
@@ -240,8 +296,11 @@ class _$MyInterestsStateImpl implements _MyInterestsState {
     isLoading,
     error,
     withdrawingId,
+    markingBloodGivenId,
     withdrawSuccess,
     withdrawFailed,
+    bloodGivenSuccess,
+    bloodGivenFailed,
   );
 
   /// Create a copy of MyInterestsState
@@ -258,16 +317,19 @@ class _$MyInterestsStateImpl implements _MyInterestsState {
 
 abstract class _MyInterestsState implements MyInterestsState {
   const factory _MyInterestsState({
-    final List<BloodRequest> interests,
+    final List<MyInterestEntry> interests,
     final bool isLoading,
     final String? error,
     final String? withdrawingId,
+    final String? markingBloodGivenId,
     final bool withdrawSuccess,
     final bool withdrawFailed,
+    final bool bloodGivenSuccess,
+    final bool bloodGivenFailed,
   }) = _$MyInterestsStateImpl;
 
   @override
-  List<BloodRequest> get interests;
+  List<MyInterestEntry> get interests;
   @override
   bool get isLoading;
   @override
@@ -275,9 +337,15 @@ abstract class _MyInterestsState implements MyInterestsState {
   @override
   String? get withdrawingId;
   @override
+  String? get markingBloodGivenId;
+  @override
   bool get withdrawSuccess;
   @override
   bool get withdrawFailed;
+  @override
+  bool get bloodGivenSuccess;
+  @override
+  bool get bloodGivenFailed;
 
   /// Create a copy of MyInterestsState
   /// with the given fields replaced by the non-null parameter values.
