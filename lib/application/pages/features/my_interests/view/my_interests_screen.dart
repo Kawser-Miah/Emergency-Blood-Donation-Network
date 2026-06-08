@@ -55,6 +55,16 @@ class MyInterestsScreen extends StatelessWidget {
           ),
           BlocListener<MyInterestsBloc, MyInterestsState>(
             listenWhen: (p, c) =>
+                p.bloodGroupIncompatible != c.bloodGroupIncompatible,
+            listener: (context, _) => Utils.showSnackBar(
+              context,
+              content:
+                  'Your blood group is not compatible with this request. You cannot mark blood as given.',
+              color: AppColors.warning,
+            ),
+          ),
+          BlocListener<MyInterestsBloc, MyInterestsState>(
+            listenWhen: (p, c) =>
                 p.donationRecordFailed != c.donationRecordFailed,
             listener: (context, _) => Utils.showSnackBar(
               context,
