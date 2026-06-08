@@ -48,4 +48,6 @@ abstract class BloodRequestRepository {
     required String requestId,
     required String donorUid,
   });
+
+  Future<Either<Failure, List<String>>> getMyInterestIds(String donorUid);
 }
