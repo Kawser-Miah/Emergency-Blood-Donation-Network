@@ -184,13 +184,17 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
 
       if (snapshot.docs.isEmpty) return const Right([]);
 
+      final reqDocs = await Future.wait(
+        snapshot.docs.map(
+          (doc) => _firestore.collection('blood_requests').doc(doc.id).get(),
+        ),
+      );
+
       final entries = <MyInterestEntry>[];
-      for (final doc in snapshot.docs) {
-        final bloodGiven = doc.data()['bloodGiven'] as bool? ?? false;
-        final reqDoc = await _firestore
-            .collection('blood_requests')
-            .doc(doc.id)
-            .get();
+      for (var i = 0; i < snapshot.docs.length; i++) {
+        final bloodGiven =
+            snapshot.docs[i].data()['bloodGiven'] as bool? ?? false;
+        final reqDoc = reqDocs[i];
         if (reqDoc.exists && reqDoc.data() != null) {
           entries.add(
             MyInterestEntry(
@@ -259,6 +263,24 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
       );
     } catch (_) {
       return Left(GeneralFailure('Failed to record blood donation.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<String>>> getMyInterestIds(
+    String donorUid,
+  ) async {
+    try {
+      final snapshot = await _firestore
+          .collection('profile')
+          .doc(donorUid)
+          .collection('my_interests')
+          .get();
+      return Right(snapshot.docs.map((d) => d.id).toList());
+    } on FirebaseException catch (e) {
+      return Left(GeneralFailure(e.message ?? ''));
+    } catch (_) {
+      return Left(GeneralFailure(''));
     }
   }
 
