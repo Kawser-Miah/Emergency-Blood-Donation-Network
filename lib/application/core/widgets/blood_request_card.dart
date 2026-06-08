@@ -74,6 +74,7 @@ class BloodRequestCard extends StatelessWidget {
     this.userLng,
     this.onMessage,
     this.onImComing,
+    this.isInterested = false,
   });
 
   final BloodRequest request;
@@ -81,6 +82,7 @@ class BloodRequestCard extends StatelessWidget {
   final double? userLng;
   final VoidCallback? onMessage;
   final VoidCallback? onImComing;
+  final bool isInterested;
 
   String? get _distanceText {
     final rLat = request.latitude;
@@ -102,6 +104,7 @@ class BloodRequestCard extends StatelessWidget {
         userLat: userLat,
         userLng: userLng,
         onImComing: onImComing,
+        isInterested: isInterested,
       ),
     );
   }
@@ -276,24 +279,57 @@ class BloodRequestCard extends StatelessWidget {
                 ),
                 const SizedBox(width: 8),
                 Expanded(
-                  child: OutlinedButton(
-                    onPressed: onImComing,
-                    style: OutlinedButton.styleFrom(
-                      foregroundColor: AppColors.primary,
-                      padding: const EdgeInsets.symmetric(vertical: 10),
-                      side: const BorderSide(color: AppColors.primary, width: 2),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(16),
-                      ),
-                    ),
-                    child: const Text(
-                      "🤲 I'm Coming",
-                      style: TextStyle(
-                        fontSize: 13,
-                        fontWeight: FontWeight.w600,
-                      ),
-                    ),
-                  ),
+                  child: isInterested
+                      ? Container(
+                          padding: const EdgeInsets.symmetric(vertical: 10),
+                          decoration: BoxDecoration(
+                            color: AppColors.successSurface,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(
+                              color: AppColors.success.withValues(alpha: 0.4),
+                            ),
+                          ),
+                          child: const Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(
+                                Icons.check_circle,
+                                size: 14,
+                                color: AppColors.success,
+                              ),
+                              SizedBox(width: 6),
+                              Text(
+                                'Interested',
+                                style: TextStyle(
+                                  fontSize: 13,
+                                  fontWeight: FontWeight.w600,
+                                  color: AppColors.success,
+                                ),
+                              ),
+                            ],
+                          ),
+                        )
+                      : OutlinedButton(
+                          onPressed: onImComing,
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: AppColors.primary,
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            side: const BorderSide(
+                              color: AppColors.primary,
+                              width: 2,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(16),
+                            ),
+                          ),
+                          child: const Text(
+                            "🤲 I'm Coming",
+                            style: TextStyle(
+                              fontSize: 13,
+                              fontWeight: FontWeight.w600,
+                            ),
+                          ),
+                        ),
                 ),
               ],
             ),
@@ -311,12 +347,14 @@ class BloodRequestDetailsSheet extends StatefulWidget {
     this.userLat,
     this.userLng,
     this.onImComing,
+    this.isInterested = false,
   });
 
   final BloodRequest request;
   final double? userLat;
   final double? userLng;
   final VoidCallback? onImComing;
+  final bool isInterested;
 
   @override
   State<BloodRequestDetailsSheet> createState() =>
@@ -491,32 +529,66 @@ class _BloodRequestDetailsSheetState extends State<BloodRequestDetailsSheet> {
                       ),
                       const SizedBox(width: 12),
                       Expanded(
-                        child: OutlinedButton(
-                          onPressed: widget.onImComing == null
-                              ? null
-                              : () {
-                                  Navigator.of(context).pop();
-                                  widget.onImComing!();
-                                },
-                          style: OutlinedButton.styleFrom(
-                            foregroundColor: AppColors.primary,
-                            padding: const EdgeInsets.symmetric(vertical: 14),
-                            side: const BorderSide(
-                              color: AppColors.primary,
-                              width: 2,
-                            ),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(16),
-                            ),
-                          ),
-                          child: const Text(
-                            "🤲 I'm Coming",
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w700,
-                            ),
-                          ),
-                        ),
+                        child: widget.isInterested
+                            ? Container(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 14),
+                                decoration: BoxDecoration(
+                                  color: AppColors.successSurface,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border: Border.all(
+                                    color: AppColors.success
+                                        .withValues(alpha: 0.4),
+                                  ),
+                                ),
+                                child: const Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(
+                                      Icons.check_circle,
+                                      size: 16,
+                                      color: AppColors.success,
+                                    ),
+                                    SizedBox(width: 6),
+                                    Text(
+                                      'Interested',
+                                      style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w700,
+                                        color: AppColors.success,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            : OutlinedButton(
+                                onPressed: widget.onImComing == null
+                                    ? null
+                                    : () {
+                                        Navigator.of(context).pop();
+                                        widget.onImComing!();
+                                      },
+                                style: OutlinedButton.styleFrom(
+                                  foregroundColor: AppColors.primary,
+                                  padding: const EdgeInsets.symmetric(
+                                    vertical: 14,
+                                  ),
+                                  side: const BorderSide(
+                                    color: AppColors.primary,
+                                    width: 2,
+                                  ),
+                                  shape: RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.circular(16),
+                                  ),
+                                ),
+                                child: const Text(
+                                  "🤲 I'm Coming",
+                                  style: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w700,
+                                  ),
+                                ),
+                              ),
                       ),
                     ],
                   ),
