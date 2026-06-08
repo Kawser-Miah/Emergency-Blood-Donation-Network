@@ -1,23 +1,24 @@
 import 'package:blood_setu/application/core/theme/colors.dart';
 import 'package:blood_setu/application/core/widgets/blood_request_card.dart';
-import 'package:blood_setu/domain/models/blood_request.dart';
 import 'package:blood_setu/domain/models/blood_request_enums.dart';
+import 'package:blood_setu/domain/models/my_interest_entry.dart';
 import 'package:flutter/material.dart';
 
 class MyInterestCard extends StatelessWidget {
   const MyInterestCard({
     super.key,
-    required this.request,
+    required this.entry,
     required this.isWithdrawing,
     required this.onTap,
   });
 
-  final BloodRequest request;
+  final MyInterestEntry entry;
   final bool isWithdrawing;
   final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
+    final request = entry.request;
     final urg =
         bloodRequestUrgencyConfig[request.urgency] ??
         bloodRequestUrgencyConfig['NORMAL']!;
@@ -138,7 +139,10 @@ class MyInterestCard extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               '🩸 ${request.units} units  •  👤 ${request.patientName}',
-              style: const TextStyle(fontSize: 12, color: AppColors.textTertiary),
+              style: const TextStyle(
+                fontSize: 12,
+                color: AppColors.textTertiary,
+              ),
             ),
             const SizedBox(height: 2),
             Text(
@@ -152,38 +156,72 @@ class MyInterestCard extends StatelessWidget {
             const SizedBox(height: 10),
             Row(
               children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 5,
-                  ),
-                  decoration: BoxDecoration(
-                    color: AppColors.successSurface,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(
-                      color: AppColors.success.withValues(alpha: 0.3),
+                if (entry.bloodGiven)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
                     ),
-                  ),
-                  child: const Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Icon(
-                        Icons.check_circle_outline,
-                        size: 12,
-                        color: AppColors.success,
+                    decoration: BoxDecoration(
+                      color: AppColors.infoSurface,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppColors.info.withValues(alpha: 0.3),
                       ),
-                      SizedBox(width: 4),
-                      Text(
-                        "I'm Coming",
-                        style: TextStyle(
-                          fontSize: 11,
-                          fontWeight: FontWeight.w600,
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.volunteer_activism,
+                          size: 12,
+                          color: AppColors.info,
+                        ),
+                        SizedBox(width: 4),
+                        Text(
+                          'Blood Given',
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.info,
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                else
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 5,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.successSurface,
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(
+                        color: AppColors.success.withValues(alpha: 0.3),
+                      ),
+                    ),
+                    child: const Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Icon(
+                          Icons.check_circle_outline,
+                          size: 12,
                           color: AppColors.success,
                         ),
-                      ),
-                    ],
+                        SizedBox(width: 4),
+                        Text(
+                          "I'm Coming",
+                          style: TextStyle(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w600,
+                            color: AppColors.success,
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                ),
                 const Spacer(),
                 if (isWithdrawing)
                   const SizedBox(
