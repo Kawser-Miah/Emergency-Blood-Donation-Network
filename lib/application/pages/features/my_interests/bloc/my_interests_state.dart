@@ -1,4 +1,4 @@
-import 'package:blood_setu/domain/models/blood_request.dart';
+import 'package:blood_setu/domain/models/my_interest_entry.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'my_interests_state.freezed.dart';
@@ -6,12 +6,15 @@ part 'my_interests_state.freezed.dart';
 @freezed
 class MyInterestsState with _$MyInterestsState {
   const factory MyInterestsState({
-    @Default(<BloodRequest>[]) List<BloodRequest> interests,
+    @Default(<MyInterestEntry>[]) List<MyInterestEntry> interests,
     @Default(true) bool isLoading,
     String? error,
     String? withdrawingId,
+    String? markingBloodGivenId,
     @Default(false) bool withdrawSuccess,
     @Default(false) bool withdrawFailed,
+    @Default(false) bool bloodGivenSuccess,
+    @Default(false) bool bloodGivenFailed,
   }) = _MyInterestsState;
 
   factory MyInterestsState.initial() => const MyInterestsState();
