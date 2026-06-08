@@ -4,6 +4,7 @@ import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/usecase/blood_requests_usecase.dart';
 import 'package:blood_setu/domain/usecase/location_usecase.dart';
+import 'package:blood_setu/domain/usecase/get_my_interest_ids_usecase.dart';
 import 'package:blood_setu/domain/usecase/mark_im_coming_usecase.dart';
 import 'package:blood_setu/domain/usecase/nearby_donors_usecase.dart';
 import 'package:blood_setu/domain/usecase/registration_user_usecase.dart';
@@ -20,6 +21,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   final NearbyDonorsUseCase _nearbyDonorsUseCase;
   final BloodRequestsUseCase _bloodRequestsUseCase;
   final MarkImComingUseCase _markImComingUseCase;
+  final GetMyInterestIdsUseCase _getMyInterestIdsUseCase;
 
   HomeBloc(
     this._registrationUserUseCase,
@@ -27,6 +29,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     this._nearbyDonorsUseCase,
     this._bloodRequestsUseCase,
     this._markImComingUseCase,
+    this._getMyInterestIdsUseCase,
   ) : super(HomeState.initial()) {
     on<HomeEvent>((event, emit) async {
       await event.when(
@@ -94,6 +97,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
               ),
             ),
           );
+
+          final idsResult = await _getMyInterestIdsUseCase(uid);
+          idsResult.fold(
+            (_) {},
+            (ids) => emit(state.copyWith(interestedRequestIds: ids)),
+          );
         },
         sidebarOpened: () async => emit(state.copyWith(showSidebar: true)),
         sidebarClosed: () async => emit(state.copyWith(showSidebar: false)),
@@ -108,6 +117,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           final uid = auth.user?.uid;
           if (uid == null) return;
           final p = auth.profile;
+          emit(state.copyWith(
+            interestedRequestIds: [
+              ...state.interestedRequestIds,
+              requestId,
+            ],
+          ));
           final result = await _markImComingUseCase(
             requestId: requestId,
             donorUid: uid,
@@ -117,7 +132,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
             totalDonations: p?.totalDonations ?? 0,
           );
           result.fold(
-            (_) => emit(state.copyWith(imComingFailed: !state.imComingFailed)),
+            (_) => emit(state.copyWith(
+              interestedRequestIds: state.interestedRequestIds
+                  .where((id) => id != requestId)
+                  .toList(),
+              imComingFailed: !state.imComingFailed,
+            )),
             (_) => emit(state.copyWith(imComingSuccess: !state.imComingSuccess)),
           );
         },
