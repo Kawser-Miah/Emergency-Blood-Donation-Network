@@ -14,6 +14,7 @@ import '../../../pages/features/blood_requests/view/blood_requests_screen.dart';
 import '../../../pages/features/chat_list/view/chat_list_screen.dart';
 import '../../../pages/features/donors/view/donors_screen.dart';
 import '../../../pages/features/map_picker/map_picker_screen.dart';
+import '../../../pages/features/my_interests/view/my_interests_screen.dart';
 import '../../../pages/features/my_requests/view/my_requests_screen.dart';
 import '../../../pages/features/profile/view/profile_screen.dart';
 
@@ -104,6 +105,11 @@ class AppRouter {
           path: PAGES.myRequests.screenPath,
           name: PAGES.myRequests.screenName,
           builder: (context, state) => const MyRequestsScreen(),
+        ),
+        GoRoute(
+          path: PAGES.myInterests.screenPath,
+          name: PAGES.myInterests.screenName,
+          builder: (context, state) => const MyInterestsScreen(),
         ),
         GoRoute(
           path: PAGES.mapPicker.screenPath,
