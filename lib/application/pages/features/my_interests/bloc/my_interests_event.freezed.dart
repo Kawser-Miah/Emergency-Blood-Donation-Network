@@ -22,18 +22,21 @@ mixin _$MyInterestsEvent {
     required TResult Function() started,
     required TResult Function() refreshed,
     required TResult Function(String requestId) withdrawRequested,
+    required TResult Function(String requestId) bloodGivenMarked,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult? Function()? started,
     TResult? Function()? refreshed,
     TResult? Function(String requestId)? withdrawRequested,
+    TResult? Function(String requestId)? bloodGivenMarked,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? started,
     TResult Function()? refreshed,
     TResult Function(String requestId)? withdrawRequested,
+    TResult Function(String requestId)? bloodGivenMarked,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -41,18 +44,21 @@ mixin _$MyInterestsEvent {
     required TResult Function(_Started value) started,
     required TResult Function(_Refreshed value) refreshed,
     required TResult Function(_WithdrawRequested value) withdrawRequested,
+    required TResult Function(_BloodGivenMarked value) bloodGivenMarked,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult? Function(_Started value)? started,
     TResult? Function(_Refreshed value)? refreshed,
     TResult? Function(_WithdrawRequested value)? withdrawRequested,
+    TResult? Function(_BloodGivenMarked value)? bloodGivenMarked,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Started value)? started,
     TResult Function(_Refreshed value)? refreshed,
     TResult Function(_WithdrawRequested value)? withdrawRequested,
+    TResult Function(_BloodGivenMarked value)? bloodGivenMarked,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -125,6 +131,7 @@ class _$StartedImpl implements _Started {
     required TResult Function() started,
     required TResult Function() refreshed,
     required TResult Function(String requestId) withdrawRequested,
+    required TResult Function(String requestId) bloodGivenMarked,
   }) {
     return started();
   }
@@ -135,6 +142,7 @@ class _$StartedImpl implements _Started {
     TResult? Function()? started,
     TResult? Function()? refreshed,
     TResult? Function(String requestId)? withdrawRequested,
+    TResult? Function(String requestId)? bloodGivenMarked,
   }) {
     return started?.call();
   }
@@ -145,6 +153,7 @@ class _$StartedImpl implements _Started {
     TResult Function()? started,
     TResult Function()? refreshed,
     TResult Function(String requestId)? withdrawRequested,
+    TResult Function(String requestId)? bloodGivenMarked,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -159,6 +168,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_Started value) started,
     required TResult Function(_Refreshed value) refreshed,
     required TResult Function(_WithdrawRequested value) withdrawRequested,
+    required TResult Function(_BloodGivenMarked value) bloodGivenMarked,
   }) {
     return started(this);
   }
@@ -169,6 +179,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_Started value)? started,
     TResult? Function(_Refreshed value)? refreshed,
     TResult? Function(_WithdrawRequested value)? withdrawRequested,
+    TResult? Function(_BloodGivenMarked value)? bloodGivenMarked,
   }) {
     return started?.call(this);
   }
@@ -179,6 +190,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_Started value)? started,
     TResult Function(_Refreshed value)? refreshed,
     TResult Function(_WithdrawRequested value)? withdrawRequested,
+    TResult Function(_BloodGivenMarked value)? bloodGivenMarked,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -238,6 +250,7 @@ class _$RefreshedImpl implements _Refreshed {
     required TResult Function() started,
     required TResult Function() refreshed,
     required TResult Function(String requestId) withdrawRequested,
+    required TResult Function(String requestId) bloodGivenMarked,
   }) {
     return refreshed();
   }
@@ -248,6 +261,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult? Function()? started,
     TResult? Function()? refreshed,
     TResult? Function(String requestId)? withdrawRequested,
+    TResult? Function(String requestId)? bloodGivenMarked,
   }) {
     return refreshed?.call();
   }
@@ -258,6 +272,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult Function()? started,
     TResult Function()? refreshed,
     TResult Function(String requestId)? withdrawRequested,
+    TResult Function(String requestId)? bloodGivenMarked,
     required TResult orElse(),
   }) {
     if (refreshed != null) {
@@ -272,6 +287,7 @@ class _$RefreshedImpl implements _Refreshed {
     required TResult Function(_Started value) started,
     required TResult Function(_Refreshed value) refreshed,
     required TResult Function(_WithdrawRequested value) withdrawRequested,
+    required TResult Function(_BloodGivenMarked value) bloodGivenMarked,
   }) {
     return refreshed(this);
   }
@@ -282,6 +298,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult? Function(_Started value)? started,
     TResult? Function(_Refreshed value)? refreshed,
     TResult? Function(_WithdrawRequested value)? withdrawRequested,
+    TResult? Function(_BloodGivenMarked value)? bloodGivenMarked,
   }) {
     return refreshed?.call(this);
   }
@@ -292,6 +309,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult Function(_Started value)? started,
     TResult Function(_Refreshed value)? refreshed,
     TResult Function(_WithdrawRequested value)? withdrawRequested,
+    TResult Function(_BloodGivenMarked value)? bloodGivenMarked,
     required TResult orElse(),
   }) {
     if (refreshed != null) {
@@ -382,6 +400,7 @@ class _$WithdrawRequestedImpl implements _WithdrawRequested {
     required TResult Function() started,
     required TResult Function() refreshed,
     required TResult Function(String requestId) withdrawRequested,
+    required TResult Function(String requestId) bloodGivenMarked,
   }) {
     return withdrawRequested(requestId);
   }
@@ -392,6 +411,7 @@ class _$WithdrawRequestedImpl implements _WithdrawRequested {
     TResult? Function()? started,
     TResult? Function()? refreshed,
     TResult? Function(String requestId)? withdrawRequested,
+    TResult? Function(String requestId)? bloodGivenMarked,
   }) {
     return withdrawRequested?.call(requestId);
   }
@@ -402,6 +422,7 @@ class _$WithdrawRequestedImpl implements _WithdrawRequested {
     TResult Function()? started,
     TResult Function()? refreshed,
     TResult Function(String requestId)? withdrawRequested,
+    TResult Function(String requestId)? bloodGivenMarked,
     required TResult orElse(),
   }) {
     if (withdrawRequested != null) {
@@ -416,6 +437,7 @@ class _$WithdrawRequestedImpl implements _WithdrawRequested {
     required TResult Function(_Started value) started,
     required TResult Function(_Refreshed value) refreshed,
     required TResult Function(_WithdrawRequested value) withdrawRequested,
+    required TResult Function(_BloodGivenMarked value) bloodGivenMarked,
   }) {
     return withdrawRequested(this);
   }
@@ -426,6 +448,7 @@ class _$WithdrawRequestedImpl implements _WithdrawRequested {
     TResult? Function(_Started value)? started,
     TResult? Function(_Refreshed value)? refreshed,
     TResult? Function(_WithdrawRequested value)? withdrawRequested,
+    TResult? Function(_BloodGivenMarked value)? bloodGivenMarked,
   }) {
     return withdrawRequested?.call(this);
   }
@@ -436,6 +459,7 @@ class _$WithdrawRequestedImpl implements _WithdrawRequested {
     TResult Function(_Started value)? started,
     TResult Function(_Refreshed value)? refreshed,
     TResult Function(_WithdrawRequested value)? withdrawRequested,
+    TResult Function(_BloodGivenMarked value)? bloodGivenMarked,
     required TResult orElse(),
   }) {
     if (withdrawRequested != null) {
@@ -455,5 +479,164 @@ abstract class _WithdrawRequested implements MyInterestsEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$WithdrawRequestedImplCopyWith<_$WithdrawRequestedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$BloodGivenMarkedImplCopyWith<$Res> {
+  factory _$$BloodGivenMarkedImplCopyWith(
+    _$BloodGivenMarkedImpl value,
+    $Res Function(_$BloodGivenMarkedImpl) then,
+  ) = __$$BloodGivenMarkedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String requestId});
+}
+
+/// @nodoc
+class __$$BloodGivenMarkedImplCopyWithImpl<$Res>
+    extends _$MyInterestsEventCopyWithImpl<$Res, _$BloodGivenMarkedImpl>
+    implements _$$BloodGivenMarkedImplCopyWith<$Res> {
+  __$$BloodGivenMarkedImplCopyWithImpl(
+    _$BloodGivenMarkedImpl _value,
+    $Res Function(_$BloodGivenMarkedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of MyInterestsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? requestId = null}) {
+    return _then(
+      _$BloodGivenMarkedImpl(
+        null == requestId
+            ? _value.requestId
+            : requestId // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$BloodGivenMarkedImpl implements _BloodGivenMarked {
+  const _$BloodGivenMarkedImpl(this.requestId);
+
+  @override
+  final String requestId;
+
+  @override
+  String toString() {
+    return 'MyInterestsEvent.bloodGivenMarked(requestId: $requestId)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$BloodGivenMarkedImpl &&
+            (identical(other.requestId, requestId) ||
+                other.requestId == requestId));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, requestId);
+
+  /// Create a copy of MyInterestsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$BloodGivenMarkedImplCopyWith<_$BloodGivenMarkedImpl> get copyWith =>
+      __$$BloodGivenMarkedImplCopyWithImpl<_$BloodGivenMarkedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() refreshed,
+    required TResult Function(String requestId) withdrawRequested,
+    required TResult Function(String requestId) bloodGivenMarked,
+  }) {
+    return bloodGivenMarked(requestId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? refreshed,
+    TResult? Function(String requestId)? withdrawRequested,
+    TResult? Function(String requestId)? bloodGivenMarked,
+  }) {
+    return bloodGivenMarked?.call(requestId);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? refreshed,
+    TResult Function(String requestId)? withdrawRequested,
+    TResult Function(String requestId)? bloodGivenMarked,
+    required TResult orElse(),
+  }) {
+    if (bloodGivenMarked != null) {
+      return bloodGivenMarked(requestId);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_Refreshed value) refreshed,
+    required TResult Function(_WithdrawRequested value) withdrawRequested,
+    required TResult Function(_BloodGivenMarked value) bloodGivenMarked,
+  }) {
+    return bloodGivenMarked(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_Refreshed value)? refreshed,
+    TResult? Function(_WithdrawRequested value)? withdrawRequested,
+    TResult? Function(_BloodGivenMarked value)? bloodGivenMarked,
+  }) {
+    return bloodGivenMarked?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_Refreshed value)? refreshed,
+    TResult Function(_WithdrawRequested value)? withdrawRequested,
+    TResult Function(_BloodGivenMarked value)? bloodGivenMarked,
+    required TResult orElse(),
+  }) {
+    if (bloodGivenMarked != null) {
+      return bloodGivenMarked(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _BloodGivenMarked implements MyInterestsEvent {
+  const factory _BloodGivenMarked(final String requestId) =
+      _$BloodGivenMarkedImpl;
+
+  String get requestId;
+
+  /// Create a copy of MyInterestsEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$BloodGivenMarkedImplCopyWith<_$BloodGivenMarkedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
