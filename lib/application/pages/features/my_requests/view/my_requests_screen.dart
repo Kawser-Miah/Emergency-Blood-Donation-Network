@@ -1038,8 +1038,13 @@ class _EditRequestSheetState extends State<_EditRequestSheet> {
   late final TextEditingController _addressCtrl;
   late final TextEditingController _notesCtrl;
   late String _urgency;
+  late String _bloodGroup;
   late int _units;
   late DateTime _needBy;
+
+  static const _bloodGroups = [
+    'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-',
+  ];
 
   @override
   void initState() {
@@ -1050,6 +1055,7 @@ class _EditRequestSheetState extends State<_EditRequestSheet> {
     _addressCtrl = TextEditingController(text: widget.request.address);
     _notesCtrl = TextEditingController(text: widget.request.notes);
     _urgency = widget.request.urgency;
+    _bloodGroup = widget.request.bloodGroup;
     _units = widget.request.units;
     _needBy = widget.request.needBy;
   }
@@ -1112,6 +1118,10 @@ class _EditRequestSheetState extends State<_EditRequestSheet> {
 
                       _buildLabel('Patient Name'),
                       _buildTextField(_patientCtrl, 'e.g. Rahim Ahmed'),
+                      const SizedBox(height: 14),
+
+                      _buildLabel('Blood Group'),
+                      _buildBloodGroupSelector(),
                       const SizedBox(height: 14),
 
                       _buildLabel('Contact Number'),
@@ -1263,6 +1273,35 @@ class _EditRequestSheetState extends State<_EditRequestSheet> {
     ],
   );
 
+  Widget _buildBloodGroupSelector() => Wrap(
+    spacing: 8,
+    runSpacing: 8,
+    children: _bloodGroups.map((bg) {
+      final selected = _bloodGroup == bg;
+      return GestureDetector(
+        onTap: () => setState(() => _bloodGroup = bg),
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+          decoration: BoxDecoration(
+            color: selected ? AppColors.primary : Colors.white,
+            borderRadius: BorderRadius.circular(99),
+            border: Border.all(
+              color: selected ? AppColors.primary : AppColors.divider,
+            ),
+          ),
+          child: Text(
+            bg,
+            style: TextStyle(
+              fontSize: 13,
+              fontWeight: FontWeight.w700,
+              color: selected ? Colors.white : AppColors.textSecondary,
+            ),
+          ),
+        ),
+      );
+    }).toList(),
+  );
+
   Widget _buildUrgencySelector() => Wrap(
     spacing: 8,
     children: _urgencies.map((u) {
@@ -1338,6 +1377,7 @@ class _EditRequestSheetState extends State<_EditRequestSheet> {
       MyRequestsEvent.requestUpdated(
         id: widget.request.id,
         patientName: patientName,
+        bloodGroup: _bloodGroup,
         contact: contact,
         hospital: hospital,
         address: address,
