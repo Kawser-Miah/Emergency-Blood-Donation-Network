@@ -63,6 +63,7 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
           final auth = getIt<AuthController>();
           final uid = auth.user?.uid;
           if (uid == null) return;
+          if (auth.profile?.isActive != true) return;
           final p = auth.profile;
           // Optimistic update — show card as "interested" immediately.
           emit(state.copyWith(
@@ -113,6 +114,7 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
           filtered: const [],
           hasMore: true,
           userIsActive: auth.profile?.isActive ?? true,
+          userBloodGroup: auth.profile?.bloodGroup ?? '',
         ),
       );
       final locationResult = await _locationUseCase.getAddressData();
