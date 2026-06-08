@@ -12,6 +12,7 @@ class MyRequestsEvent with _$MyRequestsEvent {
   const factory MyRequestsEvent.requestUpdated({
     required String id,
     required String patientName,
+    required String bloodGroup,
     required String contact,
     required String hospital,
     required String address,
