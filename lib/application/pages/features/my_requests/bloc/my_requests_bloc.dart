@@ -41,6 +41,7 @@ class MyRequestsBloc extends Bloc<MyRequestsEvent, MyRequestsState> {
         requestUpdated: (
           id,
           patientName,
+          bloodGroup,
           contact,
           hospital,
           address,
@@ -59,6 +60,7 @@ class MyRequestsBloc extends Bloc<MyRequestsEvent, MyRequestsState> {
           final result = await _updateRequestUseCase(
             id: id,
             patientName: patientName,
+            bloodGroup: bloodGroup,
             contact: contact,
             hospital: hospital,
             address: address,
