@@ -37,6 +37,8 @@ abstract class BloodRequestRepository {
 
   Future<Either<Failure, void>> deleteRequest(String id);
 
+  Future<Either<Failure, void>> markExpiredBatch(List<String> ids);
+
   Future<Either<Failure, List<MyInterestEntry>>> getMyInterests(String donorUid);
 
   Future<Either<Failure, void>> withdrawInterest({
