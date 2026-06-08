@@ -73,6 +73,8 @@ import 'package:blood_setu/domain/usecase/mark_blood_given_usecase.dart'
 import 'package:blood_setu/domain/usecase/mark_im_coming_usecase.dart' as _i596;
 import 'package:blood_setu/domain/usecase/my_requests_usecase.dart' as _i948;
 import 'package:blood_setu/domain/usecase/nearby_donors_usecase.dart' as _i859;
+import 'package:blood_setu/domain/usecase/reactivate_donor_usecase.dart'
+    as _i871;
 import 'package:blood_setu/domain/usecase/registration_user_usecase.dart'
     as _i881;
 import 'package:blood_setu/domain/usecase/update_request_usecase.dart' as _i556;
@@ -118,6 +120,9 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i141.DonationUseCase>(
       () => _i141.DonationUseCase(gh<_i133.DonationRepository>()),
+    );
+    gh.factory<_i871.ReactivateDonorUseCase>(
+      () => _i871.ReactivateDonorUseCase(gh<_i133.DonationRepository>()),
     );
     gh.factory<_i881.RegistrationUserUseCase>(
       () => _i881.RegistrationUserUseCase(gh<_i268.RegistrationRepository>()),
@@ -185,6 +190,17 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i164.GetMyInterestIdsUseCase>(
       () => _i164.GetMyInterestIdsUseCase(gh<_i3.BloodRequestRepository>()),
     );
+    gh.factory<_i579.HomeBloc>(
+      () => _i579.HomeBloc(
+        gh<_i881.RegistrationUserUseCase>(),
+        gh<_i1060.LocationUseCase>(),
+        gh<_i859.NearbyDonorsUseCase>(),
+        gh<_i269.BloodRequestsUseCase>(),
+        gh<_i596.MarkImComingUseCase>(),
+        gh<_i164.GetMyInterestIdsUseCase>(),
+        gh<_i871.ReactivateDonorUseCase>(),
+      ),
+    );
     gh.factory<_i533.MyRequestsBloc>(
       () => _i533.MyRequestsBloc(
         gh<_i948.MyRequestsUseCase>(),
@@ -196,16 +212,6 @@ extension GetItInjectableX on _i174.GetIt {
       () => _i405.DonorsBloc(
         gh<_i859.NearbyDonorsUseCase>(),
         gh<_i181.SpService>(),
-      ),
-    );
-    gh.factory<_i579.HomeBloc>(
-      () => _i579.HomeBloc(
-        gh<_i881.RegistrationUserUseCase>(),
-        gh<_i1060.LocationUseCase>(),
-        gh<_i859.NearbyDonorsUseCase>(),
-        gh<_i269.BloodRequestsUseCase>(),
-        gh<_i596.MarkImComingUseCase>(),
-        gh<_i164.GetMyInterestIdsUseCase>(),
       ),
     );
     gh.factory<_i18.SignInBloc>(
