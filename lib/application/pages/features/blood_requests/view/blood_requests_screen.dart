@@ -4,6 +4,7 @@ import 'package:blood_setu/application/pages/features/blood_requests/bloc/blood_
 import 'package:blood_setu/application/pages/features/blood_requests/bloc/blood_requests_state.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/application/core/widgets/blood_request_card.dart';
+import 'package:blood_setu/utils/blood_compat_util.dart';
 import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -385,14 +386,21 @@ class _Body extends StatelessWidget {
             return _ListFooter(state: state);
           }
           final req = state.filtered[i];
+          final compatible = isBloodGroupCompatible(
+            state.userBloodGroup,
+            req.bloodGroup,
+          );
           return BloodRequestCard(
             request: req,
             userLat: state.userLat,
             userLng: state.userLng,
             onMessage: () {},
             isInterested: state.interestedRequestIds.contains(req.id),
+            isCompatible: compatible,
+            userIsActive: state.userIsActive,
             onImComing: state.userIsActive &&
-                    !state.interestedRequestIds.contains(req.id)
+                    !state.interestedRequestIds.contains(req.id) &&
+                    compatible
                 ? () => context
                     .read<BloodRequestsBloc>()
                     .add(BloodRequestsEvent.imComing(req.id))
