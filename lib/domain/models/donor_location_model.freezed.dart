@@ -26,6 +26,8 @@ mixin _$DonorLocationModel {
   String get donorTier => throw _privateConstructorUsedError;
   int get totalDonations => throw _privateConstructorUsedError;
   String? get photoUrl => throw _privateConstructorUsedError;
+  String? get phone => throw _privateConstructorUsedError;
+  String? get fbId => throw _privateConstructorUsedError;
   double? get latitude => throw _privateConstructorUsedError;
   double? get longitude => throw _privateConstructorUsedError;
   String? get geohash => throw _privateConstructorUsedError;
@@ -54,6 +56,8 @@ abstract class $DonorLocationModelCopyWith<$Res> {
     String donorTier,
     int totalDonations,
     String? photoUrl,
+    String? phone,
+    String? fbId,
     double? latitude,
     double? longitude,
     String? geohash,
@@ -84,6 +88,8 @@ class _$DonorLocationModelCopyWithImpl<$Res, $Val extends DonorLocationModel>
     Object? donorTier = null,
     Object? totalDonations = null,
     Object? photoUrl = freezed,
+    Object? phone = freezed,
+    Object? fbId = freezed,
     Object? latitude = freezed,
     Object? longitude = freezed,
     Object? geohash = freezed,
@@ -126,6 +132,14 @@ class _$DonorLocationModelCopyWithImpl<$Res, $Val extends DonorLocationModel>
                 ? _value.photoUrl
                 : photoUrl // ignore: cast_nullable_to_non_nullable
                       as String?,
+            phone: freezed == phone
+                ? _value.phone
+                : phone // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            fbId: freezed == fbId
+                ? _value.fbId
+                : fbId // ignore: cast_nullable_to_non_nullable
+                      as String?,
             latitude: freezed == latitude
                 ? _value.latitude
                 : latitude // ignore: cast_nullable_to_non_nullable
@@ -163,6 +177,8 @@ abstract class _$$DonorLocationModelImplCopyWith<$Res>
     String donorTier,
     int totalDonations,
     String? photoUrl,
+    String? phone,
+    String? fbId,
     double? latitude,
     double? longitude,
     String? geohash,
@@ -192,6 +208,8 @@ class __$$DonorLocationModelImplCopyWithImpl<$Res>
     Object? donorTier = null,
     Object? totalDonations = null,
     Object? photoUrl = freezed,
+    Object? phone = freezed,
+    Object? fbId = freezed,
     Object? latitude = freezed,
     Object? longitude = freezed,
     Object? geohash = freezed,
@@ -234,6 +252,14 @@ class __$$DonorLocationModelImplCopyWithImpl<$Res>
             ? _value.photoUrl
             : photoUrl // ignore: cast_nullable_to_non_nullable
                   as String?,
+        phone: freezed == phone
+            ? _value.phone
+            : phone // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        fbId: freezed == fbId
+            ? _value.fbId
+            : fbId // ignore: cast_nullable_to_non_nullable
+                  as String?,
         latitude: freezed == latitude
             ? _value.latitude
             : latitude // ignore: cast_nullable_to_non_nullable
@@ -264,6 +290,8 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
     this.donorTier = '',
     this.totalDonations = 0,
     this.photoUrl,
+    this.phone,
+    this.fbId,
     this.latitude,
     this.longitude,
     this.geohash,
@@ -295,6 +323,10 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
   @override
   final String? photoUrl;
   @override
+  final String? phone;
+  @override
+  final String? fbId;
+  @override
   final double? latitude;
   @override
   final double? longitude;
@@ -303,7 +335,7 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
 
   @override
   String toString() {
-    return 'DonorLocationModel(uid: $uid, fullName: $fullName, bloodGroup: $bloodGroup, district: $district, thana: $thana, isActive: $isActive, donorTier: $donorTier, totalDonations: $totalDonations, photoUrl: $photoUrl, latitude: $latitude, longitude: $longitude, geohash: $geohash)';
+    return 'DonorLocationModel(uid: $uid, fullName: $fullName, bloodGroup: $bloodGroup, district: $district, thana: $thana, isActive: $isActive, donorTier: $donorTier, totalDonations: $totalDonations, photoUrl: $photoUrl, phone: $phone, fbId: $fbId, latitude: $latitude, longitude: $longitude, geohash: $geohash)';
   }
 
   @override
@@ -327,6 +359,8 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
                 other.totalDonations == totalDonations) &&
             (identical(other.photoUrl, photoUrl) ||
                 other.photoUrl == photoUrl) &&
+            (identical(other.phone, phone) || other.phone == phone) &&
+            (identical(other.fbId, fbId) || other.fbId == fbId) &&
             (identical(other.latitude, latitude) ||
                 other.latitude == latitude) &&
             (identical(other.longitude, longitude) ||
@@ -346,6 +380,8 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
     donorTier,
     totalDonations,
     photoUrl,
+    phone,
+    fbId,
     latitude,
     longitude,
     geohash,
@@ -374,6 +410,8 @@ abstract class _DonorLocationModel extends DonorLocationModel {
     final String donorTier,
     final int totalDonations,
     final String? photoUrl,
+    final String? phone,
+    final String? fbId,
     final double? latitude,
     final double? longitude,
     final String? geohash,
@@ -398,6 +436,10 @@ abstract class _DonorLocationModel extends DonorLocationModel {
   int get totalDonations;
   @override
   String? get photoUrl;
+  @override
+  String? get phone;
+  @override
+  String? get fbId;
   @override
   double? get latitude;
   @override
