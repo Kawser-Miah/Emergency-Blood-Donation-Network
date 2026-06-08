@@ -26,8 +26,7 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
     this._locationUseCase,
     this._markImComingUseCase,
     this._getMyInterestIdsUseCase,
-  )
-      : super(BloodRequestsState.initial()) {
+  ) : super(BloodRequestsState.initial()) {
     on<BloodRequestsEvent>((event, emit) async {
       await event.when(
         started: () => _load(emit, reset: true),
@@ -66,12 +65,11 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
           if (auth.profile?.isActive != true) return;
           final p = auth.profile;
           // Optimistic update — show card as "interested" immediately.
-          emit(state.copyWith(
-            interestedRequestIds: [
-              ...state.interestedRequestIds,
-              requestId,
-            ],
-          ));
+          emit(
+            state.copyWith(
+              interestedRequestIds: [...state.interestedRequestIds, requestId],
+            ),
+          );
           final result = await _markImComingUseCase(
             requestId: requestId,
             donorUid: uid,
@@ -81,13 +79,16 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
             totalDonations: p?.totalDonations ?? 0,
           );
           result.fold(
-            (_) => emit(state.copyWith(
-              interestedRequestIds: state.interestedRequestIds
-                  .where((id) => id != requestId)
-                  .toList(),
-              imComingFailed: !state.imComingFailed,
-            )),
-            (_) => emit(state.copyWith(imComingSuccess: !state.imComingSuccess)),
+            (_) => emit(
+              state.copyWith(
+                interestedRequestIds: state.interestedRequestIds
+                    .where((id) => id != requestId)
+                    .toList(),
+                imComingFailed: !state.imComingFailed,
+              ),
+            ),
+            (_) =>
+                emit(state.copyWith(imComingSuccess: !state.imComingSuccess)),
           );
         },
       );
@@ -98,10 +99,9 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
     Emitter<BloodRequestsState> emit, {
     required bool reset,
   }) async {
-    final lastNeedBy =
-        !reset && state.requests.isNotEmpty
-            ? state.requests.last.needBy
-            : null;
+    final lastNeedBy = !reset && state.requests.isNotEmpty
+        ? state.requests.last.needBy
+        : null;
 
     if (reset) {
       final auth = getIt<AuthController>();
@@ -173,7 +173,11 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
     BloodRequestsState state,
     List<BloodRequest> requests,
   ) {
-    var results = requests;
+    final now = DateTime.now();
+    final startOfToday = DateTime(now.year, now.month, now.day);
+    var results = requests
+        .where((r) => !r.needBy.isBefore(startOfToday))
+        .toList();
 
     if (state.selectedBloodGroup != 'All') {
       results = results
@@ -182,8 +186,9 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
     }
 
     if (state.selectedUrgency != 'All') {
-      results =
-          results.where((r) => r.urgency == state.selectedUrgency).toList();
+      results = results
+          .where((r) => r.urgency == state.selectedUrgency)
+          .toList();
     }
 
     final q = state.search.toLowerCase().trim();
