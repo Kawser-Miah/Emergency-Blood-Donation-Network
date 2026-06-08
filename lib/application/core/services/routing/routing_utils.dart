@@ -11,6 +11,7 @@ enum PAGES {
   profile,
   mapPicker,
   myRequests,
+  myInterests,
 }
 
 extension AppPageExtention on PAGES {
@@ -40,6 +41,8 @@ extension AppPageExtention on PAGES {
         return '/mapPicker';
       case PAGES.myRequests:
         return '/myRequests';
+      case PAGES.myInterests:
+        return '/myInterests';
     }
   }
 
@@ -69,6 +72,8 @@ extension AppPageExtention on PAGES {
         return 'Map Picker';
       case PAGES.myRequests:
         return 'My Requests';
+      case PAGES.myInterests:
+        return 'My Interests';
     }
   }
 }
