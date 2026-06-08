@@ -1,3 +1,4 @@
+import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
 import 'package:blood_setu/application/core/widgets/sparkle_loading_overlay.dart';
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart';
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_event.dart';
@@ -5,6 +6,7 @@ import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_state
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -960,6 +962,45 @@ class _SettingsSection extends StatelessWidget {
                       ],
                     ),
                   ),
+                InkWell(
+                  onTap: () =>
+                      context.push(PAGES.myInterests.screenPath),
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: AppColors.dividerLightest),
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.favorite_border,
+                          size: 18,
+                          color: AppColors.textTertiary,
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'My Interests',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          size: 16,
+                          color: AppColors.textDisabled,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
                 InkWell(
                   onTap: () async {
                     final confirmed = await Utils.showConfirmDialog(
