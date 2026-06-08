@@ -1,6 +1,7 @@
 import 'package:blood_setu/domain/models/nearby_donor.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../utils/utils.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/avatar.dart';
 
@@ -46,6 +47,8 @@ class DonorDetailsSheet extends StatelessWidget {
     final statusLabel = donor.isActive ? 'Available' : 'Unavailable';
     final statusStyle =
         _statusColors[statusLabel] ?? _statusColors['Available']!;
+    final hasPhone = donor.phone != null && donor.phone!.isNotEmpty;
+    final hasFb = donor.fbId != null && donor.fbId!.isNotEmpty;
 
     return Container(
       margin: const EdgeInsets.only(top: 60),
@@ -166,12 +169,31 @@ class DonorDetailsSheet extends StatelessWidget {
                       label: 'Donor Tier',
                       value: donor.donorTier,
                     ),
+                  if (hasPhone)
+                    _DonorDetailRow(
+                      icon: Icons.phone_outlined,
+                      label: 'Phone',
+                      value: donor.phone!,
+                      valueColor: AppColors.info,
+                      onTap: () => Utils.launchUrl('tel:${donor.phone}'),
+                    ),
+                  if (hasFb)
+                    _DonorDetailRow(
+                      icon: Icons.link,
+                      label: 'Facebook',
+                      value: donor.fbId!,
+                      valueColor: const Color(0xFF1877F2),
+                      onTap: () =>
+                          Utils.launchUrl(Utils.facebookUrl(donor.fbId!)),
+                    ),
                   const SizedBox(height: 24),
                   Row(
                     children: [
                       Expanded(
                         child: OutlinedButton.icon(
-                          onPressed: () {},
+                          onPressed: hasPhone
+                              ? () => Utils.launchUrl('tel:${donor.phone}')
+                              : null,
                           icon: const Icon(Icons.phone, size: 16),
                           label: const Text('Call'),
                           style: OutlinedButton.styleFrom(
@@ -242,6 +264,7 @@ class _DonorDetailRow extends StatelessWidget {
     required this.value,
     this.valueColor,
     this.valueBold = false,
+    this.onTap,
   });
 
   final IconData icon;
@@ -249,49 +272,68 @@ class _DonorDetailRow extends StatelessWidget {
   final String value;
   final Color? valueColor;
   final bool valueBold;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 16),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            width: 36,
-            height: 36,
-            decoration: BoxDecoration(
-              color: AppColors.dividerLightest,
-              borderRadius: BorderRadius.circular(10),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              width: 36,
+              height: 36,
+              decoration: BoxDecoration(
+                color: AppColors.dividerLightest,
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, size: 18, color: AppColors.textSecondary),
             ),
-            child: Icon(icon, size: 18, color: AppColors.textSecondary),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: const TextStyle(
-                    fontSize: 11,
-                    color: AppColors.textMuted,
-                    fontWeight: FontWeight.w500,
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    label,
+                    style: const TextStyle(
+                      fontSize: 11,
+                      color: AppColors.textMuted,
+                      fontWeight: FontWeight.w500,
+                    ),
                   ),
-                ),
-                const SizedBox(height: 2),
-                Text(
-                  value,
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: valueBold ? FontWeight.w700 : FontWeight.w500,
-                    color: valueColor ?? AppColors.textPrimary,
+                  const SizedBox(height: 2),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          value,
+                          style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: valueBold
+                                ? FontWeight.w700
+                                : FontWeight.w500,
+                            color: valueColor ?? AppColors.textPrimary,
+                          ),
+                        ),
+                      ),
+                      if (onTap != null)
+                        const Icon(
+                          Icons.open_in_new,
+                          size: 13,
+                          color: AppColors.textMuted,
+                        ),
+                    ],
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
