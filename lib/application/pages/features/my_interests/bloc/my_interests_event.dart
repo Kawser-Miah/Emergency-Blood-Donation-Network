@@ -8,4 +8,6 @@ class MyInterestsEvent with _$MyInterestsEvent {
   const factory MyInterestsEvent.refreshed() = _Refreshed;
   const factory MyInterestsEvent.withdrawRequested(String requestId) =
       _WithdrawRequested;
+  const factory MyInterestsEvent.bloodGivenMarked(String requestId) =
+      _BloodGivenMarked;
 }
