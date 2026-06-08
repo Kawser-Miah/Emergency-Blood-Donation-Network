@@ -198,13 +198,6 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i181.SpService>(),
       ),
     );
-    gh.factory<_i181.MyInterestsBloc>(
-      () => _i181.MyInterestsBloc(
-        gh<_i112.GetMyInterestsUseCase>(),
-        gh<_i886.WithdrawInterestUseCase>(),
-        gh<_i510.MarkBloodGivenUseCase>(),
-      ),
-    );
     gh.factory<_i579.HomeBloc>(
       () => _i579.HomeBloc(
         gh<_i881.RegistrationUserUseCase>(),
@@ -218,6 +211,14 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i18.SignInBloc>(
       () => _i18.SignInBloc(
         authenticationUseCase: gh<_i39.AuthenticationUseCase>(),
+      ),
+    );
+    gh.factory<_i181.MyInterestsBloc>(
+      () => _i181.MyInterestsBloc(
+        gh<_i112.GetMyInterestsUseCase>(),
+        gh<_i886.WithdrawInterestUseCase>(),
+        gh<_i510.MarkBloodGivenUseCase>(),
+        gh<_i141.DonationUseCase>(),
       ),
     );
     gh.factory<_i879.CreateRequestBloc>(
