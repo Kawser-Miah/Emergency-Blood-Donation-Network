@@ -285,6 +285,26 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
   }
 
   @override
+  Future<Either<Failure, void>> markExpiredBatch(List<String> ids) async {
+    if (ids.isEmpty) return const Right(null);
+    try {
+      final batch = _firestore.batch();
+      for (final id in ids) {
+        batch.update(
+          _firestore.collection('blood_requests').doc(id),
+          {'status': RequestStatus.expired.value},
+        );
+      }
+      await batch.commit();
+      return const Right(null);
+    } on FirebaseException catch (e) {
+      return Left(GeneralFailure(e.message ?? 'Failed to expire requests.'));
+    } catch (_) {
+      return Left(GeneralFailure('Failed to expire requests.'));
+    }
+  }
+
+  @override
   Future<Either<Failure, void>> deleteRequest(String id) async {
     try {
       final docRef = _firestore.collection('blood_requests').doc(id);
