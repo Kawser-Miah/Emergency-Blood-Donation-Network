@@ -37,15 +37,17 @@ class DonationRepositoryImpl extends DonationRepository {
         final currentLastDonation = data['lastDonation'] != null
             ? (data['lastDonation'] as Timestamp).toDate()
             : null;
-        final effectiveLastDonation = currentLastDonation == null ||
+        final effectiveLastDonation =
+            currentLastDonation == null ||
                 entry.date.isAfter(currentLastDonation)
             ? entry.date
             : currentLastDonation;
 
         // Donor must wait 90 days between donations. If the effective last
         // donation falls within that window, mark them inactive.
-        final threeMonthsAgo =
-            DateTime.now().subtract(const Duration(days: 90));
+        final threeMonthsAgo = DateTime.now().subtract(
+          const Duration(days: 90),
+        );
         final isActive = effectiveLastDonation.isBefore(threeMonthsAgo);
 
         tx.set(recordsRef.doc(), entry.toMap());
@@ -58,15 +60,11 @@ class DonationRepositoryImpl extends DonationRepository {
         });
 
         // Sync the same fields to user_locations (the searchable donor index).
-        tx.set(
-          locationRef,
-          {
-            'totalDonations': newCount,
-            'donorTier': tier,
-            'isActive': isActive,
-          },
-          SetOptions(merge: true),
-        );
+        tx.set(locationRef, {
+          'totalDonations': newCount,
+          'donorTier': tier,
+          'isActive': isActive,
+        }, SetOptions(merge: true));
       });
 
       return const Right(null);
@@ -100,6 +98,25 @@ class DonationRepositoryImpl extends DonationRepository {
       );
     } catch (_) {
       return Left(GeneralFailure('Failed to load donation history.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> reactivateDonor(String uid) async {
+    try {
+      final batch = _firestore.batch();
+      batch.update(_firestore.collection('profile').doc(uid), {
+        'isActive': true,
+      });
+      batch.update(_firestore.collection('user_locations').doc(uid), {
+        'isActive': true,
+      });
+      await batch.commit();
+      return const Right(null);
+    } on FirebaseException catch (e) {
+      return Left(GeneralFailure(e.message ?? 'Failed to reactivate donor.'));
+    } catch (_) {
+      return Left(GeneralFailure('Failed to reactivate donor.'));
     }
   }
 
