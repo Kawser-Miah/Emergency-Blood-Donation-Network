@@ -112,6 +112,7 @@ class _HomeView extends StatelessWidget {
                             userLat: state.userLat,
                             userLng: state.userLng,
                             userIsActive: state.profile?.isActive ?? false,
+                            interestedRequestIds: state.interestedRequestIds,
                             onMessage: (req) {},
                           ),
                         ],
@@ -714,6 +715,7 @@ class _ActiveRequests extends StatelessWidget {
     required this.isLoading,
     required this.onMessage,
     required this.userIsActive,
+    required this.interestedRequestIds,
     this.userLat,
     this.userLng,
   });
@@ -722,6 +724,7 @@ class _ActiveRequests extends StatelessWidget {
   final bool isLoading;
   final void Function(BloodRequest) onMessage;
   final bool userIsActive;
+  final List<String> interestedRequestIds;
   final double? userLat;
   final double? userLng;
 
@@ -803,7 +806,9 @@ class _ActiveRequests extends StatelessWidget {
                 userLat: userLat,
                 userLng: userLng,
                 onMessage: () => onMessage(req),
-                onImComing: userIsActive
+                isInterested: interestedRequestIds.contains(req.id),
+                onImComing: userIsActive &&
+                        !interestedRequestIds.contains(req.id)
                     ? () => context
                         .read<HomeBloc>()
                         .add(HomeEvent.imComing(req.id))
