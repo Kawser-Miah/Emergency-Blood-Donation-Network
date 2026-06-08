@@ -25,6 +25,7 @@ mixin _$MyRequestsEvent {
     required TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -47,6 +48,7 @@ mixin _$MyRequestsEvent {
     TResult? Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -69,6 +71,7 @@ mixin _$MyRequestsEvent {
     TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -188,6 +191,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -214,6 +218,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -240,6 +245,7 @@ class _$StartedImpl implements _Started {
     TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -361,6 +367,7 @@ class _$RefreshedImpl implements _Refreshed {
     required TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -387,6 +394,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult? Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -413,6 +421,7 @@ class _$RefreshedImpl implements _Refreshed {
     TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -565,6 +574,7 @@ class _$InterestedDonorsRequestedImpl implements _InterestedDonorsRequested {
     required TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -591,6 +601,7 @@ class _$InterestedDonorsRequestedImpl implements _InterestedDonorsRequested {
     TResult? Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -617,6 +628,7 @@ class _$InterestedDonorsRequestedImpl implements _InterestedDonorsRequested {
     TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -708,6 +720,7 @@ abstract class _$$RequestUpdatedImplCopyWith<$Res> {
   $Res call({
     String id,
     String patientName,
+    String bloodGroup,
     String contact,
     String hospital,
     String address,
@@ -736,6 +749,7 @@ class __$$RequestUpdatedImplCopyWithImpl<$Res>
   $Res call({
     Object? id = null,
     Object? patientName = null,
+    Object? bloodGroup = null,
     Object? contact = null,
     Object? hospital = null,
     Object? address = null,
@@ -755,6 +769,10 @@ class __$$RequestUpdatedImplCopyWithImpl<$Res>
         patientName: null == patientName
             ? _value.patientName
             : patientName // ignore: cast_nullable_to_non_nullable
+                  as String,
+        bloodGroup: null == bloodGroup
+            ? _value.bloodGroup
+            : bloodGroup // ignore: cast_nullable_to_non_nullable
                   as String,
         contact: null == contact
             ? _value.contact
@@ -803,6 +821,7 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
   const _$RequestUpdatedImpl({
     required this.id,
     required this.patientName,
+    required this.bloodGroup,
     required this.contact,
     required this.hospital,
     required this.address,
@@ -818,6 +837,8 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
   final String id;
   @override
   final String patientName;
+  @override
+  final String bloodGroup;
   @override
   final String contact;
   @override
@@ -839,7 +860,7 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
 
   @override
   String toString() {
-    return 'MyRequestsEvent.requestUpdated(id: $id, patientName: $patientName, contact: $contact, hospital: $hospital, address: $address, urgency: $urgency, units: $units, needBy: $needBy, notes: $notes, latitude: $latitude, longitude: $longitude)';
+    return 'MyRequestsEvent.requestUpdated(id: $id, patientName: $patientName, bloodGroup: $bloodGroup, contact: $contact, hospital: $hospital, address: $address, urgency: $urgency, units: $units, needBy: $needBy, notes: $notes, latitude: $latitude, longitude: $longitude)';
   }
 
   @override
@@ -850,6 +871,8 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
             (identical(other.id, id) || other.id == id) &&
             (identical(other.patientName, patientName) ||
                 other.patientName == patientName) &&
+            (identical(other.bloodGroup, bloodGroup) ||
+                other.bloodGroup == bloodGroup) &&
             (identical(other.contact, contact) || other.contact == contact) &&
             (identical(other.hospital, hospital) ||
                 other.hospital == hospital) &&
@@ -869,6 +892,7 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
     runtimeType,
     id,
     patientName,
+    bloodGroup,
     contact,
     hospital,
     address,
@@ -900,6 +924,7 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
     required TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -917,6 +942,7 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
     return requestUpdated(
       id,
       patientName,
+      bloodGroup,
       contact,
       hospital,
       address,
@@ -938,6 +964,7 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
     TResult? Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -955,6 +982,7 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
     return requestUpdated?.call(
       id,
       patientName,
+      bloodGroup,
       contact,
       hospital,
       address,
@@ -976,6 +1004,7 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
     TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -995,6 +1024,7 @@ class _$RequestUpdatedImpl implements _RequestUpdated {
       return requestUpdated(
         id,
         patientName,
+        bloodGroup,
         contact,
         hospital,
         address,
@@ -1060,6 +1090,7 @@ abstract class _RequestUpdated implements MyRequestsEvent {
   const factory _RequestUpdated({
     required final String id,
     required final String patientName,
+    required final String bloodGroup,
     required final String contact,
     required final String hospital,
     required final String address,
@@ -1073,6 +1104,7 @@ abstract class _RequestUpdated implements MyRequestsEvent {
 
   String get id;
   String get patientName;
+  String get bloodGroup;
   String get contact;
   String get hospital;
   String get address;
@@ -1169,6 +1201,7 @@ class _$RequestFulfilledImpl implements _RequestFulfilled {
     required TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -1195,6 +1228,7 @@ class _$RequestFulfilledImpl implements _RequestFulfilled {
     TResult? Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -1221,6 +1255,7 @@ class _$RequestFulfilledImpl implements _RequestFulfilled {
     TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -1380,6 +1415,7 @@ class _$RequestDeletedImpl implements _RequestDeleted {
     required TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -1406,6 +1442,7 @@ class _$RequestDeletedImpl implements _RequestDeleted {
     TResult? Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
@@ -1432,6 +1469,7 @@ class _$RequestDeletedImpl implements _RequestDeleted {
     TResult Function(
       String id,
       String patientName,
+      String bloodGroup,
       String contact,
       String hospital,
       String address,
