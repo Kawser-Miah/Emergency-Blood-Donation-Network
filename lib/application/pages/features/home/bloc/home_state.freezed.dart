@@ -29,6 +29,7 @@ mixin _$HomeState {
   bool get isLoadingRequests => throw _privateConstructorUsedError;
   bool get imComingSuccess => throw _privateConstructorUsedError;
   bool get imComingFailed => throw _privateConstructorUsedError;
+  List<String> get interestedRequestIds => throw _privateConstructorUsedError;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
@@ -55,6 +56,7 @@ abstract class $HomeStateCopyWith<$Res> {
     bool isLoadingRequests,
     bool imComingSuccess,
     bool imComingFailed,
+    List<String> interestedRequestIds,
   });
 }
 
@@ -85,6 +87,7 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
     Object? isLoadingRequests = null,
     Object? imComingSuccess = null,
     Object? imComingFailed = null,
+    Object? interestedRequestIds = null,
   }) {
     return _then(
       _value.copyWith(
@@ -136,6 +139,10 @@ class _$HomeStateCopyWithImpl<$Res, $Val extends HomeState>
                 ? _value.imComingFailed
                 : imComingFailed // ignore: cast_nullable_to_non_nullable
                       as bool,
+            interestedRequestIds: null == interestedRequestIds
+                ? _value.interestedRequestIds
+                : interestedRequestIds // ignore: cast_nullable_to_non_nullable
+                      as List<String>,
           )
           as $Val,
     );
@@ -164,6 +171,7 @@ abstract class _$$HomeStateImplCopyWith<$Res>
     bool isLoadingRequests,
     bool imComingSuccess,
     bool imComingFailed,
+    List<String> interestedRequestIds,
   });
 }
 
@@ -193,6 +201,7 @@ class __$$HomeStateImplCopyWithImpl<$Res>
     Object? isLoadingRequests = null,
     Object? imComingSuccess = null,
     Object? imComingFailed = null,
+    Object? interestedRequestIds = null,
   }) {
     return _then(
       _$HomeStateImpl(
@@ -244,6 +253,10 @@ class __$$HomeStateImplCopyWithImpl<$Res>
             ? _value.imComingFailed
             : imComingFailed // ignore: cast_nullable_to_non_nullable
                   as bool,
+        interestedRequestIds: null == interestedRequestIds
+            ? _value._interestedRequestIds
+            : interestedRequestIds // ignore: cast_nullable_to_non_nullable
+                  as List<String>,
       ),
     );
   }
@@ -265,8 +278,10 @@ class _$HomeStateImpl implements _HomeState {
     this.isLoadingRequests = true,
     this.imComingSuccess = false,
     this.imComingFailed = false,
+    final List<String> interestedRequestIds = const <String>[],
   }) : _nearbyDonors = nearbyDonors,
-       _bloodRequests = bloodRequests;
+       _bloodRequests = bloodRequests,
+       _interestedRequestIds = interestedRequestIds;
 
   @override
   @JsonKey()
@@ -312,10 +327,19 @@ class _$HomeStateImpl implements _HomeState {
   @override
   @JsonKey()
   final bool imComingFailed;
+  final List<String> _interestedRequestIds;
+  @override
+  @JsonKey()
+  List<String> get interestedRequestIds {
+    if (_interestedRequestIds is EqualUnmodifiableListView)
+      return _interestedRequestIds;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_interestedRequestIds);
+  }
 
   @override
   String toString() {
-    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed, profile: $profile, nearbyDonors: $nearbyDonors, isLoadingNearby: $isLoadingNearby, nearbyError: $nearbyError, userLat: $userLat, userLng: $userLng, bloodRequests: $bloodRequests, isLoadingRequests: $isLoadingRequests, imComingSuccess: $imComingSuccess, imComingFailed: $imComingFailed)';
+    return 'HomeState(showSidebar: $showSidebar, sosPressed: $sosPressed, profile: $profile, nearbyDonors: $nearbyDonors, isLoadingNearby: $isLoadingNearby, nearbyError: $nearbyError, userLat: $userLat, userLng: $userLng, bloodRequests: $bloodRequests, isLoadingRequests: $isLoadingRequests, imComingSuccess: $imComingSuccess, imComingFailed: $imComingFailed, interestedRequestIds: $interestedRequestIds)';
   }
 
   @override
@@ -347,7 +371,11 @@ class _$HomeStateImpl implements _HomeState {
             (identical(other.imComingSuccess, imComingSuccess) ||
                 other.imComingSuccess == imComingSuccess) &&
             (identical(other.imComingFailed, imComingFailed) ||
-                other.imComingFailed == imComingFailed));
+                other.imComingFailed == imComingFailed) &&
+            const DeepCollectionEquality().equals(
+              other._interestedRequestIds,
+              _interestedRequestIds,
+            ));
   }
 
   @override
@@ -365,6 +393,7 @@ class _$HomeStateImpl implements _HomeState {
     isLoadingRequests,
     imComingSuccess,
     imComingFailed,
+    const DeepCollectionEquality().hash(_interestedRequestIds),
   );
 
   /// Create a copy of HomeState
@@ -390,6 +419,7 @@ abstract class _HomeState implements HomeState {
     final bool isLoadingRequests,
     final bool imComingSuccess,
     final bool imComingFailed,
+    final List<String> interestedRequestIds,
   }) = _$HomeStateImpl;
 
   @override
@@ -416,6 +446,8 @@ abstract class _HomeState implements HomeState {
   bool get imComingSuccess;
   @override
   bool get imComingFailed;
+  @override
+  List<String> get interestedRequestIds;
 
   /// Create a copy of HomeState
   /// with the given fields replaced by the non-null parameter values.
