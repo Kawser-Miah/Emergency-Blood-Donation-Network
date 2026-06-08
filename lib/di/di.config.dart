@@ -160,29 +160,29 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i859.NearbyDonorsUseCase>(
       () => _i859.NearbyDonorsUseCase(gh<_i377.NearbyDonorsRepository>()),
     );
-    gh.factory<_i269.BloodRequestsUseCase>(
-      () => _i269.BloodRequestsUseCase(gh<_i3.BloodRequestRepository>()),
-    );
     gh.factory<_i948.MyRequestsUseCase>(
       () => _i948.MyRequestsUseCase(gh<_i3.BloodRequestRepository>()),
-    );
-    gh.factory<_i556.UpdateRequestUseCase>(
-      () => _i556.UpdateRequestUseCase(gh<_i3.BloodRequestRepository>()),
-    );
-    gh.factory<_i596.MarkImComingUseCase>(
-      () => _i596.MarkImComingUseCase(gh<_i3.BloodRequestRepository>()),
     );
     gh.factory<_i1060.GetInterestedDonorsUseCase>(
       () => _i1060.GetInterestedDonorsUseCase(gh<_i3.BloodRequestRepository>()),
     );
-    gh.factory<_i112.GetMyInterestsUseCase>(
-      () => _i112.GetMyInterestsUseCase(gh<_i3.BloodRequestRepository>()),
+    gh.factory<_i596.MarkImComingUseCase>(
+      () => _i596.MarkImComingUseCase(gh<_i3.BloodRequestRepository>()),
+    );
+    gh.factory<_i269.BloodRequestsUseCase>(
+      () => _i269.BloodRequestsUseCase(gh<_i3.BloodRequestRepository>()),
     );
     gh.factory<_i886.WithdrawInterestUseCase>(
       () => _i886.WithdrawInterestUseCase(gh<_i3.BloodRequestRepository>()),
     );
+    gh.factory<_i112.GetMyInterestsUseCase>(
+      () => _i112.GetMyInterestsUseCase(gh<_i3.BloodRequestRepository>()),
+    );
     gh.factory<_i510.MarkBloodGivenUseCase>(
       () => _i510.MarkBloodGivenUseCase(gh<_i3.BloodRequestRepository>()),
+    );
+    gh.factory<_i556.UpdateRequestUseCase>(
+      () => _i556.UpdateRequestUseCase(gh<_i3.BloodRequestRepository>()),
     );
     gh.factory<_i1060.LocationUseCase>(
       () => _i1060.LocationUseCase(gh<_i766.LocationRepository>()),
