@@ -15,6 +15,7 @@ class MyInterestsState with _$MyInterestsState {
     @Default(false) bool withdrawFailed,
     @Default(false) bool bloodGivenSuccess,
     @Default(false) bool bloodGivenFailed,
+    @Default(false) bool donationRecordFailed,
   }) = _MyInterestsState;
 
   factory MyInterestsState.initial() => const MyInterestsState();
