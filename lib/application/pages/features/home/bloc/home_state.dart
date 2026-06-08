@@ -21,6 +21,7 @@ class HomeState with _$HomeState {
     @Default(true) bool isLoadingRequests,
     @Default(false) bool imComingSuccess,
     @Default(false) bool imComingFailed,
+    @Default(<String>[]) List<String> interestedRequestIds,
   }) = _HomeState;
 
   factory HomeState.initial() => const HomeState();
