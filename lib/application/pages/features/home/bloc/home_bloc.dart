@@ -116,6 +116,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           final auth = getIt<AuthController>();
           final uid = auth.user?.uid;
           if (uid == null) return;
+          if (auth.profile?.isActive != true) return;
           final p = auth.profile;
           emit(state.copyWith(
             interestedRequestIds: [
