@@ -63,6 +63,8 @@ import 'package:blood_setu/domain/usecase/create_request_usecase.dart' as _i309;
 import 'package:blood_setu/domain/usecase/donation_usecase.dart' as _i141;
 import 'package:blood_setu/domain/usecase/get_interested_donors_usecase.dart'
     as _i1060;
+import 'package:blood_setu/domain/usecase/get_my_interest_ids_usecase.dart'
+    as _i164;
 import 'package:blood_setu/domain/usecase/get_my_interests_usecase.dart'
     as _i112;
 import 'package:blood_setu/domain/usecase/location_usecase.dart' as _i1060;
@@ -180,6 +182,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1060.LocationUseCase>(
       () => _i1060.LocationUseCase(gh<_i766.LocationRepository>()),
     );
+    gh.factory<_i164.GetMyInterestIdsUseCase>(
+      () => _i164.GetMyInterestIdsUseCase(gh<_i3.BloodRequestRepository>()),
+    );
     gh.factory<_i533.MyRequestsBloc>(
       () => _i533.MyRequestsBloc(
         gh<_i948.MyRequestsUseCase>(),
@@ -200,11 +205,14 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i510.MarkBloodGivenUseCase>(),
       ),
     );
-    gh.factory<_i340.BloodRequestsBloc>(
-      () => _i340.BloodRequestsBloc(
-        gh<_i269.BloodRequestsUseCase>(),
+    gh.factory<_i579.HomeBloc>(
+      () => _i579.HomeBloc(
+        gh<_i881.RegistrationUserUseCase>(),
         gh<_i1060.LocationUseCase>(),
+        gh<_i859.NearbyDonorsUseCase>(),
+        gh<_i269.BloodRequestsUseCase>(),
         gh<_i596.MarkImComingUseCase>(),
+        gh<_i164.GetMyInterestIdsUseCase>(),
       ),
     );
     gh.factory<_i18.SignInBloc>(
@@ -218,13 +226,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1060.LocationUseCase>(),
       ),
     );
-    gh.factory<_i579.HomeBloc>(
-      () => _i579.HomeBloc(
-        gh<_i881.RegistrationUserUseCase>(),
-        gh<_i1060.LocationUseCase>(),
-        gh<_i859.NearbyDonorsUseCase>(),
+    gh.factory<_i340.BloodRequestsBloc>(
+      () => _i340.BloodRequestsBloc(
         gh<_i269.BloodRequestsUseCase>(),
+        gh<_i1060.LocationUseCase>(),
         gh<_i596.MarkImComingUseCase>(),
+        gh<_i164.GetMyInterestIdsUseCase>(),
       ),
     );
     return this;
