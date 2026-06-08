@@ -11,6 +11,7 @@ import '../../../../core/widgets/avatar.dart';
 import '../../../../core/widgets/blood_request_card.dart';
 import '../../../../core/services/routing/routing_utils.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../../utils/blood_compat_util.dart';
 import '../bloc/home_bloc.dart';
 import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
@@ -112,6 +113,7 @@ class _HomeView extends StatelessWidget {
                             userLat: state.userLat,
                             userLng: state.userLng,
                             userIsActive: state.profile?.isActive ?? false,
+                            userBloodGroup: state.profile?.bloodGroup ?? '',
                             interestedRequestIds: state.interestedRequestIds,
                             onMessage: (req) {},
                           ),
@@ -715,6 +717,7 @@ class _ActiveRequests extends StatelessWidget {
     required this.isLoading,
     required this.onMessage,
     required this.userIsActive,
+    required this.userBloodGroup,
     required this.interestedRequestIds,
     this.userLat,
     this.userLng,
@@ -724,6 +727,7 @@ class _ActiveRequests extends StatelessWidget {
   final bool isLoading;
   final void Function(BloodRequest) onMessage;
   final bool userIsActive;
+  final String userBloodGroup;
   final List<String> interestedRequestIds;
   final double? userLat;
   final double? userLng;
@@ -801,19 +805,28 @@ class _ActiveRequests extends StatelessWidget {
             )
           else
             for (final req in requests) ...[
-              BloodRequestCard(
-                request: req,
-                userLat: userLat,
-                userLng: userLng,
-                onMessage: () => onMessage(req),
-                isInterested: interestedRequestIds.contains(req.id),
-                onImComing: userIsActive &&
-                        !interestedRequestIds.contains(req.id)
-                    ? () => context
-                        .read<HomeBloc>()
-                        .add(HomeEvent.imComing(req.id))
-                    : null,
-              ),
+              Builder(builder: (context) {
+                final compatible = isBloodGroupCompatible(
+                  userBloodGroup,
+                  req.bloodGroup,
+                );
+                return BloodRequestCard(
+                  request: req,
+                  userLat: userLat,
+                  userLng: userLng,
+                  onMessage: () => onMessage(req),
+                  isInterested: interestedRequestIds.contains(req.id),
+                  isCompatible: compatible,
+                  userIsActive: userIsActive,
+                  onImComing: userIsActive &&
+                          !interestedRequestIds.contains(req.id) &&
+                          compatible
+                      ? () => context
+                          .read<HomeBloc>()
+                          .add(HomeEvent.imComing(req.id))
+                      : null,
+                );
+              }),
               const SizedBox(height: 12),
             ],
         ],
