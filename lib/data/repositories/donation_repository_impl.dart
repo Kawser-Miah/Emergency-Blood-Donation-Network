@@ -18,6 +18,7 @@ class DonationRepositoryImpl extends DonationRepository {
   ) async {
     try {
       final profileRef = _firestore.collection('profile').doc(uid);
+      final locationRef = _firestore.collection('user_locations').doc(uid);
       final recordsRef = _firestore
           .collection('donations')
           .doc(uid)
@@ -25,16 +26,47 @@ class DonationRepositoryImpl extends DonationRepository {
 
       await _firestore.runTransaction((tx) async {
         final profileSnap = await tx.get(profileRef);
-        final currentCount =
-            (profileSnap.data()?['totalDonations'] as num?)?.toInt() ?? 0;
+        final data = profileSnap.data() ?? {};
+
+        final currentCount = (data['totalDonations'] as num?)?.toInt() ?? 0;
         final newCount = currentCount + 1;
+        final tier = _computeTier(newCount);
+
+        // Only advance lastDonation — never overwrite a newer date with an
+        // older one (donor may be recording a past donation retroactively).
+        final currentLastDonation = data['lastDonation'] != null
+            ? (data['lastDonation'] as Timestamp).toDate()
+            : null;
+        final effectiveLastDonation = currentLastDonation == null ||
+                entry.date.isAfter(currentLastDonation)
+            ? entry.date
+            : currentLastDonation;
+
+        // Donor must wait 90 days between donations. If the effective last
+        // donation falls within that window, mark them inactive.
+        final threeMonthsAgo =
+            DateTime.now().subtract(const Duration(days: 90));
+        final isActive = effectiveLastDonation.isBefore(threeMonthsAgo);
 
         tx.set(recordsRef.doc(), entry.toMap());
+
         tx.update(profileRef, {
           'totalDonations': newCount,
-          'lastDonation': Timestamp.fromDate(entry.date),
-          'donorTier': _computeTier(newCount),
+          'lastDonation': Timestamp.fromDate(effectiveLastDonation),
+          'donorTier': tier,
+          'isActive': isActive,
         });
+
+        // Sync the same fields to user_locations (the searchable donor index).
+        tx.set(
+          locationRef,
+          {
+            'totalDonations': newCount,
+            'donorTier': tier,
+            'isActive': isActive,
+          },
+          SetOptions(merge: true),
+        );
       });
 
       return const Right(null);
