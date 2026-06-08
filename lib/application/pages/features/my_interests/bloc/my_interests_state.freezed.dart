@@ -1,0 +1,288 @@
+// coverage:ignore-file
+// GENERATED CODE - DO NOT MODIFY BY HAND
+// ignore_for_file: type=lint
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+
+part of 'my_interests_state.dart';
+
+// **************************************************************************
+// FreezedGenerator
+// **************************************************************************
+
+T _$identity<T>(T value) => value;
+
+final _privateConstructorUsedError = UnsupportedError(
+  'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#adding-getters-and-methods-to-our-models',
+);
+
+/// @nodoc
+mixin _$MyInterestsState {
+  List<BloodRequest> get interests => throw _privateConstructorUsedError;
+  bool get isLoading => throw _privateConstructorUsedError;
+  String? get error => throw _privateConstructorUsedError;
+  String? get withdrawingId => throw _privateConstructorUsedError;
+  bool get withdrawSuccess => throw _privateConstructorUsedError;
+  bool get withdrawFailed => throw _privateConstructorUsedError;
+
+  /// Create a copy of MyInterestsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  $MyInterestsStateCopyWith<MyInterestsState> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class $MyInterestsStateCopyWith<$Res> {
+  factory $MyInterestsStateCopyWith(
+    MyInterestsState value,
+    $Res Function(MyInterestsState) then,
+  ) = _$MyInterestsStateCopyWithImpl<$Res, MyInterestsState>;
+  @useResult
+  $Res call({
+    List<BloodRequest> interests,
+    bool isLoading,
+    String? error,
+    String? withdrawingId,
+    bool withdrawSuccess,
+    bool withdrawFailed,
+  });
+}
+
+/// @nodoc
+class _$MyInterestsStateCopyWithImpl<$Res, $Val extends MyInterestsState>
+    implements $MyInterestsStateCopyWith<$Res> {
+  _$MyInterestsStateCopyWithImpl(this._value, this._then);
+
+  // ignore: unused_field
+  final $Val _value;
+  // ignore: unused_field
+  final $Res Function($Val) _then;
+
+  /// Create a copy of MyInterestsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? interests = null,
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? withdrawingId = freezed,
+    Object? withdrawSuccess = null,
+    Object? withdrawFailed = null,
+  }) {
+    return _then(
+      _value.copyWith(
+            interests: null == interests
+                ? _value.interests
+                : interests // ignore: cast_nullable_to_non_nullable
+                      as List<BloodRequest>,
+            isLoading: null == isLoading
+                ? _value.isLoading
+                : isLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            error: freezed == error
+                ? _value.error
+                : error // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            withdrawingId: freezed == withdrawingId
+                ? _value.withdrawingId
+                : withdrawingId // ignore: cast_nullable_to_non_nullable
+                      as String?,
+            withdrawSuccess: null == withdrawSuccess
+                ? _value.withdrawSuccess
+                : withdrawSuccess // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            withdrawFailed: null == withdrawFailed
+                ? _value.withdrawFailed
+                : withdrawFailed // ignore: cast_nullable_to_non_nullable
+                      as bool,
+          )
+          as $Val,
+    );
+  }
+}
+
+/// @nodoc
+abstract class _$$MyInterestsStateImplCopyWith<$Res>
+    implements $MyInterestsStateCopyWith<$Res> {
+  factory _$$MyInterestsStateImplCopyWith(
+    _$MyInterestsStateImpl value,
+    $Res Function(_$MyInterestsStateImpl) then,
+  ) = __$$MyInterestsStateImplCopyWithImpl<$Res>;
+  @override
+  @useResult
+  $Res call({
+    List<BloodRequest> interests,
+    bool isLoading,
+    String? error,
+    String? withdrawingId,
+    bool withdrawSuccess,
+    bool withdrawFailed,
+  });
+}
+
+/// @nodoc
+class __$$MyInterestsStateImplCopyWithImpl<$Res>
+    extends _$MyInterestsStateCopyWithImpl<$Res, _$MyInterestsStateImpl>
+    implements _$$MyInterestsStateImplCopyWith<$Res> {
+  __$$MyInterestsStateImplCopyWithImpl(
+    _$MyInterestsStateImpl _value,
+    $Res Function(_$MyInterestsStateImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of MyInterestsState
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? interests = null,
+    Object? isLoading = null,
+    Object? error = freezed,
+    Object? withdrawingId = freezed,
+    Object? withdrawSuccess = null,
+    Object? withdrawFailed = null,
+  }) {
+    return _then(
+      _$MyInterestsStateImpl(
+        interests: null == interests
+            ? _value._interests
+            : interests // ignore: cast_nullable_to_non_nullable
+                  as List<BloodRequest>,
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        error: freezed == error
+            ? _value.error
+            : error // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        withdrawingId: freezed == withdrawingId
+            ? _value.withdrawingId
+            : withdrawingId // ignore: cast_nullable_to_non_nullable
+                  as String?,
+        withdrawSuccess: null == withdrawSuccess
+            ? _value.withdrawSuccess
+            : withdrawSuccess // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        withdrawFailed: null == withdrawFailed
+            ? _value.withdrawFailed
+            : withdrawFailed // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$MyInterestsStateImpl implements _MyInterestsState {
+  const _$MyInterestsStateImpl({
+    final List<BloodRequest> interests = const <BloodRequest>[],
+    this.isLoading = true,
+    this.error,
+    this.withdrawingId,
+    this.withdrawSuccess = false,
+    this.withdrawFailed = false,
+  }) : _interests = interests;
+
+  final List<BloodRequest> _interests;
+  @override
+  @JsonKey()
+  List<BloodRequest> get interests {
+    if (_interests is EqualUnmodifiableListView) return _interests;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_interests);
+  }
+
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  final String? error;
+  @override
+  final String? withdrawingId;
+  @override
+  @JsonKey()
+  final bool withdrawSuccess;
+  @override
+  @JsonKey()
+  final bool withdrawFailed;
+
+  @override
+  String toString() {
+    return 'MyInterestsState(interests: $interests, isLoading: $isLoading, error: $error, withdrawingId: $withdrawingId, withdrawSuccess: $withdrawSuccess, withdrawFailed: $withdrawFailed)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$MyInterestsStateImpl &&
+            const DeepCollectionEquality().equals(
+              other._interests,
+              _interests,
+            ) &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.error, error) || other.error == error) &&
+            (identical(other.withdrawingId, withdrawingId) ||
+                other.withdrawingId == withdrawingId) &&
+            (identical(other.withdrawSuccess, withdrawSuccess) ||
+                other.withdrawSuccess == withdrawSuccess) &&
+            (identical(other.withdrawFailed, withdrawFailed) ||
+                other.withdrawFailed == withdrawFailed));
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    runtimeType,
+    const DeepCollectionEquality().hash(_interests),
+    isLoading,
+    error,
+    withdrawingId,
+    withdrawSuccess,
+    withdrawFailed,
+  );
+
+  /// Create a copy of MyInterestsState
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MyInterestsStateImplCopyWith<_$MyInterestsStateImpl> get copyWith =>
+      __$$MyInterestsStateImplCopyWithImpl<_$MyInterestsStateImpl>(
+        this,
+        _$identity,
+      );
+}
+
+abstract class _MyInterestsState implements MyInterestsState {
+  const factory _MyInterestsState({
+    final List<BloodRequest> interests,
+    final bool isLoading,
+    final String? error,
+    final String? withdrawingId,
+    final bool withdrawSuccess,
+    final bool withdrawFailed,
+  }) = _$MyInterestsStateImpl;
+
+  @override
+  List<BloodRequest> get interests;
+  @override
+  bool get isLoading;
+  @override
+  String? get error;
+  @override
+  String? get withdrawingId;
+  @override
+  bool get withdrawSuccess;
+  @override
+  bool get withdrawFailed;
+
+  /// Create a copy of MyInterestsState
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MyInterestsStateImplCopyWith<_$MyInterestsStateImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
