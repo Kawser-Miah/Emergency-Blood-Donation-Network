@@ -23,6 +23,7 @@ class BloodRequestsState with _$BloodRequestsState {
     @Default(false) bool imComingSuccess,
     @Default(false) bool imComingFailed,
     @Default(true) bool userIsActive,
+    @Default(<String>[]) List<String> interestedRequestIds,
   }) = _BloodRequestsState;
 
   factory BloodRequestsState.initial() => const BloodRequestsState();
