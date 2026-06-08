@@ -66,6 +66,8 @@ import 'package:blood_setu/domain/usecase/get_interested_donors_usecase.dart'
 import 'package:blood_setu/domain/usecase/get_my_interests_usecase.dart'
     as _i112;
 import 'package:blood_setu/domain/usecase/location_usecase.dart' as _i1060;
+import 'package:blood_setu/domain/usecase/mark_blood_given_usecase.dart'
+    as _i510;
 import 'package:blood_setu/domain/usecase/mark_im_coming_usecase.dart' as _i596;
 import 'package:blood_setu/domain/usecase/my_requests_usecase.dart' as _i948;
 import 'package:blood_setu/domain/usecase/nearby_donors_usecase.dart' as _i859;
@@ -172,6 +174,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i886.WithdrawInterestUseCase>(
       () => _i886.WithdrawInterestUseCase(gh<_i3.BloodRequestRepository>()),
     );
+    gh.factory<_i510.MarkBloodGivenUseCase>(
+      () => _i510.MarkBloodGivenUseCase(gh<_i3.BloodRequestRepository>()),
+    );
     gh.factory<_i1060.LocationUseCase>(
       () => _i1060.LocationUseCase(gh<_i766.LocationRepository>()),
     );
@@ -182,16 +187,17 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1060.GetInterestedDonorsUseCase>(),
       ),
     );
-    gh.factory<_i181.MyInterestsBloc>(
-      () => _i181.MyInterestsBloc(
-        gh<_i112.GetMyInterestsUseCase>(),
-        gh<_i886.WithdrawInterestUseCase>(),
-      ),
-    );
     gh.factory<_i405.DonorsBloc>(
       () => _i405.DonorsBloc(
         gh<_i859.NearbyDonorsUseCase>(),
         gh<_i181.SpService>(),
+      ),
+    );
+    gh.factory<_i181.MyInterestsBloc>(
+      () => _i181.MyInterestsBloc(
+        gh<_i112.GetMyInterestsUseCase>(),
+        gh<_i886.WithdrawInterestUseCase>(),
+        gh<_i510.MarkBloodGivenUseCase>(),
       ),
     );
     gh.factory<_i340.BloodRequestsBloc>(
