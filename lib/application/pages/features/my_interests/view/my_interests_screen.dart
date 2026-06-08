@@ -53,6 +53,16 @@ class MyInterestsScreen extends StatelessWidget {
               color: AppColors.primary,
             ),
           ),
+          BlocListener<MyInterestsBloc, MyInterestsState>(
+            listenWhen: (p, c) =>
+                p.donationRecordFailed != c.donationRecordFailed,
+            listener: (context, _) => Utils.showSnackBar(
+              context,
+              content:
+                  'Blood given saved, but donation history failed to update. Please add it manually from your profile.',
+              color: AppColors.warning,
+            ),
+          ),
         ],
         child: const _MyInterestsView(),
       ),
