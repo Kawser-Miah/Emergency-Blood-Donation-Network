@@ -669,24 +669,27 @@ class _MyRequestDetailSheet extends StatelessWidget {
                       ),
                     ],
 
-                    // Delete button (always visible)
-                    const SizedBox(height: 12),
-                    SizedBox(
-                      width: double.infinity,
-                      child: OutlinedButton.icon(
-                        onPressed: () => _confirmDelete(context),
-                        icon: const Icon(Icons.delete_outline, size: 16),
-                        label: const Text('Delete Request'),
-                        style: OutlinedButton.styleFrom(
-                          foregroundColor: Colors.red,
-                          side: const BorderSide(color: Colors.red, width: 1.5),
-                          padding: const EdgeInsets.symmetric(vertical: 12),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(14),
+                    // Delete button (hidden when fulfilled)
+                    if (request.status != RequestStatus.fulfilled) ...[
+                      const SizedBox(height: 12),
+                      SizedBox(
+                        width: double.infinity,
+                        child: OutlinedButton.icon(
+                          onPressed: () => _confirmDelete(context),
+                          icon: const Icon(Icons.delete_outline, size: 16),
+                          label: const Text('Delete Request'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: Colors.red,
+                            side:
+                                const BorderSide(color: Colors.red, width: 1.5),
+                            padding: const EdgeInsets.symmetric(vertical: 12),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(14),
+                            ),
                           ),
                         ),
                       ),
-                    ),
+                    ],
 
                     // Who's Coming section
                     const SizedBox(height: 24),
