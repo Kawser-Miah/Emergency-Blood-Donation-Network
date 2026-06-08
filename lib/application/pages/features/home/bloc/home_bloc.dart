@@ -99,12 +99,19 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
           );
           requestsResult.fold(
             (_) => emit(state.copyWith(isLoadingRequests: false)),
-            (requests) => emit(
-              state.copyWith(
-                bloodRequests: requests,
-                isLoadingRequests: false,
-              ),
-            ),
+            (requests) {
+              final now = DateTime.now();
+              final startOfToday = DateTime(now.year, now.month, now.day);
+              final active = requests
+                  .where((r) => !r.needBy.isBefore(startOfToday))
+                  .toList();
+              emit(
+                state.copyWith(
+                  bloodRequests: active,
+                  isLoadingRequests: false,
+                ),
+              );
+            },
           );
 
           final idsResult = await _getMyInterestIdsUseCase(uid);
