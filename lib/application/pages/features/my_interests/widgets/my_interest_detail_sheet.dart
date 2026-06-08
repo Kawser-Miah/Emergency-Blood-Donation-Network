@@ -21,7 +21,8 @@ class MyInterestDetailSheet extends StatelessWidget {
     final urg =
         bloodRequestUrgencyConfig[request.urgency] ??
         bloodRequestUrgencyConfig['NORMAL']!;
-    final isActive = request.status == RequestStatus.active;
+    final isActive = request.status == RequestStatus.active ||
+        request.status == RequestStatus.expired;
 
     return BlocListener<MyInterestsBloc, MyInterestsState>(
       listenWhen: (p, c) => p.withdrawSuccess != c.withdrawSuccess,
