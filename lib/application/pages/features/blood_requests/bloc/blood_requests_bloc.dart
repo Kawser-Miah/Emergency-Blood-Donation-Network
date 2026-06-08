@@ -4,6 +4,7 @@ import 'package:blood_setu/domain/failures/failures.dart';
 import 'package:blood_setu/domain/models/blood_request.dart';
 import 'package:blood_setu/domain/usecase/blood_requests_usecase.dart';
 import 'package:blood_setu/domain/usecase/location_usecase.dart';
+import 'package:blood_setu/domain/usecase/get_my_interest_ids_usecase.dart';
 import 'package:blood_setu/domain/usecase/mark_im_coming_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:injectable/injectable.dart';
@@ -16,10 +17,16 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
   final BloodRequestsUseCase _useCase;
   final LocationUseCase _locationUseCase;
   final MarkImComingUseCase _markImComingUseCase;
+  final GetMyInterestIdsUseCase _getMyInterestIdsUseCase;
 
   static const int _pageSize = 20;
 
-  BloodRequestsBloc(this._useCase, this._locationUseCase, this._markImComingUseCase)
+  BloodRequestsBloc(
+    this._useCase,
+    this._locationUseCase,
+    this._markImComingUseCase,
+    this._getMyInterestIdsUseCase,
+  )
       : super(BloodRequestsState.initial()) {
     on<BloodRequestsEvent>((event, emit) async {
       await event.when(
@@ -57,6 +64,13 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
           final uid = auth.user?.uid;
           if (uid == null) return;
           final p = auth.profile;
+          // Optimistic update — show card as "interested" immediately.
+          emit(state.copyWith(
+            interestedRequestIds: [
+              ...state.interestedRequestIds,
+              requestId,
+            ],
+          ));
           final result = await _markImComingUseCase(
             requestId: requestId,
             donorUid: uid,
@@ -66,7 +80,12 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
             totalDonations: p?.totalDonations ?? 0,
           );
           result.fold(
-            (_) => emit(state.copyWith(imComingFailed: !state.imComingFailed)),
+            (_) => emit(state.copyWith(
+              interestedRequestIds: state.interestedRequestIds
+                  .where((id) => id != requestId)
+                  .toList(),
+              imComingFailed: !state.imComingFailed,
+            )),
             (_) => emit(state.copyWith(imComingSuccess: !state.imComingSuccess)),
           );
         },
@@ -122,9 +141,7 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
         ),
       ),
       (fetched) {
-        final all = reset
-            ? fetched
-            : [...state.requests, ...fetched];
+        final all = reset ? fetched : [...state.requests, ...fetched];
         emit(
           state.copyWith(
             requests: all,
@@ -137,6 +154,17 @@ class BloodRequestsBloc extends Bloc<BloodRequestsEvent, BloodRequestsState> {
         );
       },
     );
+
+    if (reset) {
+      final uid = getIt<AuthController>().user?.uid;
+      if (uid != null) {
+        final idsResult = await _getMyInterestIdsUseCase(uid);
+        idsResult.fold(
+          (_) {},
+          (ids) => emit(state.copyWith(interestedRequestIds: ids)),
+        );
+      }
+    }
   }
 
   static List<BloodRequest> _applyFilters(
