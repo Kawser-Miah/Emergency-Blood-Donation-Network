@@ -106,19 +106,33 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
     int totalDonations = 0,
   }) async {
     try {
-      await _firestore
-          .collection('blood_requests')
-          .doc(requestId)
-          .collection('interested_donors')
-          .doc(donorUid)
-          .set(
-            InterestedDonor.toWriteMap(
-              name: donorName,
-              bloodGroup: donorBloodGroup,
-              lastDonation: lastDonation,
-              totalDonations: totalDonations,
-            ),
-          );
+      final batch = _firestore.batch();
+
+      batch.set(
+        _firestore
+            .collection('blood_requests')
+            .doc(requestId)
+            .collection('interested_donors')
+            .doc(donorUid),
+        InterestedDonor.toWriteMap(
+          name: donorName,
+          bloodGroup: donorBloodGroup,
+          lastDonation: lastDonation,
+          totalDonations: totalDonations,
+        ),
+      );
+
+      // Denormalized record so the donor can query their own interests.
+      batch.set(
+        _firestore
+            .collection('profile')
+            .doc(donorUid)
+            .collection('my_interests')
+            .doc(requestId),
+        {'requestId': requestId, 'timestamp': FieldValue.serverTimestamp()},
+      );
+
+      await batch.commit();
       return const Right(null);
     } on FirebaseException catch (e) {
       return Left(GeneralFailure(e.message ?? 'Failed to register interest.'));
@@ -148,6 +162,71 @@ class BloodRequestRepositoryImpl extends BloodRequestRepository {
       );
     } catch (_) {
       return Left(GeneralFailure('Failed to load interested donors.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, List<BloodRequest>>> getMyInterests(
+    String donorUid,
+  ) async {
+    try {
+      final snapshot = await _firestore
+          .collection('profile')
+          .doc(donorUid)
+          .collection('my_interests')
+          .orderBy('timestamp', descending: true)
+          .get();
+
+      if (snapshot.docs.isEmpty) return const Right([]);
+
+      final requests = <BloodRequest>[];
+      for (final doc in snapshot.docs) {
+        final requestId = doc.id;
+        final reqDoc = await _firestore
+            .collection('blood_requests')
+            .doc(requestId)
+            .get();
+        if (reqDoc.exists && reqDoc.data() != null) {
+          requests.add(BloodRequest.fromMap(reqDoc.id, reqDoc.data()!));
+        }
+      }
+      return Right(requests);
+    } on FirebaseException catch (e) {
+      return Left(
+        GeneralFailure(e.message ?? 'Failed to load your interests.'),
+      );
+    } catch (_) {
+      return Left(GeneralFailure('Failed to load your interests.'));
+    }
+  }
+
+  @override
+  Future<Either<Failure, void>> withdrawInterest({
+    required String requestId,
+    required String donorUid,
+  }) async {
+    try {
+      final batch = _firestore.batch();
+      batch.delete(
+        _firestore
+            .collection('blood_requests')
+            .doc(requestId)
+            .collection('interested_donors')
+            .doc(donorUid),
+      );
+      batch.delete(
+        _firestore
+            .collection('profile')
+            .doc(donorUid)
+            .collection('my_interests')
+            .doc(requestId),
+      );
+      await batch.commit();
+      return const Right(null);
+    } on FirebaseException catch (e) {
+      return Left(GeneralFailure(e.message ?? 'Failed to withdraw interest.'));
+    } catch (_) {
+      return Left(GeneralFailure('Failed to withdraw interest.'));
     }
   }
 
