@@ -2,6 +2,7 @@ import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/models/donation_history_entry.dart';
 import 'package:blood_setu/domain/usecase/donation_usecase.dart';
+import 'package:blood_setu/utils/blood_compat_util.dart';
 import 'package:blood_setu/domain/usecase/get_my_interests_usecase.dart';
 import 'package:blood_setu/domain/usecase/mark_blood_given_usecase.dart';
 import 'package:blood_setu/domain/usecase/withdraw_interest_usecase.dart';
@@ -94,6 +95,18 @@ class MyInterestsBloc extends Bloc<MyInterestsEvent, MyInterestsState> {
     final uid = auth.user?.uid;
     if (uid == null) return;
 
+    // Guard: donor's blood group must be compatible with the request.
+    final entry = state.interests.firstWhere((e) => e.request.id == requestId);
+    if (!isBloodGroupCompatible(
+      auth.profile?.bloodGroup ?? '',
+      entry.request.bloodGroup,
+    )) {
+      emit(state.copyWith(
+        bloodGroupIncompatible: !state.bloodGroupIncompatible,
+      ));
+      return;
+    }
+
     emit(state.copyWith(markingBloodGivenId: requestId));
 
     final givenResult = await _markBloodGivenUseCase(
@@ -112,7 +125,6 @@ class MyInterestsBloc extends Bloc<MyInterestsEvent, MyInterestsState> {
     }
 
     // bloodGiven flag saved — update UI immediately.
-    final entry = state.interests.firstWhere((e) => e.request.id == requestId);
     final updated = state.interests.map((e) {
       if (e.request.id == requestId) return e.copyWith(bloodGiven: true);
       return e;
