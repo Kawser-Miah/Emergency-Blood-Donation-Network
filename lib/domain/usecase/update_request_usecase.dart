@@ -14,6 +14,7 @@ class UpdateRequestUseCase {
   Future<Either<Failure, void>> call({
     required String id,
     required String patientName,
+    required String bloodGroup,
     required String contact,
     required String hospital,
     required String address,
@@ -26,6 +27,7 @@ class UpdateRequestUseCase {
   }) {
     final fields = <String, dynamic>{
       'patientName': patientName,
+      'bloodGroup': bloodGroup,
       'contact': contact,
       'hospital': hospital,
       'address': address,
