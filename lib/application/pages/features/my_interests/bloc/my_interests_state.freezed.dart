@@ -27,6 +27,7 @@ mixin _$MyInterestsState {
   bool get bloodGivenSuccess => throw _privateConstructorUsedError;
   bool get bloodGivenFailed => throw _privateConstructorUsedError;
   bool get donationRecordFailed => throw _privateConstructorUsedError;
+  bool get bloodGroupIncompatible => throw _privateConstructorUsedError;
 
   /// Create a copy of MyInterestsState
   /// with the given fields replaced by the non-null parameter values.
@@ -53,6 +54,7 @@ abstract class $MyInterestsStateCopyWith<$Res> {
     bool bloodGivenSuccess,
     bool bloodGivenFailed,
     bool donationRecordFailed,
+    bool bloodGroupIncompatible,
   });
 }
 
@@ -81,6 +83,7 @@ class _$MyInterestsStateCopyWithImpl<$Res, $Val extends MyInterestsState>
     Object? bloodGivenSuccess = null,
     Object? bloodGivenFailed = null,
     Object? donationRecordFailed = null,
+    Object? bloodGroupIncompatible = null,
   }) {
     return _then(
       _value.copyWith(
@@ -124,6 +127,10 @@ class _$MyInterestsStateCopyWithImpl<$Res, $Val extends MyInterestsState>
                 ? _value.donationRecordFailed
                 : donationRecordFailed // ignore: cast_nullable_to_non_nullable
                       as bool,
+            bloodGroupIncompatible: null == bloodGroupIncompatible
+                ? _value.bloodGroupIncompatible
+                : bloodGroupIncompatible // ignore: cast_nullable_to_non_nullable
+                      as bool,
           )
           as $Val,
     );
@@ -150,6 +157,7 @@ abstract class _$$MyInterestsStateImplCopyWith<$Res>
     bool bloodGivenSuccess,
     bool bloodGivenFailed,
     bool donationRecordFailed,
+    bool bloodGroupIncompatible,
   });
 }
 
@@ -177,6 +185,7 @@ class __$$MyInterestsStateImplCopyWithImpl<$Res>
     Object? bloodGivenSuccess = null,
     Object? bloodGivenFailed = null,
     Object? donationRecordFailed = null,
+    Object? bloodGroupIncompatible = null,
   }) {
     return _then(
       _$MyInterestsStateImpl(
@@ -220,6 +229,10 @@ class __$$MyInterestsStateImplCopyWithImpl<$Res>
             ? _value.donationRecordFailed
             : donationRecordFailed // ignore: cast_nullable_to_non_nullable
                   as bool,
+        bloodGroupIncompatible: null == bloodGroupIncompatible
+            ? _value.bloodGroupIncompatible
+            : bloodGroupIncompatible // ignore: cast_nullable_to_non_nullable
+                  as bool,
       ),
     );
   }
@@ -239,6 +252,7 @@ class _$MyInterestsStateImpl implements _MyInterestsState {
     this.bloodGivenSuccess = false,
     this.bloodGivenFailed = false,
     this.donationRecordFailed = false,
+    this.bloodGroupIncompatible = false,
   }) : _interests = interests;
 
   final List<MyInterestEntry> _interests;
@@ -274,10 +288,13 @@ class _$MyInterestsStateImpl implements _MyInterestsState {
   @override
   @JsonKey()
   final bool donationRecordFailed;
+  @override
+  @JsonKey()
+  final bool bloodGroupIncompatible;
 
   @override
   String toString() {
-    return 'MyInterestsState(interests: $interests, isLoading: $isLoading, error: $error, withdrawingId: $withdrawingId, markingBloodGivenId: $markingBloodGivenId, withdrawSuccess: $withdrawSuccess, withdrawFailed: $withdrawFailed, bloodGivenSuccess: $bloodGivenSuccess, bloodGivenFailed: $bloodGivenFailed, donationRecordFailed: $donationRecordFailed)';
+    return 'MyInterestsState(interests: $interests, isLoading: $isLoading, error: $error, withdrawingId: $withdrawingId, markingBloodGivenId: $markingBloodGivenId, withdrawSuccess: $withdrawSuccess, withdrawFailed: $withdrawFailed, bloodGivenSuccess: $bloodGivenSuccess, bloodGivenFailed: $bloodGivenFailed, donationRecordFailed: $donationRecordFailed, bloodGroupIncompatible: $bloodGroupIncompatible)';
   }
 
   @override
@@ -305,7 +322,9 @@ class _$MyInterestsStateImpl implements _MyInterestsState {
             (identical(other.bloodGivenFailed, bloodGivenFailed) ||
                 other.bloodGivenFailed == bloodGivenFailed) &&
             (identical(other.donationRecordFailed, donationRecordFailed) ||
-                other.donationRecordFailed == donationRecordFailed));
+                other.donationRecordFailed == donationRecordFailed) &&
+            (identical(other.bloodGroupIncompatible, bloodGroupIncompatible) ||
+                other.bloodGroupIncompatible == bloodGroupIncompatible));
   }
 
   @override
@@ -321,6 +340,7 @@ class _$MyInterestsStateImpl implements _MyInterestsState {
     bloodGivenSuccess,
     bloodGivenFailed,
     donationRecordFailed,
+    bloodGroupIncompatible,
   );
 
   /// Create a copy of MyInterestsState
@@ -347,6 +367,7 @@ abstract class _MyInterestsState implements MyInterestsState {
     final bool bloodGivenSuccess,
     final bool bloodGivenFailed,
     final bool donationRecordFailed,
+    final bool bloodGroupIncompatible,
   }) = _$MyInterestsStateImpl;
 
   @override
@@ -369,6 +390,8 @@ abstract class _MyInterestsState implements MyInterestsState {
   bool get bloodGivenFailed;
   @override
   bool get donationRecordFailed;
+  @override
+  bool get bloodGroupIncompatible;
 
   /// Create a copy of MyInterestsState
   /// with the given fields replaced by the non-null parameter values.
