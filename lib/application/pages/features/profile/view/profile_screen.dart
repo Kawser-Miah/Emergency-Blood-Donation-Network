@@ -14,6 +14,7 @@ import '../../../../core/theme/colors.dart';
 import '../bloc/profile_bloc.dart';
 import '../bloc/profile_event.dart';
 import '../bloc/profile_state.dart';
+import '../widgets/profile_add_donation_sheet.dart';
 import '../widgets/profile_badges_section.dart';
 import '../widgets/profile_cover_photo.dart';
 import '../widgets/profile_donation_history.dart';
@@ -45,6 +46,19 @@ class ProfileScreen extends StatelessWidget {
 class _ProfileView extends StatelessWidget {
   const _ProfileView();
 
+  void _openAddDonation(BuildContext context, ProfileState state) {
+    final bloc = context.read<ProfileBloc>();
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (_) => BlocProvider.value(
+        value: bloc,
+        child: AddDonationSheet(bloodGroup: state.profile!.bloodGroup ?? ''),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<SignInBloc, SignInState>(
@@ -65,6 +79,21 @@ class _ProfileView extends StatelessWidget {
           builder: (context, state) {
             return Scaffold(
               backgroundColor: AppColors.background,
+              floatingActionButton: state.profile == null
+                  ? null
+                  : FloatingActionButton.extended(
+                      onPressed: () => _openAddDonation(context, state),
+                      backgroundColor: AppColors.primary,
+                      foregroundColor: Colors.white,
+                      icon: const Icon(Icons.add, size: 20),
+                      label: const Text(
+                        'Record Donation',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                    ),
               body: Stack(
                 children: [
                   SingleChildScrollView(
