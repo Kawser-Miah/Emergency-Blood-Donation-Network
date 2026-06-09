@@ -1,7 +1,8 @@
 import 'package:blood_setu/di/di.dart';
+import 'package:blood_setu/domain/models/user_profile_model.dart';
+import 'package:blood_setu/domain/usecase/registration_user_usecase.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 
 import '../../../../../utils/utils.dart';
 import '../../../../core/constants/bangladesh_locations.dart';
@@ -27,19 +28,28 @@ const List<String> _bloodGroups = [
 ];
 
 class RegistrationScreen extends StatelessWidget {
-  const RegistrationScreen({super.key});
+  const RegistrationScreen({super.key, this.initialProfile});
+
+  final UserProfileModel? initialProfile;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => getIt<RegistrationBloc>(),
-      child: const _RegistrationView(),
+      create: (_) => initialProfile != null
+          ? RegistrationBloc.edit(
+              getIt<RegistrationUserUseCase>(),
+              initialProfile!,
+            )
+          : getIt<RegistrationBloc>(),
+      child: _RegistrationView(isEditMode: initialProfile != null),
     );
   }
 }
 
 class _RegistrationView extends StatelessWidget {
-  const _RegistrationView();
+  const _RegistrationView({required this.isEditMode});
+
+  final bool isEditMode;
 
   @override
   Widget build(BuildContext context) {
@@ -51,15 +61,26 @@ class _RegistrationView extends StatelessWidget {
             context,
             content: state.errorMessage.isNotEmpty
                 ? state.errorMessage
-                : 'Registration failed. Please try again.',
+                : isEditMode
+                    ? 'Update failed. Please try again.'
+                    : 'Registration failed. Please try again.',
             color: Colors.red.shade600,
           );
         } else if (state.status == RegistrationStatus.success) {
-          Utils.showSnackBar(
-            context,
-            content: 'Registration successful!',
-            color: Colors.green,
-          );
+          if (isEditMode) {
+            Navigator.of(context).pop();
+            Utils.showSnackBar(
+              context,
+              content: 'Profile updated successfully!',
+              color: Colors.green,
+            );
+          } else {
+            Utils.showSnackBar(
+              context,
+              content: 'Registration successful!',
+              color: Colors.green,
+            );
+          }
         }
       },
       builder: (context, state) {
@@ -70,7 +91,15 @@ class _RegistrationView extends StatelessWidget {
             children: [
               Column(
                 children: [
-                  const RegistrationHeaderWidget(),
+                  RegistrationHeaderWidget(
+                    title: isEditMode ? 'Edit Profile' : 'Complete Your Profile',
+                    subtitle: isEditMode
+                        ? 'Update your information below'
+                        : 'This helps us match you with blood seekers',
+                    onBack: isEditMode
+                        ? () => Navigator.of(context).pop()
+                        : null,
+                  ),
                   RegistrationProgressWidget(
                     step: state.step,
                     onStepTap: (_) => context.read<RegistrationBloc>().add(
@@ -82,7 +111,7 @@ class _RegistrationView extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(16, 16, 16, 96),
                       child: state.step == 1
                           ? _Step1(state: state)
-                          : _Step2(state: state),
+                          : _Step2(state: state, isEditMode: isEditMode),
                     ),
                   ),
                 ],
@@ -126,7 +155,9 @@ class _RegistrationView extends StatelessWidget {
                       child: Text(
                         state.step == 1
                             ? 'Continue →'
-                            : 'Complete Registration',
+                            : isEditMode
+                                ? 'Save Changes'
+                                : 'Complete Registration',
                         style: const TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w600,
@@ -409,8 +440,9 @@ class _Step1 extends StatelessWidget {
 }
 
 class _Step2 extends StatelessWidget {
-  const _Step2({required this.state});
+  const _Step2({required this.state, this.isEditMode = false});
   final RegistrationState state;
+  final bool isEditMode;
 
   @override
   Widget build(BuildContext context) {
@@ -510,46 +542,47 @@ class _Step2 extends StatelessWidget {
             style: const TextStyle(fontSize: 14, color: AppColors.textPrimary),
           ),
         ),
-        InkWell(
-          onTap: () => bloc.add(const RegistrationEvent.confirmedToggled()),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(vertical: 4),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  width: 20,
-                  height: 20,
-                  margin: const EdgeInsets.only(top: 2, right: 12),
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: state.confirmed ? AppColors.primary : Colors.white,
-                    borderRadius: BorderRadius.circular(4),
-                    border: Border.all(
-                      color: state.confirmed
-                          ? AppColors.primary
-                          : AppColors.textDisabled,
-                      width: 2,
+        if (!isEditMode)
+          InkWell(
+            onTap: () => bloc.add(const RegistrationEvent.confirmedToggled()),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(vertical: 4),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    width: 20,
+                    height: 20,
+                    margin: const EdgeInsets.only(top: 2, right: 12),
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: state.confirmed ? AppColors.primary : Colors.white,
+                      borderRadius: BorderRadius.circular(4),
+                      border: Border.all(
+                        color: state.confirmed
+                            ? AppColors.primary
+                            : AppColors.textDisabled,
+                        width: 2,
+                      ),
+                    ),
+                    child: state.confirmed
+                        ? const Icon(Icons.check, size: 12, color: Colors.white)
+                        : null,
+                  ),
+                  const Expanded(
+                    child: Text(
+                      'I confirm I have no medical restrictions that prevent blood donation',
+                      style: TextStyle(
+                        fontSize: 12,
+                        color: AppColors.textSecondary,
+                        height: 1.6,
+                      ),
                     ),
                   ),
-                  child: state.confirmed
-                      ? const Icon(Icons.check, size: 12, color: Colors.white)
-                      : null,
-                ),
-                const Expanded(
-                  child: Text(
-                    'I confirm I have no medical restrictions that prevent blood donation',
-                    style: TextStyle(
-                      fontSize: 12,
-                      color: AppColors.textSecondary,
-                      height: 1.6,
-                    ),
-                  ),
-                ),
-              ],
+                ],
+              ),
             ),
           ),
-        ),
       ],
     );
   }
