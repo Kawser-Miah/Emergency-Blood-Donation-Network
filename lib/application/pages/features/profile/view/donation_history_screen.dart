@@ -3,6 +3,7 @@ import 'package:blood_setu/application/core/theme/colors.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/models/donation_history_entry.dart';
 import 'package:blood_setu/domain/usecase/donation_usecase.dart';
+import 'package:blood_setu/utils/donation_pdf.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
@@ -15,6 +16,8 @@ class DonationHistoryScreen extends StatefulWidget {
 
 class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
   late Future<List<DonationHistoryEntry>> _future;
+  List<DonationHistoryEntry>? _loadedHistory;
+  bool _isGeneratingPdf = false;
 
   @override
   void initState() {
@@ -23,10 +26,37 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
   }
 
   void _load() {
+    setState(() => _loadedHistory = null);
     final uid = getIt<AuthController>().user?.uid ?? '';
     _future = getIt<DonationUseCase>()
         .getDonationHistory(uid)
-        .then((either) => either.fold((_) => <DonationHistoryEntry>[], (l) => l));
+        .then((either) {
+          final result = either.fold((_) => <DonationHistoryEntry>[], (l) => l);
+          if (mounted) setState(() => _loadedHistory = result);
+          return result;
+        });
+  }
+
+  Future<void> _downloadPdf() async {
+    final history = _loadedHistory;
+    final profile = getIt<AuthController>().profile;
+    if (history == null || history.isEmpty || profile == null) return;
+
+    setState(() => _isGeneratingPdf = true);
+    try {
+      await generateAndShareDonationPdf(profile: profile, history: history);
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('Could not generate PDF: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    } finally {
+      if (mounted) setState(() => _isGeneratingPdf = false);
+    }
   }
 
   @override
@@ -54,10 +84,31 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
         ),
         centerTitle: false,
         actions: [
-          IconButton(
-            onPressed: () => setState(_load),
-            icon: const Icon(Icons.refresh, color: AppColors.textSecondary),
-          ),
+          if (_isGeneratingPdf)
+            const Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16),
+              child: SizedBox(
+                width: 20,
+                height: 20,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2,
+                  color: AppColors.primary,
+                ),
+              ),
+            )
+          else
+            IconButton(
+              tooltip: 'Download PDF',
+              onPressed: (_loadedHistory != null && _loadedHistory!.isNotEmpty)
+                  ? _downloadPdf
+                  : null,
+              icon: Icon(
+                Icons.picture_as_pdf_outlined,
+                color: (_loadedHistory != null && _loadedHistory!.isNotEmpty)
+                    ? AppColors.primary
+                    : AppColors.textTertiary,
+              ),
+            ),
         ],
       ),
       body: FutureBuilder<List<DonationHistoryEntry>>(
