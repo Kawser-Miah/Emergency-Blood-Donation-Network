@@ -150,6 +150,12 @@ class DonorDetailsSheet extends StatelessWidget {
                     label: 'Location',
                     value: '${donor.thana}, ${donor.district}',
                   ),
+                  if (donor.age != null)
+                    _DonorDetailRow(
+                      icon: Icons.cake_outlined,
+                      label: 'Age',
+                      value: '${donor.age} years old',
+                    ),
                   _DonorDetailRow(
                     icon: Icons.near_me_outlined,
                     label: 'Distance',
