@@ -14,6 +14,7 @@ enum PAGES {
   myRequests,
   myInterests,
   donationHistory,
+  allBadges,
 }
 
 extension AppPageExtention on PAGES {
@@ -49,6 +50,8 @@ extension AppPageExtention on PAGES {
         return '/myInterests';
       case PAGES.donationHistory:
         return '/donationHistory';
+      case PAGES.allBadges:
+        return '/allBadges';
     }
   }
 
@@ -84,6 +87,8 @@ extension AppPageExtention on PAGES {
         return 'My Interests';
       case PAGES.donationHistory:
         return 'Donation History';
+      case PAGES.allBadges:
+        return 'All Badges';
     }
   }
 }
