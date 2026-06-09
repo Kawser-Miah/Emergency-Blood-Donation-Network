@@ -12,12 +12,22 @@ import 'registration_state.dart';
 @injectable
 class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
   final RegistrationUserUseCase _registrationUserUseCase;
+
   RegistrationBloc(this._registrationUserUseCase)
     : super(
         RegistrationState.initial(
           fullName: getIt<AuthController>().user?.displayName ?? '',
         ),
       ) {
+    _init();
+  }
+
+  RegistrationBloc.edit(this._registrationUserUseCase, UserProfileModel profile)
+    : super(RegistrationState.fromProfile(profile)) {
+    _init();
+  }
+
+  void _init() {
     on<RegistrationEvent>((event, emit) async {
       await event.when(
         // Reset status on every field change so repeated validation taps re-trigger the listener
@@ -170,7 +180,7 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
             return;
           }
 
-          if (!state.confirmed) {
+          if (!state.isEditMode && !state.confirmed) {
             emit(
               state.copyWith(
                 status: RegistrationStatus.failure,
@@ -179,24 +189,33 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
             );
             return;
           }
+
           emit(state.copyWith(status: RegistrationStatus.loading));
+
           try {
-            final result = await _registrationUserUseCase.call(
-              UserProfileModel(
-                userUuid: getIt<AuthController>().user?.uid,
-                fullName: state.fullName,
-                gender: state.gender,
-                phone: state.phone,
-                bloodGroup: state.bloodGroup,
-                age: int.tryParse(state.age.trim()),
-                lastDonation: state.lastDonation,
-                district: state.district,
-                thana: state.thana,
-                fbId: state.fbId,
-                isActive: true,
-                donorTier: 'Bronze',
-              ),
+            final auth = getIt<AuthController>();
+            final existing = auth.profile;
+
+            final newProfile = UserProfileModel(
+              userUuid: auth.user?.uid,
+              fullName: state.fullName,
+              gender: state.gender,
+              phone: state.phone,
+              bloodGroup: state.bloodGroup,
+              age: int.tryParse(state.age.trim()),
+              lastDonation: state.lastDonation,
+              district: state.district,
+              thana: state.thana,
+              fbId: state.fbId,
+              // In edit mode: preserve existing computed fields.
+              isActive: state.isEditMode ? (existing?.isActive ?? true) : true,
+              donorTier: state.isEditMode
+                  ? (existing?.donorTier ?? '')
+                  : 'Bronze',
+              totalDonations: existing?.totalDonations ?? 0,
             );
+
+            final result = await _registrationUserUseCase.call(newProfile);
 
             result.fold(
               (failure) {
@@ -212,14 +231,19 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
                     state.copyWith(
                       status: RegistrationStatus.failure,
                       errorMessage:
-                          "A database error occurred. Please try again later.",
+                          'A database error occurred. Please try again later.',
                     ),
                   );
                 }
               },
-              (r) {
-                getIt<AuthController>().onProfileCompleted();
-                emit(state.copyWith(status: RegistrationStatus.success));
+              (_) {
+                if (state.isEditMode) {
+                  auth.updateProfile(newProfile);
+                  emit(state.copyWith(status: RegistrationStatus.success));
+                } else {
+                  auth.onProfileCompleted();
+                  emit(state.copyWith(status: RegistrationStatus.success));
+                }
               },
             );
           } catch (e) {
