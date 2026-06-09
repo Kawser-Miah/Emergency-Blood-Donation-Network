@@ -3,6 +3,7 @@ import 'package:blood_setu/application/core/services/routing/routing_utils.dart'
 import 'package:blood_setu/application/pages/features/bottom_nav/view/bottom_nav_page.dart';
 import 'package:blood_setu/application/pages/features/create_request/view/create_request_screen.dart';
 import 'package:blood_setu/application/pages/features/registration/view/registration_screen.dart';
+import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:blood_setu/application/pages/features/sign_in/view/sign_in_screen.dart';
 import 'package:blood_setu/application/pages/features/splash/view/splash_screen.dart';
 import 'package:blood_setu/di/di.dart';
@@ -100,6 +101,13 @@ class AppRouter {
           path: PAGES.profile.screenPath,
           name: PAGES.profile.screenName,
           builder: (context, state) => const ProfileScreen(),
+        ),
+        GoRoute(
+          path: PAGES.editProfile.screenPath,
+          name: PAGES.editProfile.screenName,
+          builder: (context, state) => RegistrationScreen(
+            initialProfile: state.extra as UserProfileModel?,
+          ),
         ),
         GoRoute(
           path: PAGES.myRequests.screenPath,
