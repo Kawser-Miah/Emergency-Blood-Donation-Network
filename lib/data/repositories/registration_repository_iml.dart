@@ -58,6 +58,7 @@ class RegistrationRepositoryIml extends RegistrationRepository {
           isActive: finalProfile.isActive ?? true,
           donorTier: finalProfile.donorTier ?? '',
           totalDonations: finalProfile.totalDonations,
+          age: finalProfile.age,
           photoUrl: finalProfile.photoUrl,
           phone: finalProfile.phone,
           fbId: finalProfile.fbId,
