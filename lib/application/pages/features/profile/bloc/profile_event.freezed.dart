@@ -19,6 +19,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ProfileEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() infoExpandedToggled,
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
@@ -26,6 +27,7 @@ mixin _$ProfileEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? infoExpandedToggled,
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
@@ -33,6 +35,7 @@ mixin _$ProfileEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? infoExpandedToggled,
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
@@ -41,6 +44,7 @@ mixin _$ProfileEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_InfoExpandedToggled value) infoExpandedToggled,
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
@@ -48,6 +52,7 @@ mixin _$ProfileEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
@@ -55,6 +60,7 @@ mixin _$ProfileEvent {
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
@@ -84,6 +90,135 @@ class _$ProfileEventCopyWithImpl<$Res, $Val extends ProfileEvent>
   /// Create a copy of ProfileEvent
   /// with the given fields replaced by the non-null parameter values.
 }
+
+// ─────────────────────────────── started ─────────────────────────────────────
+
+/// @nodoc
+abstract class _$$StartedImplCopyWith<$Res> {
+  factory _$$StartedImplCopyWith(
+    _$StartedImpl value,
+    $Res Function(_$StartedImpl) then,
+  ) = __$$StartedImplCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$$StartedImplCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$StartedImpl>
+    implements _$$StartedImplCopyWith<$Res> {
+  __$$StartedImplCopyWithImpl(
+    _$StartedImpl _value,
+    $Res Function(_$StartedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+
+class _$StartedImpl implements _Started {
+  const _$StartedImpl();
+
+  @override
+  String toString() {
+    return 'ProfileEvent.started()';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _$StartedImpl);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() infoExpandedToggled,
+    required TResult Function() notificationsToggled,
+    required TResult Function() darkModeToggled,
+    required TResult Function() quietHoursToggled,
+  }) {
+    return started();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? infoExpandedToggled,
+    TResult? Function()? notificationsToggled,
+    TResult? Function()? darkModeToggled,
+    TResult? Function()? quietHoursToggled,
+  }) {
+    return started?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? infoExpandedToggled,
+    TResult Function()? notificationsToggled,
+    TResult Function()? darkModeToggled,
+    TResult Function()? quietHoursToggled,
+    required TResult orElse(),
+  }) {
+    if (started != null) {
+      return started();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_InfoExpandedToggled value) infoExpandedToggled,
+    required TResult Function(_NotificationsToggled value) notificationsToggled,
+    required TResult Function(_DarkModeToggled value) darkModeToggled,
+    required TResult Function(_QuietHoursToggled value) quietHoursToggled,
+  }) {
+    return started(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_InfoExpandedToggled value)? infoExpandedToggled,
+    TResult? Function(_NotificationsToggled value)? notificationsToggled,
+    TResult? Function(_DarkModeToggled value)? darkModeToggled,
+    TResult? Function(_QuietHoursToggled value)? quietHoursToggled,
+  }) {
+    return started?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_InfoExpandedToggled value)? infoExpandedToggled,
+    TResult Function(_NotificationsToggled value)? notificationsToggled,
+    TResult Function(_DarkModeToggled value)? darkModeToggled,
+    TResult Function(_QuietHoursToggled value)? quietHoursToggled,
+    required TResult orElse(),
+  }) {
+    if (started != null) {
+      return started(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _Started implements ProfileEvent {
+  const factory _Started() = _$StartedImpl;
+}
+
+// ─────────────────────────── infoExpandedToggled ─────────────────────────────
 
 /// @nodoc
 abstract class _$$InfoExpandedToggledImplCopyWith<$Res> {
@@ -129,6 +264,7 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() infoExpandedToggled,
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
@@ -140,6 +276,7 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? infoExpandedToggled,
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
@@ -151,6 +288,7 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? infoExpandedToggled,
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
@@ -166,6 +304,7 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_InfoExpandedToggled value) infoExpandedToggled,
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
@@ -177,6 +316,7 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
@@ -188,6 +328,7 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
@@ -204,6 +345,8 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
 abstract class _InfoExpandedToggled implements ProfileEvent {
   const factory _InfoExpandedToggled() = _$InfoExpandedToggledImpl;
 }
+
+// ─────────────────────────── notificationsToggled ────────────────────────────
 
 /// @nodoc
 abstract class _$$NotificationsToggledImplCopyWith<$Res> {
@@ -249,6 +392,7 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() infoExpandedToggled,
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
@@ -260,6 +404,7 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? infoExpandedToggled,
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
@@ -271,6 +416,7 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? infoExpandedToggled,
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
@@ -286,6 +432,7 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_InfoExpandedToggled value) infoExpandedToggled,
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
@@ -297,6 +444,7 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
@@ -308,6 +456,7 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
@@ -324,6 +473,8 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
 abstract class _NotificationsToggled implements ProfileEvent {
   const factory _NotificationsToggled() = _$NotificationsToggledImpl;
 }
+
+// ──────────────────────────── darkModeToggled ─────────────────────────────────
 
 /// @nodoc
 abstract class _$$DarkModeToggledImplCopyWith<$Res> {
@@ -368,6 +519,7 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() infoExpandedToggled,
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
@@ -379,6 +531,7 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? infoExpandedToggled,
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
@@ -390,6 +543,7 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? infoExpandedToggled,
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
@@ -405,6 +559,7 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_InfoExpandedToggled value) infoExpandedToggled,
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
@@ -416,6 +571,7 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
@@ -427,6 +583,7 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
@@ -443,6 +600,8 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
 abstract class _DarkModeToggled implements ProfileEvent {
   const factory _DarkModeToggled() = _$DarkModeToggledImpl;
 }
+
+// ──────────────────────────── quietHoursToggled ───────────────────────────────
 
 /// @nodoc
 abstract class _$$QuietHoursToggledImplCopyWith<$Res> {
@@ -487,6 +646,7 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function() started,
     required TResult Function() infoExpandedToggled,
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
@@ -498,6 +658,7 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
     TResult? Function()? infoExpandedToggled,
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
@@ -509,6 +670,7 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
     TResult Function()? infoExpandedToggled,
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
@@ -524,6 +686,7 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
     required TResult Function(_InfoExpandedToggled value) infoExpandedToggled,
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
@@ -535,6 +698,7 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
     TResult? Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
@@ -546,6 +710,7 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
     TResult Function(_InfoExpandedToggled value)? infoExpandedToggled,
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
