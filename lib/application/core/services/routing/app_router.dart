@@ -17,6 +17,7 @@ import '../../../pages/features/donors/view/donors_screen.dart';
 import '../../../pages/features/map_picker/map_picker_screen.dart';
 import '../../../pages/features/my_interests/view/my_interests_screen.dart';
 import '../../../pages/features/my_requests/view/my_requests_screen.dart';
+import '../../../pages/features/profile/view/all_badges_screen.dart';
 import '../../../pages/features/profile/view/donation_history_screen.dart';
 import '../../../pages/features/profile/view/profile_screen.dart';
 
@@ -124,6 +125,13 @@ class AppRouter {
           path: PAGES.donationHistory.screenPath,
           name: PAGES.donationHistory.screenName,
           builder: (context, state) => const DonationHistoryScreen(),
+        ),
+        GoRoute(
+          path: PAGES.allBadges.screenPath,
+          name: PAGES.allBadges.screenName,
+          builder: (context, state) => AllBadgesScreen(
+            totalDonations: state.extra as int? ?? 0,
+          ),
         ),
         GoRoute(
           path: PAGES.mapPicker.screenPath,
