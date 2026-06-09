@@ -25,6 +25,9 @@ mixin _$ProfileState {
   bool get notifications => throw _privateConstructorUsedError;
   bool get darkMode => throw _privateConstructorUsedError;
   bool get quietHours => throw _privateConstructorUsedError;
+  bool get isDonationSubmitting => throw _privateConstructorUsedError;
+  bool get donationSubmitToggle => throw _privateConstructorUsedError;
+  String? get donationSubmitError => throw _privateConstructorUsedError;
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
@@ -48,6 +51,9 @@ abstract class $ProfileStateCopyWith<$Res> {
     bool notifications,
     bool darkMode,
     bool quietHours,
+    bool isDonationSubmitting,
+    bool donationSubmitToggle,
+    String? donationSubmitError,
   });
 }
 
@@ -73,6 +79,9 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
     Object? notifications = null,
     Object? darkMode = null,
     Object? quietHours = null,
+    Object? isDonationSubmitting = null,
+    Object? donationSubmitToggle = null,
+    Object? donationSubmitError = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -104,6 +113,18 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
                 ? _value.quietHours
                 : quietHours // ignore: cast_nullable_to_non_nullable
                       as bool,
+            isDonationSubmitting: null == isDonationSubmitting
+                ? _value.isDonationSubmitting
+                : isDonationSubmitting // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            donationSubmitToggle: null == donationSubmitToggle
+                ? _value.donationSubmitToggle
+                : donationSubmitToggle // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            donationSubmitError: freezed == donationSubmitError
+                ? _value.donationSubmitError
+                : donationSubmitError // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -127,6 +148,9 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
     bool notifications,
     bool darkMode,
     bool quietHours,
+    bool isDonationSubmitting,
+    bool donationSubmitToggle,
+    String? donationSubmitError,
   });
 }
 
@@ -151,6 +175,9 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
     Object? notifications = null,
     Object? darkMode = null,
     Object? quietHours = null,
+    Object? isDonationSubmitting = null,
+    Object? donationSubmitToggle = null,
+    Object? donationSubmitError = freezed,
   }) {
     return _then(
       _$ProfileStateImpl(
@@ -163,7 +190,7 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
             : profile // ignore: cast_nullable_to_non_nullable
                   as UserProfileModel?,
         donationHistory: null == donationHistory
-            ? _value.donationHistory
+            ? _value._donationHistory
             : donationHistory // ignore: cast_nullable_to_non_nullable
                   as List<DonationHistoryEntry>,
         infoExpanded: null == infoExpanded
@@ -182,6 +209,18 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
             ? _value.quietHours
             : quietHours // ignore: cast_nullable_to_non_nullable
                   as bool,
+        isDonationSubmitting: null == isDonationSubmitting
+            ? _value.isDonationSubmitting
+            : isDonationSubmitting // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        donationSubmitToggle: null == donationSubmitToggle
+            ? _value.donationSubmitToggle
+            : donationSubmitToggle // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        donationSubmitError: freezed == donationSubmitError
+            ? _value.donationSubmitError
+            : donationSubmitError // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -193,21 +232,31 @@ class _$ProfileStateImpl implements _ProfileState {
   const _$ProfileStateImpl({
     this.isLoading = false,
     this.profile,
-    this.donationHistory = const <DonationHistoryEntry>[],
+    final List<DonationHistoryEntry> donationHistory =
+        const <DonationHistoryEntry>[],
     this.infoExpanded = true,
     this.notifications = true,
     this.darkMode = false,
     this.quietHours = true,
-  });
+    this.isDonationSubmitting = false,
+    this.donationSubmitToggle = false,
+    this.donationSubmitError,
+  }) : _donationHistory = donationHistory;
 
   @override
   @JsonKey()
   final bool isLoading;
   @override
   final UserProfileModel? profile;
+  final List<DonationHistoryEntry> _donationHistory;
   @override
   @JsonKey()
-  final List<DonationHistoryEntry> donationHistory;
+  List<DonationHistoryEntry> get donationHistory {
+    if (_donationHistory is EqualUnmodifiableListView) return _donationHistory;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_donationHistory);
+  }
+
   @override
   @JsonKey()
   final bool infoExpanded;
@@ -220,10 +269,18 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   @JsonKey()
   final bool quietHours;
+  @override
+  @JsonKey()
+  final bool isDonationSubmitting;
+  @override
+  @JsonKey()
+  final bool donationSubmitToggle;
+  @override
+  final String? donationSubmitError;
 
   @override
   String toString() {
-    return 'ProfileState(isLoading: $isLoading, profile: $profile, donationHistory: $donationHistory, infoExpanded: $infoExpanded, notifications: $notifications, darkMode: $darkMode, quietHours: $quietHours)';
+    return 'ProfileState(isLoading: $isLoading, profile: $profile, donationHistory: $donationHistory, infoExpanded: $infoExpanded, notifications: $notifications, darkMode: $darkMode, quietHours: $quietHours, isDonationSubmitting: $isDonationSubmitting, donationSubmitToggle: $donationSubmitToggle, donationSubmitError: $donationSubmitError)';
   }
 
   @override
@@ -235,8 +292,8 @@ class _$ProfileStateImpl implements _ProfileState {
                 other.isLoading == isLoading) &&
             (identical(other.profile, profile) || other.profile == profile) &&
             const DeepCollectionEquality().equals(
-              other.donationHistory,
-              donationHistory,
+              other._donationHistory,
+              _donationHistory,
             ) &&
             (identical(other.infoExpanded, infoExpanded) ||
                 other.infoExpanded == infoExpanded) &&
@@ -245,7 +302,13 @@ class _$ProfileStateImpl implements _ProfileState {
             (identical(other.darkMode, darkMode) ||
                 other.darkMode == darkMode) &&
             (identical(other.quietHours, quietHours) ||
-                other.quietHours == quietHours));
+                other.quietHours == quietHours) &&
+            (identical(other.isDonationSubmitting, isDonationSubmitting) ||
+                other.isDonationSubmitting == isDonationSubmitting) &&
+            (identical(other.donationSubmitToggle, donationSubmitToggle) ||
+                other.donationSubmitToggle == donationSubmitToggle) &&
+            (identical(other.donationSubmitError, donationSubmitError) ||
+                other.donationSubmitError == donationSubmitError));
   }
 
   @override
@@ -253,11 +316,14 @@ class _$ProfileStateImpl implements _ProfileState {
     runtimeType,
     isLoading,
     profile,
-    const DeepCollectionEquality().hash(donationHistory),
+    const DeepCollectionEquality().hash(_donationHistory),
     infoExpanded,
     notifications,
     darkMode,
     quietHours,
+    isDonationSubmitting,
+    donationSubmitToggle,
+    donationSubmitError,
   );
 
   /// Create a copy of ProfileState
@@ -278,6 +344,9 @@ abstract class _ProfileState implements ProfileState {
     final bool notifications,
     final bool darkMode,
     final bool quietHours,
+    final bool isDonationSubmitting,
+    final bool donationSubmitToggle,
+    final String? donationSubmitError,
   }) = _$ProfileStateImpl;
 
   @override
@@ -294,6 +363,12 @@ abstract class _ProfileState implements ProfileState {
   bool get darkMode;
   @override
   bool get quietHours;
+  @override
+  bool get isDonationSubmitting;
+  @override
+  bool get donationSubmitToggle;
+  @override
+  String? get donationSubmitError;
 
   /// Create a copy of ProfileState
   /// with the given fields replaced by the non-null parameter values.
