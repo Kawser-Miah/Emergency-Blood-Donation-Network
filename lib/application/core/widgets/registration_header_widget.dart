@@ -3,9 +3,16 @@ import 'package:flutter/material.dart';
 import '../theme/colors.dart';
 
 class RegistrationHeaderWidget extends StatelessWidget {
-  const RegistrationHeaderWidget({super.key});
+  const RegistrationHeaderWidget({
+    super.key,
+    this.title = 'Complete Your Profile',
+    this.subtitle = 'This helps us match you with blood seekers',
+    this.onBack,
+  });
 
-  // final VoidCallback onBack;
+  final String title;
+  final String subtitle;
+  final VoidCallback? onBack;
 
   @override
   Widget build(BuildContext context) {
@@ -19,29 +26,33 @@ class RegistrationHeaderWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          // IconButton(
-          //   onPressed: onBack,
-          //   icon: const Icon(Icons.arrow_back, size: 20),
-          //   color: AppColors.textTertiary,
-          //   padding: const EdgeInsets.all(4),
-          //   constraints: const BoxConstraints(),
-          // ),
+          if (onBack != null)
+            IconButton(
+              onPressed: onBack,
+              icon: const Icon(Icons.arrow_back, size: 20),
+              color: AppColors.textTertiary,
+              padding: const EdgeInsets.all(4),
+              constraints: const BoxConstraints(),
+            ),
           const SizedBox(width: 8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
-              children: const [
+              children: [
                 Text(
-                  'Complete Your Profile',
-                  style: TextStyle(
+                  title,
+                  style: const TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.w700,
                     color: AppColors.textPrimary,
                   ),
                 ),
                 Text(
-                  'This helps us match you with blood seekers',
-                  style: TextStyle(fontSize: 12, color: AppColors.textTertiary),
+                  subtitle,
+                  style: const TextStyle(
+                    fontSize: 12,
+                    color: AppColors.textTertiary,
+                  ),
                 ),
               ],
             ),
