@@ -1,5 +1,7 @@
 import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/di/di.dart';
+import 'package:blood_setu/domain/failures/failures.dart';
+import 'package:blood_setu/domain/models/donation_history_entry.dart';
 import 'package:blood_setu/domain/usecase/donation_usecase.dart';
 import 'package:blood_setu/domain/usecase/registration_user_usecase.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -52,6 +54,43 @@ class ProfileBloc extends Bloc<ProfileEvent, ProfileState> {
             emit(state.copyWith(darkMode: !state.darkMode)),
         quietHoursToggled: () async =>
             emit(state.copyWith(quietHours: !state.quietHours)),
+        donationSubmitted: (hospital, bloodGroup, date) async {
+          emit(state.copyWith(
+            isDonationSubmitting: true,
+            donationSubmitError: null,
+          ));
+
+          final uid = getIt<AuthController>().user?.uid;
+          if (uid == null) {
+            emit(state.copyWith(isDonationSubmitting: false));
+            return;
+          }
+
+          final entry = DonationHistoryEntry(
+            id: '',
+            date: date,
+            hospital: hospital,
+            bloodGroup: bloodGroup,
+            status: 'Confirmed',
+          );
+
+          final result = await _donationUseCase.addDonation(uid, entry);
+          result.fold(
+            (failure) => emit(state.copyWith(
+              isDonationSubmitting: false,
+              donationSubmitError: failure is GeneralFailure
+                  ? failure.message
+                  : 'Failed to record donation.',
+            )),
+            (_) {
+              emit(state.copyWith(
+                isDonationSubmitting: false,
+                donationSubmitToggle: !state.donationSubmitToggle,
+              ));
+              add(const ProfileEvent.started());
+            },
+          );
+        },
       );
     });
   }
