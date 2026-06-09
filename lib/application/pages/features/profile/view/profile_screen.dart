@@ -1,85 +1,92 @@
+import 'package:blood_setu/application/core/services/routing/app_router.dart';
 import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
 import 'package:blood_setu/application/core/widgets/sparkle_loading_overlay.dart';
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart';
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_event.dart';
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_state.dart';
 import 'package:blood_setu/di/di.dart';
+import 'package:blood_setu/domain/models/donation_history_entry.dart';
+import 'package:blood_setu/domain/models/user_profile_model.dart';
+import 'package:blood_setu/domain/usecase/donation_usecase.dart';
+import 'package:blood_setu/domain/usecase/registration_user_usecase.dart';
 import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/mock_data.dart';
 import '../../../../core/theme/colors.dart';
 import '../bloc/profile_bloc.dart';
 import '../bloc/profile_event.dart';
 import '../bloc/profile_state.dart';
 
-class _Badge {
-  const _Badge({
-    required this.id,
+// ─── Badge definitions ────────────────────────────────────────────────────────
+
+class _BadgeDef {
+  const _BadgeDef({
     required this.name,
     required this.emoji,
     required this.requirement,
-    required this.progress,
-    required this.total,
-    required this.unlocked,
+    required this.threshold,
     required this.color,
   });
 
-  final String id;
   final String name;
   final String emoji;
   final String requirement;
-  final int progress;
-  final int total;
-  final bool unlocked;
+  final int threshold;
   final Color color;
 }
 
-const List<_Badge> _badges = [
-  _Badge(
-    id: '1',
+const _badgeDefs = [
+  _BadgeDef(
     name: 'Bronze Helper',
     emoji: '🥉',
     requirement: '3 donations',
-    progress: 3,
-    total: 3,
-    unlocked: true,
+    threshold: 3,
     color: AppColors.bronze,
   ),
-  _Badge(
-    id: '2',
+  _BadgeDef(
     name: 'Silver Guardian',
     emoji: '🥈',
     requirement: '6 donations',
-    progress: 6,
-    total: 6,
-    unlocked: true,
+    threshold: 6,
     color: AppColors.silver,
   ),
-  _Badge(
-    id: '3',
+  _BadgeDef(
     name: 'Gold Lifesaver',
     emoji: '🥇',
     requirement: '12 donations',
-    progress: 12,
-    total: 12,
-    unlocked: true,
+    threshold: 12,
     color: AppColors.gold,
   ),
-  _Badge(
-    id: '4',
+  _BadgeDef(
     name: 'Platinum Hero',
     emoji: '🏆',
     requirement: '25 donations',
-    progress: 12,
-    total: 25,
-    unlocked: false,
+    threshold: 25,
     color: AppColors.divider,
   ),
 ];
+
+// ─── Helper utils ─────────────────────────────────────────────────────────────
+
+String _initials(String? name) {
+  if (name == null || name.trim().isEmpty) return '?';
+  final parts = name.trim().split(RegExp(r'\s+'));
+  if (parts.length == 1) return parts[0][0].toUpperCase();
+  return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+}
+
+String _lastDonatedLabel(DateTime? lastDonation) {
+  if (lastDonation == null) return '—';
+  final days = DateTime.now().difference(lastDonation).inDays;
+  if (days == 0) return 'Today';
+  if (days == 1) return '1d ago';
+  return '${days}d ago';
+}
+
+// ─── Screen ───────────────────────────────────────────────────────────────────
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -88,7 +95,12 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (_) => ProfileBloc()),
+        BlocProvider(
+          create: (_) => ProfileBloc(
+            getIt<DonationUseCase>(),
+            getIt<RegistrationUserUseCase>(),
+          )..add(const ProfileEvent.started()),
+        ),
         BlocProvider(create: (_) => getIt<SignInBloc>()),
       ],
       child: const _ProfileView(),
@@ -114,7 +126,7 @@ class _ProfileView extends StatelessWidget {
         );
       },
       builder: (context, signInState) {
-        final isLoading = signInState is LoadingSignInState;
+        final isSigningOut = signInState is LoadingSignInState;
         return BlocBuilder<ProfileBloc, ProfileState>(
           builder: (context, state) {
             return Scaffold(
@@ -125,17 +137,38 @@ class _ProfileView extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 96),
                     child: Column(
                       children: [
-                        const _CoverPhoto(),
+                        _CoverPhoto(
+                          profile: state.profile,
+                          onEdit: state.profile == null
+                              ? null
+                              : () async {
+                                  await AppRouter.router.push(
+                                    PAGES.editProfile.screenPath,
+                                    extra: state.profile,
+                                  );
+                                  if (context.mounted) {
+                                    context.read<ProfileBloc>().add(
+                                      const ProfileEvent.started(),
+                                    );
+                                  }
+                                },
+                        ),
                         const SizedBox(height: 64),
-                        const _NameAndGroup(),
+                        _NameAndGroup(profile: state.profile),
                         const SizedBox(height: 16),
-                        const _StatsCard(),
+                        _StatsCard(profile: state.profile),
                         const SizedBox(height: 16),
-                        const _BadgesSection(),
+                        _BadgesSection(
+                          totalDonations: state.profile?.totalDonations ?? 0,
+                        ),
                         const SizedBox(height: 16),
-                        const _DonationHistorySection(),
+                        _DonationHistorySection(
+                          history: state.donationHistory,
+                          isLoading: state.isLoading,
+                        ),
                         const SizedBox(height: 16),
                         _PersonalInfoSection(
+                          profile: state.profile,
                           expanded: state.infoExpanded,
                           onToggle: () => context.read<ProfileBloc>().add(
                             const ProfileEvent.infoExpandedToggled(),
@@ -146,7 +179,8 @@ class _ProfileView extends StatelessWidget {
                       ],
                     ),
                   ),
-                  if (isLoading) const SparkleLoadingOverlay(),
+                  if (isSigningOut || state.isLoading)
+                    const SparkleLoadingOverlay(),
                 ],
               ),
             );
@@ -157,11 +191,17 @@ class _ProfileView extends StatelessWidget {
   }
 }
 
+// ─── Cover photo + avatar ─────────────────────────────────────────────────────
+
 class _CoverPhoto extends StatelessWidget {
-  const _CoverPhoto();
+  const _CoverPhoto({required this.profile, this.onEdit});
+
+  final UserProfileModel? profile;
+  final VoidCallback? onEdit;
 
   @override
   Widget build(BuildContext context) {
+    final initials = _initials(profile?.fullName);
     return SizedBox(
       height: 200 + MediaQuery.of(context).padding.top,
       child: Stack(
@@ -169,8 +209,8 @@ class _CoverPhoto extends StatelessWidget {
         children: [
           Positioned.fill(
             child: DecoratedBox(
-              decoration: BoxDecoration(
-                gradient: const LinearGradient(
+              decoration: const BoxDecoration(
+                gradient: LinearGradient(
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [AppColors.primaryDark, AppColors.primary],
@@ -228,31 +268,45 @@ class _CoverPhoto extends StatelessWidget {
                           ),
                         ],
                       ),
-                      child: const Text(
-                        'RU',
-                        style: TextStyle(
-                          fontSize: 32,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.white,
-                        ),
-                      ),
+                      child:
+                          profile?.photoUrl != null &&
+                              profile!.photoUrl!.isNotEmpty
+                          ? ClipOval(
+                              child: Image.network(
+                                profile!.photoUrl!,
+                                fit: BoxFit.cover,
+                                width: 96,
+                                height: 96,
+                              ),
+                            )
+                          : Text(
+                              initials,
+                              style: const TextStyle(
+                                fontSize: 32,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                              ),
+                            ),
                     ),
                     Positioned(
                       bottom: 0,
                       right: 0,
-                      child: Container(
-                        width: 28,
-                        height: 28,
-                        alignment: Alignment.center,
-                        decoration: BoxDecoration(
-                          color: AppColors.primary,
-                          shape: BoxShape.circle,
-                          border: Border.all(color: Colors.white, width: 2),
-                        ),
-                        child: const Icon(
-                          Icons.edit,
-                          size: 12,
-                          color: Colors.white,
+                      child: GestureDetector(
+                        onTap: onEdit,
+                        child: Container(
+                          width: 28,
+                          height: 28,
+                          alignment: Alignment.center,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.white, width: 2),
+                          ),
+                          child: const Icon(
+                            Icons.edit,
+                            size: 12,
+                            color: Colors.white,
+                          ),
                         ),
                       ),
                     ),
@@ -267,16 +321,26 @@ class _CoverPhoto extends StatelessWidget {
   }
 }
 
+// ─── Name + blood group chip ──────────────────────────────────────────────────
+
 class _NameAndGroup extends StatelessWidget {
-  const _NameAndGroup();
+  const _NameAndGroup({required this.profile});
+
+  final UserProfileModel? profile;
 
   @override
   Widget build(BuildContext context) {
+    final name = profile?.fullName ?? '—';
+    final bloodGroup = profile?.bloodGroup;
+    final district = profile?.district ?? '';
+    final thana = profile?.thana ?? '';
+    final location = [thana, district].where((s) => s.isNotEmpty).join(', ');
+
     return Column(
       children: [
-        const Text(
-          'Rahmat Ullah',
-          style: TextStyle(
+        Text(
+          name,
+          style: const TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.w700,
             color: AppColors.textPrimary,
@@ -286,27 +350,39 @@ class _NameAndGroup extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-              decoration: BoxDecoration(
-                color: AppColors.primarySurface,
-                borderRadius: BorderRadius.circular(99),
-                border: Border.all(color: AppColors.primaryBorder, width: 1.5),
-              ),
-              child: const Text(
-                'O+ Donor',
-                style: TextStyle(
-                  fontSize: 13,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
+            if (bloodGroup != null) ...[
+              Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 12,
+                  vertical: 4,
+                ),
+                decoration: BoxDecoration(
+                  color: AppColors.primarySurface,
+                  borderRadius: BorderRadius.circular(99),
+                  border: Border.all(
+                    color: AppColors.primaryBorder,
+                    width: 1.5,
+                  ),
+                ),
+                child: Text(
+                  '$bloodGroup Donor',
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primary,
+                  ),
                 ),
               ),
-            ),
-            const SizedBox(width: 8),
-            const Text(
-              'Mirpur, Dhaka',
-              style: TextStyle(fontSize: 12, color: AppColors.textTertiary),
-            ),
+              if (location.isNotEmpty) const SizedBox(width: 8),
+            ],
+            if (location.isNotEmpty)
+              Text(
+                location,
+                style: const TextStyle(
+                  fontSize: 12,
+                  color: AppColors.textTertiary,
+                ),
+              ),
           ],
         ),
       ],
@@ -314,31 +390,41 @@ class _NameAndGroup extends StatelessWidget {
   }
 }
 
+// ─── Stats card ───────────────────────────────────────────────────────────────
+
 class _StatsCard extends StatelessWidget {
-  const _StatsCard();
+  const _StatsCard({required this.profile});
+
+  final UserProfileModel? profile;
 
   @override
   Widget build(BuildContext context) {
+    final donations = profile?.totalDonations ?? 0;
+    final days = profile?.daysToNextDonation ?? 0;
+    final nextEligible = days <= 0 ? 'Now' : '${days}d';
+    final lastDonated = _lastDonatedLabel(profile?.lastDonation);
+
     final stats = [
       _StatEntry(
-        value: '12',
+        value: '$donations',
         label: 'Donations',
         emoji: '🩸',
         color: AppColors.primary,
       ),
       _StatEntry(
-        value: '8',
-        label: 'Lives Saved',
-        emoji: '❤️',
-        color: AppColors.primary,
+        value: nextEligible,
+        label: 'Next Eligible',
+        emoji: '📅',
+        color: days <= 0 ? AppColors.success : AppColors.info,
       ),
       _StatEntry(
-        value: '18m',
-        label: 'Avg Response',
+        value: lastDonated,
+        label: 'Last Donated',
         emoji: '⏱️',
         color: AppColors.info,
       ),
     ];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Container(
@@ -410,8 +496,12 @@ class _StatEntry {
   final Color color;
 }
 
+// ─── Badges ───────────────────────────────────────────────────────────────────
+
 class _BadgesSection extends StatelessWidget {
-  const _BadgesSection();
+  const _BadgesSection({required this.totalDonations});
+
+  final int totalDonations;
 
   @override
   Widget build(BuildContext context) {
@@ -450,9 +540,10 @@ class _BadgesSection extends StatelessWidget {
           child: ListView.separated(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 16),
-            itemCount: _badges.length,
-            separatorBuilder: (_, __) => const SizedBox(width: 12),
-            itemBuilder: (context, i) => _BadgeCard(badge: _badges[i]),
+            itemCount: _badgeDefs.length,
+            separatorBuilder: (_, _) => const SizedBox(width: 12),
+            itemBuilder: (context, i) =>
+                _BadgeCard(def: _badgeDefs[i], totalDonations: totalDonations),
           ),
         ),
       ],
@@ -461,14 +552,18 @@ class _BadgesSection extends StatelessWidget {
 }
 
 class _BadgeCard extends StatelessWidget {
-  const _BadgeCard({required this.badge});
+  const _BadgeCard({required this.def, required this.totalDonations});
 
-  final _Badge badge;
+  final _BadgeDef def;
+  final int totalDonations;
 
   @override
   Widget build(BuildContext context) {
+    final unlocked = totalDonations >= def.threshold;
+    final progress = totalDonations.clamp(0, def.threshold);
+
     return Opacity(
-      opacity: badge.unlocked ? 1 : 0.6,
+      opacity: unlocked ? 1 : 0.6,
       child: Container(
         width: 100,
         padding: const EdgeInsets.all(12),
@@ -490,15 +585,15 @@ class _BadgeCard extends StatelessWidget {
               height: 48,
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: badge.color.withOpacity(0.13),
+                color: def.color.withOpacity(0.13),
                 shape: BoxShape.circle,
-                border: Border.all(color: badge.color, width: 2),
+                border: Border.all(color: def.color, width: 2),
               ),
-              child: Text(badge.emoji, style: const TextStyle(fontSize: 22)),
+              child: Text(def.emoji, style: const TextStyle(fontSize: 22)),
             ),
             const SizedBox(height: 8),
             Text(
-              badge.name,
+              def.name,
               textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 10,
@@ -509,11 +604,11 @@ class _BadgeCard extends StatelessWidget {
             ),
             const SizedBox(height: 2),
             Text(
-              badge.requirement,
+              def.requirement,
               textAlign: TextAlign.center,
               style: const TextStyle(fontSize: 9, color: AppColors.textMuted),
             ),
-            if (!badge.unlocked) ...[
+            if (!unlocked) ...[
               const SizedBox(height: 8),
               ClipRRect(
                 borderRadius: BorderRadius.circular(99),
@@ -523,8 +618,8 @@ class _BadgeCard extends StatelessWidget {
                     children: [
                       Container(color: AppColors.dividerLight),
                       FractionallySizedBox(
-                        widthFactor: badge.progress / badge.total,
-                        child: Container(color: badge.color),
+                        widthFactor: progress / def.threshold,
+                        child: Container(color: def.color),
                       ),
                     ],
                   ),
@@ -532,7 +627,7 @@ class _BadgeCard extends StatelessWidget {
               ),
               const SizedBox(height: 2),
               Text(
-                '${badge.progress}/${badge.total}',
+                '$progress/${def.threshold}',
                 style: const TextStyle(fontSize: 8, color: AppColors.textMuted),
               ),
             ],
@@ -543,8 +638,16 @@ class _BadgeCard extends StatelessWidget {
   }
 }
 
+// ─── Donation history ─────────────────────────────────────────────────────────
+
 class _DonationHistorySection extends StatelessWidget {
-  const _DonationHistorySection();
+  const _DonationHistorySection({
+    required this.history,
+    required this.isLoading,
+  });
+
+  final List<DonationHistoryEntry> history;
+  final bool isLoading;
 
   @override
   Widget build(BuildContext context) {
@@ -578,9 +681,19 @@ class _DonationHistorySection extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 12),
-          for (final d in mockDonationHistory) ...[
+          if (isLoading)
+            const Center(
+              child: Padding(
+                padding: EdgeInsets.symmetric(vertical: 16),
+                child: CircularProgressIndicator(
+                  color: AppColors.primary,
+                  strokeWidth: 2,
+                ),
+              ),
+            )
+          else if (history.isEmpty)
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(16),
@@ -592,93 +705,131 @@ class _DonationHistorySection extends StatelessWidget {
                   ),
                 ],
               ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    alignment: Alignment.center,
-                    decoration: BoxDecoration(
-                      color: AppColors.primarySurface,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: const Text('🩸', style: TextStyle(fontSize: 16)),
-                  ),
-                  const SizedBox(width: 12),
-                  Expanded(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          d.hospital,
-                          style: const TextStyle(
-                            fontSize: 13,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.textPrimary,
-                          ),
-                        ),
-                        Text(
-                          '${DateFormat('dd MMM yyyy').format(d.date)} • ${d.bloodGroup}',
-                          style: const TextStyle(
-                            fontSize: 11,
-                            color: AppColors.textMuted,
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 2,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.successSurface,
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    child: Text(
-                      '✓ ${d.status}',
-                      style: const TextStyle(
-                        fontSize: 10,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.success,
-                      ),
-                    ),
-                  ),
-                  const SizedBox(width: 8),
-                  const Icon(
-                    Icons.download,
-                    size: 14,
-                    color: AppColors.textMuted,
-                  ),
-                ],
+              child: const Center(
+                child: Text(
+                  'No donations recorded yet.',
+                  style: TextStyle(fontSize: 13, color: AppColors.textTertiary),
+                ),
               ),
-            ),
-            const SizedBox(height: 8),
-          ],
+            )
+          else
+            for (final d in history.take(4)) ...[
+              _DonationRow(entry: d),
+              const SizedBox(height: 8),
+            ],
         ],
       ),
     );
   }
 }
 
-class _PersonalInfoSection extends StatelessWidget {
-  const _PersonalInfoSection({required this.expanded, required this.onToggle});
+class _DonationRow extends StatelessWidget {
+  const _DonationRow({required this.entry});
 
-  final bool expanded;
-  final VoidCallback onToggle;
-
-  static const _items = [
-    _InfoItem(label: 'Full Name', value: 'Rahmat Ullah'),
-    _InfoItem(label: 'Phone', value: '017XXXXXXXX'),
-    _InfoItem(label: 'District', value: 'Dhaka'),
-    _InfoItem(label: 'Thana', value: 'Mirpur 12'),
-    _InfoItem(label: 'Last Donation', value: '45 days ago'),
-    _InfoItem(label: 'Facebook ID', value: '@rahmat.ullah'),
-  ];
+  final DonationHistoryEntry entry;
 
   @override
   Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(12),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.06),
+            blurRadius: 6,
+            offset: const Offset(0, 1),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            alignment: Alignment.center,
+            decoration: BoxDecoration(
+              color: AppColors.primarySurface,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Text('🩸', style: TextStyle(fontSize: 16)),
+          ),
+          const SizedBox(width: 12),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  entry.hospital,
+                  style: const TextStyle(
+                    fontSize: 13,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.textPrimary,
+                  ),
+                ),
+                Text(
+                  '${DateFormat('dd MMM yyyy').format(entry.date)} • ${entry.bloodGroup}',
+                  style: const TextStyle(
+                    fontSize: 11,
+                    color: AppColors.textMuted,
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+            decoration: BoxDecoration(
+              color: AppColors.successSurface,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              '✓ ${entry.status}',
+              style: const TextStyle(
+                fontSize: 10,
+                fontWeight: FontWeight.w700,
+                color: AppColors.success,
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+// ─── Personal info ────────────────────────────────────────────────────────────
+
+class _PersonalInfoSection extends StatelessWidget {
+  const _PersonalInfoSection({
+    required this.profile,
+    required this.expanded,
+    required this.onToggle,
+  });
+
+  final UserProfileModel? profile;
+  final bool expanded;
+  final VoidCallback onToggle;
+
+  @override
+  Widget build(BuildContext context) {
+    final p = profile;
+    final lastDonation = p?.lastDonation != null
+        ? _lastDonatedLabel(p!.lastDonation)
+        : '—';
+
+    final items = [
+      _InfoItem(label: 'Full Name', value: p?.fullName ?? '—'),
+      _InfoItem(label: 'Gender', value: p?.gender ?? '—'),
+      _InfoItem(label: 'Age', value: p?.age != null ? '${p!.age}' : '—'),
+      _InfoItem(label: 'Phone', value: p?.phone ?? '—'),
+      _InfoItem(label: 'District', value: p?.district ?? '—'),
+      _InfoItem(label: 'Thana', value: p?.thana ?? '—'),
+      _InfoItem(label: 'Last Donation', value: lastDonation),
+      _InfoItem(label: 'Facebook ID', value: p?.fbId ?? '—'),
+    ];
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
@@ -727,11 +878,11 @@ class _PersonalInfoSection extends StatelessWidget {
               ),
               clipBehavior: Clip.hardEdge,
               child: Column(
-                children: List.generate(_items.length, (i) {
-                  final item = _items[i];
+                children: List.generate(items.length, (i) {
+                  final item = items[i];
                   return Container(
                     decoration: BoxDecoration(
-                      border: i < _items.length - 1
+                      border: i < items.length - 1
                           ? const Border(
                               bottom: BorderSide(
                                 color: AppColors.dividerLightest,
@@ -789,6 +940,8 @@ class _InfoItem {
   final String label;
   final String value;
 }
+
+// ─── Settings ─────────────────────────────────────────────────────────────────
 
 class _ToggleSwitch extends StatelessWidget {
   const _ToggleSwitch({required this.value, required this.onChange});
@@ -963,8 +1116,57 @@ class _SettingsSection extends StatelessWidget {
                     ),
                   ),
                 InkWell(
-                  onTap: () =>
-                      context.push(PAGES.myInterests.screenPath),
+                  onTap: () async {
+                    final profile = context.read<ProfileBloc>().state.profile;
+                    if (profile == null) return;
+                    await AppRouter.router.push(
+                      PAGES.editProfile.screenPath,
+                      extra: profile,
+                    );
+                    if (context.mounted) {
+                      context.read<ProfileBloc>().add(
+                        const ProfileEvent.started(),
+                      );
+                    }
+                  },
+                  child: Container(
+                    decoration: const BoxDecoration(
+                      border: Border(
+                        bottom: BorderSide(color: AppColors.dividerLightest),
+                      ),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 12,
+                    ),
+                    child: Row(
+                      children: const [
+                        Icon(
+                          Icons.edit_outlined,
+                          size: 18,
+                          color: AppColors.textTertiary,
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Text(
+                            'Edit Profile',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.textSecondary,
+                            ),
+                          ),
+                        ),
+                        Icon(
+                          Icons.chevron_right,
+                          size: 16,
+                          color: AppColors.textDisabled,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                InkWell(
+                  onTap: () => context.push(PAGES.myInterests.screenPath),
                   child: Container(
                     decoration: const BoxDecoration(
                       border: Border(
