@@ -36,6 +36,7 @@ class NearbyDonor with _$NearbyDonor {
   bool get isActive => donor.isActive;
   int get totalDonations => donor.totalDonations;
   String get donorTier => donor.donorTier;
+  int? get age => donor.age;
   String? get photoUrl => donor.photoUrl;
   String? get phone => donor.phone;
   String? get fbId => donor.fbId;
