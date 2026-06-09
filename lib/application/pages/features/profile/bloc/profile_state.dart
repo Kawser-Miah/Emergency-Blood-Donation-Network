@@ -14,6 +14,9 @@ class ProfileState with _$ProfileState {
     @Default(true) bool notifications,
     @Default(false) bool darkMode,
     @Default(true) bool quietHours,
+    @Default(false) bool isDonationSubmitting,
+    @Default(false) bool donationSubmitToggle,
+    String? donationSubmitError,
   }) = _ProfileState;
 
   factory ProfileState.initial() => const ProfileState();
