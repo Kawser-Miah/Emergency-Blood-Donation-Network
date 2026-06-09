@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$RegistrationState {
+  bool get isEditMode => throw _privateConstructorUsedError;
   int get step => throw _privateConstructorUsedError;
   String get fullName => throw _privateConstructorUsedError;
   String get gender => throw _privateConstructorUsedError;
@@ -46,6 +47,7 @@ abstract class $RegistrationStateCopyWith<$Res> {
   ) = _$RegistrationStateCopyWithImpl<$Res, RegistrationState>;
   @useResult
   $Res call({
+    bool isEditMode,
     int step,
     String fullName,
     String gender,
@@ -77,6 +79,7 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isEditMode = null,
     Object? step = null,
     Object? fullName = null,
     Object? gender = null,
@@ -93,6 +96,10 @@ class _$RegistrationStateCopyWithImpl<$Res, $Val extends RegistrationState>
   }) {
     return _then(
       _value.copyWith(
+            isEditMode: null == isEditMode
+                ? _value.isEditMode
+                : isEditMode // ignore: cast_nullable_to_non_nullable
+                      as bool,
             step: null == step
                 ? _value.step
                 : step // ignore: cast_nullable_to_non_nullable
@@ -161,6 +168,7 @@ abstract class _$$RegistrationStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    bool isEditMode,
     int step,
     String fullName,
     String gender,
@@ -191,6 +199,7 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isEditMode = null,
     Object? step = null,
     Object? fullName = null,
     Object? gender = null,
@@ -207,6 +216,10 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$RegistrationStateImpl(
+        isEditMode: null == isEditMode
+            ? _value.isEditMode
+            : isEditMode // ignore: cast_nullable_to_non_nullable
+                  as bool,
         step: null == step
             ? _value.step
             : step // ignore: cast_nullable_to_non_nullable
@@ -268,6 +281,7 @@ class __$$RegistrationStateImplCopyWithImpl<$Res>
 
 class _$RegistrationStateImpl implements _RegistrationState {
   const _$RegistrationStateImpl({
+    this.isEditMode = false,
     this.step = 1,
     this.fullName = '',
     this.gender = '',
@@ -283,6 +297,9 @@ class _$RegistrationStateImpl implements _RegistrationState {
     this.errorMessage = '',
   });
 
+  @override
+  @JsonKey()
+  final bool isEditMode;
   @override
   @JsonKey()
   final int step;
@@ -324,7 +341,7 @@ class _$RegistrationStateImpl implements _RegistrationState {
 
   @override
   String toString() {
-    return 'RegistrationState(step: $step, fullName: $fullName, gender: $gender, phone: $phone, bloodGroup: $bloodGroup, age: $age, lastDonation: $lastDonation, district: $district, thana: $thana, fbId: $fbId, confirmed: $confirmed, status: $status, errorMessage: $errorMessage)';
+    return 'RegistrationState(isEditMode: $isEditMode, step: $step, fullName: $fullName, gender: $gender, phone: $phone, bloodGroup: $bloodGroup, age: $age, lastDonation: $lastDonation, district: $district, thana: $thana, fbId: $fbId, confirmed: $confirmed, status: $status, errorMessage: $errorMessage)';
   }
 
   @override
@@ -332,6 +349,8 @@ class _$RegistrationStateImpl implements _RegistrationState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$RegistrationStateImpl &&
+            (identical(other.isEditMode, isEditMode) ||
+                other.isEditMode == isEditMode) &&
             (identical(other.step, step) || other.step == step) &&
             (identical(other.fullName, fullName) ||
                 other.fullName == fullName) &&
@@ -356,6 +375,7 @@ class _$RegistrationStateImpl implements _RegistrationState {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    isEditMode,
     step,
     fullName,
     gender,
@@ -385,6 +405,7 @@ class _$RegistrationStateImpl implements _RegistrationState {
 
 abstract class _RegistrationState implements RegistrationState {
   const factory _RegistrationState({
+    final bool isEditMode,
     final int step,
     final String fullName,
     final String gender,
@@ -400,6 +421,8 @@ abstract class _RegistrationState implements RegistrationState {
     final String errorMessage,
   }) = _$RegistrationStateImpl;
 
+  @override
+  bool get isEditMode;
   @override
   int get step;
   @override
