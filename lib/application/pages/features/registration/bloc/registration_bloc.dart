@@ -196,6 +196,12 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
             final auth = getIt<AuthController>();
             final existing = auth.profile;
 
+            // For new registration: seed from lastDonation.
+            // If the user provided a past donation date they have donated once
+            // before → totalDonations = 1, tier = Bronze.
+            // If no date → first-time donor → totalDonations = 0, unranked.
+            final hasLastDonation = state.lastDonation != null;
+
             final newProfile = UserProfileModel(
               userUuid: auth.user?.uid,
               fullName: state.fullName,
@@ -207,12 +213,14 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
               district: state.district,
               thana: state.thana,
               fbId: state.fbId,
-              // In edit mode: preserve existing computed fields.
+              // Edit mode: preserve the counts managed by DonationRepository.
               isActive: state.isEditMode ? (existing?.isActive ?? true) : true,
               donorTier: state.isEditMode
                   ? (existing?.donorTier ?? '')
-                  : 'Bronze',
-              totalDonations: existing?.totalDonations ?? 0,
+                  : (hasLastDonation ? 'Bronze' : ''),
+              totalDonations: state.isEditMode
+                  ? (existing?.totalDonations ?? 0)
+                  : (hasLastDonation ? 1 : 0),
             );
 
             final result = await _registrationUserUseCase.call(newProfile);
