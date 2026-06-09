@@ -25,6 +25,7 @@ mixin _$DonorLocationModel {
   bool get isActive => throw _privateConstructorUsedError;
   String get donorTier => throw _privateConstructorUsedError;
   int get totalDonations => throw _privateConstructorUsedError;
+  int? get age => throw _privateConstructorUsedError;
   String? get photoUrl => throw _privateConstructorUsedError;
   String? get phone => throw _privateConstructorUsedError;
   String? get fbId => throw _privateConstructorUsedError;
@@ -55,6 +56,7 @@ abstract class $DonorLocationModelCopyWith<$Res> {
     bool isActive,
     String donorTier,
     int totalDonations,
+    int? age,
     String? photoUrl,
     String? phone,
     String? fbId,
@@ -87,6 +89,7 @@ class _$DonorLocationModelCopyWithImpl<$Res, $Val extends DonorLocationModel>
     Object? isActive = null,
     Object? donorTier = null,
     Object? totalDonations = null,
+    Object? age = freezed,
     Object? photoUrl = freezed,
     Object? phone = freezed,
     Object? fbId = freezed,
@@ -128,6 +131,10 @@ class _$DonorLocationModelCopyWithImpl<$Res, $Val extends DonorLocationModel>
                 ? _value.totalDonations
                 : totalDonations // ignore: cast_nullable_to_non_nullable
                       as int,
+            age: freezed == age
+                ? _value.age
+                : age // ignore: cast_nullable_to_non_nullable
+                      as int?,
             photoUrl: freezed == photoUrl
                 ? _value.photoUrl
                 : photoUrl // ignore: cast_nullable_to_non_nullable
@@ -176,6 +183,7 @@ abstract class _$$DonorLocationModelImplCopyWith<$Res>
     bool isActive,
     String donorTier,
     int totalDonations,
+    int? age,
     String? photoUrl,
     String? phone,
     String? fbId,
@@ -207,6 +215,7 @@ class __$$DonorLocationModelImplCopyWithImpl<$Res>
     Object? isActive = null,
     Object? donorTier = null,
     Object? totalDonations = null,
+    Object? age = freezed,
     Object? photoUrl = freezed,
     Object? phone = freezed,
     Object? fbId = freezed,
@@ -248,6 +257,10 @@ class __$$DonorLocationModelImplCopyWithImpl<$Res>
             ? _value.totalDonations
             : totalDonations // ignore: cast_nullable_to_non_nullable
                   as int,
+        age: freezed == age
+            ? _value.age
+            : age // ignore: cast_nullable_to_non_nullable
+                  as int?,
         photoUrl: freezed == photoUrl
             ? _value.photoUrl
             : photoUrl // ignore: cast_nullable_to_non_nullable
@@ -289,6 +302,7 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
     this.isActive = true,
     this.donorTier = '',
     this.totalDonations = 0,
+    this.age,
     this.photoUrl,
     this.phone,
     this.fbId,
@@ -321,6 +335,8 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
   @JsonKey()
   final int totalDonations;
   @override
+  final int? age;
+  @override
   final String? photoUrl;
   @override
   final String? phone;
@@ -335,7 +351,7 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
 
   @override
   String toString() {
-    return 'DonorLocationModel(uid: $uid, fullName: $fullName, bloodGroup: $bloodGroup, district: $district, thana: $thana, isActive: $isActive, donorTier: $donorTier, totalDonations: $totalDonations, photoUrl: $photoUrl, phone: $phone, fbId: $fbId, latitude: $latitude, longitude: $longitude, geohash: $geohash)';
+    return 'DonorLocationModel(uid: $uid, fullName: $fullName, bloodGroup: $bloodGroup, district: $district, thana: $thana, isActive: $isActive, donorTier: $donorTier, totalDonations: $totalDonations, age: $age, photoUrl: $photoUrl, phone: $phone, fbId: $fbId, latitude: $latitude, longitude: $longitude, geohash: $geohash)';
   }
 
   @override
@@ -357,6 +373,7 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
                 other.donorTier == donorTier) &&
             (identical(other.totalDonations, totalDonations) ||
                 other.totalDonations == totalDonations) &&
+            (identical(other.age, age) || other.age == age) &&
             (identical(other.photoUrl, photoUrl) ||
                 other.photoUrl == photoUrl) &&
             (identical(other.phone, phone) || other.phone == phone) &&
@@ -379,6 +396,7 @@ class _$DonorLocationModelImpl extends _DonorLocationModel {
     isActive,
     donorTier,
     totalDonations,
+    age,
     photoUrl,
     phone,
     fbId,
@@ -409,6 +427,7 @@ abstract class _DonorLocationModel extends DonorLocationModel {
     final bool isActive,
     final String donorTier,
     final int totalDonations,
+    final int? age,
     final String? photoUrl,
     final String? phone,
     final String? fbId,
@@ -434,6 +453,8 @@ abstract class _DonorLocationModel extends DonorLocationModel {
   String get donorTier;
   @override
   int get totalDonations;
+  @override
+  int? get age;
   @override
   String? get photoUrl;
   @override
