@@ -9,6 +9,7 @@ enum PAGES {
   chat,
   createRequest,
   profile,
+  editProfile,
   mapPicker,
   myRequests,
   myInterests,
@@ -37,6 +38,8 @@ extension AppPageExtention on PAGES {
         return '/createRequest';
       case PAGES.profile:
         return '/profile';
+      case PAGES.editProfile:
+        return '/editProfile';
       case PAGES.mapPicker:
         return '/mapPicker';
       case PAGES.myRequests:
@@ -68,6 +71,8 @@ extension AppPageExtention on PAGES {
         return 'Create Request';
       case PAGES.profile:
         return 'Profile';
+      case PAGES.editProfile:
+        return 'Edit Profile';
       case PAGES.mapPicker:
         return 'Map Picker';
       case PAGES.myRequests:
