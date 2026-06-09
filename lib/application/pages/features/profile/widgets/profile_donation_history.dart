@@ -1,5 +1,7 @@
+import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
 import 'package:blood_setu/domain/models/donation_history_entry.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -33,7 +35,7 @@ class ProfileDonationHistorySection extends StatelessWidget {
                 ),
               ),
               TextButton(
-                onPressed: () {},
+                onPressed: () => context.push(PAGES.donationHistory.screenPath),
                 child: const Text(
                   'See all',
                   style: TextStyle(
