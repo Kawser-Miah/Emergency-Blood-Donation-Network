@@ -24,6 +24,8 @@ mixin _$ProfileEvent {
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
     required TResult Function() quietHoursToggled,
+    required TResult Function(String hospital, String bloodGroup, DateTime date)
+    donationSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -32,6 +34,8 @@ mixin _$ProfileEvent {
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
     TResult? Function()? quietHoursToggled,
+    TResult? Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -40,6 +44,8 @@ mixin _$ProfileEvent {
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
     TResult Function()? quietHoursToggled,
+    TResult Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -49,6 +55,7 @@ mixin _$ProfileEvent {
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
     required TResult Function(_QuietHoursToggled value) quietHoursToggled,
+    required TResult Function(_DonationSubmitted value) donationSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -57,6 +64,7 @@ mixin _$ProfileEvent {
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
     TResult? Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult? Function(_DonationSubmitted value)? donationSubmitted,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -65,6 +73,7 @@ mixin _$ProfileEvent {
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
     TResult Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult Function(_DonationSubmitted value)? donationSubmitted,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -90,8 +99,6 @@ class _$ProfileEventCopyWithImpl<$Res, $Val extends ProfileEvent>
   /// Create a copy of ProfileEvent
   /// with the given fields replaced by the non-null parameter values.
 }
-
-// ─────────────────────────────── started ─────────────────────────────────────
 
 /// @nodoc
 abstract class _$$StartedImplCopyWith<$Res> {
@@ -141,6 +148,8 @@ class _$StartedImpl implements _Started {
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
     required TResult Function() quietHoursToggled,
+    required TResult Function(String hospital, String bloodGroup, DateTime date)
+    donationSubmitted,
   }) {
     return started();
   }
@@ -153,6 +162,8 @@ class _$StartedImpl implements _Started {
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
     TResult? Function()? quietHoursToggled,
+    TResult? Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
   }) {
     return started?.call();
   }
@@ -165,6 +176,8 @@ class _$StartedImpl implements _Started {
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
     TResult Function()? quietHoursToggled,
+    TResult Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -181,6 +194,7 @@ class _$StartedImpl implements _Started {
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
     required TResult Function(_QuietHoursToggled value) quietHoursToggled,
+    required TResult Function(_DonationSubmitted value) donationSubmitted,
   }) {
     return started(this);
   }
@@ -193,6 +207,7 @@ class _$StartedImpl implements _Started {
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
     TResult? Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult? Function(_DonationSubmitted value)? donationSubmitted,
   }) {
     return started?.call(this);
   }
@@ -205,6 +220,7 @@ class _$StartedImpl implements _Started {
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
     TResult Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult Function(_DonationSubmitted value)? donationSubmitted,
     required TResult orElse(),
   }) {
     if (started != null) {
@@ -217,8 +233,6 @@ class _$StartedImpl implements _Started {
 abstract class _Started implements ProfileEvent {
   const factory _Started() = _$StartedImpl;
 }
-
-// ─────────────────────────── infoExpandedToggled ─────────────────────────────
 
 /// @nodoc
 abstract class _$$InfoExpandedToggledImplCopyWith<$Res> {
@@ -269,6 +283,8 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
     required TResult Function() quietHoursToggled,
+    required TResult Function(String hospital, String bloodGroup, DateTime date)
+    donationSubmitted,
   }) {
     return infoExpandedToggled();
   }
@@ -281,6 +297,8 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
     TResult? Function()? quietHoursToggled,
+    TResult? Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
   }) {
     return infoExpandedToggled?.call();
   }
@@ -293,6 +311,8 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
     TResult Function()? quietHoursToggled,
+    TResult Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
     required TResult orElse(),
   }) {
     if (infoExpandedToggled != null) {
@@ -309,6 +329,7 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
     required TResult Function(_QuietHoursToggled value) quietHoursToggled,
+    required TResult Function(_DonationSubmitted value) donationSubmitted,
   }) {
     return infoExpandedToggled(this);
   }
@@ -321,6 +342,7 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
     TResult? Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult? Function(_DonationSubmitted value)? donationSubmitted,
   }) {
     return infoExpandedToggled?.call(this);
   }
@@ -333,6 +355,7 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
     TResult Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult Function(_DonationSubmitted value)? donationSubmitted,
     required TResult orElse(),
   }) {
     if (infoExpandedToggled != null) {
@@ -345,8 +368,6 @@ class _$InfoExpandedToggledImpl implements _InfoExpandedToggled {
 abstract class _InfoExpandedToggled implements ProfileEvent {
   const factory _InfoExpandedToggled() = _$InfoExpandedToggledImpl;
 }
-
-// ─────────────────────────── notificationsToggled ────────────────────────────
 
 /// @nodoc
 abstract class _$$NotificationsToggledImplCopyWith<$Res> {
@@ -397,6 +418,8 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
     required TResult Function() quietHoursToggled,
+    required TResult Function(String hospital, String bloodGroup, DateTime date)
+    donationSubmitted,
   }) {
     return notificationsToggled();
   }
@@ -409,6 +432,8 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
     TResult? Function()? quietHoursToggled,
+    TResult? Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
   }) {
     return notificationsToggled?.call();
   }
@@ -421,6 +446,8 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
     TResult Function()? quietHoursToggled,
+    TResult Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
     required TResult orElse(),
   }) {
     if (notificationsToggled != null) {
@@ -437,6 +464,7 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
     required TResult Function(_QuietHoursToggled value) quietHoursToggled,
+    required TResult Function(_DonationSubmitted value) donationSubmitted,
   }) {
     return notificationsToggled(this);
   }
@@ -449,6 +477,7 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
     TResult? Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult? Function(_DonationSubmitted value)? donationSubmitted,
   }) {
     return notificationsToggled?.call(this);
   }
@@ -461,6 +490,7 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
     TResult Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult Function(_DonationSubmitted value)? donationSubmitted,
     required TResult orElse(),
   }) {
     if (notificationsToggled != null) {
@@ -473,8 +503,6 @@ class _$NotificationsToggledImpl implements _NotificationsToggled {
 abstract class _NotificationsToggled implements ProfileEvent {
   const factory _NotificationsToggled() = _$NotificationsToggledImpl;
 }
-
-// ──────────────────────────── darkModeToggled ─────────────────────────────────
 
 /// @nodoc
 abstract class _$$DarkModeToggledImplCopyWith<$Res> {
@@ -524,6 +552,8 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
     required TResult Function() quietHoursToggled,
+    required TResult Function(String hospital, String bloodGroup, DateTime date)
+    donationSubmitted,
   }) {
     return darkModeToggled();
   }
@@ -536,6 +566,8 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
     TResult? Function()? quietHoursToggled,
+    TResult? Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
   }) {
     return darkModeToggled?.call();
   }
@@ -548,6 +580,8 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
     TResult Function()? quietHoursToggled,
+    TResult Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
     required TResult orElse(),
   }) {
     if (darkModeToggled != null) {
@@ -564,6 +598,7 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
     required TResult Function(_QuietHoursToggled value) quietHoursToggled,
+    required TResult Function(_DonationSubmitted value) donationSubmitted,
   }) {
     return darkModeToggled(this);
   }
@@ -576,6 +611,7 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
     TResult? Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult? Function(_DonationSubmitted value)? donationSubmitted,
   }) {
     return darkModeToggled?.call(this);
   }
@@ -588,6 +624,7 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
     TResult Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult Function(_DonationSubmitted value)? donationSubmitted,
     required TResult orElse(),
   }) {
     if (darkModeToggled != null) {
@@ -600,8 +637,6 @@ class _$DarkModeToggledImpl implements _DarkModeToggled {
 abstract class _DarkModeToggled implements ProfileEvent {
   const factory _DarkModeToggled() = _$DarkModeToggledImpl;
 }
-
-// ──────────────────────────── quietHoursToggled ───────────────────────────────
 
 /// @nodoc
 abstract class _$$QuietHoursToggledImplCopyWith<$Res> {
@@ -651,6 +686,8 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
     required TResult Function() notificationsToggled,
     required TResult Function() darkModeToggled,
     required TResult Function() quietHoursToggled,
+    required TResult Function(String hospital, String bloodGroup, DateTime date)
+    donationSubmitted,
   }) {
     return quietHoursToggled();
   }
@@ -663,6 +700,8 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
     TResult? Function()? notificationsToggled,
     TResult? Function()? darkModeToggled,
     TResult? Function()? quietHoursToggled,
+    TResult? Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
   }) {
     return quietHoursToggled?.call();
   }
@@ -675,6 +714,8 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
     TResult Function()? notificationsToggled,
     TResult Function()? darkModeToggled,
     TResult Function()? quietHoursToggled,
+    TResult Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
     required TResult orElse(),
   }) {
     if (quietHoursToggled != null) {
@@ -691,6 +732,7 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
     required TResult Function(_NotificationsToggled value) notificationsToggled,
     required TResult Function(_DarkModeToggled value) darkModeToggled,
     required TResult Function(_QuietHoursToggled value) quietHoursToggled,
+    required TResult Function(_DonationSubmitted value) donationSubmitted,
   }) {
     return quietHoursToggled(this);
   }
@@ -703,6 +745,7 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
     TResult? Function(_NotificationsToggled value)? notificationsToggled,
     TResult? Function(_DarkModeToggled value)? darkModeToggled,
     TResult? Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult? Function(_DonationSubmitted value)? donationSubmitted,
   }) {
     return quietHoursToggled?.call(this);
   }
@@ -715,6 +758,7 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
     TResult Function(_NotificationsToggled value)? notificationsToggled,
     TResult Function(_DarkModeToggled value)? darkModeToggled,
     TResult Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult Function(_DonationSubmitted value)? donationSubmitted,
     required TResult orElse(),
   }) {
     if (quietHoursToggled != null) {
@@ -726,4 +770,206 @@ class _$QuietHoursToggledImpl implements _QuietHoursToggled {
 
 abstract class _QuietHoursToggled implements ProfileEvent {
   const factory _QuietHoursToggled() = _$QuietHoursToggledImpl;
+}
+
+/// @nodoc
+abstract class _$$DonationSubmittedImplCopyWith<$Res> {
+  factory _$$DonationSubmittedImplCopyWith(
+    _$DonationSubmittedImpl value,
+    $Res Function(_$DonationSubmittedImpl) then,
+  ) = __$$DonationSubmittedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String hospital, String bloodGroup, DateTime date});
+}
+
+/// @nodoc
+class __$$DonationSubmittedImplCopyWithImpl<$Res>
+    extends _$ProfileEventCopyWithImpl<$Res, _$DonationSubmittedImpl>
+    implements _$$DonationSubmittedImplCopyWith<$Res> {
+  __$$DonationSubmittedImplCopyWithImpl(
+    _$DonationSubmittedImpl _value,
+    $Res Function(_$DonationSubmittedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? hospital = null,
+    Object? bloodGroup = null,
+    Object? date = null,
+  }) {
+    return _then(
+      _$DonationSubmittedImpl(
+        hospital: null == hospital
+            ? _value.hospital
+            : hospital // ignore: cast_nullable_to_non_nullable
+                  as String,
+        bloodGroup: null == bloodGroup
+            ? _value.bloodGroup
+            : bloodGroup // ignore: cast_nullable_to_non_nullable
+                  as String,
+        date: null == date
+            ? _value.date
+            : date // ignore: cast_nullable_to_non_nullable
+                  as DateTime,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$DonationSubmittedImpl implements _DonationSubmitted {
+  const _$DonationSubmittedImpl({
+    required this.hospital,
+    required this.bloodGroup,
+    required this.date,
+  });
+
+  @override
+  final String hospital;
+  @override
+  final String bloodGroup;
+  @override
+  final DateTime date;
+
+  @override
+  String toString() {
+    return 'ProfileEvent.donationSubmitted(hospital: $hospital, bloodGroup: $bloodGroup, date: $date)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$DonationSubmittedImpl &&
+            (identical(other.hospital, hospital) ||
+                other.hospital == hospital) &&
+            (identical(other.bloodGroup, bloodGroup) ||
+                other.bloodGroup == bloodGroup) &&
+            (identical(other.date, date) || other.date == date));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, hospital, bloodGroup, date);
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$DonationSubmittedImplCopyWith<_$DonationSubmittedImpl> get copyWith =>
+      __$$DonationSubmittedImplCopyWithImpl<_$DonationSubmittedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() started,
+    required TResult Function() infoExpandedToggled,
+    required TResult Function() notificationsToggled,
+    required TResult Function() darkModeToggled,
+    required TResult Function() quietHoursToggled,
+    required TResult Function(String hospital, String bloodGroup, DateTime date)
+    donationSubmitted,
+  }) {
+    return donationSubmitted(hospital, bloodGroup, date);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function()? started,
+    TResult? Function()? infoExpandedToggled,
+    TResult? Function()? notificationsToggled,
+    TResult? Function()? darkModeToggled,
+    TResult? Function()? quietHoursToggled,
+    TResult? Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
+  }) {
+    return donationSubmitted?.call(hospital, bloodGroup, date);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? started,
+    TResult Function()? infoExpandedToggled,
+    TResult Function()? notificationsToggled,
+    TResult Function()? darkModeToggled,
+    TResult Function()? quietHoursToggled,
+    TResult Function(String hospital, String bloodGroup, DateTime date)?
+    donationSubmitted,
+    required TResult orElse(),
+  }) {
+    if (donationSubmitted != null) {
+      return donationSubmitted(hospital, bloodGroup, date);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Started value) started,
+    required TResult Function(_InfoExpandedToggled value) infoExpandedToggled,
+    required TResult Function(_NotificationsToggled value) notificationsToggled,
+    required TResult Function(_DarkModeToggled value) darkModeToggled,
+    required TResult Function(_QuietHoursToggled value) quietHoursToggled,
+    required TResult Function(_DonationSubmitted value) donationSubmitted,
+  }) {
+    return donationSubmitted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_Started value)? started,
+    TResult? Function(_InfoExpandedToggled value)? infoExpandedToggled,
+    TResult? Function(_NotificationsToggled value)? notificationsToggled,
+    TResult? Function(_DarkModeToggled value)? darkModeToggled,
+    TResult? Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult? Function(_DonationSubmitted value)? donationSubmitted,
+  }) {
+    return donationSubmitted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Started value)? started,
+    TResult Function(_InfoExpandedToggled value)? infoExpandedToggled,
+    TResult Function(_NotificationsToggled value)? notificationsToggled,
+    TResult Function(_DarkModeToggled value)? darkModeToggled,
+    TResult Function(_QuietHoursToggled value)? quietHoursToggled,
+    TResult Function(_DonationSubmitted value)? donationSubmitted,
+    required TResult orElse(),
+  }) {
+    if (donationSubmitted != null) {
+      return donationSubmitted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _DonationSubmitted implements ProfileEvent {
+  const factory _DonationSubmitted({
+    required final String hospital,
+    required final String bloodGroup,
+    required final DateTime date,
+  }) = _$DonationSubmittedImpl;
+
+  String get hospital;
+  String get bloodGroup;
+  DateTime get date;
+
+  /// Create a copy of ProfileEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$DonationSubmittedImplCopyWith<_$DonationSubmittedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
