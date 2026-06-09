@@ -17,6 +17,10 @@ final _privateConstructorUsedError = UnsupportedError(
 
 /// @nodoc
 mixin _$ProfileState {
+  bool get isLoading => throw _privateConstructorUsedError;
+  UserProfileModel? get profile => throw _privateConstructorUsedError;
+  List<DonationHistoryEntry> get donationHistory =>
+      throw _privateConstructorUsedError;
   bool get infoExpanded => throw _privateConstructorUsedError;
   bool get notifications => throw _privateConstructorUsedError;
   bool get darkMode => throw _privateConstructorUsedError;
@@ -37,6 +41,9 @@ abstract class $ProfileStateCopyWith<$Res> {
   ) = _$ProfileStateCopyWithImpl<$Res, ProfileState>;
   @useResult
   $Res call({
+    bool isLoading,
+    UserProfileModel? profile,
+    List<DonationHistoryEntry> donationHistory,
     bool infoExpanded,
     bool notifications,
     bool darkMode,
@@ -59,6 +66,9 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLoading = null,
+    Object? profile = freezed,
+    Object? donationHistory = null,
     Object? infoExpanded = null,
     Object? notifications = null,
     Object? darkMode = null,
@@ -66,6 +76,18 @@ class _$ProfileStateCopyWithImpl<$Res, $Val extends ProfileState>
   }) {
     return _then(
       _value.copyWith(
+            isLoading: null == isLoading
+                ? _value.isLoading
+                : isLoading // ignore: cast_nullable_to_non_nullable
+                      as bool,
+            profile: freezed == profile
+                ? _value.profile
+                : profile // ignore: cast_nullable_to_non_nullable
+                      as UserProfileModel?,
+            donationHistory: null == donationHistory
+                ? _value.donationHistory
+                : donationHistory // ignore: cast_nullable_to_non_nullable
+                      as List<DonationHistoryEntry>,
             infoExpanded: null == infoExpanded
                 ? _value.infoExpanded
                 : infoExpanded // ignore: cast_nullable_to_non_nullable
@@ -98,6 +120,9 @@ abstract class _$$ProfileStateImplCopyWith<$Res>
   @override
   @useResult
   $Res call({
+    bool isLoading,
+    UserProfileModel? profile,
+    List<DonationHistoryEntry> donationHistory,
     bool infoExpanded,
     bool notifications,
     bool darkMode,
@@ -119,6 +144,9 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
   @pragma('vm:prefer-inline')
   @override
   $Res call({
+    Object? isLoading = null,
+    Object? profile = freezed,
+    Object? donationHistory = null,
     Object? infoExpanded = null,
     Object? notifications = null,
     Object? darkMode = null,
@@ -126,6 +154,18 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
   }) {
     return _then(
       _$ProfileStateImpl(
+        isLoading: null == isLoading
+            ? _value.isLoading
+            : isLoading // ignore: cast_nullable_to_non_nullable
+                  as bool,
+        profile: freezed == profile
+            ? _value.profile
+            : profile // ignore: cast_nullable_to_non_nullable
+                  as UserProfileModel?,
+        donationHistory: null == donationHistory
+            ? _value.donationHistory
+            : donationHistory // ignore: cast_nullable_to_non_nullable
+                  as List<DonationHistoryEntry>,
         infoExpanded: null == infoExpanded
             ? _value.infoExpanded
             : infoExpanded // ignore: cast_nullable_to_non_nullable
@@ -151,12 +191,23 @@ class __$$ProfileStateImplCopyWithImpl<$Res>
 
 class _$ProfileStateImpl implements _ProfileState {
   const _$ProfileStateImpl({
+    this.isLoading = false,
+    this.profile,
+    this.donationHistory = const <DonationHistoryEntry>[],
     this.infoExpanded = true,
     this.notifications = true,
     this.darkMode = false,
     this.quietHours = true,
   });
 
+  @override
+  @JsonKey()
+  final bool isLoading;
+  @override
+  final UserProfileModel? profile;
+  @override
+  @JsonKey()
+  final List<DonationHistoryEntry> donationHistory;
   @override
   @JsonKey()
   final bool infoExpanded;
@@ -172,7 +223,7 @@ class _$ProfileStateImpl implements _ProfileState {
 
   @override
   String toString() {
-    return 'ProfileState(infoExpanded: $infoExpanded, notifications: $notifications, darkMode: $darkMode, quietHours: $quietHours)';
+    return 'ProfileState(isLoading: $isLoading, profile: $profile, donationHistory: $donationHistory, infoExpanded: $infoExpanded, notifications: $notifications, darkMode: $darkMode, quietHours: $quietHours)';
   }
 
   @override
@@ -180,6 +231,13 @@ class _$ProfileStateImpl implements _ProfileState {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$ProfileStateImpl &&
+            (identical(other.isLoading, isLoading) ||
+                other.isLoading == isLoading) &&
+            (identical(other.profile, profile) || other.profile == profile) &&
+            const DeepCollectionEquality().equals(
+              other.donationHistory,
+              donationHistory,
+            ) &&
             (identical(other.infoExpanded, infoExpanded) ||
                 other.infoExpanded == infoExpanded) &&
             (identical(other.notifications, notifications) ||
@@ -193,6 +251,9 @@ class _$ProfileStateImpl implements _ProfileState {
   @override
   int get hashCode => Object.hash(
     runtimeType,
+    isLoading,
+    profile,
+    const DeepCollectionEquality().hash(donationHistory),
     infoExpanded,
     notifications,
     darkMode,
@@ -210,12 +271,21 @@ class _$ProfileStateImpl implements _ProfileState {
 
 abstract class _ProfileState implements ProfileState {
   const factory _ProfileState({
+    final bool isLoading,
+    final UserProfileModel? profile,
+    final List<DonationHistoryEntry> donationHistory,
     final bool infoExpanded,
     final bool notifications,
     final bool darkMode,
     final bool quietHours,
   }) = _$ProfileStateImpl;
 
+  @override
+  bool get isLoading;
+  @override
+  UserProfileModel? get profile;
+  @override
+  List<DonationHistoryEntry> get donationHistory;
   @override
   bool get infoExpanded;
   @override
