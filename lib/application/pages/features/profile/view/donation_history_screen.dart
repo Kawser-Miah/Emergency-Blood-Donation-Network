@@ -28,13 +28,11 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
   void _load() {
     setState(() => _loadedHistory = null);
     final uid = getIt<AuthController>().user?.uid ?? '';
-    _future = getIt<DonationUseCase>()
-        .getDonationHistory(uid)
-        .then((either) {
-          final result = either.fold((_) => <DonationHistoryEntry>[], (l) => l);
-          if (mounted) setState(() => _loadedHistory = result);
-          return result;
-        });
+    _future = getIt<DonationUseCase>().getDonationHistory(uid).then((either) {
+      final result = either.fold((_) => <DonationHistoryEntry>[], (l) => l);
+      if (mounted) setState(() => _loadedHistory = result);
+      return result;
+    });
   }
 
   Future<void> _downloadPdf() async {
@@ -85,9 +83,9 @@ class _DonationHistoryScreenState extends State<DonationHistoryScreen> {
         centerTitle: false,
         actions: [
           if (_isGeneratingPdf)
-            const Padding(
-              padding: EdgeInsets.symmetric(horizontal: 16),
-              child: SizedBox(
+            IconButton(
+              onPressed: null,
+              icon: const SizedBox(
                 width: 20,
                 height: 20,
                 child: CircularProgressIndicator(
@@ -318,10 +316,7 @@ class _DonationCard extends StatelessWidget {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const Text(
-                  '🩸',
-                  style: TextStyle(fontSize: 16, height: 1),
-                ),
+                const Text('🩸', style: TextStyle(fontSize: 16, height: 1)),
                 Text(
                   '#$number',
                   style: const TextStyle(
@@ -454,11 +449,7 @@ class _ErrorView extends StatelessWidget {
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          const Icon(
-            Icons.error_outline,
-            size: 48,
-            color: AppColors.textMuted,
-          ),
+          const Icon(Icons.error_outline, size: 48, color: AppColors.textMuted),
           const SizedBox(height: 12),
           const Text(
             'Failed to load donation history.',
