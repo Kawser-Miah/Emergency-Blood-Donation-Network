@@ -215,12 +215,10 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
               fbId: state.fbId,
               // Edit mode: preserve the counts managed by DonationRepository.
               isActive: state.isEditMode ? (existing?.isActive ?? true) : true,
-              donorTier: state.isEditMode
-                  ? (existing?.donorTier ?? '')
-                  : (hasLastDonation ? 'Bronze' : ''),
+              donorTier: state.isEditMode ? (existing?.donorTier ?? '') : '',
               totalDonations: state.isEditMode
                   ? (existing?.totalDonations ?? 0)
-                  : (hasLastDonation ? 1 : 0),
+                  : 0,
             );
 
             final result = await _registrationUserUseCase.call(newProfile);
