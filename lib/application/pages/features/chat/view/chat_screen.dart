@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:go_router/go_router.dart';
 
 import '../../../../../domain/models/chat_contact.dart';
 import '../../../../../domain/models/chat_message.dart';
@@ -154,10 +155,7 @@ class _AppBar extends StatelessWidget {
       child: Row(
         children: [
           IconButton(
-            onPressed: () {},
-                // context.read<AppNavigationBloc>().add(
-                //   const AppNavigationEvent.navigated(AppScreen.chats),
-                // ),
+            onPressed: () => context.pop(),
             icon: const Icon(Icons.arrow_back, size: 22),
             color: AppColors.textSecondary,
             padding: const EdgeInsets.all(4),
