@@ -27,7 +27,8 @@ Future<void> generateAndShareDonationPdf({
     pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
       margin: pw.EdgeInsets.zero,
-      header: (_) => _header(bold: bold, regular: regular, now: now, dateFmt: dateFmt),
+      header: (_) =>
+          _header(bold: bold, regular: regular, now: now, dateFmt: dateFmt),
       footer: (ctx) => _footer(ctx, regular: regular),
       build: (_) => [
         pw.Padding(
@@ -37,7 +38,13 @@ Future<void> generateAndShareDonationPdf({
             children: [
               _sectionLabel('DONOR INFORMATION', bold),
               pw.SizedBox(height: 10),
-              _donorCard(profile: profile, td: td, bold: bold, regular: regular, dateFmt: dateFmt),
+              _donorCard(
+                profile: profile,
+                td: td,
+                bold: bold,
+                regular: regular,
+                dateFmt: dateFmt,
+              ),
               pw.SizedBox(height: 22),
               _sectionLabel('DONOR BADGES', bold),
               pw.SizedBox(height: 10),
@@ -45,7 +52,12 @@ Future<void> generateAndShareDonationPdf({
               pw.SizedBox(height: 22),
               _sectionLabel('DONATIONS  (${history.length})', bold),
               pw.SizedBox(height: 10),
-              _table(history: history, bold: bold, regular: regular, dateFmt: dateFmt),
+              _table(
+                history: history,
+                bold: bold,
+                regular: regular,
+                dateFmt: dateFmt,
+              ),
             ],
           ),
         ),
@@ -248,8 +260,22 @@ pw.Widget _donorCard({
             children: [
               pw.Row(
                 children: [
-                  pw.Expanded(child: _cell('Full Name', profile.fullName ?? '—', bold, regular)),
-                  pw.Expanded(child: _cell('Blood Group', profile.bloodGroup ?? '—', bold, regular)),
+                  pw.Expanded(
+                    child: _cell(
+                      'Full Name',
+                      profile.fullName ?? '—',
+                      bold,
+                      regular,
+                    ),
+                  ),
+                  pw.Expanded(
+                    child: _cell(
+                      'Blood Group',
+                      profile.bloodGroup ?? '—',
+                      bold,
+                      regular,
+                    ),
+                  ),
                 ],
               ),
               pw.SizedBox(height: 8),
@@ -305,7 +331,12 @@ pw.Widget _cell(String label, String value, pw.Font bold, pw.Font regular) {
     children: [
       pw.Text(
         label.toUpperCase(),
-        style: pw.TextStyle(font: regular, fontSize: 7, color: _grey500, letterSpacing: 0.4),
+        style: pw.TextStyle(
+          font: regular,
+          fontSize: 7,
+          color: _grey500,
+          letterSpacing: 0.4,
+        ),
       ),
       pw.SizedBox(height: 2),
       pw.Text(
@@ -389,7 +420,13 @@ pw.Widget _table({
   required pw.Font regular,
   required DateFormat dateFmt,
 }) {
-  final headerCells = ['#', 'Date', 'Hospital / Location', 'BG', 'Status'];
+  final headerCells = [
+    '#',
+    'Date',
+    'Hospital / Location',
+    'Blood Group',
+    'Status',
+  ];
 
   return pw.Table(
     border: pw.TableBorder.all(color: _grey200, width: 0.5),
@@ -397,7 +434,7 @@ pw.Widget _table({
       0: pw.FixedColumnWidth(28),
       1: pw.FlexColumnWidth(2.0),
       2: pw.FlexColumnWidth(3.5),
-      3: pw.FixedColumnWidth(30),
+      3: pw.FlexColumnWidth(1.4),
       4: pw.FlexColumnWidth(1.5),
     },
     children: [
@@ -407,7 +444,10 @@ pw.Widget _table({
         children: headerCells
             .map(
               (h) => pw.Padding(
-                padding: const pw.EdgeInsets.symmetric(horizontal: 8, vertical: 7),
+                padding: const pw.EdgeInsets.symmetric(
+                  horizontal: 8,
+                  vertical: 7,
+                ),
                 child: pw.Text(
                   h,
                   style: pw.TextStyle(
@@ -446,7 +486,10 @@ pw.Widget _table({
 pw.Widget _tableCell(String text, pw.Font font, PdfColor color) {
   return pw.Padding(
     padding: const pw.EdgeInsets.symmetric(horizontal: 8, vertical: 7),
-    child: pw.Text(text, style: pw.TextStyle(font: font, fontSize: 9, color: color)),
+    child: pw.Text(
+      text,
+      style: pw.TextStyle(font: font, fontSize: 9, color: color),
+    ),
   );
 }
 
@@ -462,19 +505,19 @@ String _tierLabel(int td) {
 
 // ─── Constants ────────────────────────────────────────────────────────────────
 
-const _red = PdfColor(0.898, 0.224, 0.208);       // #E53935
+const _red = PdfColor(0.898, 0.224, 0.208); // #E53935
 const _white70 = PdfColor(1, 1, 1, 0.70);
 const _white30 = PdfColor(1, 1, 1, 0.30);
-const _grey50 = PdfColor(0.980, 0.980, 0.980);    // #FAFAFA
-const _grey100 = PdfColor(0.961, 0.961, 0.961);   // #F5F5F5
-const _grey200 = PdfColor(0.933, 0.933, 0.933);   // #EEEEEE
-const _grey500 = PdfColor(0.620, 0.620, 0.620);   // #9E9E9E
-const _grey800 = PdfColor(0.259, 0.259, 0.259);   // #424242
-const _green = PdfColor(0.263, 0.627, 0.278);     // #43A047
-const _bronze = PdfColor(0.722, 0.451, 0.200);    // #B87333
-const _silver = PdfColor(0.627, 0.627, 0.627);    // #A0A0A0
-const _gold = PdfColor(0.855, 0.647, 0.125);      // #DAA520
-const _platinum = PdfColor(0.329, 0.431, 0.478);  // #546E7A
+const _grey50 = PdfColor(0.980, 0.980, 0.980); // #FAFAFA
+const _grey100 = PdfColor(0.961, 0.961, 0.961); // #F5F5F5
+const _grey200 = PdfColor(0.933, 0.933, 0.933); // #EEEEEE
+const _grey500 = PdfColor(0.620, 0.620, 0.620); // #9E9E9E
+const _grey800 = PdfColor(0.259, 0.259, 0.259); // #424242
+const _green = PdfColor(0.263, 0.627, 0.278); // #43A047
+const _bronze = PdfColor(0.722, 0.451, 0.200); // #B87333
+const _silver = PdfColor(0.627, 0.627, 0.627); // #A0A0A0
+const _gold = PdfColor(0.855, 0.647, 0.125); // #DAA520
+const _platinum = PdfColor(0.329, 0.431, 0.478); // #546E7A
 
 class _Badge {
   const _Badge(this.name, this.rangeLabel, this.threshold, this.color);
