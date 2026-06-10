@@ -1,8 +1,10 @@
 import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
 import 'package:blood_setu/application/pages/features/bottom_nav/view/bottom_nav_page.dart';
+import 'package:blood_setu/application/pages/features/chat/view/chat_screen.dart';
 import 'package:blood_setu/application/pages/features/create_request/view/create_request_screen.dart';
 import 'package:blood_setu/application/pages/features/registration/view/registration_screen.dart';
+import 'package:blood_setu/domain/models/chat_contact.dart';
 import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:blood_setu/application/pages/features/sign_in/view/sign_in_screen.dart';
 import 'package:blood_setu/application/pages/features/splash/view/splash_screen.dart';
@@ -129,9 +131,8 @@ class AppRouter {
         GoRoute(
           path: PAGES.allBadges.screenPath,
           name: PAGES.allBadges.screenName,
-          builder: (context, state) => AllBadgesScreen(
-            totalDonations: state.extra as int? ?? 0,
-          ),
+          builder: (context, state) =>
+              AllBadgesScreen(totalDonations: state.extra as int? ?? 0),
         ),
         GoRoute(
           path: PAGES.mapPicker.screenPath,
@@ -144,6 +145,13 @@ class AppRouter {
               initialLng: extra?.initialLng,
             );
           },
+        ),
+        GoRoute(
+          path: PAGES.chat.screenPath,
+          name: PAGES.chat.screenName,
+          builder: (context, state) => ChatScreen(
+            contact: state.extra as ChatContact,
+          ),
         ),
       ],
     );
