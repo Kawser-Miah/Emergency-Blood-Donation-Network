@@ -200,7 +200,6 @@ class RegistrationBloc extends Bloc<RegistrationEvent, RegistrationState> {
             // If the user provided a past donation date they have donated once
             // before → totalDonations = 1, tier = Bronze.
             // If no date → first-time donor → totalDonations = 0, unranked.
-            final hasLastDonation = state.lastDonation != null;
 
             final newProfile = UserProfileModel(
               userUuid: auth.user?.uid,
