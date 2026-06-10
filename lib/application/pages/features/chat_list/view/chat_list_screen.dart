@@ -1,11 +1,13 @@
+import 'package:blood_setu/application/core/services/routing/app_router.dart';
+import 'package:blood_setu/domain/models/chat_contact.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../../data/mock_data.dart';
 import '../../../../../domain/models/chat_summary.dart';
+import '../../../../core/services/routing/routing_utils.dart';
 import '../../../../core/widgets/avatar.dart';
 import '../../../../core/widgets/typing_dots.dart';
 import '../../../../core/theme/colors.dart';
-
 
 class ChatListScreen extends StatelessWidget {
   const ChatListScreen({super.key});
@@ -23,10 +25,10 @@ class ChatListScreen extends StatelessWidget {
                 child: mockChats.isEmpty
                     ? _Empty(
                         onFind: () {},
-                            // context.read<AppNavigationBloc>().add(
-                            //   const AppNavigationEvent.navigated(
-                            //       AppScreen.donors),
-                            // ),
+                        // context.read<AppNavigationBloc>().add(
+                        //   const AppNavigationEvent.navigated(
+                        //       AppScreen.donors),
+                        // ),
                       )
                     : ListView.builder(
                         padding: const EdgeInsets.only(bottom: 80),
@@ -59,7 +61,12 @@ class _Header extends StatelessWidget {
           ),
         ],
       ),
-      padding: EdgeInsets.fromLTRB(0, MediaQuery.of(context).padding.top + 4, 0, 8),
+      padding: EdgeInsets.fromLTRB(
+        0,
+        MediaQuery.of(context).padding.top + 4,
+        0,
+        8,
+      ),
       child: Column(
         children: [
           Padding(
@@ -100,8 +107,7 @@ class _Header extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
               decoration: BoxDecoration(
                 color: AppColors.dividerLightest,
                 borderRadius: BorderRadius.circular(12),
@@ -113,8 +119,10 @@ class _Header extends StatelessWidget {
                   SizedBox(width: 8),
                   Text(
                     'Search messages...',
-                    style:
-                        TextStyle(fontSize: 14, color: AppColors.textDisabled),
+                    style: TextStyle(
+                      fontSize: 14,
+                      color: AppColors.textDisabled,
+                    ),
                   ),
                 ],
               ),
@@ -135,20 +143,19 @@ class _ChatRow extends StatelessWidget {
   Widget build(BuildContext context) {
     final hasUnread = chat.unread > 0;
     return InkWell(
-      onTap: () {},
-          // context.read<AppNavigationBloc>().add(
-          //   AppNavigationEvent.navigated(
-          //     AppScreen.chat,
-          //     contact: ChatContact(
-          //       name: chat.name,
-          //       bloodGroup: chat.bloodGroup,
-          //       id: chat.id,
-          //       initials: chat.initials,
-          //       avatarColor: chat.avatarColor,
-          //       online: chat.online,
-          //     ),
-          //   ),
-          // ),
+      onTap: () {
+        AppRouter.router.push(
+          PAGES.chat.screenPath,
+          extra: ChatContact(
+            id: chat.id,
+            name: chat.name,
+            bloodGroup: chat.bloodGroup,
+            initials: chat.initials,
+            avatarColor: chat.avatarColor,
+            online: chat.online,
+          ),
+        );
+      },
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
         decoration: BoxDecoration(
@@ -193,7 +200,9 @@ class _ChatRow extends StatelessWidget {
                               const SizedBox(width: 6),
                               Container(
                                 padding: const EdgeInsets.symmetric(
-                                    horizontal: 6, vertical: 2),
+                                  horizontal: 6,
+                                  vertical: 2,
+                                ),
                                 decoration: BoxDecoration(
                                   color: AppColors.primarySurface,
                                   borderRadius: BorderRadius.circular(99),
@@ -325,8 +334,10 @@ class _Empty extends StatelessWidget {
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.primary,
                 foregroundColor: Colors.white,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 10,
+                ),
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(16),
                 ),
