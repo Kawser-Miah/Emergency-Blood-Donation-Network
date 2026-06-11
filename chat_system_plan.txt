@@ -1,0 +1,362 @@
+================================================================
+  BLOOD SETU — CHAT SYSTEM IMPLEMENTATION PLAN
+  Date: 2026-06-10
+  Status: Planning complete, implementation pending
+================================================================
+
+
+----------------------------------------------------------------
+  1. OVERVIEW
+----------------------------------------------------------------
+
+A strictly 1-to-1 real-time chat system built on Firebase Firestore.
+Users can start a conversation from 3 different entry points in the app,
+but the conversation structure is always the same — two participants.
+
+Tech stack:
+  - Firebase Firestore (messages + conversations)
+  - Firebase Realtime Database (online presence / lastSeen)
+  - flutter_bloc (state management)
+  - freezed (immutable models)
+  - injectable (dependency injection)
+
+
+----------------------------------------------------------------
+  2. CHAT ENTRY POINTS
+----------------------------------------------------------------
+
+Three places in the app where a user can initiate a chat:
+
+  A. Nearby Donors screen
+     → User taps "Message" on a donor card
+     → chatSource.type = donorCard
+     → chatSource.referenceId = donorUid
+
+  B. Blood Requests screen
+     → Donor taps "I'm Coming" / Message on a request post
+     → chatSource.type = bloodRequest
+     → chatSource.referenceId = requestId
+
+  C. My Requests screen → Who's Interested list
+     → Requester taps "Message" next to an interested donor
+     → chatSource.type = interestResponse
+     → chatSource.referenceId = requestId
+
+Rule: Before creating a new conversation, always check if one
+already exists between the same two participantIds. If yes, reuse it.
+
+
+----------------------------------------------------------------
+  3. ENTITIES & MODELS
+----------------------------------------------------------------
+
+--- Enums ---
+
+  ChatSourceType:
+    bloodRequest      // Donor initiates from a request post
+    donorCard         // User initiates from nearby donor card
+    interestResponse  // Requester initiates from their interest list
+    direct            // Future generic DM (reserved, not used yet)
+
+  MessageType:
+    text
+    image
+    location
+    certificate
+
+  MessageStatus:
+    sending
+    sent
+    read
+
+
+--- Model: ChatSource ---
+
+  Field           Type          Notes
+  type            ChatSourceType
+  referenceId     String?       requestId or donorUid, null for direct
+
+
+--- Model: ConversationParticipant ---
+
+  Field           Type          Notes
+  uid             String
+  name            String
+  bloodGroup      String
+  initials        String
+  avatarColor     String        hex string e.g. "#1E88E5"
+  online          bool          synced from RTDB presence
+  lastSeen        Timestamp
+
+
+--- Model: Conversation ---
+
+  Field                   Type                              Notes
+  id                      String                            Firestore doc ID
+  participantIds          List<String>                      always exactly 2 UIDs
+  participants            Map<String, ConversationParticipant>
+  lastMessage             String                            denormalized for list view
+  lastMessageTime         Timestamp                         for sorting
+  lastMessageSenderId     String                            to show "You: ..." prefix
+  unreadCounts            Map<String, int>                  e.g. { uid1: 0, uid2: 2 }
+  chatSource              ChatSource
+  createdAt               Timestamp
+
+
+--- Model: Message ---
+
+  Field           Type            Notes
+  id              String          Firestore doc ID
+  conversationId  String
+  senderId        String          UID of sender
+  text            String
+  type            MessageType
+  timestamp       Timestamp
+  readBy          List<String>    UIDs who have read the message
+  status          MessageStatus
+
+
+Old models to REPLACE or KEEP:
+  - chat_contact.dart    → KEEP for now, used by ChatScreen UI
+  - chat_message.dart    → REPLACE with new Message model (add type, status, readBy, senderId)
+  - chat_summary.dart    → REPLACE with Conversation model
+
+
+----------------------------------------------------------------
+  4. FIRESTORE STRUCTURE
+----------------------------------------------------------------
+
+conversations/{conversationId}
+  ├── participantIds:         ["uid1", "uid2"]
+  ├── participants: {
+  │     "uid1": { uid, name, bloodGroup, initials, avatarColor, online, lastSeen },
+  │     "uid2": { uid, name, bloodGroup, initials, avatarColor, online, lastSeen }
+  │   }
+  ├── lastMessage:            "I'll be there in 30 min"
+  ├── lastMessageTime:        Timestamp
+  ├── lastMessageSenderId:    "uid1"
+  ├── unreadCounts:           { "uid1": 0, "uid2": 2 }
+  ├── chatSource: {
+  │     type:         "interest_response"
+  │     referenceId:  "req_abc"
+  │   }
+  ├── createdAt:              Timestamp
+  └── messages/{messageId}
+        ├── conversationId:   "conv_xyz"
+        ├── senderId:         "uid1"
+        ├── text:             "On my way"
+        ├── type:             "text"
+        ├── timestamp:        Timestamp
+        ├── readBy:           ["uid1", "uid2"]
+        └── status:           "read"
+
+Firebase Realtime Database (presence only):
+  /presence/{uid}
+    ├── online:    true/false
+    └── lastSeen:  timestamp
+
+
+----------------------------------------------------------------
+  5. DIRECTORY STRUCTURE — ALL FILES TO CREATE/MODIFY
+----------------------------------------------------------------
+
+DOMAIN LAYER
+------------
+
+  New models (with freezed):
+    lib/domain/models/conversation.dart
+    lib/domain/models/conversation.freezed.dart         (generated)
+    lib/domain/models/conversation_participant.dart
+    lib/domain/models/conversation_participant.freezed.dart  (generated)
+    lib/domain/models/chat_source.dart
+    lib/domain/models/chat_source.freezed.dart          (generated)
+    lib/domain/models/message.dart                      (replaces chat_message.dart)
+    lib/domain/models/message.freezed.dart              (generated)
+    lib/domain/models/message_type.dart                 (enum)
+    lib/domain/models/message_status.dart               (enum)
+    lib/domain/models/chat_source_type.dart             (enum)
+
+  Repository interface:
+    lib/domain/repositories/chat_repository.dart
+
+  Existing models to update:
+    lib/domain/models/chat_message.dart                 (keep for mock, migrate later)
+
+
+DATA LAYER
+----------
+
+  Repository implementation:
+    lib/data/repositories/chat_repository_impl.dart
+
+  Existing:
+    lib/data/mock_data.dart                             (update mockChats to use Conversation)
+
+
+APPLICATION LAYER — BLoC
+------------------------
+
+  ConversationList (chat inbox):
+    lib/application/pages/features/chat_list/bloc/conversation_list_bloc.dart
+    lib/application/pages/features/chat_list/bloc/conversation_list_event.dart
+    lib/application/pages/features/chat_list/bloc/conversation_list_event.freezed.dart  (generated)
+    lib/application/pages/features/chat_list/bloc/conversation_list_state.dart
+    lib/application/pages/features/chat_list/bloc/conversation_list_state.freezed.dart  (generated)
+
+  Chat (individual conversation):
+    lib/application/pages/features/chat/bloc/chat_bloc.dart                 (refactor existing)
+    lib/application/pages/features/chat/bloc/chat_event.dart                (refactor existing)
+    lib/application/pages/features/chat/bloc/chat_event.freezed.dart        (generated)
+    lib/application/pages/features/chat/bloc/chat_state.dart                (refactor existing)
+    lib/application/pages/features/chat/bloc/chat_state.freezed.dart        (generated)
+
+  Existing blocs to remove/replace:
+    lib/application/pages/features/chat_list/bloc/chat_list_bloc.dart       (replace)
+    lib/application/pages/features/chat_list/bloc/chat_list_event.dart      (replace)
+    lib/application/pages/features/chat_list/bloc/chat_list_state.dart      (replace)
+
+
+APPLICATION LAYER — Views
+-------------------------
+
+  Chat list screen (update):
+    lib/application/pages/features/chat_list/view/chat_list_screen.dart
+
+  Chat screen (update):
+    lib/application/pages/features/chat/view/chat_screen.dart
+
+  Screens that get a "Message" button added:
+    lib/application/pages/features/donors/view/donors_screen.dart
+    lib/application/pages/features/my_requests/view/my_requests_screen.dart
+    lib/application/pages/features/blood_requests/view/blood_requests_screen.dart
+
+
+ROUTING
+-------
+
+  Update to pass Conversation or ChatSource as extra:
+    lib/application/core/services/routing/app_router.dart
+    lib/application/core/services/routing/routing_utils.dart
+
+
+DEPENDENCY INJECTION
+--------------------
+
+  Register ChatRepository:
+    lib/di/di.dart                                      (add ChatRepository binding)
+
+
+----------------------------------------------------------------
+  6. REPOSITORY INTERFACE (IChatRepository)
+----------------------------------------------------------------
+
+Methods:
+
+  // Get or create a 1-to-1 conversation
+  Future<Conversation> getOrCreateConversation({
+    required String currentUid,
+    required String otherUid,
+    required ChatSource chatSource,
+  })
+
+  // Stream all conversations for current user (sorted by lastMessageTime)
+  Stream<List<Conversation>> watchConversations(String uid)
+
+  // Stream messages for a conversation (real-time)
+  Stream<List<Message>> watchMessages(String conversationId)
+
+  // Send a message
+  Future<void> sendMessage({
+    required String conversationId,
+    required String senderId,
+    required String text,
+    required MessageType type,
+  })
+
+  // Mark all messages as read for current user
+  Future<void> markAsRead({
+    required String conversationId,
+    required String uid,
+  })
+
+  // Update online presence
+  Future<void> setOnlineStatus(String uid, bool online)
+
+
+----------------------------------------------------------------
+  7. BLOC RESPONSIBILITIES
+----------------------------------------------------------------
+
+ConversationListBloc:
+  - Triggered on: screen open
+  - Watches: Stream<List<Conversation>> from repository
+  - Emits: loading / loaded(conversations) / error
+  - Handles: unread total badge count for bottom nav
+
+ChatBloc:
+  - Triggered on: screen open with conversationId
+  - Watches: Stream<List<Message>> from repository
+  - Handles: sendMessage, markAsRead on open, typing indicator (local only)
+  - On send: optimistic local add + repository write
+  - On open: calls markAsRead immediately
+
+
+----------------------------------------------------------------
+  8. KEY IMPLEMENTATION RULES
+----------------------------------------------------------------
+
+1. Always check for existing conversation before creating a new one
+   (query by participantIds array-contains both UIDs).
+
+2. When sending a message:
+   - Write to messages subcollection
+   - Update conversation: lastMessage, lastMessageTime, lastMessageSenderId
+   - Increment unreadCounts for the OTHER participant only
+   Use a Firestore transaction or batch write for atomicity.
+
+3. When opening a chat:
+   - Reset unreadCounts[myUid] = 0 immediately
+   - Add myUid to readBy on all unread messages
+
+4. Online presence uses Firebase Realtime Database (not Firestore)
+   because RTDB supports onDisconnect hooks reliably.
+
+5. ConversationParticipant info is denormalized into the conversation doc.
+   Update it when the user updates their profile.
+
+6. ChatContact model (existing) is kept for the UI layer only.
+   It is derived from ConversationParticipant when opening a chat.
+
+
+----------------------------------------------------------------
+  9. IMPLEMENTATION ORDER
+----------------------------------------------------------------
+
+  Step 1 — Domain models
+    Create: ChatSourceType, MessageType, MessageStatus (enums)
+    Create: ChatSource, ConversationParticipant, Conversation, Message (freezed)
+    Create: IChatRepository interface
+
+  Step 2 — Data layer
+    Implement: ChatRepositoryImpl with Firestore
+    Register in DI
+
+  Step 3 — BLoC
+    Implement: ConversationListBloc (replaces ChatListBloc)
+    Refactor:  ChatBloc to use repository
+
+  Step 4 — UI wiring
+    Update: ChatListScreen to use ConversationListBloc
+    Update: ChatScreen to use real ChatBloc + repository
+    Add "Message" button: DonorsScreen, MyRequestsScreen, BloodRequestsScreen
+
+  Step 5 — Routing
+    Update app_router.dart to pass ChatSource when navigating to chat
+
+  Step 6 — Presence
+    Implement online/lastSeen with Firebase Realtime Database
+
+
+================================================================
+  END OF PLAN
+================================================================
