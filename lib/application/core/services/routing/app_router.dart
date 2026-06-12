@@ -4,7 +4,7 @@ import 'package:blood_setu/application/pages/features/bottom_nav/view/bottom_nav
 import 'package:blood_setu/application/pages/features/chat/view/chat_screen.dart';
 import 'package:blood_setu/application/pages/features/create_request/view/create_request_screen.dart';
 import 'package:blood_setu/application/pages/features/registration/view/registration_screen.dart';
-import 'package:blood_setu/domain/models/chat_contact.dart';
+import 'package:blood_setu/domain/models/chat_screen_args.dart';
 import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:blood_setu/application/pages/features/sign_in/view/sign_in_screen.dart';
 import 'package:blood_setu/application/pages/features/splash/view/splash_screen.dart';
@@ -149,9 +149,15 @@ class AppRouter {
         GoRoute(
           path: PAGES.chat.screenPath,
           name: PAGES.chat.screenName,
-          builder: (context, state) => ChatScreen(
-            contact: state.extra as ChatContact,
-          ),
+          builder: (context, state) {
+            final args = state.extra;
+            if (args is! ChatScreenArgs) {
+              return const Scaffold(
+                body: Center(child: Text('Invalid chat arguments')),
+              );
+            }
+            return ChatScreen(args: args);
+          },
         ),
       ],
     );
