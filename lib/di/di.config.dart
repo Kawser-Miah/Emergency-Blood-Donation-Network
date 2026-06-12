@@ -18,6 +18,10 @@ import 'package:blood_setu/application/pages/features/blood_requests/bloc/blood_
     as _i340;
 import 'package:blood_setu/application/pages/features/bottom_nav/bloc/bottom_nav_bloc.dart'
     as _i619;
+import 'package:blood_setu/application/pages/features/chat/bloc/chat_bloc.dart'
+    as _i310;
+import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_bloc.dart'
+    as _i537;
 import 'package:blood_setu/application/pages/features/create_request/bloc/create_request_bloc.dart'
     as _i879;
 import 'package:blood_setu/application/pages/features/donors/bloc/donors_bloc.dart'
@@ -36,6 +40,8 @@ import 'package:blood_setu/data/repositories/authentication_repositories_iml.dar
     as _i310;
 import 'package:blood_setu/data/repositories/blood_request_repository_impl.dart'
     as _i811;
+import 'package:blood_setu/data/repositories/chat_repository_impl.dart'
+    as _i576;
 import 'package:blood_setu/data/repositories/donation_repository_impl.dart'
     as _i76;
 import 'package:blood_setu/data/repositories/location_repository_impl.dart'
@@ -49,6 +55,7 @@ import 'package:blood_setu/domain/repositories/authentication_repository.dart'
     as _i546;
 import 'package:blood_setu/domain/repositories/blood_request_repository.dart'
     as _i3;
+import 'package:blood_setu/domain/repositories/chat_repository.dart' as _i830;
 import 'package:blood_setu/domain/repositories/donation_repository.dart'
     as _i133;
 import 'package:blood_setu/domain/repositories/location_repository.dart'
@@ -59,6 +66,7 @@ import 'package:blood_setu/domain/repositories/registration_repository.dart'
     as _i268;
 import 'package:blood_setu/domain/usecase/authentication_usecase.dart' as _i39;
 import 'package:blood_setu/domain/usecase/blood_requests_usecase.dart' as _i269;
+import 'package:blood_setu/domain/usecase/chat_usecase.dart' as _i302;
 import 'package:blood_setu/domain/usecase/create_request_usecase.dart' as _i309;
 import 'package:blood_setu/domain/usecase/donation_usecase.dart' as _i141;
 import 'package:blood_setu/domain/usecase/get_interested_donors_usecase.dart'
@@ -82,6 +90,7 @@ import 'package:blood_setu/domain/usecase/withdraw_interest_usecase.dart'
     as _i886;
 import 'package:cloud_firestore/cloud_firestore.dart' as _i974;
 import 'package:firebase_auth/firebase_auth.dart' as _i59;
+import 'package:firebase_database/firebase_database.dart' as _i345;
 import 'package:get_it/get_it.dart' as _i174;
 import 'package:google_sign_in/google_sign_in.dart' as _i116;
 import 'package:injectable/injectable.dart' as _i526;
@@ -102,6 +111,7 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.singleton<_i59.FirebaseAuth>(() => registerModule.firebaseAuth);
     gh.singleton<_i974.FirebaseFirestore>(() => registerModule.firestore);
+    gh.singleton<_i345.FirebaseDatabase>(() => registerModule.firebaseDatabase);
     gh.singleton<_i116.GoogleSignIn>(() => registerModule.googleSignIn);
     gh.factory<_i268.RegistrationRepository>(
       () => _i916.RegistrationRepositoryIml(
@@ -136,6 +146,12 @@ extension GetItInjectableX on _i174.GetIt {
     );
     gh.factory<_i766.LocationRepository>(
       () => _i470.LocationRepositoryImpl(gh<_i974.FirebaseFirestore>()),
+    );
+    gh.factory<_i830.IChatRepository>(
+      () => _i576.ChatRepositoryImpl(
+        gh<_i974.FirebaseFirestore>(),
+        gh<_i345.FirebaseDatabase>(),
+      ),
     );
     gh.factory<_i546.AuthenticationRepository>(
       () => _i310.AuthenticationRepositoriesIml(
@@ -187,6 +203,9 @@ extension GetItInjectableX on _i174.GetIt {
     gh.factory<_i1060.LocationUseCase>(
       () => _i1060.LocationUseCase(gh<_i766.LocationRepository>()),
     );
+    gh.factory<_i302.ChatUseCase>(
+      () => _i302.ChatUseCase(gh<_i830.IChatRepository>()),
+    );
     gh.factory<_i164.GetMyInterestIdsUseCase>(
       () => _i164.GetMyInterestIdsUseCase(gh<_i3.BloodRequestRepository>()),
     );
@@ -232,6 +251,10 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i309.CreateRequestUseCase>(),
         gh<_i1060.LocationUseCase>(),
       ),
+    );
+    gh.factory<_i310.ChatBloc>(() => _i310.ChatBloc(gh<_i302.ChatUseCase>()));
+    gh.factory<_i537.ConversationListBloc>(
+      () => _i537.ConversationListBloc(gh<_i302.ChatUseCase>()),
     );
     gh.factory<_i340.BloodRequestsBloc>(
       () => _i340.BloodRequestsBloc(
