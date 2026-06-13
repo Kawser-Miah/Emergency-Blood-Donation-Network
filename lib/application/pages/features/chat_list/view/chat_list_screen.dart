@@ -10,6 +10,7 @@ import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/models/chat_contact.dart';
 import 'package:blood_setu/domain/models/chat_screen_args.dart';
 import 'package:blood_setu/domain/models/conversation.dart';
+import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -71,7 +72,8 @@ class _ChatListView extends StatelessWidget {
                     ),
                   ),
                 ),
-                loaded: (conversations, filtered, search, totalUnread) =>
+                loaded: (conversations, filtered, search, totalUnread,
+                        profiles) =>
                     filtered.isEmpty
                         ? _Empty(
                             onFind: () => context
@@ -84,6 +86,7 @@ class _ChatListView extends StatelessWidget {
                             itemBuilder: (context, i) => _ChatRow(
                               conversation: filtered[i],
                               currentUid: currentUid,
+                              profiles: profiles,
                             ),
                           ),
               ),
@@ -185,11 +188,23 @@ class _Header extends StatelessWidget {
   }
 }
 
+String _initialsFromName(String name) {
+  final parts = name.trim().split(RegExp(r'\s+'));
+  if (parts.isEmpty || parts.first.isEmpty) return '?';
+  if (parts.length == 1) return parts[0][0].toUpperCase();
+  return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
+}
+
 class _ChatRow extends StatelessWidget {
-  const _ChatRow({required this.conversation, required this.currentUid});
+  const _ChatRow({
+    required this.conversation,
+    required this.currentUid,
+    required this.profiles,
+  });
 
   final Conversation conversation;
   final String currentUid;
+  final Map<String, UserProfileModel> profiles;
 
   @override
   Widget build(BuildContext context) {
@@ -197,12 +212,18 @@ class _ChatRow extends StatelessWidget {
       (id) => id != currentUid,
       orElse: () => conversation.participantIds.first,
     );
-    final other = conversation.participants[otherUid];
-    final name = other?.name ?? 'Unknown';
-    final bloodGroup = other?.bloodGroup ?? '';
-    final initials = other?.initials ?? '?';
-    final avatarColor = other?.avatarColor ?? chatAvatarColor(otherUid);
-    final online = other?.online ?? false;
+    final stored = conversation.participants[otherUid];
+    final profile = profiles[otherUid];
+
+    // Use fresh profile data; fall back to stored snapshot while loading.
+    final name = profile?.fullName?.isNotEmpty == true
+        ? profile!.fullName!
+        : (stored?.name ?? 'Unknown');
+    final bloodGroup = profile?.bloodGroup ?? stored?.bloodGroup ?? '';
+    final photoUrl = profile?.photoUrl;
+    final initials = _initialsFromName(name);
+    final avatarColor = stored?.avatarColor ?? chatAvatarColor(otherUid);
+    final online = stored?.online ?? false;
 
     final unread = conversation.unreadCounts[currentUid] ?? 0;
     final hasUnread = unread > 0;
@@ -227,6 +248,7 @@ class _ChatRow extends StatelessWidget {
               initials: initials,
               avatarColor: avatarColor,
               online: online,
+              photoUrl: photoUrl,
             ),
             currentUid: currentUid,
             conversationId: conversation.id,
@@ -249,6 +271,7 @@ class _ChatRow extends StatelessWidget {
             Avatar(
               initials: initials,
               colorHex: avatarColor,
+              imageUrl: photoUrl,
               size: 52,
               online: online,
             ),
