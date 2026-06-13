@@ -37,9 +37,10 @@ const Map<String, _StatusStyle> _statusColors = {
 };
 
 class DonorCard extends StatelessWidget {
-  const DonorCard({super.key, required this.donor});
+  const DonorCard({super.key, required this.donor, this.onMessage});
 
   final NearbyDonor donor;
+  final VoidCallback? onMessage;
 
   void _openDetails(BuildContext context) {
     showModalBottomSheet<void>(
@@ -199,7 +200,7 @@ class DonorCard extends StatelessWidget {
               const SizedBox(width: 6),
               Expanded(
                 child: ElevatedButton.icon(
-                  onPressed: () {},
+                  onPressed: onMessage,
                   icon: const Icon(Icons.chat_bubble_outline, size: 14),
                   label: const Text('Message'),
                   style: ElevatedButton.styleFrom(
