@@ -3,6 +3,7 @@ import '../models/conversation.dart';
 import '../models/message.dart';
 import '../models/message_type.dart';
 import '../models/presence_status.dart';
+import '../models/user_profile_model.dart';
 
 abstract class IChatRepository {
   Future<Conversation> getOrCreateConversation({
@@ -31,4 +32,7 @@ abstract class IChatRepository {
 
   /// Streams the presence (online flag + lastSeen) of another user from RTDB.
   Stream<PresenceStatus> watchPresence(String uid);
+
+  /// Fetches fresh profiles for the given UIDs from the profile collection.
+  Future<Map<String, UserProfileModel>> fetchProfiles(List<String> uids);
 }
