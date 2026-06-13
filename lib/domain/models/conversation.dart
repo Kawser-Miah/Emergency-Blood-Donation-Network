@@ -11,7 +11,8 @@ class Conversation with _$Conversation {
   const factory Conversation({
     required String id,
     required List<String> participantIds,
-    required Map<String, ConversationParticipant> participants,
+    @Default(<String, ConversationParticipant>{})
+    Map<String, ConversationParticipant> participants,
     required String lastMessage,
     required DateTime lastMessageTime,
     required String lastMessageSenderId,
@@ -20,29 +21,32 @@ class Conversation with _$Conversation {
     required DateTime createdAt,
   }) = _Conversation;
 
-  factory Conversation.fromMap(String id, Map<String, dynamic> map) =>
-      Conversation(
-        id: id,
-        participantIds: List<String>.from(map['participantIds'] as List),
-        participants:
-            (map['participants'] as Map<String, dynamic>).map(
-          (k, v) => MapEntry(
-            k,
-            ConversationParticipant.fromMap(v as Map<String, dynamic>),
-          ),
+  factory Conversation.fromMap(String id, Map<String, dynamic> map) {
+    final rawParticipants = map['participants'] as Map<String, dynamic>?;
+    return Conversation(
+      id: id,
+      participantIds: List<String>.from(map['participantIds'] as List),
+      participants: rawParticipants != null
+          ? rawParticipants.map(
+              (k, v) => MapEntry(
+                k,
+                ConversationParticipant.fromMap(v as Map<String, dynamic>),
+              ),
+            )
+          : const <String, ConversationParticipant>{},
+      lastMessage: map['lastMessage'] as String? ?? '',
+      lastMessageTime:
+          (map['lastMessageTime'] as Timestamp?)?.toDate() ?? DateTime.now(),
+      lastMessageSenderId: map['lastMessageSenderId'] as String? ?? '',
+      unreadCounts: Map<String, int>.from(
+        ((map['unreadCounts'] as Map<String, dynamic>?) ?? {}).map(
+          (k, v) => MapEntry(k, (v as num).toInt()),
         ),
-        lastMessage: map['lastMessage'] as String? ?? '',
-        lastMessageTime:
-            (map['lastMessageTime'] as Timestamp?)?.toDate() ?? DateTime.now(),
-        lastMessageSenderId: map['lastMessageSenderId'] as String? ?? '',
-        unreadCounts: Map<String, int>.from(
-          ((map['unreadCounts'] as Map<String, dynamic>?) ?? {}).map(
-            (k, v) => MapEntry(k, (v as num).toInt()),
-          ),
-        ),
-        chatSource:
-            ChatSource.fromMap(map['chatSource'] as Map<String, dynamic>),
-        createdAt:
-            (map['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
-      );
+      ),
+      chatSource:
+          ChatSource.fromMap(map['chatSource'] as Map<String, dynamic>),
+      createdAt:
+          (map['createdAt'] as Timestamp?)?.toDate() ?? DateTime.now(),
+    );
+  }
 }
