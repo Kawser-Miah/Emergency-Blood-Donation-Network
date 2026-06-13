@@ -2,13 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 
+import '../../../../../di/di.dart';
 import '../../../../../domain/models/chat_contact.dart';
-import '../../../../../domain/models/chat_message.dart';
+import '../../../../../domain/models/chat_screen_args.dart';
+import '../../../../../domain/models/message.dart';
+import '../../../../../domain/models/message_status.dart';
 import '../../../../core/widgets/avatar.dart';
 import '../../../../core/widgets/typing_dots.dart';
 import '../../../../core/theme/colors.dart';
-// import '../../../app/bloc/app_navigation_bloc.dart';
-// import '../../../app/bloc/app_navigation_event.dart';
 import '../bloc/chat_bloc.dart';
 import '../bloc/chat_event.dart';
 import '../bloc/chat_state.dart';
@@ -20,24 +21,89 @@ const List<String> _quickReplies = [
   "On the way 🚗",
 ];
 
-class ChatScreen extends StatelessWidget {
-  const ChatScreen({super.key, required this.contact});
+String _formatLastSeen(DateTime? lastSeen) {
+  if (lastSeen == null) return 'Last seen recently';
+  final diff = DateTime.now().difference(lastSeen);
+  if (diff.inSeconds < 60) return 'Last seen just now';
+  if (diff.inMinutes < 60) {
+    final m = diff.inMinutes;
+    return 'Last seen $m min ago';
+  }
+  if (diff.inHours < 24) {
+    final h = lastSeen.hour == 0
+        ? 12
+        : (lastSeen.hour > 12 ? lastSeen.hour - 12 : lastSeen.hour);
+    final ampm = lastSeen.hour >= 12 ? 'PM' : 'AM';
+    final mm = lastSeen.minute.toString().padLeft(2, '0');
+    return 'Last seen today at ${h.toString().padLeft(2, '0')}:$mm $ampm';
+  }
+  if (diff.inDays == 1) return 'Last seen yesterday';
+  if (diff.inDays < 7) return 'Last seen ${diff.inDays} days ago';
+  return 'Last seen a while ago';
+}
 
-  final ChatContact contact;
+String _formatDateLabel(DateTime dt) {
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final msgDay = DateTime(dt.year, dt.month, dt.day);
+  final diff = today.difference(msgDay).inDays;
+  if (diff == 0) return 'Today';
+  if (diff == 1) return 'Yesterday';
+  if (diff < 7) {
+    const weekdays = [
+      'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
+    ];
+    return weekdays[dt.weekday - 1];
+  }
+  const months = [
+    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
+    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
+  ];
+  return '${months[dt.month - 1]} ${dt.day}';
+}
+
+String _formatTime(DateTime dt) {
+  final h = dt.hour == 0 ? 12 : (dt.hour > 12 ? dt.hour - 12 : dt.hour);
+  final ampm = dt.hour >= 12 ? 'PM' : 'AM';
+  final mm = dt.minute.toString().padLeft(2, '0');
+  return '${h.toString().padLeft(2, '0')}:$mm $ampm';
+}
+
+class ChatScreen extends StatelessWidget {
+  const ChatScreen({super.key, required this.args});
+
+  final ChatScreenArgs args;
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => ChatBloc(),
-      child: _ChatView(contact: contact),
+      create: (_) {
+        final bloc = getIt<ChatBloc>();
+        if (args.conversationId != null) {
+          bloc.add(ChatEvent.watchStarted(
+            conversationId: args.conversationId!,
+            currentUid: args.currentUid,
+            otherUid: args.otherUid,
+          ));
+        } else {
+          bloc.add(ChatEvent.openRequested(
+            currentUid: args.currentUid,
+            otherUid: args.otherUid,
+            chatSource: args.chatSource,
+          ));
+        }
+        return bloc;
+      },
+      child: _ChatView(contact: args.contact, currentUid: args.currentUid),
     );
   }
 }
 
 class _ChatView extends StatefulWidget {
-  const _ChatView({required this.contact});
+  const _ChatView({required this.contact, required this.currentUid});
 
   final ChatContact contact;
+  final String currentUid;
 
   @override
   State<_ChatView> createState() => _ChatViewState();
@@ -69,74 +135,137 @@ class _ChatViewState extends State<_ChatView> {
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<ChatBloc, ChatState>(
-      listenWhen: (prev, next) => prev.messages.length != next.messages.length,
-      listener: (context, state) {
-        _scrollToEnd();
+      listenWhen: (prev, next) {
+        final prevLen =
+            prev.maybeMap(ready: (s) => s.messages.length, orElse: () => 0);
+        final nextLen =
+            next.maybeMap(ready: (s) => s.messages.length, orElse: () => 0);
+        return nextLen > prevLen;
       },
-      builder: (context, state) {
-        if (_inputController.text != state.input) {
-          _inputController.value = TextEditingValue(
-            text: state.input,
-            selection:
-                TextSelection.collapsed(offset: state.input.length),
-          );
-        }
-        return Scaffold(
-          backgroundColor: AppColors.background,
-          body: Stack(
-            children: [
-              Column(
-                children: [
-                  _AppBar(contact: widget.contact),
-                  Expanded(
-                    child: ListView(
-                      controller: _scrollController,
-                      padding: const EdgeInsets.fromLTRB(16, 16, 16, 12),
-                      children: [
-                        _DateSeparator(),
-                        const SizedBox(height: 16),
-                        for (final msg in state.messages) ...[
-                          _Bubble(message: msg, contact: widget.contact),
-                          const SizedBox(height: 8),
-                        ],
-                        if (state.showTyping)
-                          _TypingRow(contact: widget.contact),
-                      ],
+      listener: (_, _) => _scrollToEnd(),
+      builder: (context, state) => state.when(
+        loading: () => _loadingScaffold(),
+        error: (msg) => _errorScaffold(msg),
+        ready: (messages, input, showAttachment, showTyping, otherOnline,
+            otherLastSeen) {
+          if (_inputController.text != input) {
+            _inputController.value = TextEditingValue(
+              text: input,
+              selection: TextSelection.collapsed(offset: input.length),
+            );
+          }
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            body: Stack(
+              children: [
+                Column(
+                  children: [
+                    _AppBar(
+                      contact: widget.contact,
+                      online: otherOnline,
+                      lastSeen: otherLastSeen,
                     ),
-                  ),
-                  _QuickReplies(
-                    onTap: (text) => context.read<ChatBloc>().add(
-                          ChatEvent.sendRequested(text),
-                        ),
-                  ),
-                  _InputBar(
-                    controller: _inputController,
-                    input: state.input,
-                    onChanged: (v) => context
-                        .read<ChatBloc>()
-                        .add(ChatEvent.inputChanged(v)),
-                    onSend: () => context
-                        .read<ChatBloc>()
-                        .add(ChatEvent.sendRequested(state.input)),
-                    onAttach: () => context
-                        .read<ChatBloc>()
-                        .add(const ChatEvent.attachmentToggled()),
-                  ),
-                ],
-              ),
-              if (state.showAttachment) const _AttachmentSheet(),
-            ],
-          ),
-        );
-      },
+                    Expanded(
+                      child: ListView(
+                        controller: _scrollController,
+                        padding:
+                            const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                        children: () {
+                          final items = <Widget>[];
+                          String? lastLabel;
+                          for (final msg in messages) {
+                            final label = _formatDateLabel(msg.timestamp);
+                            if (label != lastLabel) {
+                              if (lastLabel != null) {
+                                items.add(const SizedBox(height: 8));
+                              }
+                              items.add(_DateSeparator(label: label));
+                              items.add(const SizedBox(height: 16));
+                              lastLabel = label;
+                            }
+                            items.add(_Bubble(
+                              message: msg,
+                              contact: widget.contact,
+                              currentUid: widget.currentUid,
+                            ));
+                            items.add(const SizedBox(height: 8));
+                          }
+                          if (showTyping) {
+                            items.add(_TypingRow(contact: widget.contact));
+                          }
+                          return items;
+                        }(),
+                      ),
+                    ),
+                    _QuickReplies(
+                      onTap: (text) => context
+                          .read<ChatBloc>()
+                          .add(ChatEvent.messageSent(text)),
+                    ),
+                    _InputBar(
+                      controller: _inputController,
+                      input: input,
+                      onChanged: (v) => context
+                          .read<ChatBloc>()
+                          .add(ChatEvent.inputChanged(v)),
+                      onSend: () => context
+                          .read<ChatBloc>()
+                          .add(ChatEvent.messageSent(input)),
+                      onAttach: () => context
+                          .read<ChatBloc>()
+                          .add(const ChatEvent.attachmentToggled()),
+                    ),
+                  ],
+                ),
+                if (showAttachment) const _AttachmentSheet(),
+              ],
+            ),
+          );
+        },
+      ),
     );
   }
+
+  Widget _loadingScaffold() => Scaffold(
+        backgroundColor: AppColors.background,
+        body: Column(
+          children: [
+            _AppBar(contact: widget.contact),
+            const Expanded(
+              child: Center(child: CircularProgressIndicator()),
+            ),
+          ],
+        ),
+      );
+
+  Widget _errorScaffold(String msg) => Scaffold(
+        backgroundColor: AppColors.background,
+        body: Column(
+          children: [
+            _AppBar(contact: widget.contact),
+            Expanded(
+              child: Center(
+                child: Padding(
+                  padding: const EdgeInsets.all(32),
+                  child: Text(
+                    msg,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(color: AppColors.textTertiary),
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
+      );
 }
 
 class _AppBar extends StatelessWidget {
-  const _AppBar({required this.contact});
+  const _AppBar({required this.contact, this.online = false, this.lastSeen});
 
   final ChatContact contact;
+  final bool online;
+  final DateTime? lastSeen;
 
   @override
   Widget build(BuildContext context) {
@@ -145,13 +274,14 @@ class _AppBar extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
+            color: Colors.black.withValues(alpha: 0.08),
             blurRadius: 6,
             offset: const Offset(0, 1),
           ),
         ],
       ),
-      padding: EdgeInsets.fromLTRB(12, MediaQuery.of(context).padding.top + 4, 12, 12),
+      padding: EdgeInsets.fromLTRB(
+          12, MediaQuery.of(context).padding.top + 4, 12, 12),
       child: Row(
         children: [
           IconButton(
@@ -208,7 +338,7 @@ class _AppBar extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    if (contact.online) ...[
+                    if (online) ...[
                       Container(
                         width: 6,
                         height: 6,
@@ -224,22 +354,15 @@ class _AppBar extends StatelessWidget {
                             fontSize: 11, color: AppColors.success),
                       ),
                     ] else
-                      const Text(
-                        'Last seen 2 min ago',
-                        style: TextStyle(
+                      Text(
+                        _formatLastSeen(lastSeen),
+                        style: const TextStyle(
                             fontSize: 11, color: AppColors.textMuted),
                       ),
                   ],
                 ),
               ],
             ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.phone, size: 20),
-            color: AppColors.textSecondary,
-            padding: const EdgeInsets.all(4),
-            constraints: const BoxConstraints(),
           ),
           IconButton(
             onPressed: () {},
@@ -255,18 +378,21 @@ class _AppBar extends StatelessWidget {
 }
 
 class _DateSeparator extends StatelessWidget {
+  const _DateSeparator({required this.label});
+  final String label;
+
   @override
   Widget build(BuildContext context) {
     return Center(
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
         decoration: BoxDecoration(
-          color: Colors.black.withOpacity(0.08),
+          color: Colors.black.withValues(alpha: 0.08),
           borderRadius: BorderRadius.circular(99),
         ),
-        child: const Text(
-          'Today',
-          style: TextStyle(fontSize: 10, color: AppColors.textTertiary),
+        child: Text(
+          label,
+          style: const TextStyle(fontSize: 10, color: AppColors.textTertiary),
         ),
       ),
     );
@@ -274,14 +400,23 @@ class _DateSeparator extends StatelessWidget {
 }
 
 class _Bubble extends StatelessWidget {
-  const _Bubble({required this.message, required this.contact});
+  const _Bubble({
+    required this.message,
+    required this.contact,
+    required this.currentUid,
+  });
 
-  final ChatMessage message;
+  final Message message;
   final ChatContact contact;
+  final String currentUid;
 
   @override
   Widget build(BuildContext context) {
-    final isSent = message.sent;
+    final isSent = message.senderId == currentUid;
+    final isRead = message.status == MessageStatus.read ||
+        message.readBy.length > 1;
+    final isSending = message.status == MessageStatus.sending;
+
     return Row(
       mainAxisAlignment:
           isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
@@ -302,15 +437,17 @@ class _Bubble extends StatelessWidget {
               maxWidth: MediaQuery.of(context).size.width * 0.6,
             ),
             child: Column(
-              crossAxisAlignment:
-                  isSent ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              crossAxisAlignment: isSent
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: const EdgeInsets.symmetric(
                       horizontal: 16, vertical: 10),
                   decoration: BoxDecoration(
-                    color:
-                        isSent ? AppColors.primary : AppColors.dividerLight,
+                    color: isSent
+                        ? AppColors.primary
+                        : AppColors.dividerLight,
                     borderRadius: BorderRadius.only(
                       topLeft: const Radius.circular(16),
                       topRight: const Radius.circular(16),
@@ -322,7 +459,8 @@ class _Bubble extends StatelessWidget {
                     message.text,
                     style: TextStyle(
                       fontSize: 14,
-                      color: isSent ? Colors.white : AppColors.textPrimary,
+                      color:
+                          isSent ? Colors.white : AppColors.textPrimary,
                       height: 1.5,
                     ),
                   ),
@@ -332,21 +470,27 @@ class _Bubble extends StatelessWidget {
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      message.time,
+                      _formatTime(message.timestamp),
                       style: const TextStyle(
                           fontSize: 10, color: AppColors.textMuted),
                     ),
                     if (isSent) ...[
                       const SizedBox(width: 4),
-                      Text(
-                        '✓✓',
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: message.read
-                              ? AppColors.info
-                              : AppColors.textMuted,
-                        ),
-                      ),
+                      isSending
+                          ? const Icon(
+                              Icons.check,
+                              size: 12,
+                              color: AppColors.textMuted,
+                            )
+                          : Text(
+                              '✓✓',
+                              style: TextStyle(
+                                fontSize: 10,
+                                color: isRead
+                                    ? AppColors.info
+                                    : AppColors.textMuted,
+                              ),
+                            ),
                     ],
                   ],
                 ),
@@ -394,14 +538,13 @@ class _QuickReplies extends StatelessWidget {
         scrollDirection: Axis.horizontal,
         padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
         itemCount: _quickReplies.length,
-        separatorBuilder: (_, __) => const SizedBox(width: 8),
+        separatorBuilder: (_, _) => const SizedBox(width: 8),
         itemBuilder: (context, i) {
           final r = _quickReplies[i];
           return GestureDetector(
             onTap: () => onTap(r),
             child: Container(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.circular(99),
@@ -466,9 +609,9 @@ class _InputBar extends StatelessWidget {
           const SizedBox(width: 8),
           Expanded(
             child: Container(
-              constraints: const BoxConstraints(minHeight: 44, maxHeight: 80),
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+              constraints:
+                  const BoxConstraints(minHeight: 44, maxHeight: 80),
+              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
               decoration: BoxDecoration(
                 color: AppColors.dividerLightest,
                 borderRadius: BorderRadius.circular(16),
@@ -545,7 +688,9 @@ class _AttachmentSheet extends StatelessWidget {
             onTap: () => context
                 .read<ChatBloc>()
                 .add(const ChatEvent.attachmentClosed()),
-            child: Container(color: Colors.black.withOpacity(0.3)),
+            child: Container(
+              color: Colors.black.withValues(alpha: 0.3),
+            ),
           ),
           Positioned(
             left: 0,
@@ -590,17 +735,15 @@ class _AttachmentSheet extends StatelessWidget {
                                   height: 52,
                                   alignment: Alignment.center,
                                   decoration: BoxDecoration(
-                                    color: it.color.withOpacity(0.1),
+                                    color: it.color.withValues(alpha: 0.1),
                                     borderRadius: BorderRadius.circular(16),
                                   ),
                                   child: it.emoji != null
                                       ? Text(
                                           it.emoji!,
-                                          style:
-                                              const TextStyle(fontSize: 22),
+                                          style: const TextStyle(fontSize: 22),
                                         )
-                                      : Icon(it.icon,
-                                          size: 22, color: it.color),
+                                      : Icon(it.icon, size: 22, color: it.color),
                                 ),
                                 const SizedBox(height: 6),
                                 Text(
