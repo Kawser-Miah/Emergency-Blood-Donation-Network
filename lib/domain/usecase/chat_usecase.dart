@@ -87,4 +87,19 @@ class ChatUseCase {
 
   Future<Map<String, UserProfileModel>> fetchProfiles(List<String> uids) =>
       _repository.fetchProfiles(uids);
+
+  Future<void> setTyping({
+    required String conversationId,
+    required String uid,
+    required bool typing,
+  }) => _repository.setTyping(
+        conversationId: conversationId,
+        uid: uid,
+        typing: typing,
+      );
+
+  Stream<bool> watchTyping({
+    required String conversationId,
+    required String uid,
+  }) => _repository.watchTyping(conversationId: conversationId, uid: uid);
 }
