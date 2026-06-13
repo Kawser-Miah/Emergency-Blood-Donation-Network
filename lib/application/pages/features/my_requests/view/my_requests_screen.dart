@@ -18,7 +18,6 @@ import '../bloc/my_requests_bloc.dart';
 import '../bloc/my_requests_event.dart';
 import '../bloc/my_requests_state.dart';
 
-
 const List<String> _urgencies = ['CRITICAL', 'URGENT', 'NORMAL'];
 
 String _daysAgo(DateTime? date) {
@@ -688,8 +687,10 @@ class _MyRequestDetailSheet extends StatelessWidget {
                           label: const Text('Delete Request'),
                           style: OutlinedButton.styleFrom(
                             foregroundColor: Colors.red,
-                            side:
-                                const BorderSide(color: Colors.red, width: 1.5),
+                            side: const BorderSide(
+                              color: Colors.red,
+                              width: 1.5,
+                            ),
                             padding: const EdgeInsets.symmetric(vertical: 12),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(14),
@@ -784,11 +785,14 @@ class _MyRequestDetailSheet extends StatelessWidget {
                         }
                         return Column(
                           children: state.interestedDonors
-                              .map((d) => _DonorCard(
-                                    donor: d,
-                                    requestId: request.id,
-                                    currentUid: getIt<AuthController>().user?.uid ?? '',
-                                  ))
+                              .map(
+                                (d) => _DonorCard(
+                                  donor: d,
+                                  requestId: request.id,
+                                  currentUid:
+                                      getIt<AuthController>().user?.uid ?? '',
+                                ),
+                              )
                               .toList(),
                         );
                       },
@@ -962,6 +966,8 @@ class _DonorCard extends StatelessWidget {
                 type: ChatSourceType.interestResponse,
                 referenceId: requestId,
               ),
+              //Need to work with photo Url
+              otherPhotoUrl: null,
             ),
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.primary,
@@ -1070,7 +1076,14 @@ class _EditRequestSheetState extends State<_EditRequestSheet> {
   late DateTime _needBy;
 
   static const _bloodGroups = [
-    'A+', 'A-', 'B+', 'B-', 'O+', 'O-', 'AB+', 'AB-',
+    'A+',
+    'A-',
+    'B+',
+    'B-',
+    'O+',
+    'O-',
+    'AB+',
+    'AB-',
   ];
 
   @override
