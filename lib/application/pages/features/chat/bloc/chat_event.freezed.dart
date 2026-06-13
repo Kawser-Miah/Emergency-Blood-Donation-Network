@@ -36,7 +36,7 @@ mixin _$ChatEvent {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -58,7 +58,7 @@ mixin _$ChatEvent {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -72,7 +72,7 @@ mixin _$ChatEvent {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -260,7 +260,7 @@ class _$OpenRequestedImpl implements _OpenRequested {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return openRequested(currentUid, otherUid, chatSource);
@@ -286,7 +286,7 @@ class _$OpenRequestedImpl implements _OpenRequested {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return openRequested?.call(currentUid, otherUid, chatSource);
@@ -304,7 +304,7 @@ class _$OpenRequestedImpl implements _OpenRequested {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -498,7 +498,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return watchStarted(conversationId, currentUid, otherUid);
@@ -524,7 +524,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return watchStarted?.call(conversationId, currentUid, otherUid);
@@ -542,7 +542,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -710,7 +710,7 @@ class _$InputChangedImpl implements _InputChanged {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return inputChanged(value);
@@ -736,7 +736,7 @@ class _$InputChangedImpl implements _InputChanged {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return inputChanged?.call(value);
@@ -754,7 +754,7 @@ class _$InputChangedImpl implements _InputChanged {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -916,7 +916,7 @@ class _$MessageSentImpl implements _MessageSent {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return messageSent(text);
@@ -942,7 +942,7 @@ class _$MessageSentImpl implements _MessageSent {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return messageSent?.call(text);
@@ -960,7 +960,7 @@ class _$MessageSentImpl implements _MessageSent {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1095,7 +1095,7 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return attachmentToggled();
@@ -1121,7 +1121,7 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return attachmentToggled?.call();
@@ -1139,7 +1139,7 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1266,7 +1266,7 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return attachmentClosed();
@@ -1292,7 +1292,7 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return attachmentClosed?.call();
@@ -1310,7 +1310,7 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1474,7 +1474,7 @@ class _$MessagesReceivedImpl implements _MessagesReceived {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return messagesReceived(messages);
@@ -1500,7 +1500,7 @@ class _$MessagesReceivedImpl implements _MessagesReceived {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return messagesReceived?.call(messages);
@@ -1518,7 +1518,7 @@ class _$MessagesReceivedImpl implements _MessagesReceived {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1601,7 +1601,7 @@ abstract class _$$PresenceChangedImplCopyWith<$Res> {
     $Res Function(_$PresenceChangedImpl) then,
   ) = __$$PresenceChangedImplCopyWithImpl<$Res>;
   @useResult
-  $Res call({bool online});
+  $Res call({PresenceStatus status});
 }
 
 /// @nodoc
@@ -1617,13 +1617,13 @@ class __$$PresenceChangedImplCopyWithImpl<$Res>
   /// with the given fields replaced by the non-null parameter values.
   @pragma('vm:prefer-inline')
   @override
-  $Res call({Object? online = null}) {
+  $Res call({Object? status = null}) {
     return _then(
       _$PresenceChangedImpl(
-        null == online
-            ? _value.online
-            : online // ignore: cast_nullable_to_non_nullable
-                  as bool,
+        null == status
+            ? _value.status
+            : status // ignore: cast_nullable_to_non_nullable
+                  as PresenceStatus,
       ),
     );
   }
@@ -1632,14 +1632,14 @@ class __$$PresenceChangedImplCopyWithImpl<$Res>
 /// @nodoc
 
 class _$PresenceChangedImpl implements _PresenceChanged {
-  const _$PresenceChangedImpl(this.online);
+  const _$PresenceChangedImpl(this.status);
 
   @override
-  final bool online;
+  final PresenceStatus status;
 
   @override
   String toString() {
-    return 'ChatEvent.presenceChanged(online: $online)';
+    return 'ChatEvent.presenceChanged(status: $status)';
   }
 
   @override
@@ -1647,11 +1647,11 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
             other is _$PresenceChangedImpl &&
-            (identical(other.online, online) || other.online == online));
+            (identical(other.status, status) || other.status == status));
   }
 
   @override
-  int get hashCode => Object.hash(runtimeType, online);
+  int get hashCode => Object.hash(runtimeType, status);
 
   /// Create a copy of ChatEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1684,10 +1684,10 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) {
-    return presenceChanged(online);
+    return presenceChanged(status);
   }
 
   @override
@@ -1710,10 +1710,10 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
-    return presenceChanged?.call(online);
+    return presenceChanged?.call(status);
   }
 
   @override
@@ -1728,12 +1728,12 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
     if (presenceChanged != null) {
-      return presenceChanged(online);
+      return presenceChanged(status);
     }
     return orElse();
   }
@@ -1792,9 +1792,10 @@ class _$PresenceChangedImpl implements _PresenceChanged {
 }
 
 abstract class _PresenceChanged implements ChatEvent {
-  const factory _PresenceChanged(final bool online) = _$PresenceChangedImpl;
+  const factory _PresenceChanged(final PresenceStatus status) =
+      _$PresenceChangedImpl;
 
-  bool get online;
+  PresenceStatus get status;
 
   /// Create a copy of ChatEvent
   /// with the given fields replaced by the non-null parameter values.
@@ -1890,7 +1891,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
-    required TResult Function(bool online) presenceChanged,
+    required TResult Function(PresenceStatus status) presenceChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return errorOccurred(message);
@@ -1916,7 +1917,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
-    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(PresenceStatus status)? presenceChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return errorOccurred?.call(message);
@@ -1934,7 +1935,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
-    TResult Function(bool online)? presenceChanged,
+    TResult Function(PresenceStatus status)? presenceChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {

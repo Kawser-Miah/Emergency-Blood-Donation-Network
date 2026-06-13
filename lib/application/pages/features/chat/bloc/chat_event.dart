@@ -1,5 +1,6 @@
 import 'package:blood_setu/domain/models/chat_source.dart';
 import 'package:blood_setu/domain/models/message.dart';
+import 'package:blood_setu/domain/models/presence_status.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'chat_event.freezed.dart';
@@ -27,6 +28,7 @@ class ChatEvent with _$ChatEvent {
   // Internal — emitted by stream listeners.
   const factory ChatEvent.messagesReceived(List<Message> messages) =
       _MessagesReceived;
-  const factory ChatEvent.presenceChanged(bool online) = _PresenceChanged;
+  const factory ChatEvent.presenceChanged(PresenceStatus status) =
+      _PresenceChanged;
   const factory ChatEvent.errorOccurred(String message) = _ErrorOccurred;
 }
