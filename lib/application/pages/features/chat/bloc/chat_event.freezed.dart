@@ -37,6 +37,7 @@ mixin _$ChatEvent {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -59,6 +60,7 @@ mixin _$ChatEvent {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -73,6 +75,7 @@ mixin _$ChatEvent {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -86,6 +89,7 @@ mixin _$ChatEvent {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -98,6 +102,7 @@ mixin _$ChatEvent {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -110,6 +115,7 @@ mixin _$ChatEvent {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
@@ -261,6 +267,7 @@ class _$OpenRequestedImpl implements _OpenRequested {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return openRequested(currentUid, otherUid, chatSource);
@@ -287,6 +294,7 @@ class _$OpenRequestedImpl implements _OpenRequested {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return openRequested?.call(currentUid, otherUid, chatSource);
@@ -305,6 +313,7 @@ class _$OpenRequestedImpl implements _OpenRequested {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -325,6 +334,7 @@ class _$OpenRequestedImpl implements _OpenRequested {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return openRequested(this);
@@ -341,6 +351,7 @@ class _$OpenRequestedImpl implements _OpenRequested {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return openRequested?.call(this);
@@ -357,6 +368,7 @@ class _$OpenRequestedImpl implements _OpenRequested {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -499,6 +511,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return watchStarted(conversationId, currentUid, otherUid);
@@ -525,6 +538,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return watchStarted?.call(conversationId, currentUid, otherUid);
@@ -543,6 +557,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -563,6 +578,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return watchStarted(this);
@@ -579,6 +595,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return watchStarted?.call(this);
@@ -595,6 +612,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -711,6 +729,7 @@ class _$InputChangedImpl implements _InputChanged {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return inputChanged(value);
@@ -737,6 +756,7 @@ class _$InputChangedImpl implements _InputChanged {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return inputChanged?.call(value);
@@ -755,6 +775,7 @@ class _$InputChangedImpl implements _InputChanged {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -775,6 +796,7 @@ class _$InputChangedImpl implements _InputChanged {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return inputChanged(this);
@@ -791,6 +813,7 @@ class _$InputChangedImpl implements _InputChanged {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return inputChanged?.call(this);
@@ -807,6 +830,7 @@ class _$InputChangedImpl implements _InputChanged {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -917,6 +941,7 @@ class _$MessageSentImpl implements _MessageSent {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return messageSent(text);
@@ -943,6 +968,7 @@ class _$MessageSentImpl implements _MessageSent {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return messageSent?.call(text);
@@ -961,6 +987,7 @@ class _$MessageSentImpl implements _MessageSent {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -981,6 +1008,7 @@ class _$MessageSentImpl implements _MessageSent {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return messageSent(this);
@@ -997,6 +1025,7 @@ class _$MessageSentImpl implements _MessageSent {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return messageSent?.call(this);
@@ -1013,6 +1042,7 @@ class _$MessageSentImpl implements _MessageSent {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1096,6 +1126,7 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return attachmentToggled();
@@ -1122,6 +1153,7 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return attachmentToggled?.call();
@@ -1140,6 +1172,7 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1160,6 +1193,7 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return attachmentToggled(this);
@@ -1176,6 +1210,7 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return attachmentToggled?.call(this);
@@ -1192,6 +1227,7 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1267,6 +1303,7 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return attachmentClosed();
@@ -1293,6 +1330,7 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return attachmentClosed?.call();
@@ -1311,6 +1349,7 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1331,6 +1370,7 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return attachmentClosed(this);
@@ -1347,6 +1387,7 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return attachmentClosed?.call(this);
@@ -1363,6 +1404,7 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1475,6 +1517,7 @@ class _$MessagesReceivedImpl implements _MessagesReceived {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return messagesReceived(messages);
@@ -1501,6 +1544,7 @@ class _$MessagesReceivedImpl implements _MessagesReceived {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return messagesReceived?.call(messages);
@@ -1519,6 +1563,7 @@ class _$MessagesReceivedImpl implements _MessagesReceived {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1539,6 +1584,7 @@ class _$MessagesReceivedImpl implements _MessagesReceived {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return messagesReceived(this);
@@ -1555,6 +1601,7 @@ class _$MessagesReceivedImpl implements _MessagesReceived {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return messagesReceived?.call(this);
@@ -1571,6 +1618,7 @@ class _$MessagesReceivedImpl implements _MessagesReceived {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1685,6 +1733,7 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return presenceChanged(status);
@@ -1711,6 +1760,7 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return presenceChanged?.call(status);
@@ -1729,6 +1779,7 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1749,6 +1800,7 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return presenceChanged(this);
@@ -1765,6 +1817,7 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return presenceChanged?.call(this);
@@ -1781,6 +1834,7 @@ class _$PresenceChangedImpl implements _PresenceChanged {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1801,6 +1855,219 @@ abstract class _PresenceChanged implements ChatEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$PresenceChangedImplCopyWith<_$PresenceChangedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$TypingChangedImplCopyWith<$Res> {
+  factory _$$TypingChangedImplCopyWith(
+    _$TypingChangedImpl value,
+    $Res Function(_$TypingChangedImpl) then,
+  ) = __$$TypingChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool isTyping});
+}
+
+/// @nodoc
+class __$$TypingChangedImplCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$TypingChangedImpl>
+    implements _$$TypingChangedImplCopyWith<$Res> {
+  __$$TypingChangedImplCopyWithImpl(
+    _$TypingChangedImpl _value,
+    $Res Function(_$TypingChangedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? isTyping = null}) {
+    return _then(
+      _$TypingChangedImpl(
+        null == isTyping
+            ? _value.isTyping
+            : isTyping // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$TypingChangedImpl implements _TypingChanged {
+  const _$TypingChangedImpl(this.isTyping);
+
+  @override
+  final bool isTyping;
+
+  @override
+  String toString() {
+    return 'ChatEvent.typingChanged(isTyping: $isTyping)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$TypingChangedImpl &&
+            (identical(other.isTyping, isTyping) ||
+                other.isTyping == isTyping));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, isTyping);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$TypingChangedImplCopyWith<_$TypingChangedImpl> get copyWith =>
+      __$$TypingChangedImplCopyWithImpl<_$TypingChangedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
+    required TResult Function(String value) inputChanged,
+    required TResult Function(String text) messageSent,
+    required TResult Function() attachmentToggled,
+    required TResult Function() attachmentClosed,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
+    required TResult Function(String message) errorOccurred,
+  }) {
+    return typingChanged(isTyping);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
+    TResult? Function(String value)? inputChanged,
+    TResult? Function(String text)? messageSent,
+    TResult? Function()? attachmentToggled,
+    TResult? Function()? attachmentClosed,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
+    TResult? Function(String message)? errorOccurred,
+  }) {
+    return typingChanged?.call(isTyping);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
+    TResult Function(String value)? inputChanged,
+    TResult Function(String text)? messageSent,
+    TResult Function()? attachmentToggled,
+    TResult Function()? attachmentClosed,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
+    TResult Function(String message)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (typingChanged != null) {
+      return typingChanged(isTyping);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
+    required TResult Function(_InputChanged value) inputChanged,
+    required TResult Function(_MessageSent value) messageSent,
+    required TResult Function(_AttachmentToggled value) attachmentToggled,
+    required TResult Function(_AttachmentClosed value) attachmentClosed,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
+  }) {
+    return typingChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
+    TResult? Function(_InputChanged value)? inputChanged,
+    TResult? Function(_MessageSent value)? messageSent,
+    TResult? Function(_AttachmentToggled value)? attachmentToggled,
+    TResult? Function(_AttachmentClosed value)? attachmentClosed,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
+  }) {
+    return typingChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
+    TResult Function(_InputChanged value)? inputChanged,
+    TResult Function(_MessageSent value)? messageSent,
+    TResult Function(_AttachmentToggled value)? attachmentToggled,
+    TResult Function(_AttachmentClosed value)? attachmentClosed,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (typingChanged != null) {
+      return typingChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TypingChanged implements ChatEvent {
+  const factory _TypingChanged(final bool isTyping) = _$TypingChangedImpl;
+
+  bool get isTyping;
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$TypingChangedImplCopyWith<_$TypingChangedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -1892,6 +2159,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     required TResult Function() attachmentClosed,
     required TResult Function(List<Message> messages) messagesReceived,
     required TResult Function(PresenceStatus status) presenceChanged,
+    required TResult Function(bool isTyping) typingChanged,
     required TResult Function(String message) errorOccurred,
   }) {
     return errorOccurred(message);
@@ -1918,6 +2186,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult? Function()? attachmentClosed,
     TResult? Function(List<Message> messages)? messagesReceived,
     TResult? Function(PresenceStatus status)? presenceChanged,
+    TResult? Function(bool isTyping)? typingChanged,
     TResult? Function(String message)? errorOccurred,
   }) {
     return errorOccurred?.call(message);
@@ -1936,6 +2205,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult Function()? attachmentClosed,
     TResult Function(List<Message> messages)? messagesReceived,
     TResult Function(PresenceStatus status)? presenceChanged,
+    TResult Function(bool isTyping)? typingChanged,
     TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
@@ -1956,6 +2226,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     required TResult Function(_AttachmentClosed value) attachmentClosed,
     required TResult Function(_MessagesReceived value) messagesReceived,
     required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_TypingChanged value) typingChanged,
     required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return errorOccurred(this);
@@ -1972,6 +2243,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
     TResult? Function(_MessagesReceived value)? messagesReceived,
     TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_TypingChanged value)? typingChanged,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return errorOccurred?.call(this);
@@ -1988,6 +2260,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult Function(_AttachmentClosed value)? attachmentClosed,
     TResult Function(_MessagesReceived value)? messagesReceived,
     TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_TypingChanged value)? typingChanged,
     TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
