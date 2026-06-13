@@ -7,34 +7,34 @@ class Avatar extends StatelessWidget {
     super.key,
     required this.initials,
     required this.colorHex,
+    this.imageUrl,
     this.size = 40,
     this.online = false,
   });
 
   final String initials;
   final String colorHex;
+  final String? imageUrl;
   final double size;
   final bool online;
 
   @override
   Widget build(BuildContext context) {
     final color = colorFromHex(colorHex);
+    final hasImage = imageUrl != null && imageUrl!.isNotEmpty;
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Container(
-          width: size,
-          height: size,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(color: color, shape: BoxShape.circle),
-          child: Text(
-            initials,
-            style: TextStyle(
-              fontSize: size * 0.35,
-              fontWeight: FontWeight.w700,
-              color: Colors.white,
-            ),
-          ),
+        ClipOval(
+          child: hasImage
+              ? Image.network(
+                  imageUrl!,
+                  width: size,
+                  height: size,
+                  fit: BoxFit.cover,
+                  errorBuilder: (_, __, ___) => _fallback(color),
+                )
+              : _fallback(color),
         ),
         if (online)
           Positioned(
@@ -53,4 +53,19 @@ class Avatar extends StatelessWidget {
       ],
     );
   }
+
+  Widget _fallback(Color color) => Container(
+        width: size,
+        height: size,
+        color: color,
+        alignment: Alignment.center,
+        child: Text(
+          initials,
+          style: TextStyle(
+            fontSize: size * 0.35,
+            fontWeight: FontWeight.w700,
+            color: Colors.white,
+          ),
+        ),
+      );
 }
