@@ -295,6 +295,7 @@ class _AppBar extends StatelessWidget {
           Avatar(
             initials: contact.initials,
             colorHex: contact.avatarColor,
+            imageUrl: contact.photoUrl,
             size: 38,
           ),
           const SizedBox(width: 8),
@@ -422,15 +423,15 @@ class _Bubble extends StatelessWidget {
           isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.end,
       children: [
-        if (!isSent)
-          Padding(
-            padding: const EdgeInsets.only(right: 8),
-            child: Avatar(
-              initials: contact.initials,
-              colorHex: contact.avatarColor,
-              size: 28,
-            ),
-          ),
+        // if (!isSent)
+        //   Padding(
+        //     padding: const EdgeInsets.only(right: 8),
+        //     child: Avatar(
+        //       initials: contact.initials,
+        //       colorHex: contact.avatarColor,
+        //       size: 28,
+        //     ),
+        //   ),
         Flexible(
           child: ConstrainedBox(
             constraints: BoxConstraints(
@@ -516,6 +517,7 @@ class _TypingRow extends StatelessWidget {
         Avatar(
           initials: contact.initials,
           colorHex: contact.avatarColor,
+          imageUrl: contact.photoUrl,
           size: 28,
         ),
         const SizedBox(width: 8),
