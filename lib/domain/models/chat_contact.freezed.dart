@@ -23,6 +23,7 @@ mixin _$ChatContact {
   String get initials => throw _privateConstructorUsedError;
   String get avatarColor => throw _privateConstructorUsedError;
   bool get online => throw _privateConstructorUsedError;
+  String? get photoUrl => throw _privateConstructorUsedError;
 
   /// Create a copy of ChatContact
   /// with the given fields replaced by the non-null parameter values.
@@ -45,6 +46,7 @@ abstract class $ChatContactCopyWith<$Res> {
     String initials,
     String avatarColor,
     bool online,
+    String? photoUrl,
   });
 }
 
@@ -69,6 +71,7 @@ class _$ChatContactCopyWithImpl<$Res, $Val extends ChatContact>
     Object? initials = null,
     Object? avatarColor = null,
     Object? online = null,
+    Object? photoUrl = freezed,
   }) {
     return _then(
       _value.copyWith(
@@ -96,6 +99,10 @@ class _$ChatContactCopyWithImpl<$Res, $Val extends ChatContact>
                 ? _value.online
                 : online // ignore: cast_nullable_to_non_nullable
                       as bool,
+            photoUrl: freezed == photoUrl
+                ? _value.photoUrl
+                : photoUrl // ignore: cast_nullable_to_non_nullable
+                      as String?,
           )
           as $Val,
     );
@@ -118,6 +125,7 @@ abstract class _$$ChatContactImplCopyWith<$Res>
     String initials,
     String avatarColor,
     bool online,
+    String? photoUrl,
   });
 }
 
@@ -141,6 +149,7 @@ class __$$ChatContactImplCopyWithImpl<$Res>
     Object? initials = null,
     Object? avatarColor = null,
     Object? online = null,
+    Object? photoUrl = freezed,
   }) {
     return _then(
       _$ChatContactImpl(
@@ -168,6 +177,10 @@ class __$$ChatContactImplCopyWithImpl<$Res>
             ? _value.online
             : online // ignore: cast_nullable_to_non_nullable
                   as bool,
+        photoUrl: freezed == photoUrl
+            ? _value.photoUrl
+            : photoUrl // ignore: cast_nullable_to_non_nullable
+                  as String?,
       ),
     );
   }
@@ -183,6 +196,7 @@ class _$ChatContactImpl implements _ChatContact {
     required this.initials,
     required this.avatarColor,
     required this.online,
+    this.photoUrl,
   });
 
   @override
@@ -197,10 +211,12 @@ class _$ChatContactImpl implements _ChatContact {
   final String avatarColor;
   @override
   final bool online;
+  @override
+  final String? photoUrl;
 
   @override
   String toString() {
-    return 'ChatContact(name: $name, bloodGroup: $bloodGroup, id: $id, initials: $initials, avatarColor: $avatarColor, online: $online)';
+    return 'ChatContact(name: $name, bloodGroup: $bloodGroup, id: $id, initials: $initials, avatarColor: $avatarColor, online: $online, photoUrl: $photoUrl)';
   }
 
   @override
@@ -216,7 +232,9 @@ class _$ChatContactImpl implements _ChatContact {
                 other.initials == initials) &&
             (identical(other.avatarColor, avatarColor) ||
                 other.avatarColor == avatarColor) &&
-            (identical(other.online, online) || other.online == online));
+            (identical(other.online, online) || other.online == online) &&
+            (identical(other.photoUrl, photoUrl) ||
+                other.photoUrl == photoUrl));
   }
 
   @override
@@ -228,6 +246,7 @@ class _$ChatContactImpl implements _ChatContact {
     initials,
     avatarColor,
     online,
+    photoUrl,
   );
 
   /// Create a copy of ChatContact
@@ -247,6 +266,7 @@ abstract class _ChatContact implements ChatContact {
     required final String initials,
     required final String avatarColor,
     required final bool online,
+    final String? photoUrl,
   }) = _$ChatContactImpl;
 
   @override
@@ -261,6 +281,8 @@ abstract class _ChatContact implements ChatContact {
   String get avatarColor;
   @override
   bool get online;
+  @override
+  String? get photoUrl;
 
   /// Create a copy of ChatContact
   /// with the given fields replaced by the non-null parameter values.
