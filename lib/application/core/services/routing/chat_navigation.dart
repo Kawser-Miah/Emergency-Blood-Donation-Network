@@ -33,6 +33,7 @@ void navigateToChat({
   required String otherUid,
   required String otherName,
   required String otherBloodGroup,
+  required String? otherPhotoUrl,
   required ChatSource chatSource,
   String? conversationId,
 }) {
@@ -46,6 +47,7 @@ void navigateToChat({
         initials: chatInitials(otherName),
         avatarColor: chatAvatarColor(otherUid),
         online: false,
+        photoUrl: otherPhotoUrl ?? ''
       ),
       currentUid: currentUid,
       conversationId: conversationId,
