@@ -1,45 +1,93 @@
+import 'package:blood_setu/application/core/auth/auth_controller.dart';
 import 'package:blood_setu/application/core/services/routing/app_router.dart';
+import 'package:blood_setu/application/core/services/routing/chat_navigation.dart';
+import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
+import 'package:blood_setu/application/pages/features/bottom_nav/bloc/bottom_nav_bloc.dart';
+import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_bloc.dart';
+import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_event.dart';
+import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_state.dart';
+import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/models/chat_contact.dart';
+import 'package:blood_setu/domain/models/chat_screen_args.dart';
+import 'package:blood_setu/domain/models/conversation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../data/mock_data.dart';
-import '../../../../../domain/models/chat_summary.dart';
-import '../../../../core/services/routing/routing_utils.dart';
-import '../../../../core/widgets/avatar.dart';
-import '../../../../core/widgets/typing_dots.dart';
 import '../../../../core/theme/colors.dart';
+import '../../../../core/widgets/avatar.dart';
+
+String _formatTime(DateTime dt) {
+  final now = DateTime.now();
+  final today = DateTime(now.year, now.month, now.day);
+  final msgDay = DateTime(dt.year, dt.month, dt.day);
+  if (msgDay == today) {
+    final h = dt.hour == 0 ? 12 : (dt.hour > 12 ? dt.hour - 12 : dt.hour);
+    final ampm = dt.hour >= 12 ? 'PM' : 'AM';
+    final mm = dt.minute.toString().padLeft(2, '0');
+    return '${h.toString().padLeft(2, '0')}:$mm $ampm';
+  }
+  if (msgDay == today.subtract(const Duration(days: 1))) return 'Yesterday';
+  return '${dt.month}/${dt.day}';
+}
 
 class ChatListScreen extends StatelessWidget {
   const ChatListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final uid = getIt<AuthController>().user?.uid ?? '';
+    return BlocProvider(
+      create: (_) => getIt<ConversationListBloc>()
+        ..add(ConversationListEvent.watchStarted(uid)),
+      child: _ChatListView(currentUid: uid),
+    );
+  }
+}
+
+class _ChatListView extends StatelessWidget {
+  const _ChatListView({required this.currentUid});
+
+  final String currentUid;
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Stack(
+      body: Column(
         children: [
-          Column(
-            children: [
-              _Header(),
-              Expanded(
-                child: mockChats.isEmpty
-                    ? _Empty(
-                        onFind: () {},
-                        // context.read<AppNavigationBloc>().add(
-                        //   const AppNavigationEvent.navigated(
-                        //       AppScreen.donors),
-                        // ),
-                      )
-                    : ListView.builder(
-                        padding: const EdgeInsets.only(bottom: 80),
-                        itemCount: mockChats.length,
-                        itemBuilder: (context, i) {
-                          final chat = mockChats[i];
-                          return _ChatRow(chat: chat);
-                        },
-                      ),
+          _Header(currentUid: currentUid),
+          Expanded(
+            child: BlocBuilder<ConversationListBloc, ConversationListState>(
+              builder: (context, state) => state.when(
+                loading: () =>
+                    const Center(child: CircularProgressIndicator()),
+                error: (msg) => Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(32),
+                    child: Text(
+                      msg,
+                      textAlign: TextAlign.center,
+                      style: const TextStyle(color: AppColors.textTertiary),
+                    ),
+                  ),
+                ),
+                loaded: (conversations, filtered, search, totalUnread) =>
+                    filtered.isEmpty
+                        ? _Empty(
+                            onFind: () => context
+                                .read<BottomNavBloc>()
+                                .add(BottomNavEvent.tabChanged(index: 1)),
+                          )
+                        : ListView.builder(
+                            padding: const EdgeInsets.only(bottom: 80),
+                            itemCount: filtered.length,
+                            itemBuilder: (context, i) => _ChatRow(
+                              conversation: filtered[i],
+                              currentUid: currentUid,
+                            ),
+                          ),
               ),
-            ],
+            ),
           ),
         ],
       ),
@@ -48,6 +96,10 @@ class ChatListScreen extends StatelessWidget {
 }
 
 class _Header extends StatelessWidget {
+  const _Header({required this.currentUid});
+
+  final String currentUid;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -55,7 +107,7 @@ class _Header extends StatelessWidget {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.06),
+            color: Colors.black.withValues(alpha: 0.06),
             blurRadius: 6,
             offset: const Offset(0, 1),
           ),
@@ -73,8 +125,8 @@ class _Header extends StatelessWidget {
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
+              children: const [
+                Text(
                   'Messages',
                   style: TextStyle(
                     fontSize: 22,
@@ -82,51 +134,50 @@ class _Header extends StatelessWidget {
                     color: AppColors.textPrimary,
                   ),
                 ),
-                Row(
-                  children: [
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.edit, size: 20),
-                      color: AppColors.textTertiary,
-                      padding: const EdgeInsets.all(4),
-                      constraints: const BoxConstraints(),
-                    ),
-                    const SizedBox(width: 4),
-                    IconButton(
-                      onPressed: () {},
-                      icon: const Icon(Icons.add, size: 20),
-                      color: AppColors.textTertiary,
-                      padding: const EdgeInsets.all(4),
-                      constraints: const BoxConstraints(),
-                    ),
-                  ],
-                ),
               ],
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
-              decoration: BoxDecoration(
-                color: AppColors.dividerLightest,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: AppColors.divider),
-              ),
-              child: Row(
-                children: const [
-                  Icon(Icons.search, size: 15, color: AppColors.textMuted),
-                  SizedBox(width: 8),
-                  Text(
-                    'Search messages...',
-                    style: TextStyle(
-                      fontSize: 14,
-                      color: AppColors.textDisabled,
+          BlocBuilder<ConversationListBloc, ConversationListState>(
+            builder: (context, state) {
+              final search = state.maybeMap(
+                loaded: (s) => s.search,
+                orElse: () => '',
+              );
+              return Padding(
+                padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+                child: GestureDetector(
+                  onTap: () {},
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 10,
+                    ),
+                    decoration: BoxDecoration(
+                      color: AppColors.dividerLightest,
+                      borderRadius: BorderRadius.circular(12),
+                      border: Border.all(color: AppColors.divider),
+                    ),
+                    child: Row(
+                      children: [
+                        const Icon(
+                          Icons.search,
+                          size: 15,
+                          color: AppColors.textMuted,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          search.isEmpty ? 'Search messages...' : search,
+                          style: const TextStyle(
+                            fontSize: 14,
+                            color: AppColors.textDisabled,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                ],
-              ),
-            ),
+                ),
+              );
+            },
           ),
         ],
       ),
@@ -135,24 +186,52 @@ class _Header extends StatelessWidget {
 }
 
 class _ChatRow extends StatelessWidget {
-  const _ChatRow({required this.chat});
+  const _ChatRow({required this.conversation, required this.currentUid});
 
-  final ChatSummary chat;
+  final Conversation conversation;
+  final String currentUid;
 
   @override
   Widget build(BuildContext context) {
-    final hasUnread = chat.unread > 0;
+    final otherUid = conversation.participantIds.firstWhere(
+      (id) => id != currentUid,
+      orElse: () => conversation.participantIds.first,
+    );
+    final other = conversation.participants[otherUid];
+    final name = other?.name ?? 'Unknown';
+    final bloodGroup = other?.bloodGroup ?? '';
+    final initials = other?.initials ?? '?';
+    final avatarColor = other?.avatarColor ?? chatAvatarColor(otherUid);
+    final online = other?.online ?? false;
+
+    final unread = conversation.unreadCounts[currentUid] ?? 0;
+    final hasUnread = unread > 0;
+
+    final isMe = conversation.lastMessageSenderId == currentUid;
+    final preview = conversation.lastMessage.isEmpty
+        ? ''
+        : isMe
+            ? 'You: ${conversation.lastMessage}'
+            : conversation.lastMessage;
+    final timeStr = _formatTime(conversation.lastMessageTime);
+
     return InkWell(
       onTap: () {
         AppRouter.router.push(
           PAGES.chat.screenPath,
-          extra: ChatContact(
-            id: chat.id,
-            name: chat.name,
-            bloodGroup: chat.bloodGroup,
-            initials: chat.initials,
-            avatarColor: chat.avatarColor,
-            online: chat.online,
+          extra: ChatScreenArgs(
+            contact: ChatContact(
+              id: otherUid,
+              name: name,
+              bloodGroup: bloodGroup,
+              initials: initials,
+              avatarColor: avatarColor,
+              online: online,
+            ),
+            currentUid: currentUid,
+            conversationId: conversation.id,
+            otherUid: otherUid,
+            chatSource: conversation.chatSource,
           ),
         );
       },
@@ -168,10 +247,10 @@ class _ChatRow extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Avatar(
-              initials: chat.initials,
-              colorHex: chat.avatarColor,
+              initials: initials,
+              colorHex: avatarColor,
               size: 52,
-              online: chat.online,
+              online: online,
             ),
             const SizedBox(width: 12),
             Expanded(
@@ -185,7 +264,7 @@ class _ChatRow extends StatelessWidget {
                           children: [
                             Flexible(
                               child: Text(
-                                chat.name,
+                                name,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 15,
@@ -196,7 +275,7 @@ class _ChatRow extends StatelessWidget {
                                 ),
                               ),
                             ),
-                            if (chat.bloodGroup.isNotEmpty) ...[
+                            if (bloodGroup.isNotEmpty) ...[
                               const SizedBox(width: 6),
                               Container(
                                 padding: const EdgeInsets.symmetric(
@@ -208,7 +287,7 @@ class _ChatRow extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(99),
                                 ),
                                 child: Text(
-                                  chat.bloodGroup,
+                                  bloodGroup,
                                   style: const TextStyle(
                                     fontSize: 9,
                                     fontWeight: FontWeight.w700,
@@ -221,7 +300,7 @@ class _ChatRow extends StatelessWidget {
                         ),
                       ),
                       Text(
-                        chat.time,
+                        timeStr,
                         style: TextStyle(
                           fontSize: 11,
                           color: hasUnread
@@ -235,35 +314,20 @@ class _ChatRow extends StatelessWidget {
                   Row(
                     children: [
                       Expanded(
-                        child: chat.typing
-                            ? Row(
-                                children: const [
-                                  TypingDotsList(),
-                                  SizedBox(width: 6),
-                                  Text(
-                                    'typing...',
-                                    style: TextStyle(
-                                      fontSize: 12,
-                                      color: AppColors.success,
-                                      fontStyle: FontStyle.italic,
-                                    ),
-                                  ),
-                                ],
-                              )
-                            : Text(
-                                chat.lastMessage,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 13,
-                                  color: hasUnread
-                                      ? AppColors.textSecondary
-                                      : AppColors.textMuted,
-                                  fontWeight: hasUnread
-                                      ? FontWeight.w500
-                                      : FontWeight.w400,
-                                ),
-                              ),
+                        child: Text(
+                          preview,
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                          style: TextStyle(
+                            fontSize: 13,
+                            color: hasUnread
+                                ? AppColors.textSecondary
+                                : AppColors.textMuted,
+                            fontWeight: hasUnread
+                                ? FontWeight.w500
+                                : FontWeight.w400,
+                          ),
+                        ),
                       ),
                       if (hasUnread)
                         Container(
@@ -275,7 +339,7 @@ class _ChatRow extends StatelessWidget {
                             shape: BoxShape.circle,
                           ),
                           child: Text(
-                            '${chat.unread}',
+                            '$unread',
                             style: const TextStyle(
                               fontSize: 10,
                               color: Colors.white,
