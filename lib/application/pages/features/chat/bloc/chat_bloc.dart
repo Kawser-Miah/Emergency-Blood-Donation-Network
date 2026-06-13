@@ -20,6 +20,10 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   StreamSubscription<List<Message>>? _sub;
   StreamSubscription<PresenceStatus>? _presenceSub;
+  StreamSubscription<bool>? _typingSub;
+  Timer? _typingTimer;
+  bool _isTyping = false;
+
   String _conversationId = '';
   String _currentUid = '';
   String _otherUid = '';
@@ -39,10 +43,17 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           )),
           orElse: () {},
         ),
-        inputChanged: (value) async => state.maybeMap(
-          ready: (s) => emit(s.copyWith(input: value)),
+        typingChanged: (isTyping) async => state.maybeMap(
+          ready: (s) => emit(s.copyWith(showTyping: isTyping)),
           orElse: () {},
         ),
+        inputChanged: (value) async {
+          state.maybeMap(
+            ready: (s) => emit(s.copyWith(input: value)),
+            orElse: () {},
+          );
+          _handleTypingUpdate(value);
+        },
         messageSent: (text) async => await _sendMessage(text, emit),
         attachmentToggled: () async => state.maybeMap(
           ready: (s) => emit(s.copyWith(showAttachment: !s.showAttachment)),
@@ -116,6 +127,15 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           },
         );
 
+    // Watch the other participant's typing status.
+    _typingSub?.cancel();
+    _typingSub = _useCase
+        .watchTyping(conversationId: _conversationId, uid: _otherUid)
+        .listen(
+          (isTyping) => add(ChatEvent.typingChanged(isTyping)),
+          onError: (e) => debugPrint('Typing watch error: $e'),
+        );
+
     _sub?.cancel();
     _sub = _useCase
         .watchMessages(_conversationId)
@@ -123,6 +143,40 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
           (messages) => add(ChatEvent.messagesReceived(messages)),
           onError: (Object e) => add(ChatEvent.errorOccurred(e.toString())),
         );
+  }
+
+  void _handleTypingUpdate(String value) {
+    if (value.isEmpty) {
+      _clearTyping();
+      return;
+    }
+
+    // Restart the 5-second idle timer on every keystroke.
+    _typingTimer?.cancel();
+    _typingTimer = Timer(const Duration(seconds: 5), _clearTyping);
+
+    // Only write to RTDB if not already flagged as typing.
+    if (!_isTyping) {
+      _isTyping = true;
+      _useCase.setTyping(
+        conversationId: _conversationId,
+        uid: _currentUid,
+        typing: true,
+      );
+    }
+  }
+
+  void _clearTyping() {
+    _typingTimer?.cancel();
+    _typingTimer = null;
+    if (_isTyping) {
+      _isTyping = false;
+      _useCase.setTyping(
+        conversationId: _conversationId,
+        uid: _currentUid,
+        typing: false,
+      );
+    }
   }
 
   void _emitReady(List<Message> messages, Emitter<ChatState> emit) {
@@ -134,7 +188,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
         messages: messages,
         input: current?.input ?? '',
         showAttachment: current?.showAttachment ?? false,
-        showTyping: false,
+        showTyping: current?.showTyping ?? false,
         otherOnline: current?.otherOnline ?? false,
         otherLastSeen: current?.otherLastSeen,
       ),
@@ -147,6 +201,9 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
     final current = state.maybeMap(ready: (s) => s, orElse: () => null);
     if (current == null) return;
+
+    // Stop typing indicator when message is sent.
+    _clearTyping();
 
     // Optimistic: add message locally before the Firestore write.
     final optimistic = Message(
@@ -194,6 +251,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   Future<void> close() async {
     _sub?.cancel();
     _presenceSub?.cancel();
+    _typingSub?.cancel();
+    _clearTyping();
     // Mark offline when leaving the chat screen.
     if (_currentUid.isNotEmpty) {
       await _useCase.setOnlineStatus(_currentUid, false);
