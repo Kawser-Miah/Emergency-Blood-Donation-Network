@@ -1,4 +1,5 @@
 import 'package:blood_setu/domain/models/conversation.dart';
+import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'conversation_list_event.freezed.dart';
@@ -15,4 +16,9 @@ class ConversationListEvent with _$ConversationListEvent {
   ) = _ConversationsReceived;
   const factory ConversationListEvent.errorOccurred(String message) =
       _ErrorOccurred;
+
+  // Internal — emitted after profiles are fetched from Firestore.
+  const factory ConversationListEvent.profilesFetched(
+    Map<String, UserProfileModel> profiles,
+  ) = _ProfilesFetched;
 }

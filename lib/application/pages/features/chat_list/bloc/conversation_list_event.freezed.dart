@@ -24,6 +24,8 @@ mixin _$ConversationListEvent {
     required TResult Function(List<Conversation> conversations)
     conversationsReceived,
     required TResult Function(String message) errorOccurred,
+    required TResult Function(Map<String, UserProfileModel> profiles)
+    profilesFetched,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
@@ -31,6 +33,7 @@ mixin _$ConversationListEvent {
     TResult? Function(String value)? searchChanged,
     TResult? Function(List<Conversation> conversations)? conversationsReceived,
     TResult? Function(String message)? errorOccurred,
+    TResult? Function(Map<String, UserProfileModel> profiles)? profilesFetched,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
@@ -38,6 +41,7 @@ mixin _$ConversationListEvent {
     TResult Function(String value)? searchChanged,
     TResult Function(List<Conversation> conversations)? conversationsReceived,
     TResult Function(String message)? errorOccurred,
+    TResult Function(Map<String, UserProfileModel> profiles)? profilesFetched,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -47,6 +51,7 @@ mixin _$ConversationListEvent {
     required TResult Function(_ConversationsReceived value)
     conversationsReceived,
     required TResult Function(_ErrorOccurred value) errorOccurred,
+    required TResult Function(_ProfilesFetched value) profilesFetched,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
@@ -54,6 +59,7 @@ mixin _$ConversationListEvent {
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_ConversationsReceived value)? conversationsReceived,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
+    TResult? Function(_ProfilesFetched value)? profilesFetched,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
@@ -61,6 +67,7 @@ mixin _$ConversationListEvent {
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_ConversationsReceived value)? conversationsReceived,
     TResult Function(_ErrorOccurred value)? errorOccurred,
+    TResult Function(_ProfilesFetched value)? profilesFetched,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -165,6 +172,8 @@ class _$WatchStartedImpl implements _WatchStarted {
     required TResult Function(List<Conversation> conversations)
     conversationsReceived,
     required TResult Function(String message) errorOccurred,
+    required TResult Function(Map<String, UserProfileModel> profiles)
+    profilesFetched,
   }) {
     return watchStarted(uid);
   }
@@ -176,6 +185,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult? Function(String value)? searchChanged,
     TResult? Function(List<Conversation> conversations)? conversationsReceived,
     TResult? Function(String message)? errorOccurred,
+    TResult? Function(Map<String, UserProfileModel> profiles)? profilesFetched,
   }) {
     return watchStarted?.call(uid);
   }
@@ -187,6 +197,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult Function(String value)? searchChanged,
     TResult Function(List<Conversation> conversations)? conversationsReceived,
     TResult Function(String message)? errorOccurred,
+    TResult Function(Map<String, UserProfileModel> profiles)? profilesFetched,
     required TResult orElse(),
   }) {
     if (watchStarted != null) {
@@ -203,6 +214,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     required TResult Function(_ConversationsReceived value)
     conversationsReceived,
     required TResult Function(_ErrorOccurred value) errorOccurred,
+    required TResult Function(_ProfilesFetched value) profilesFetched,
   }) {
     return watchStarted(this);
   }
@@ -214,6 +226,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_ConversationsReceived value)? conversationsReceived,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
+    TResult? Function(_ProfilesFetched value)? profilesFetched,
   }) {
     return watchStarted?.call(this);
   }
@@ -225,6 +238,7 @@ class _$WatchStartedImpl implements _WatchStarted {
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_ConversationsReceived value)? conversationsReceived,
     TResult Function(_ErrorOccurred value)? errorOccurred,
+    TResult Function(_ProfilesFetched value)? profilesFetched,
     required TResult orElse(),
   }) {
     if (watchStarted != null) {
@@ -321,6 +335,8 @@ class _$SearchChangedImpl implements _SearchChanged {
     required TResult Function(List<Conversation> conversations)
     conversationsReceived,
     required TResult Function(String message) errorOccurred,
+    required TResult Function(Map<String, UserProfileModel> profiles)
+    profilesFetched,
   }) {
     return searchChanged(value);
   }
@@ -332,6 +348,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult? Function(String value)? searchChanged,
     TResult? Function(List<Conversation> conversations)? conversationsReceived,
     TResult? Function(String message)? errorOccurred,
+    TResult? Function(Map<String, UserProfileModel> profiles)? profilesFetched,
   }) {
     return searchChanged?.call(value);
   }
@@ -343,6 +360,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult Function(String value)? searchChanged,
     TResult Function(List<Conversation> conversations)? conversationsReceived,
     TResult Function(String message)? errorOccurred,
+    TResult Function(Map<String, UserProfileModel> profiles)? profilesFetched,
     required TResult orElse(),
   }) {
     if (searchChanged != null) {
@@ -359,6 +377,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     required TResult Function(_ConversationsReceived value)
     conversationsReceived,
     required TResult Function(_ErrorOccurred value) errorOccurred,
+    required TResult Function(_ProfilesFetched value) profilesFetched,
   }) {
     return searchChanged(this);
   }
@@ -370,6 +389,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_ConversationsReceived value)? conversationsReceived,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
+    TResult? Function(_ProfilesFetched value)? profilesFetched,
   }) {
     return searchChanged?.call(this);
   }
@@ -381,6 +401,7 @@ class _$SearchChangedImpl implements _SearchChanged {
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_ConversationsReceived value)? conversationsReceived,
     TResult Function(_ErrorOccurred value)? errorOccurred,
+    TResult Function(_ProfilesFetched value)? profilesFetched,
     required TResult orElse(),
   }) {
     if (searchChanged != null) {
@@ -494,6 +515,8 @@ class _$ConversationsReceivedImpl implements _ConversationsReceived {
     required TResult Function(List<Conversation> conversations)
     conversationsReceived,
     required TResult Function(String message) errorOccurred,
+    required TResult Function(Map<String, UserProfileModel> profiles)
+    profilesFetched,
   }) {
     return conversationsReceived(conversations);
   }
@@ -505,6 +528,7 @@ class _$ConversationsReceivedImpl implements _ConversationsReceived {
     TResult? Function(String value)? searchChanged,
     TResult? Function(List<Conversation> conversations)? conversationsReceived,
     TResult? Function(String message)? errorOccurred,
+    TResult? Function(Map<String, UserProfileModel> profiles)? profilesFetched,
   }) {
     return conversationsReceived?.call(conversations);
   }
@@ -516,6 +540,7 @@ class _$ConversationsReceivedImpl implements _ConversationsReceived {
     TResult Function(String value)? searchChanged,
     TResult Function(List<Conversation> conversations)? conversationsReceived,
     TResult Function(String message)? errorOccurred,
+    TResult Function(Map<String, UserProfileModel> profiles)? profilesFetched,
     required TResult orElse(),
   }) {
     if (conversationsReceived != null) {
@@ -532,6 +557,7 @@ class _$ConversationsReceivedImpl implements _ConversationsReceived {
     required TResult Function(_ConversationsReceived value)
     conversationsReceived,
     required TResult Function(_ErrorOccurred value) errorOccurred,
+    required TResult Function(_ProfilesFetched value) profilesFetched,
   }) {
     return conversationsReceived(this);
   }
@@ -543,6 +569,7 @@ class _$ConversationsReceivedImpl implements _ConversationsReceived {
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_ConversationsReceived value)? conversationsReceived,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
+    TResult? Function(_ProfilesFetched value)? profilesFetched,
   }) {
     return conversationsReceived?.call(this);
   }
@@ -554,6 +581,7 @@ class _$ConversationsReceivedImpl implements _ConversationsReceived {
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_ConversationsReceived value)? conversationsReceived,
     TResult Function(_ErrorOccurred value)? errorOccurred,
+    TResult Function(_ProfilesFetched value)? profilesFetched,
     required TResult orElse(),
   }) {
     if (conversationsReceived != null) {
@@ -651,6 +679,8 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     required TResult Function(List<Conversation> conversations)
     conversationsReceived,
     required TResult Function(String message) errorOccurred,
+    required TResult Function(Map<String, UserProfileModel> profiles)
+    profilesFetched,
   }) {
     return errorOccurred(message);
   }
@@ -662,6 +692,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult? Function(String value)? searchChanged,
     TResult? Function(List<Conversation> conversations)? conversationsReceived,
     TResult? Function(String message)? errorOccurred,
+    TResult? Function(Map<String, UserProfileModel> profiles)? profilesFetched,
   }) {
     return errorOccurred?.call(message);
   }
@@ -673,6 +704,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult Function(String value)? searchChanged,
     TResult Function(List<Conversation> conversations)? conversationsReceived,
     TResult Function(String message)? errorOccurred,
+    TResult Function(Map<String, UserProfileModel> profiles)? profilesFetched,
     required TResult orElse(),
   }) {
     if (errorOccurred != null) {
@@ -689,6 +721,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     required TResult Function(_ConversationsReceived value)
     conversationsReceived,
     required TResult Function(_ErrorOccurred value) errorOccurred,
+    required TResult Function(_ProfilesFetched value) profilesFetched,
   }) {
     return errorOccurred(this);
   }
@@ -700,6 +733,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult? Function(_SearchChanged value)? searchChanged,
     TResult? Function(_ConversationsReceived value)? conversationsReceived,
     TResult? Function(_ErrorOccurred value)? errorOccurred,
+    TResult? Function(_ProfilesFetched value)? profilesFetched,
   }) {
     return errorOccurred?.call(this);
   }
@@ -711,6 +745,7 @@ class _$ErrorOccurredImpl implements _ErrorOccurred {
     TResult Function(_SearchChanged value)? searchChanged,
     TResult Function(_ConversationsReceived value)? conversationsReceived,
     TResult Function(_ErrorOccurred value)? errorOccurred,
+    TResult Function(_ProfilesFetched value)? profilesFetched,
     required TResult orElse(),
   }) {
     if (errorOccurred != null) {
@@ -729,5 +764,179 @@ abstract class _ErrorOccurred implements ConversationListEvent {
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
   _$$ErrorOccurredImplCopyWith<_$ErrorOccurredImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ProfilesFetchedImplCopyWith<$Res> {
+  factory _$$ProfilesFetchedImplCopyWith(
+    _$ProfilesFetchedImpl value,
+    $Res Function(_$ProfilesFetchedImpl) then,
+  ) = __$$ProfilesFetchedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({Map<String, UserProfileModel> profiles});
+}
+
+/// @nodoc
+class __$$ProfilesFetchedImplCopyWithImpl<$Res>
+    extends _$ConversationListEventCopyWithImpl<$Res, _$ProfilesFetchedImpl>
+    implements _$$ProfilesFetchedImplCopyWith<$Res> {
+  __$$ProfilesFetchedImplCopyWithImpl(
+    _$ProfilesFetchedImpl _value,
+    $Res Function(_$ProfilesFetchedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ConversationListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? profiles = null}) {
+    return _then(
+      _$ProfilesFetchedImpl(
+        null == profiles
+            ? _value._profiles
+            : profiles // ignore: cast_nullable_to_non_nullable
+                  as Map<String, UserProfileModel>,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$ProfilesFetchedImpl implements _ProfilesFetched {
+  const _$ProfilesFetchedImpl(final Map<String, UserProfileModel> profiles)
+    : _profiles = profiles;
+
+  final Map<String, UserProfileModel> _profiles;
+  @override
+  Map<String, UserProfileModel> get profiles {
+    if (_profiles is EqualUnmodifiableMapView) return _profiles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_profiles);
+  }
+
+  @override
+  String toString() {
+    return 'ConversationListEvent.profilesFetched(profiles: $profiles)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ProfilesFetchedImpl &&
+            const DeepCollectionEquality().equals(other._profiles, _profiles));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_profiles));
+
+  /// Create a copy of ConversationListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ProfilesFetchedImplCopyWith<_$ProfilesFetchedImpl> get copyWith =>
+      __$$ProfilesFetchedImplCopyWithImpl<_$ProfilesFetchedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(String uid) watchStarted,
+    required TResult Function(String value) searchChanged,
+    required TResult Function(List<Conversation> conversations)
+    conversationsReceived,
+    required TResult Function(String message) errorOccurred,
+    required TResult Function(Map<String, UserProfileModel> profiles)
+    profilesFetched,
+  }) {
+    return profilesFetched(profiles);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(String uid)? watchStarted,
+    TResult? Function(String value)? searchChanged,
+    TResult? Function(List<Conversation> conversations)? conversationsReceived,
+    TResult? Function(String message)? errorOccurred,
+    TResult? Function(Map<String, UserProfileModel> profiles)? profilesFetched,
+  }) {
+    return profilesFetched?.call(profiles);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String uid)? watchStarted,
+    TResult Function(String value)? searchChanged,
+    TResult Function(List<Conversation> conversations)? conversationsReceived,
+    TResult Function(String message)? errorOccurred,
+    TResult Function(Map<String, UserProfileModel> profiles)? profilesFetched,
+    required TResult orElse(),
+  }) {
+    if (profilesFetched != null) {
+      return profilesFetched(profiles);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_WatchStarted value) watchStarted,
+    required TResult Function(_SearchChanged value) searchChanged,
+    required TResult Function(_ConversationsReceived value)
+    conversationsReceived,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
+    required TResult Function(_ProfilesFetched value) profilesFetched,
+  }) {
+    return profilesFetched(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_WatchStarted value)? watchStarted,
+    TResult? Function(_SearchChanged value)? searchChanged,
+    TResult? Function(_ConversationsReceived value)? conversationsReceived,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
+    TResult? Function(_ProfilesFetched value)? profilesFetched,
+  }) {
+    return profilesFetched?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_WatchStarted value)? watchStarted,
+    TResult Function(_SearchChanged value)? searchChanged,
+    TResult Function(_ConversationsReceived value)? conversationsReceived,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
+    TResult Function(_ProfilesFetched value)? profilesFetched,
+    required TResult orElse(),
+  }) {
+    if (profilesFetched != null) {
+      return profilesFetched(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ProfilesFetched implements ConversationListEvent {
+  const factory _ProfilesFetched(final Map<String, UserProfileModel> profiles) =
+      _$ProfilesFetchedImpl;
+
+  Map<String, UserProfileModel> get profiles;
+
+  /// Create a copy of ConversationListEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ProfilesFetchedImplCopyWith<_$ProfilesFetchedImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
