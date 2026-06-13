@@ -178,6 +178,7 @@ class _Body extends StatelessWidget {
                 otherName: donor.name,
                 otherBloodGroup: donor.bloodGroup,
                 chatSource: const ChatSource(type: ChatSourceType.donorCard),
+                otherPhotoUrl: donor.photoUrl,
               );
             },
           );
@@ -367,8 +368,9 @@ class _Header extends StatelessWidget {
                           bg,
                           style: TextStyle(
                             fontSize: 12,
-                            fontWeight:
-                                selected ? FontWeight.w700 : FontWeight.w500,
+                            fontWeight: selected
+                                ? FontWeight.w700
+                                : FontWeight.w500,
                             color: selected
                                 ? Colors.white
                                 : AppColors.textSecondary,
