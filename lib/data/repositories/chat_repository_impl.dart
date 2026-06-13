@@ -213,4 +213,31 @@ class ChatRepositoryImpl implements IChatRepository {
     }
     return result;
   }
+
+  @override
+  Future<void> setTyping({
+    required String conversationId,
+    required String uid,
+    required bool typing,
+  }) async {
+    final ref = _database.ref('typing/$conversationId/$uid');
+    await ref.set(typing);
+    if (typing) {
+      // Clear on disconnect so a crash never leaves typing stuck on.
+      await ref.onDisconnect().set(false);
+    } else {
+      await ref.onDisconnect().cancel();
+    }
+  }
+
+  @override
+  Stream<bool> watchTyping({
+    required String conversationId,
+    required String uid,
+  }) {
+    return _database
+        .ref('typing/$conversationId/$uid')
+        .onValue
+        .map((event) => event.snapshot.value as bool? ?? false);
+  }
 }
