@@ -30,5 +30,6 @@ class ChatEvent with _$ChatEvent {
       _MessagesReceived;
   const factory ChatEvent.presenceChanged(PresenceStatus status) =
       _PresenceChanged;
+  const factory ChatEvent.typingChanged(bool isTyping) = _TypingChanged;
   const factory ChatEvent.errorOccurred(String message) = _ErrorOccurred;
 }
