@@ -3,6 +3,7 @@ import 'package:blood_setu/domain/models/conversation.dart';
 import 'package:blood_setu/domain/models/message.dart';
 import 'package:blood_setu/domain/models/message_type.dart';
 import 'package:blood_setu/domain/models/presence_status.dart';
+import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:blood_setu/domain/repositories/chat_repository.dart';
 import 'package:dartz/dartz.dart';
 import 'package:injectable/injectable.dart';
@@ -83,4 +84,7 @@ class ChatUseCase {
 
   Stream<PresenceStatus> watchPresence(String uid) =>
       _repository.watchPresence(uid);
+
+  Future<Map<String, UserProfileModel>> fetchProfiles(List<String> uids) =>
+      _repository.fetchProfiles(uids);
 }
