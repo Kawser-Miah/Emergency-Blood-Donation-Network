@@ -1,18 +1,18 @@
+import 'package:blood_setu/domain/models/message.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
-
-import '../../../../../data/mock_data.dart';
-import '../../../../../domain/models/chat_message.dart';
 
 part 'chat_state.freezed.dart';
 
 @freezed
 class ChatState with _$ChatState {
-  const factory ChatState({
-    required List<ChatMessage> messages,
+  const factory ChatState.loading() = _Loading;
+  const factory ChatState.ready({
+    required List<Message> messages,
     @Default('') String input,
     @Default(false) bool showAttachment,
-    @Default(true) bool showTyping,
-  }) = _ChatState;
-
-  factory ChatState.initial() => ChatState(messages: List.of(mockMessages));
+    @Default(false) bool showTyping,
+    @Default(false) bool otherOnline,
+    DateTime? otherLastSeen,
+  }) = _Ready;
+  const factory ChatState.error(String message) = _Error;
 }

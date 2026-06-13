@@ -26,6 +26,7 @@ mixin _$ChatState {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )
     ready,
     required TResult Function(String message) error,
@@ -39,6 +40,7 @@ mixin _$ChatState {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )?
     ready,
     TResult? Function(String message)? error,
@@ -52,6 +54,7 @@ mixin _$ChatState {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )?
     ready,
     TResult Function(String message)? error,
@@ -148,6 +151,7 @@ class _$LoadingImpl implements _Loading {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )
     ready,
     required TResult Function(String message) error,
@@ -165,6 +169,7 @@ class _$LoadingImpl implements _Loading {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )?
     ready,
     TResult? Function(String message)? error,
@@ -182,6 +187,7 @@ class _$LoadingImpl implements _Loading {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )?
     ready,
     TResult Function(String message)? error,
@@ -245,6 +251,7 @@ abstract class _$$ReadyImplCopyWith<$Res> {
     bool showAttachment,
     bool showTyping,
     bool otherOnline,
+    DateTime? otherLastSeen,
   });
 }
 
@@ -267,6 +274,7 @@ class __$$ReadyImplCopyWithImpl<$Res>
     Object? showAttachment = null,
     Object? showTyping = null,
     Object? otherOnline = null,
+    Object? otherLastSeen = freezed,
   }) {
     return _then(
       _$ReadyImpl(
@@ -290,6 +298,9 @@ class __$$ReadyImplCopyWithImpl<$Res>
             ? _value.otherOnline
             : otherOnline // ignore: cast_nullable_to_non_nullable
                   as bool,
+        otherLastSeen: freezed == otherLastSeen
+            ? _value.otherLastSeen
+            : otherLastSeen as DateTime?,
       ),
     );
   }
@@ -304,6 +315,7 @@ class _$ReadyImpl implements _Ready {
     this.showAttachment = false,
     this.showTyping = false,
     this.otherOnline = false,
+    this.otherLastSeen,
   }) : _messages = messages;
 
   final List<Message> _messages;
@@ -326,10 +338,12 @@ class _$ReadyImpl implements _Ready {
   @override
   @JsonKey()
   final bool otherOnline;
+  @override
+  final DateTime? otherLastSeen;
 
   @override
   String toString() {
-    return 'ChatState.ready(messages: $messages, input: $input, showAttachment: $showAttachment, showTyping: $showTyping, otherOnline: $otherOnline)';
+    return 'ChatState.ready(messages: $messages, input: $input, showAttachment: $showAttachment, showTyping: $showTyping, otherOnline: $otherOnline, otherLastSeen: $otherLastSeen)';
   }
 
   @override
@@ -344,7 +358,9 @@ class _$ReadyImpl implements _Ready {
             (identical(other.showTyping, showTyping) ||
                 other.showTyping == showTyping) &&
             (identical(other.otherOnline, otherOnline) ||
-                other.otherOnline == otherOnline));
+                other.otherOnline == otherOnline) &&
+            (identical(other.otherLastSeen, otherLastSeen) ||
+                other.otherLastSeen == otherLastSeen));
   }
 
   @override
@@ -355,6 +371,7 @@ class _$ReadyImpl implements _Ready {
     showAttachment,
     showTyping,
     otherOnline,
+    otherLastSeen,
   );
 
   /// Create a copy of ChatState
@@ -375,11 +392,13 @@ class _$ReadyImpl implements _Ready {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )
     ready,
     required TResult Function(String message) error,
   }) {
-    return ready(messages, input, showAttachment, showTyping, otherOnline);
+    return ready(
+        messages, input, showAttachment, showTyping, otherOnline, otherLastSeen);
   }
 
   @override
@@ -392,6 +411,7 @@ class _$ReadyImpl implements _Ready {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )?
     ready,
     TResult? Function(String message)? error,
@@ -402,6 +422,7 @@ class _$ReadyImpl implements _Ready {
       showAttachment,
       showTyping,
       otherOnline,
+      otherLastSeen,
     );
   }
 
@@ -415,13 +436,15 @@ class _$ReadyImpl implements _Ready {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )?
     ready,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (ready != null) {
-      return ready(messages, input, showAttachment, showTyping, otherOnline);
+      return ready(
+        messages, input, showAttachment, showTyping, otherOnline, otherLastSeen);
     }
     return orElse();
   }
@@ -468,6 +491,7 @@ abstract class _Ready implements ChatState {
     final bool showAttachment,
     final bool showTyping,
     final bool otherOnline,
+    final DateTime? otherLastSeen,
   }) = _$ReadyImpl;
 
   List<Message> get messages;
@@ -475,6 +499,7 @@ abstract class _Ready implements ChatState {
   bool get showAttachment;
   bool get showTyping;
   bool get otherOnline;
+  DateTime? get otherLastSeen;
 
   /// Create a copy of ChatState
   /// with the given fields replaced by the non-null parameter values.
@@ -560,6 +585,7 @@ class _$ErrorImpl implements _Error {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )
     ready,
     required TResult Function(String message) error,
@@ -577,6 +603,7 @@ class _$ErrorImpl implements _Error {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )?
     ready,
     TResult? Function(String message)? error,
@@ -594,6 +621,7 @@ class _$ErrorImpl implements _Error {
       bool showAttachment,
       bool showTyping,
       bool otherOnline,
+      DateTime? otherLastSeen,
     )?
     ready,
     TResult Function(String message)? error,
