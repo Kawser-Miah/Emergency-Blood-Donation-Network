@@ -25,6 +25,7 @@ mixin _$ConversationListState {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )
     loaded,
     required TResult Function(String message) error,
@@ -37,6 +38,7 @@ mixin _$ConversationListState {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )?
     loaded,
     TResult? Function(String message)? error,
@@ -49,6 +51,7 @@ mixin _$ConversationListState {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )?
     loaded,
     TResult Function(String message)? error,
@@ -149,6 +152,7 @@ class _$LoadingImpl implements _Loading {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )
     loaded,
     required TResult Function(String message) error,
@@ -165,6 +169,7 @@ class _$LoadingImpl implements _Loading {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )?
     loaded,
     TResult? Function(String message)? error,
@@ -181,6 +186,7 @@ class _$LoadingImpl implements _Loading {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )?
     loaded,
     TResult Function(String message)? error,
@@ -243,6 +249,7 @@ abstract class _$$LoadedImplCopyWith<$Res> {
     List<Conversation> filtered,
     String search,
     int totalUnread,
+    Map<String, UserProfileModel> profiles,
   });
 }
 
@@ -264,6 +271,7 @@ class __$$LoadedImplCopyWithImpl<$Res>
     Object? filtered = null,
     Object? search = null,
     Object? totalUnread = null,
+    Object? profiles = null,
   }) {
     return _then(
       _$LoadedImpl(
@@ -283,6 +291,10 @@ class __$$LoadedImplCopyWithImpl<$Res>
             ? _value.totalUnread
             : totalUnread // ignore: cast_nullable_to_non_nullable
                   as int,
+        profiles: null == profiles
+            ? _value._profiles
+            : profiles // ignore: cast_nullable_to_non_nullable
+                  as Map<String, UserProfileModel>,
       ),
     );
   }
@@ -296,8 +308,11 @@ class _$LoadedImpl implements _Loaded {
     required final List<Conversation> filtered,
     this.search = '',
     this.totalUnread = 0,
+    final Map<String, UserProfileModel> profiles =
+        const <String, UserProfileModel>{},
   }) : _conversations = conversations,
-       _filtered = filtered;
+       _filtered = filtered,
+       _profiles = profiles;
 
   final List<Conversation> _conversations;
   @override
@@ -321,10 +336,18 @@ class _$LoadedImpl implements _Loaded {
   @override
   @JsonKey()
   final int totalUnread;
+  final Map<String, UserProfileModel> _profiles;
+  @override
+  @JsonKey()
+  Map<String, UserProfileModel> get profiles {
+    if (_profiles is EqualUnmodifiableMapView) return _profiles;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableMapView(_profiles);
+  }
 
   @override
   String toString() {
-    return 'ConversationListState.loaded(conversations: $conversations, filtered: $filtered, search: $search, totalUnread: $totalUnread)';
+    return 'ConversationListState.loaded(conversations: $conversations, filtered: $filtered, search: $search, totalUnread: $totalUnread, profiles: $profiles)';
   }
 
   @override
@@ -339,7 +362,8 @@ class _$LoadedImpl implements _Loaded {
             const DeepCollectionEquality().equals(other._filtered, _filtered) &&
             (identical(other.search, search) || other.search == search) &&
             (identical(other.totalUnread, totalUnread) ||
-                other.totalUnread == totalUnread));
+                other.totalUnread == totalUnread) &&
+            const DeepCollectionEquality().equals(other._profiles, _profiles));
   }
 
   @override
@@ -349,6 +373,7 @@ class _$LoadedImpl implements _Loaded {
     const DeepCollectionEquality().hash(_filtered),
     search,
     totalUnread,
+    const DeepCollectionEquality().hash(_profiles),
   );
 
   /// Create a copy of ConversationListState
@@ -368,11 +393,12 @@ class _$LoadedImpl implements _Loaded {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )
     loaded,
     required TResult Function(String message) error,
   }) {
-    return loaded(conversations, filtered, search, totalUnread);
+    return loaded(conversations, filtered, search, totalUnread, profiles);
   }
 
   @override
@@ -384,11 +410,12 @@ class _$LoadedImpl implements _Loaded {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )?
     loaded,
     TResult? Function(String message)? error,
   }) {
-    return loaded?.call(conversations, filtered, search, totalUnread);
+    return loaded?.call(conversations, filtered, search, totalUnread, profiles);
   }
 
   @override
@@ -400,13 +427,14 @@ class _$LoadedImpl implements _Loaded {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )?
     loaded,
     TResult Function(String message)? error,
     required TResult orElse(),
   }) {
     if (loaded != null) {
-      return loaded(conversations, filtered, search, totalUnread);
+      return loaded(conversations, filtered, search, totalUnread, profiles);
     }
     return orElse();
   }
@@ -452,12 +480,14 @@ abstract class _Loaded implements ConversationListState {
     required final List<Conversation> filtered,
     final String search,
     final int totalUnread,
+    final Map<String, UserProfileModel> profiles,
   }) = _$LoadedImpl;
 
   List<Conversation> get conversations;
   List<Conversation> get filtered;
   String get search;
   int get totalUnread;
+  Map<String, UserProfileModel> get profiles;
 
   /// Create a copy of ConversationListState
   /// with the given fields replaced by the non-null parameter values.
@@ -542,6 +572,7 @@ class _$ErrorImpl implements _Error {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )
     loaded,
     required TResult Function(String message) error,
@@ -558,6 +589,7 @@ class _$ErrorImpl implements _Error {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )?
     loaded,
     TResult? Function(String message)? error,
@@ -574,6 +606,7 @@ class _$ErrorImpl implements _Error {
       List<Conversation> filtered,
       String search,
       int totalUnread,
+      Map<String, UserProfileModel> profiles,
     )?
     loaded,
     TResult Function(String message)? error,

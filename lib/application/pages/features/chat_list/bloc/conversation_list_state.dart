@@ -1,4 +1,5 @@
 import 'package:blood_setu/domain/models/conversation.dart';
+import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:freezed_annotation/freezed_annotation.dart';
 
 part 'conversation_list_state.freezed.dart';
@@ -11,6 +12,7 @@ class ConversationListState with _$ConversationListState {
     required List<Conversation> filtered,
     @Default('') String search,
     @Default(0) int totalUnread,
+    @Default(<String, UserProfileModel>{}) Map<String, UserProfileModel> profiles,
   }) = _Loaded;
   const factory ConversationListState.error(String message) = _Error;
 }
