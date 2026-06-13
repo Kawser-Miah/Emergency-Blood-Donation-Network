@@ -1,7 +1,11 @@
+import 'package:blood_setu/application/core/auth/auth_controller.dart';
+import 'package:blood_setu/application/core/services/routing/chat_navigation.dart';
 import 'package:blood_setu/application/pages/features/donors/bloc/donors_bloc.dart';
 import 'package:blood_setu/application/pages/features/donors/bloc/donors_event.dart';
 import 'package:blood_setu/application/pages/features/donors/bloc/donors_state.dart';
 import 'package:blood_setu/di/di.dart';
+import 'package:blood_setu/domain/models/chat_source.dart';
+import 'package:blood_setu/domain/models/chat_source_type.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -162,7 +166,21 @@ class _Body extends StatelessWidget {
           if (i >= state.filtered.length) {
             return _ListFooter(state: state);
           }
-          return DonorCard(donor: state.filtered[i]);
+          final donor = state.filtered[i];
+          return DonorCard(
+            donor: donor,
+            onMessage: () {
+              final uid = getIt<AuthController>().user?.uid;
+              if (uid == null) return;
+              navigateToChat(
+                currentUid: uid,
+                otherUid: donor.uid,
+                otherName: donor.name,
+                otherBloodGroup: donor.bloodGroup,
+                chatSource: const ChatSource(type: ChatSourceType.donorCard),
+              );
+            },
+          );
         },
       ),
     );
