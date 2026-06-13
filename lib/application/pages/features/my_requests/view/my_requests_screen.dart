@@ -1,10 +1,14 @@
 import 'dart:math' as math;
 
+import 'package:blood_setu/application/core/auth/auth_controller.dart';
+import 'package:blood_setu/application/core/services/routing/chat_navigation.dart';
 import 'package:blood_setu/application/core/theme/colors.dart';
 import 'package:blood_setu/application/core/widgets/blood_request_card.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/models/blood_request.dart';
 import 'package:blood_setu/domain/models/blood_request_enums.dart';
+import 'package:blood_setu/domain/models/chat_source.dart';
+import 'package:blood_setu/domain/models/chat_source_type.dart';
 import 'package:blood_setu/domain/models/interested_donor.dart';
 import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -13,6 +17,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/my_requests_bloc.dart';
 import '../bloc/my_requests_event.dart';
 import '../bloc/my_requests_state.dart';
+
 
 const List<String> _urgencies = ['CRITICAL', 'URGENT', 'NORMAL'];
 
@@ -779,7 +784,11 @@ class _MyRequestDetailSheet extends StatelessWidget {
                         }
                         return Column(
                           children: state.interestedDonors
-                              .map((d) => _DonorCard(donor: d))
+                              .map((d) => _DonorCard(
+                                    donor: d,
+                                    requestId: request.id,
+                                    currentUid: getIt<AuthController>().user?.uid ?? '',
+                                  ))
                               .toList(),
                         );
                       },
@@ -874,8 +883,14 @@ class _MyRequestDetailSheet extends StatelessWidget {
 // ─── Donor Card (Who's Coming) ────────────────────────────────────────────────
 
 class _DonorCard extends StatelessWidget {
-  const _DonorCard({required this.donor});
+  const _DonorCard({
+    required this.donor,
+    required this.requestId,
+    required this.currentUid,
+  });
   final InterestedDonor donor;
+  final String requestId;
+  final String currentUid;
 
   @override
   Widget build(BuildContext context) {
@@ -938,7 +953,16 @@ class _DonorCard extends StatelessWidget {
             ),
           ),
           OutlinedButton(
-            onPressed: () {},
+            onPressed: () => navigateToChat(
+              currentUid: currentUid,
+              otherUid: donor.uid,
+              otherName: donor.name,
+              otherBloodGroup: donor.bloodGroup,
+              chatSource: ChatSource(
+                type: ChatSourceType.interestResponse,
+                referenceId: requestId,
+              ),
+            ),
             style: OutlinedButton.styleFrom(
               foregroundColor: AppColors.primary,
               side: const BorderSide(color: AppColors.primary),
