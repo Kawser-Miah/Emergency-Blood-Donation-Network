@@ -1,9 +1,13 @@
+import 'package:blood_setu/application/core/auth/auth_controller.dart';
+import 'package:blood_setu/application/core/services/routing/chat_navigation.dart';
 import 'package:blood_setu/application/core/theme/colors.dart';
 import 'package:blood_setu/application/pages/features/blood_requests/bloc/blood_requests_bloc.dart';
 import 'package:blood_setu/application/pages/features/blood_requests/bloc/blood_requests_event.dart';
 import 'package:blood_setu/application/pages/features/blood_requests/bloc/blood_requests_state.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/application/core/widgets/blood_request_card.dart';
+import 'package:blood_setu/domain/models/chat_source.dart';
+import 'package:blood_setu/domain/models/chat_source_type.dart';
 import 'package:blood_setu/utils/blood_compat_util.dart';
 import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
@@ -394,7 +398,20 @@ class _Body extends StatelessWidget {
             request: req,
             userLat: state.userLat,
             userLng: state.userLng,
-            onMessage: () {},
+            onMessage: () {
+                final uid = getIt<AuthController>().user?.uid;
+                if (uid == null) return;
+                navigateToChat(
+                  currentUid: uid,
+                  otherUid: req.uid,
+                  otherName: 'Blood Requester',
+                  otherBloodGroup: req.bloodGroup,
+                  chatSource: ChatSource(
+                    type: ChatSourceType.bloodRequest,
+                    referenceId: req.id,
+                  ),
+                );
+              },
             isInterested: state.interestedRequestIds.contains(req.id),
             isCompatible: compatible,
             userIsActive: state.userIsActive,
