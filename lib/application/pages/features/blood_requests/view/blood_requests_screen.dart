@@ -409,7 +409,8 @@ class _Body extends StatelessWidget {
                   chatSource: ChatSource(
                     type: ChatSourceType.bloodRequest,
                     referenceId: req.id,
-                  ),
+                    //need work
+                  ), otherPhotoUrl: null,
                 );
               },
             isInterested: state.interestedRequestIds.contains(req.id),
