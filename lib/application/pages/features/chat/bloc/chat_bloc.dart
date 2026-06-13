@@ -127,6 +127,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
 
   void _emitReady(List<Message> messages, Emitter<ChatState> emit) {
     final current = state.maybeMap(ready: (s) => s, orElse: () => null);
+    // Mark as read immediately on view msg.
+    _useCase.markAsRead(conversationId: _conversationId, uid: _currentUid);
     emit(
       ChatState.ready(
         messages: messages,
