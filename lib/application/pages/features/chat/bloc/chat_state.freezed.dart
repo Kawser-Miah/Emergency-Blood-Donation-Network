@@ -300,7 +300,8 @@ class __$$ReadyImplCopyWithImpl<$Res>
                   as bool,
         otherLastSeen: freezed == otherLastSeen
             ? _value.otherLastSeen
-            : otherLastSeen as DateTime?,
+            : otherLastSeen // ignore: cast_nullable_to_non_nullable
+                  as DateTime?,
       ),
     );
   }
@@ -398,7 +399,13 @@ class _$ReadyImpl implements _Ready {
     required TResult Function(String message) error,
   }) {
     return ready(
-        messages, input, showAttachment, showTyping, otherOnline, otherLastSeen);
+      messages,
+      input,
+      showAttachment,
+      showTyping,
+      otherOnline,
+      otherLastSeen,
+    );
   }
 
   @override
@@ -444,7 +451,13 @@ class _$ReadyImpl implements _Ready {
   }) {
     if (ready != null) {
       return ready(
-        messages, input, showAttachment, showTyping, otherOnline, otherLastSeen);
+        messages,
+        input,
+        showAttachment,
+        showTyping,
+        otherOnline,
+        otherLastSeen,
+      );
     }
     return orElse();
   }
