@@ -19,52 +19,98 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$ChatEvent {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
     required TResult Function(String value) inputChanged,
-    required TResult Function(String text) sendRequested,
+    required TResult Function(String text) messageSent,
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
-    required TResult Function() replyArrived,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
     TResult? Function(String value)? inputChanged,
-    TResult? Function(String text)? sendRequested,
+    TResult? Function(String text)? messageSent,
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
-    TResult? Function()? replyArrived,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
     TResult Function(String value)? inputChanged,
-    TResult Function(String text)? sendRequested,
+    TResult Function(String text)? messageSent,
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
-    TResult Function()? replyArrived,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
     required TResult Function(_InputChanged value) inputChanged,
-    required TResult Function(_SendRequested value) sendRequested,
+    required TResult Function(_MessageSent value) messageSent,
     required TResult Function(_AttachmentToggled value) attachmentToggled,
     required TResult Function(_AttachmentClosed value) attachmentClosed,
-    required TResult Function(_ReplyArrived value) replyArrived,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
     TResult? Function(_InputChanged value)? inputChanged,
-    TResult? Function(_SendRequested value)? sendRequested,
+    TResult? Function(_MessageSent value)? messageSent,
     TResult? Function(_AttachmentToggled value)? attachmentToggled,
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
-    TResult? Function(_ReplyArrived value)? replyArrived,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) => throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
     TResult Function(_InputChanged value)? inputChanged,
-    TResult Function(_SendRequested value)? sendRequested,
+    TResult Function(_MessageSent value)? messageSent,
     TResult Function(_AttachmentToggled value)? attachmentToggled,
     TResult Function(_AttachmentClosed value)? attachmentClosed,
-    TResult Function(_ReplyArrived value)? replyArrived,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) => throw _privateConstructorUsedError;
 }
@@ -87,6 +133,494 @@ class _$ChatEventCopyWithImpl<$Res, $Val extends ChatEvent>
 
   /// Create a copy of ChatEvent
   /// with the given fields replaced by the non-null parameter values.
+}
+
+/// @nodoc
+abstract class _$$OpenRequestedImplCopyWith<$Res> {
+  factory _$$OpenRequestedImplCopyWith(
+    _$OpenRequestedImpl value,
+    $Res Function(_$OpenRequestedImpl) then,
+  ) = __$$OpenRequestedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String currentUid, String otherUid, ChatSource chatSource});
+
+  $ChatSourceCopyWith<$Res> get chatSource;
+}
+
+/// @nodoc
+class __$$OpenRequestedImplCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$OpenRequestedImpl>
+    implements _$$OpenRequestedImplCopyWith<$Res> {
+  __$$OpenRequestedImplCopyWithImpl(
+    _$OpenRequestedImpl _value,
+    $Res Function(_$OpenRequestedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? currentUid = null,
+    Object? otherUid = null,
+    Object? chatSource = null,
+  }) {
+    return _then(
+      _$OpenRequestedImpl(
+        currentUid: null == currentUid
+            ? _value.currentUid
+            : currentUid // ignore: cast_nullable_to_non_nullable
+                  as String,
+        otherUid: null == otherUid
+            ? _value.otherUid
+            : otherUid // ignore: cast_nullable_to_non_nullable
+                  as String,
+        chatSource: null == chatSource
+            ? _value.chatSource
+            : chatSource // ignore: cast_nullable_to_non_nullable
+                  as ChatSource,
+      ),
+    );
+  }
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @override
+  @pragma('vm:prefer-inline')
+  $ChatSourceCopyWith<$Res> get chatSource {
+    return $ChatSourceCopyWith<$Res>(_value.chatSource, (value) {
+      return _then(_value.copyWith(chatSource: value));
+    });
+  }
+}
+
+/// @nodoc
+
+class _$OpenRequestedImpl implements _OpenRequested {
+  const _$OpenRequestedImpl({
+    required this.currentUid,
+    required this.otherUid,
+    required this.chatSource,
+  });
+
+  @override
+  final String currentUid;
+  @override
+  final String otherUid;
+  @override
+  final ChatSource chatSource;
+
+  @override
+  String toString() {
+    return 'ChatEvent.openRequested(currentUid: $currentUid, otherUid: $otherUid, chatSource: $chatSource)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$OpenRequestedImpl &&
+            (identical(other.currentUid, currentUid) ||
+                other.currentUid == currentUid) &&
+            (identical(other.otherUid, otherUid) ||
+                other.otherUid == otherUid) &&
+            (identical(other.chatSource, chatSource) ||
+                other.chatSource == chatSource));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, currentUid, otherUid, chatSource);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$OpenRequestedImplCopyWith<_$OpenRequestedImpl> get copyWith =>
+      __$$OpenRequestedImplCopyWithImpl<_$OpenRequestedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
+    required TResult Function(String value) inputChanged,
+    required TResult Function(String text) messageSent,
+    required TResult Function() attachmentToggled,
+    required TResult Function() attachmentClosed,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
+  }) {
+    return openRequested(currentUid, otherUid, chatSource);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
+    TResult? Function(String value)? inputChanged,
+    TResult? Function(String text)? messageSent,
+    TResult? Function()? attachmentToggled,
+    TResult? Function()? attachmentClosed,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
+  }) {
+    return openRequested?.call(currentUid, otherUid, chatSource);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
+    TResult Function(String value)? inputChanged,
+    TResult Function(String text)? messageSent,
+    TResult Function()? attachmentToggled,
+    TResult Function()? attachmentClosed,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (openRequested != null) {
+      return openRequested(currentUid, otherUid, chatSource);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
+    required TResult Function(_InputChanged value) inputChanged,
+    required TResult Function(_MessageSent value) messageSent,
+    required TResult Function(_AttachmentToggled value) attachmentToggled,
+    required TResult Function(_AttachmentClosed value) attachmentClosed,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
+  }) {
+    return openRequested(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
+    TResult? Function(_InputChanged value)? inputChanged,
+    TResult? Function(_MessageSent value)? messageSent,
+    TResult? Function(_AttachmentToggled value)? attachmentToggled,
+    TResult? Function(_AttachmentClosed value)? attachmentClosed,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
+  }) {
+    return openRequested?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
+    TResult Function(_InputChanged value)? inputChanged,
+    TResult Function(_MessageSent value)? messageSent,
+    TResult Function(_AttachmentToggled value)? attachmentToggled,
+    TResult Function(_AttachmentClosed value)? attachmentClosed,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (openRequested != null) {
+      return openRequested(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _OpenRequested implements ChatEvent {
+  const factory _OpenRequested({
+    required final String currentUid,
+    required final String otherUid,
+    required final ChatSource chatSource,
+  }) = _$OpenRequestedImpl;
+
+  String get currentUid;
+  String get otherUid;
+  ChatSource get chatSource;
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$OpenRequestedImplCopyWith<_$OpenRequestedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$WatchStartedImplCopyWith<$Res> {
+  factory _$$WatchStartedImplCopyWith(
+    _$WatchStartedImpl value,
+    $Res Function(_$WatchStartedImpl) then,
+  ) = __$$WatchStartedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String conversationId, String currentUid, String otherUid});
+}
+
+/// @nodoc
+class __$$WatchStartedImplCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$WatchStartedImpl>
+    implements _$$WatchStartedImplCopyWith<$Res> {
+  __$$WatchStartedImplCopyWithImpl(
+    _$WatchStartedImpl _value,
+    $Res Function(_$WatchStartedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({
+    Object? conversationId = null,
+    Object? currentUid = null,
+    Object? otherUid = null,
+  }) {
+    return _then(
+      _$WatchStartedImpl(
+        conversationId: null == conversationId
+            ? _value.conversationId
+            : conversationId // ignore: cast_nullable_to_non_nullable
+                  as String,
+        currentUid: null == currentUid
+            ? _value.currentUid
+            : currentUid // ignore: cast_nullable_to_non_nullable
+                  as String,
+        otherUid: null == otherUid
+            ? _value.otherUid
+            : otherUid // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$WatchStartedImpl implements _WatchStarted {
+  const _$WatchStartedImpl({
+    required this.conversationId,
+    required this.currentUid,
+    required this.otherUid,
+  });
+
+  @override
+  final String conversationId;
+  @override
+  final String currentUid;
+  @override
+  final String otherUid;
+
+  @override
+  String toString() {
+    return 'ChatEvent.watchStarted(conversationId: $conversationId, currentUid: $currentUid, otherUid: $otherUid)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$WatchStartedImpl &&
+            (identical(other.conversationId, conversationId) ||
+                other.conversationId == conversationId) &&
+            (identical(other.currentUid, currentUid) ||
+                other.currentUid == currentUid) &&
+            (identical(other.otherUid, otherUid) ||
+                other.otherUid == otherUid));
+  }
+
+  @override
+  int get hashCode =>
+      Object.hash(runtimeType, conversationId, currentUid, otherUid);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$WatchStartedImplCopyWith<_$WatchStartedImpl> get copyWith =>
+      __$$WatchStartedImplCopyWithImpl<_$WatchStartedImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
+    required TResult Function(String value) inputChanged,
+    required TResult Function(String text) messageSent,
+    required TResult Function() attachmentToggled,
+    required TResult Function() attachmentClosed,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
+  }) {
+    return watchStarted(conversationId, currentUid, otherUid);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
+    TResult? Function(String value)? inputChanged,
+    TResult? Function(String text)? messageSent,
+    TResult? Function()? attachmentToggled,
+    TResult? Function()? attachmentClosed,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
+  }) {
+    return watchStarted?.call(conversationId, currentUid, otherUid);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
+    TResult Function(String value)? inputChanged,
+    TResult Function(String text)? messageSent,
+    TResult Function()? attachmentToggled,
+    TResult Function()? attachmentClosed,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (watchStarted != null) {
+      return watchStarted(conversationId, currentUid, otherUid);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
+    required TResult Function(_InputChanged value) inputChanged,
+    required TResult Function(_MessageSent value) messageSent,
+    required TResult Function(_AttachmentToggled value) attachmentToggled,
+    required TResult Function(_AttachmentClosed value) attachmentClosed,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
+  }) {
+    return watchStarted(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
+    TResult? Function(_InputChanged value)? inputChanged,
+    TResult? Function(_MessageSent value)? messageSent,
+    TResult? Function(_AttachmentToggled value)? attachmentToggled,
+    TResult? Function(_AttachmentClosed value)? attachmentClosed,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
+  }) {
+    return watchStarted?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
+    TResult Function(_InputChanged value)? inputChanged,
+    TResult Function(_MessageSent value)? messageSent,
+    TResult Function(_AttachmentToggled value)? attachmentToggled,
+    TResult Function(_AttachmentClosed value)? attachmentClosed,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (watchStarted != null) {
+      return watchStarted(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _WatchStarted implements ChatEvent {
+  const factory _WatchStarted({
+    required final String conversationId,
+    required final String currentUid,
+    required final String otherUid,
+  }) = _$WatchStartedImpl;
+
+  String get conversationId;
+  String get currentUid;
+  String get otherUid;
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$WatchStartedImplCopyWith<_$WatchStartedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
 
 /// @nodoc
@@ -159,11 +693,25 @@ class _$InputChangedImpl implements _InputChanged {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
     required TResult Function(String value) inputChanged,
-    required TResult Function(String text) sendRequested,
+    required TResult Function(String text) messageSent,
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
-    required TResult Function() replyArrived,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
   }) {
     return inputChanged(value);
   }
@@ -171,11 +719,25 @@ class _$InputChangedImpl implements _InputChanged {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
     TResult? Function(String value)? inputChanged,
-    TResult? Function(String text)? sendRequested,
+    TResult? Function(String text)? messageSent,
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
-    TResult? Function()? replyArrived,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
   }) {
     return inputChanged?.call(value);
   }
@@ -183,11 +745,17 @@ class _$InputChangedImpl implements _InputChanged {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
     TResult Function(String value)? inputChanged,
-    TResult Function(String text)? sendRequested,
+    TResult Function(String text)? messageSent,
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
-    TResult Function()? replyArrived,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
     if (inputChanged != null) {
@@ -199,11 +767,15 @@ class _$InputChangedImpl implements _InputChanged {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
     required TResult Function(_InputChanged value) inputChanged,
-    required TResult Function(_SendRequested value) sendRequested,
+    required TResult Function(_MessageSent value) messageSent,
     required TResult Function(_AttachmentToggled value) attachmentToggled,
     required TResult Function(_AttachmentClosed value) attachmentClosed,
-    required TResult Function(_ReplyArrived value) replyArrived,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return inputChanged(this);
   }
@@ -211,11 +783,15 @@ class _$InputChangedImpl implements _InputChanged {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
     TResult? Function(_InputChanged value)? inputChanged,
-    TResult? Function(_SendRequested value)? sendRequested,
+    TResult? Function(_MessageSent value)? messageSent,
     TResult? Function(_AttachmentToggled value)? attachmentToggled,
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
-    TResult? Function(_ReplyArrived value)? replyArrived,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return inputChanged?.call(this);
   }
@@ -223,11 +799,15 @@ class _$InputChangedImpl implements _InputChanged {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
     TResult Function(_InputChanged value)? inputChanged,
-    TResult Function(_SendRequested value)? sendRequested,
+    TResult Function(_MessageSent value)? messageSent,
     TResult Function(_AttachmentToggled value)? attachmentToggled,
     TResult Function(_AttachmentClosed value)? attachmentClosed,
-    TResult Function(_ReplyArrived value)? replyArrived,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
     if (inputChanged != null) {
@@ -250,22 +830,22 @@ abstract class _InputChanged implements ChatEvent {
 }
 
 /// @nodoc
-abstract class _$$SendRequestedImplCopyWith<$Res> {
-  factory _$$SendRequestedImplCopyWith(
-    _$SendRequestedImpl value,
-    $Res Function(_$SendRequestedImpl) then,
-  ) = __$$SendRequestedImplCopyWithImpl<$Res>;
+abstract class _$$MessageSentImplCopyWith<$Res> {
+  factory _$$MessageSentImplCopyWith(
+    _$MessageSentImpl value,
+    $Res Function(_$MessageSentImpl) then,
+  ) = __$$MessageSentImplCopyWithImpl<$Res>;
   @useResult
   $Res call({String text});
 }
 
 /// @nodoc
-class __$$SendRequestedImplCopyWithImpl<$Res>
-    extends _$ChatEventCopyWithImpl<$Res, _$SendRequestedImpl>
-    implements _$$SendRequestedImplCopyWith<$Res> {
-  __$$SendRequestedImplCopyWithImpl(
-    _$SendRequestedImpl _value,
-    $Res Function(_$SendRequestedImpl) _then,
+class __$$MessageSentImplCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$MessageSentImpl>
+    implements _$$MessageSentImplCopyWith<$Res> {
+  __$$MessageSentImplCopyWithImpl(
+    _$MessageSentImpl _value,
+    $Res Function(_$MessageSentImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of ChatEvent
@@ -274,7 +854,7 @@ class __$$SendRequestedImplCopyWithImpl<$Res>
   @override
   $Res call({Object? text = null}) {
     return _then(
-      _$SendRequestedImpl(
+      _$MessageSentImpl(
         null == text
             ? _value.text
             : text // ignore: cast_nullable_to_non_nullable
@@ -286,22 +866,22 @@ class __$$SendRequestedImplCopyWithImpl<$Res>
 
 /// @nodoc
 
-class _$SendRequestedImpl implements _SendRequested {
-  const _$SendRequestedImpl(this.text);
+class _$MessageSentImpl implements _MessageSent {
+  const _$MessageSentImpl(this.text);
 
   @override
   final String text;
 
   @override
   String toString() {
-    return 'ChatEvent.sendRequested(text: $text)';
+    return 'ChatEvent.messageSent(text: $text)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
         (other.runtimeType == runtimeType &&
-            other is _$SendRequestedImpl &&
+            other is _$MessageSentImpl &&
             (identical(other.text, text) || other.text == text));
   }
 
@@ -313,45 +893,79 @@ class _$SendRequestedImpl implements _SendRequested {
   @JsonKey(includeFromJson: false, includeToJson: false)
   @override
   @pragma('vm:prefer-inline')
-  _$$SendRequestedImplCopyWith<_$SendRequestedImpl> get copyWith =>
-      __$$SendRequestedImplCopyWithImpl<_$SendRequestedImpl>(this, _$identity);
+  _$$MessageSentImplCopyWith<_$MessageSentImpl> get copyWith =>
+      __$$MessageSentImplCopyWithImpl<_$MessageSentImpl>(this, _$identity);
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
     required TResult Function(String value) inputChanged,
-    required TResult Function(String text) sendRequested,
+    required TResult Function(String text) messageSent,
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
-    required TResult Function() replyArrived,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
   }) {
-    return sendRequested(text);
+    return messageSent(text);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
     TResult? Function(String value)? inputChanged,
-    TResult? Function(String text)? sendRequested,
+    TResult? Function(String text)? messageSent,
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
-    TResult? Function()? replyArrived,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
   }) {
-    return sendRequested?.call(text);
+    return messageSent?.call(text);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
     TResult Function(String value)? inputChanged,
-    TResult Function(String text)? sendRequested,
+    TResult Function(String text)? messageSent,
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
-    TResult Function()? replyArrived,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
-    if (sendRequested != null) {
-      return sendRequested(text);
+    if (messageSent != null) {
+      return messageSent(text);
     }
     return orElse();
   }
@@ -359,53 +973,65 @@ class _$SendRequestedImpl implements _SendRequested {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
     required TResult Function(_InputChanged value) inputChanged,
-    required TResult Function(_SendRequested value) sendRequested,
+    required TResult Function(_MessageSent value) messageSent,
     required TResult Function(_AttachmentToggled value) attachmentToggled,
     required TResult Function(_AttachmentClosed value) attachmentClosed,
-    required TResult Function(_ReplyArrived value) replyArrived,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
-    return sendRequested(this);
+    return messageSent(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
     TResult? Function(_InputChanged value)? inputChanged,
-    TResult? Function(_SendRequested value)? sendRequested,
+    TResult? Function(_MessageSent value)? messageSent,
     TResult? Function(_AttachmentToggled value)? attachmentToggled,
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
-    TResult? Function(_ReplyArrived value)? replyArrived,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
-    return sendRequested?.call(this);
+    return messageSent?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
     TResult Function(_InputChanged value)? inputChanged,
-    TResult Function(_SendRequested value)? sendRequested,
+    TResult Function(_MessageSent value)? messageSent,
     TResult Function(_AttachmentToggled value)? attachmentToggled,
     TResult Function(_AttachmentClosed value)? attachmentClosed,
-    TResult Function(_ReplyArrived value)? replyArrived,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
-    if (sendRequested != null) {
-      return sendRequested(this);
+    if (messageSent != null) {
+      return messageSent(this);
     }
     return orElse();
   }
 }
 
-abstract class _SendRequested implements ChatEvent {
-  const factory _SendRequested(final String text) = _$SendRequestedImpl;
+abstract class _MessageSent implements ChatEvent {
+  const factory _MessageSent(final String text) = _$MessageSentImpl;
 
   String get text;
 
   /// Create a copy of ChatEvent
   /// with the given fields replaced by the non-null parameter values.
   @JsonKey(includeFromJson: false, includeToJson: false)
-  _$$SendRequestedImplCopyWith<_$SendRequestedImpl> get copyWith =>
+  _$$MessageSentImplCopyWith<_$MessageSentImpl> get copyWith =>
       throw _privateConstructorUsedError;
 }
 
@@ -452,11 +1078,25 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
     required TResult Function(String value) inputChanged,
-    required TResult Function(String text) sendRequested,
+    required TResult Function(String text) messageSent,
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
-    required TResult Function() replyArrived,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
   }) {
     return attachmentToggled();
   }
@@ -464,11 +1104,25 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
     TResult? Function(String value)? inputChanged,
-    TResult? Function(String text)? sendRequested,
+    TResult? Function(String text)? messageSent,
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
-    TResult? Function()? replyArrived,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
   }) {
     return attachmentToggled?.call();
   }
@@ -476,11 +1130,17 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
     TResult Function(String value)? inputChanged,
-    TResult Function(String text)? sendRequested,
+    TResult Function(String text)? messageSent,
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
-    TResult Function()? replyArrived,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
     if (attachmentToggled != null) {
@@ -492,11 +1152,15 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
     required TResult Function(_InputChanged value) inputChanged,
-    required TResult Function(_SendRequested value) sendRequested,
+    required TResult Function(_MessageSent value) messageSent,
     required TResult Function(_AttachmentToggled value) attachmentToggled,
     required TResult Function(_AttachmentClosed value) attachmentClosed,
-    required TResult Function(_ReplyArrived value) replyArrived,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return attachmentToggled(this);
   }
@@ -504,11 +1168,15 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
     TResult? Function(_InputChanged value)? inputChanged,
-    TResult? Function(_SendRequested value)? sendRequested,
+    TResult? Function(_MessageSent value)? messageSent,
     TResult? Function(_AttachmentToggled value)? attachmentToggled,
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
-    TResult? Function(_ReplyArrived value)? replyArrived,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return attachmentToggled?.call(this);
   }
@@ -516,11 +1184,15 @@ class _$AttachmentToggledImpl implements _AttachmentToggled {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
     TResult Function(_InputChanged value)? inputChanged,
-    TResult Function(_SendRequested value)? sendRequested,
+    TResult Function(_MessageSent value)? messageSent,
     TResult Function(_AttachmentToggled value)? attachmentToggled,
     TResult Function(_AttachmentClosed value)? attachmentClosed,
-    TResult Function(_ReplyArrived value)? replyArrived,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
     if (attachmentToggled != null) {
@@ -577,11 +1249,25 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
     required TResult Function(String value) inputChanged,
-    required TResult Function(String text) sendRequested,
+    required TResult Function(String text) messageSent,
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
-    required TResult Function() replyArrived,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
   }) {
     return attachmentClosed();
   }
@@ -589,11 +1275,25 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
     TResult? Function(String value)? inputChanged,
-    TResult? Function(String text)? sendRequested,
+    TResult? Function(String text)? messageSent,
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
-    TResult? Function()? replyArrived,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
   }) {
     return attachmentClosed?.call();
   }
@@ -601,11 +1301,17 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
     TResult Function(String value)? inputChanged,
-    TResult Function(String text)? sendRequested,
+    TResult Function(String text)? messageSent,
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
-    TResult Function()? replyArrived,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
     if (attachmentClosed != null) {
@@ -617,11 +1323,15 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
     required TResult Function(_InputChanged value) inputChanged,
-    required TResult Function(_SendRequested value) sendRequested,
+    required TResult Function(_MessageSent value) messageSent,
     required TResult Function(_AttachmentToggled value) attachmentToggled,
     required TResult Function(_AttachmentClosed value) attachmentClosed,
-    required TResult Function(_ReplyArrived value) replyArrived,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
     return attachmentClosed(this);
   }
@@ -629,11 +1339,15 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
     TResult? Function(_InputChanged value)? inputChanged,
-    TResult? Function(_SendRequested value)? sendRequested,
+    TResult? Function(_MessageSent value)? messageSent,
     TResult? Function(_AttachmentToggled value)? attachmentToggled,
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
-    TResult? Function(_ReplyArrived value)? replyArrived,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
     return attachmentClosed?.call(this);
   }
@@ -641,11 +1355,15 @@ class _$AttachmentClosedImpl implements _AttachmentClosed {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
     TResult Function(_InputChanged value)? inputChanged,
-    TResult Function(_SendRequested value)? sendRequested,
+    TResult Function(_MessageSent value)? messageSent,
     TResult Function(_AttachmentToggled value)? attachmentToggled,
     TResult Function(_AttachmentClosed value)? attachmentClosed,
-    TResult Function(_ReplyArrived value)? replyArrived,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
     if (attachmentClosed != null) {
@@ -660,81 +1378,152 @@ abstract class _AttachmentClosed implements ChatEvent {
 }
 
 /// @nodoc
-abstract class _$$ReplyArrivedImplCopyWith<$Res> {
-  factory _$$ReplyArrivedImplCopyWith(
-    _$ReplyArrivedImpl value,
-    $Res Function(_$ReplyArrivedImpl) then,
-  ) = __$$ReplyArrivedImplCopyWithImpl<$Res>;
+abstract class _$$MessagesReceivedImplCopyWith<$Res> {
+  factory _$$MessagesReceivedImplCopyWith(
+    _$MessagesReceivedImpl value,
+    $Res Function(_$MessagesReceivedImpl) then,
+  ) = __$$MessagesReceivedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({List<Message> messages});
 }
 
 /// @nodoc
-class __$$ReplyArrivedImplCopyWithImpl<$Res>
-    extends _$ChatEventCopyWithImpl<$Res, _$ReplyArrivedImpl>
-    implements _$$ReplyArrivedImplCopyWith<$Res> {
-  __$$ReplyArrivedImplCopyWithImpl(
-    _$ReplyArrivedImpl _value,
-    $Res Function(_$ReplyArrivedImpl) _then,
+class __$$MessagesReceivedImplCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$MessagesReceivedImpl>
+    implements _$$MessagesReceivedImplCopyWith<$Res> {
+  __$$MessagesReceivedImplCopyWithImpl(
+    _$MessagesReceivedImpl _value,
+    $Res Function(_$MessagesReceivedImpl) _then,
   ) : super(_value, _then);
 
   /// Create a copy of ChatEvent
   /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? messages = null}) {
+    return _then(
+      _$MessagesReceivedImpl(
+        null == messages
+            ? _value._messages
+            : messages // ignore: cast_nullable_to_non_nullable
+                  as List<Message>,
+      ),
+    );
+  }
 }
 
 /// @nodoc
 
-class _$ReplyArrivedImpl implements _ReplyArrived {
-  const _$ReplyArrivedImpl();
+class _$MessagesReceivedImpl implements _MessagesReceived {
+  const _$MessagesReceivedImpl(final List<Message> messages)
+    : _messages = messages;
+
+  final List<Message> _messages;
+  @override
+  List<Message> get messages {
+    if (_messages is EqualUnmodifiableListView) return _messages;
+    // ignore: implicit_dynamic_type
+    return EqualUnmodifiableListView(_messages);
+  }
 
   @override
   String toString() {
-    return 'ChatEvent.replyArrived()';
+    return 'ChatEvent.messagesReceived(messages: $messages)';
   }
 
   @override
   bool operator ==(Object other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$ReplyArrivedImpl);
+        (other.runtimeType == runtimeType &&
+            other is _$MessagesReceivedImpl &&
+            const DeepCollectionEquality().equals(other._messages, _messages));
   }
 
   @override
-  int get hashCode => runtimeType.hashCode;
+  int get hashCode =>
+      Object.hash(runtimeType, const DeepCollectionEquality().hash(_messages));
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$MessagesReceivedImplCopyWith<_$MessagesReceivedImpl> get copyWith =>
+      __$$MessagesReceivedImplCopyWithImpl<_$MessagesReceivedImpl>(
+        this,
+        _$identity,
+      );
 
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
     required TResult Function(String value) inputChanged,
-    required TResult Function(String text) sendRequested,
+    required TResult Function(String text) messageSent,
     required TResult Function() attachmentToggled,
     required TResult Function() attachmentClosed,
-    required TResult Function() replyArrived,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
   }) {
-    return replyArrived();
+    return messagesReceived(messages);
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
     TResult? Function(String value)? inputChanged,
-    TResult? Function(String text)? sendRequested,
+    TResult? Function(String text)? messageSent,
     TResult? Function()? attachmentToggled,
     TResult? Function()? attachmentClosed,
-    TResult? Function()? replyArrived,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
   }) {
-    return replyArrived?.call();
+    return messagesReceived?.call(messages);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
     TResult Function(String value)? inputChanged,
-    TResult Function(String text)? sendRequested,
+    TResult Function(String text)? messageSent,
     TResult Function()? attachmentToggled,
     TResult Function()? attachmentClosed,
-    TResult Function()? replyArrived,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
     required TResult orElse(),
   }) {
-    if (replyArrived != null) {
-      return replyArrived();
+    if (messagesReceived != null) {
+      return messagesReceived(messages);
     }
     return orElse();
   }
@@ -742,44 +1531,480 @@ class _$ReplyArrivedImpl implements _ReplyArrived {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
     required TResult Function(_InputChanged value) inputChanged,
-    required TResult Function(_SendRequested value) sendRequested,
+    required TResult Function(_MessageSent value) messageSent,
     required TResult Function(_AttachmentToggled value) attachmentToggled,
     required TResult Function(_AttachmentClosed value) attachmentClosed,
-    required TResult Function(_ReplyArrived value) replyArrived,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
   }) {
-    return replyArrived(this);
+    return messagesReceived(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
     TResult? Function(_InputChanged value)? inputChanged,
-    TResult? Function(_SendRequested value)? sendRequested,
+    TResult? Function(_MessageSent value)? messageSent,
     TResult? Function(_AttachmentToggled value)? attachmentToggled,
     TResult? Function(_AttachmentClosed value)? attachmentClosed,
-    TResult? Function(_ReplyArrived value)? replyArrived,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
   }) {
-    return replyArrived?.call(this);
+    return messagesReceived?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
     TResult Function(_InputChanged value)? inputChanged,
-    TResult Function(_SendRequested value)? sendRequested,
+    TResult Function(_MessageSent value)? messageSent,
     TResult Function(_AttachmentToggled value)? attachmentToggled,
     TResult Function(_AttachmentClosed value)? attachmentClosed,
-    TResult Function(_ReplyArrived value)? replyArrived,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
     required TResult orElse(),
   }) {
-    if (replyArrived != null) {
-      return replyArrived(this);
+    if (messagesReceived != null) {
+      return messagesReceived(this);
     }
     return orElse();
   }
 }
 
-abstract class _ReplyArrived implements ChatEvent {
-  const factory _ReplyArrived() = _$ReplyArrivedImpl;
+abstract class _MessagesReceived implements ChatEvent {
+  const factory _MessagesReceived(final List<Message> messages) =
+      _$MessagesReceivedImpl;
+
+  List<Message> get messages;
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$MessagesReceivedImplCopyWith<_$MessagesReceivedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$PresenceChangedImplCopyWith<$Res> {
+  factory _$$PresenceChangedImplCopyWith(
+    _$PresenceChangedImpl value,
+    $Res Function(_$PresenceChangedImpl) then,
+  ) = __$$PresenceChangedImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({bool online});
+}
+
+/// @nodoc
+class __$$PresenceChangedImplCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$PresenceChangedImpl>
+    implements _$$PresenceChangedImplCopyWith<$Res> {
+  __$$PresenceChangedImplCopyWithImpl(
+    _$PresenceChangedImpl _value,
+    $Res Function(_$PresenceChangedImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? online = null}) {
+    return _then(
+      _$PresenceChangedImpl(
+        null == online
+            ? _value.online
+            : online // ignore: cast_nullable_to_non_nullable
+                  as bool,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$PresenceChangedImpl implements _PresenceChanged {
+  const _$PresenceChangedImpl(this.online);
+
+  @override
+  final bool online;
+
+  @override
+  String toString() {
+    return 'ChatEvent.presenceChanged(online: $online)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$PresenceChangedImpl &&
+            (identical(other.online, online) || other.online == online));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, online);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$PresenceChangedImplCopyWith<_$PresenceChangedImpl> get copyWith =>
+      __$$PresenceChangedImplCopyWithImpl<_$PresenceChangedImpl>(
+        this,
+        _$identity,
+      );
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
+    required TResult Function(String value) inputChanged,
+    required TResult Function(String text) messageSent,
+    required TResult Function() attachmentToggled,
+    required TResult Function() attachmentClosed,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
+  }) {
+    return presenceChanged(online);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
+    TResult? Function(String value)? inputChanged,
+    TResult? Function(String text)? messageSent,
+    TResult? Function()? attachmentToggled,
+    TResult? Function()? attachmentClosed,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
+  }) {
+    return presenceChanged?.call(online);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
+    TResult Function(String value)? inputChanged,
+    TResult Function(String text)? messageSent,
+    TResult Function()? attachmentToggled,
+    TResult Function()? attachmentClosed,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (presenceChanged != null) {
+      return presenceChanged(online);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
+    required TResult Function(_InputChanged value) inputChanged,
+    required TResult Function(_MessageSent value) messageSent,
+    required TResult Function(_AttachmentToggled value) attachmentToggled,
+    required TResult Function(_AttachmentClosed value) attachmentClosed,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
+  }) {
+    return presenceChanged(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
+    TResult? Function(_InputChanged value)? inputChanged,
+    TResult? Function(_MessageSent value)? messageSent,
+    TResult? Function(_AttachmentToggled value)? attachmentToggled,
+    TResult? Function(_AttachmentClosed value)? attachmentClosed,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
+  }) {
+    return presenceChanged?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
+    TResult Function(_InputChanged value)? inputChanged,
+    TResult Function(_MessageSent value)? messageSent,
+    TResult Function(_AttachmentToggled value)? attachmentToggled,
+    TResult Function(_AttachmentClosed value)? attachmentClosed,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (presenceChanged != null) {
+      return presenceChanged(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _PresenceChanged implements ChatEvent {
+  const factory _PresenceChanged(final bool online) = _$PresenceChangedImpl;
+
+  bool get online;
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$PresenceChangedImplCopyWith<_$PresenceChangedImpl> get copyWith =>
+      throw _privateConstructorUsedError;
+}
+
+/// @nodoc
+abstract class _$$ErrorOccurredImplCopyWith<$Res> {
+  factory _$$ErrorOccurredImplCopyWith(
+    _$ErrorOccurredImpl value,
+    $Res Function(_$ErrorOccurredImpl) then,
+  ) = __$$ErrorOccurredImplCopyWithImpl<$Res>;
+  @useResult
+  $Res call({String message});
+}
+
+/// @nodoc
+class __$$ErrorOccurredImplCopyWithImpl<$Res>
+    extends _$ChatEventCopyWithImpl<$Res, _$ErrorOccurredImpl>
+    implements _$$ErrorOccurredImplCopyWith<$Res> {
+  __$$ErrorOccurredImplCopyWithImpl(
+    _$ErrorOccurredImpl _value,
+    $Res Function(_$ErrorOccurredImpl) _then,
+  ) : super(_value, _then);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @pragma('vm:prefer-inline')
+  @override
+  $Res call({Object? message = null}) {
+    return _then(
+      _$ErrorOccurredImpl(
+        null == message
+            ? _value.message
+            : message // ignore: cast_nullable_to_non_nullable
+                  as String,
+      ),
+    );
+  }
+}
+
+/// @nodoc
+
+class _$ErrorOccurredImpl implements _ErrorOccurred {
+  const _$ErrorOccurredImpl(this.message);
+
+  @override
+  final String message;
+
+  @override
+  String toString() {
+    return 'ChatEvent.errorOccurred(message: $message)';
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType &&
+            other is _$ErrorOccurredImpl &&
+            (identical(other.message, message) || other.message == message));
+  }
+
+  @override
+  int get hashCode => Object.hash(runtimeType, message);
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  @override
+  @pragma('vm:prefer-inline')
+  _$$ErrorOccurredImplCopyWith<_$ErrorOccurredImpl> get copyWith =>
+      __$$ErrorOccurredImplCopyWithImpl<_$ErrorOccurredImpl>(this, _$identity);
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )
+    openRequested,
+    required TResult Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )
+    watchStarted,
+    required TResult Function(String value) inputChanged,
+    required TResult Function(String text) messageSent,
+    required TResult Function() attachmentToggled,
+    required TResult Function() attachmentClosed,
+    required TResult Function(List<Message> messages) messagesReceived,
+    required TResult Function(bool online) presenceChanged,
+    required TResult Function(String message) errorOccurred,
+  }) {
+    return errorOccurred(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult? Function(
+      String currentUid,
+      String otherUid,
+      ChatSource chatSource,
+    )?
+    openRequested,
+    TResult? Function(
+      String conversationId,
+      String currentUid,
+      String otherUid,
+    )?
+    watchStarted,
+    TResult? Function(String value)? inputChanged,
+    TResult? Function(String text)? messageSent,
+    TResult? Function()? attachmentToggled,
+    TResult? Function()? attachmentClosed,
+    TResult? Function(List<Message> messages)? messagesReceived,
+    TResult? Function(bool online)? presenceChanged,
+    TResult? Function(String message)? errorOccurred,
+  }) {
+    return errorOccurred?.call(message);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function(String currentUid, String otherUid, ChatSource chatSource)?
+    openRequested,
+    TResult Function(String conversationId, String currentUid, String otherUid)?
+    watchStarted,
+    TResult Function(String value)? inputChanged,
+    TResult Function(String text)? messageSent,
+    TResult Function()? attachmentToggled,
+    TResult Function()? attachmentClosed,
+    TResult Function(List<Message> messages)? messagesReceived,
+    TResult Function(bool online)? presenceChanged,
+    TResult Function(String message)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (errorOccurred != null) {
+      return errorOccurred(message);
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_OpenRequested value) openRequested,
+    required TResult Function(_WatchStarted value) watchStarted,
+    required TResult Function(_InputChanged value) inputChanged,
+    required TResult Function(_MessageSent value) messageSent,
+    required TResult Function(_AttachmentToggled value) attachmentToggled,
+    required TResult Function(_AttachmentClosed value) attachmentClosed,
+    required TResult Function(_MessagesReceived value) messagesReceived,
+    required TResult Function(_PresenceChanged value) presenceChanged,
+    required TResult Function(_ErrorOccurred value) errorOccurred,
+  }) {
+    return errorOccurred(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult? Function(_OpenRequested value)? openRequested,
+    TResult? Function(_WatchStarted value)? watchStarted,
+    TResult? Function(_InputChanged value)? inputChanged,
+    TResult? Function(_MessageSent value)? messageSent,
+    TResult? Function(_AttachmentToggled value)? attachmentToggled,
+    TResult? Function(_AttachmentClosed value)? attachmentClosed,
+    TResult? Function(_MessagesReceived value)? messagesReceived,
+    TResult? Function(_PresenceChanged value)? presenceChanged,
+    TResult? Function(_ErrorOccurred value)? errorOccurred,
+  }) {
+    return errorOccurred?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_OpenRequested value)? openRequested,
+    TResult Function(_WatchStarted value)? watchStarted,
+    TResult Function(_InputChanged value)? inputChanged,
+    TResult Function(_MessageSent value)? messageSent,
+    TResult Function(_AttachmentToggled value)? attachmentToggled,
+    TResult Function(_AttachmentClosed value)? attachmentClosed,
+    TResult Function(_MessagesReceived value)? messagesReceived,
+    TResult Function(_PresenceChanged value)? presenceChanged,
+    TResult Function(_ErrorOccurred value)? errorOccurred,
+    required TResult orElse(),
+  }) {
+    if (errorOccurred != null) {
+      return errorOccurred(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _ErrorOccurred implements ChatEvent {
+  const factory _ErrorOccurred(final String message) = _$ErrorOccurredImpl;
+
+  String get message;
+
+  /// Create a copy of ChatEvent
+  /// with the given fields replaced by the non-null parameter values.
+  @JsonKey(includeFromJson: false, includeToJson: false)
+  _$$ErrorOccurredImplCopyWith<_$ErrorOccurredImpl> get copyWith =>
+      throw _privateConstructorUsedError;
 }
