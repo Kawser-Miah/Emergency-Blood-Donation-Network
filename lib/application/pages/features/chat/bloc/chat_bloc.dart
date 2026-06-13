@@ -1,62 +1,201 @@
-import 'package:flutter_bloc/flutter_bloc.dart';
+import 'dart:async';
 
-import '../../../../../domain/models/chat_message.dart';
+import 'package:blood_setu/domain/models/chat_source.dart';
+import 'package:blood_setu/domain/models/message.dart';
+import 'package:blood_setu/domain/models/message_status.dart';
+import 'package:blood_setu/domain/models/message_type.dart';
+import 'package:blood_setu/domain/models/presence_status.dart';
+import 'package:blood_setu/domain/failures/failures.dart';
+import 'package:blood_setu/domain/usecase/chat_usecase.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:injectable/injectable.dart';
+
 import 'chat_event.dart';
 import 'chat_state.dart';
 
+@injectable
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
-  ChatBloc() : super(ChatState.initial()) {
+  final ChatUseCase _useCase;
+
+  StreamSubscription<List<Message>>? _sub;
+  StreamSubscription<PresenceStatus>? _presenceSub;
+  String _conversationId = '';
+  String _currentUid = '';
+  String _otherUid = '';
+
+  ChatBloc(this._useCase) : super(const ChatState.loading()) {
     on<ChatEvent>((event, emit) async {
       await event.when(
-        inputChanged: (value) async => emit(state.copyWith(input: value)),
-        sendRequested: (text) async {
-          final trimmed = text.trim();
-          if (trimmed.isEmpty) return;
-          final newMsg = ChatMessage(
-            id: DateTime.now().millisecondsSinceEpoch.toString(),
-            sent: true,
-            text: trimmed,
-            time: _formatTime(DateTime.now()),
-            read: false,
-          );
-          emit(state.copyWith(
-            messages: [...state.messages, newMsg],
-            input: '',
-            showTyping: true,
-          ));
-          await Future.delayed(const Duration(seconds: 2));
-          if (!isClosed) add(const ChatEvent.replyArrived());
-        },
-        attachmentToggled: () async => emit(
-          state.copyWith(showAttachment: !state.showAttachment),
+        openRequested: (currentUid, otherUid, chatSource) async =>
+            await _openRequested(currentUid, otherUid, chatSource, emit),
+        watchStarted: (conversationId, currentUid, otherUid) async =>
+            _startWatching(conversationId, currentUid, otherUid),
+        messagesReceived: (messages) async => _emitReady(messages, emit),
+        presenceChanged: (status) async => state.maybeMap(
+          ready: (s) => emit(s.copyWith(
+            otherOnline: status.online,
+            otherLastSeen: status.lastSeen,
+          )),
+          orElse: () {},
         ),
-        attachmentClosed: () async =>
-            emit(state.copyWith(showAttachment: false)),
-        replyArrived: () async {
-          final reply = ChatMessage(
-            id: '${DateTime.now().millisecondsSinceEpoch + 1}',
-            sent: false,
-            text:
-                "Thanks, I'll be there soon! Which floor is the patient on?",
-            time: _formatTime(DateTime.now()),
-            read: false,
-          );
-          emit(state.copyWith(
-            showTyping: false,
-            messages: [...state.messages, reply],
-          ));
-        },
+        inputChanged: (value) async => state.maybeMap(
+          ready: (s) => emit(s.copyWith(input: value)),
+          orElse: () {},
+        ),
+        messageSent: (text) async => await _sendMessage(text, emit),
+        attachmentToggled: () async => state.maybeMap(
+          ready: (s) => emit(s.copyWith(showAttachment: !s.showAttachment)),
+          orElse: () {},
+        ),
+        attachmentClosed: () async => state.maybeMap(
+          ready: (s) => emit(s.copyWith(showAttachment: false)),
+          orElse: () {},
+        ),
+        errorOccurred: (message) async => emit(ChatState.error(message)),
       );
     });
   }
 
-  static String _formatTime(DateTime now) {
-    final hour12 = now.hour == 0
-        ? 12
-        : (now.hour > 12 ? now.hour - 12 : now.hour);
-    final period = now.hour >= 12 ? 'PM' : 'AM';
-    final mm = now.minute.toString().padLeft(2, '0');
-    final hh = hour12.toString().padLeft(2, '0');
-    return '$hh:$mm $period';
+  Future<void> _openRequested(
+    String currentUid,
+    String otherUid,
+    ChatSource chatSource,
+    Emitter<ChatState> emit,
+  ) async {
+    emit(const ChatState.loading());
+    final result = await _useCase.getOrCreateConversation(
+      currentUid: currentUid,
+      otherUid: otherUid,
+      chatSource: chatSource,
+    );
+    result.fold(
+      (f) => add(
+        ChatEvent.errorOccurred(
+          f is GeneralFailure ? f.message : 'Failed to open chat',
+        ),
+      ),
+      (conv) => _startWatching(conv.id, currentUid, otherUid),
+    );
+  }
+
+  void _startWatching(
+    String conversationId,
+    String currentUid,
+    String otherUid,
+  ) {
+    _conversationId = conversationId;
+    _currentUid = currentUid;
+    _otherUid = otherUid;
+
+    // Mark as read immediately on open — fire-and-forget.
+    _useCase.markAsRead(conversationId: _conversationId, uid: _currentUid);
+
+    // Announce current user as online; RTDB onDisconnect handles going offline.
+    _useCase
+        .setOnlineStatus(_currentUid, true)
+        .then(
+          (result) => result.fold(
+            (f) => add(
+              ChatEvent.errorOccurred(
+                f is GeneralFailure ? f.message : 'Presence error',
+              ),
+            ),
+            (_) {},
+          ),
+        );
+
+    // Watch the other participant's presence.
+    _presenceSub?.cancel();
+    _presenceSub = _useCase
+        .watchPresence(_otherUid)
+        .listen(
+          (status) => add(ChatEvent.presenceChanged(status)),
+          onError: (e) {
+            debugPrint("User Active Status Error: ${e.toString()}");
+          },
+        );
+
+    _sub?.cancel();
+    _sub = _useCase
+        .watchMessages(_conversationId)
+        .listen(
+          (messages) => add(ChatEvent.messagesReceived(messages)),
+          onError: (Object e) => add(ChatEvent.errorOccurred(e.toString())),
+        );
+  }
+
+  void _emitReady(List<Message> messages, Emitter<ChatState> emit) {
+    final current = state.maybeMap(ready: (s) => s, orElse: () => null);
+    emit(
+      ChatState.ready(
+        messages: messages,
+        input: current?.input ?? '',
+        showAttachment: current?.showAttachment ?? false,
+        showTyping: false,
+        otherOnline: current?.otherOnline ?? false,
+        otherLastSeen: current?.otherLastSeen,
+      ),
+    );
+  }
+
+  Future<void> _sendMessage(String text, Emitter<ChatState> emit) async {
+    final trimmed = text.trim();
+    if (trimmed.isEmpty) return;
+
+    final current = state.maybeMap(ready: (s) => s, orElse: () => null);
+    if (current == null) return;
+
+    // Optimistic: add message locally before the Firestore write.
+    final optimistic = Message(
+      id: 'tmp_${DateTime.now().millisecondsSinceEpoch}',
+      conversationId: _conversationId,
+      senderId: _currentUid,
+      text: trimmed,
+      type: MessageType.text,
+      timestamp: DateTime.now(),
+      readBy: [_currentUid],
+      status: MessageStatus.sending,
+    );
+
+    emit(
+      current.copyWith(
+        messages: [...current.messages, optimistic],
+        input: '',
+        showAttachment: false,
+      ),
+    );
+
+    final result = await _useCase.sendMessage(
+      conversationId: _conversationId,
+      senderId: _currentUid,
+      text: trimmed,
+      type: MessageType.text,
+    );
+    result.fold(
+      (f) {
+        // Remove the stuck optimistic message on failure.
+        final s = state.maybeMap(ready: (s) => s, orElse: () => null);
+        if (s != null) {
+          emit(
+            s.copyWith(
+              messages: s.messages.where((m) => m.id != optimistic.id).toList(),
+            ),
+          );
+        }
+      },
+      (_) {}, // Success: Firestore stream will replace the optimistic entry.
+    );
+  }
+
+  @override
+  Future<void> close() async {
+    _sub?.cancel();
+    _presenceSub?.cancel();
+    // Mark offline when leaving the chat screen.
+    if (_currentUid.isNotEmpty) {
+      await _useCase.setOnlineStatus(_currentUid, false);
+    }
+    return super.close();
   }
 }
