@@ -1,26 +1,15 @@
 import 'package:blood_setu/domain/models/chat_source.dart';
 import 'package:blood_setu/domain/models/conversation.dart';
-import 'package:blood_setu/domain/models/conversation_participant.dart';
 import 'package:blood_setu/domain/models/message.dart';
 import 'package:blood_setu/domain/models/message_status.dart';
 import 'package:blood_setu/domain/models/message_type.dart';
 import 'package:blood_setu/domain/models/presence_status.dart';
+import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:blood_setu/domain/repositories/chat_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:injectable/injectable.dart';
-
-const _avatarColors = [
-  '#1E88E5',
-  '#43A047',
-  '#E53935',
-  '#FB8C00',
-  '#9C27B0',
-  '#00ACC1',
-  '#F06292',
-  '#26A69A',
-];
 
 @Injectable(as: IChatRepository)
 class ChatRepositoryImpl implements IChatRepository {
@@ -38,30 +27,6 @@ class ChatRepositoryImpl implements IChatRepository {
     return '${sorted[0]}_${sorted[1]}';
   }
 
-  String _colorFor(String uid) =>
-      _avatarColors[uid.hashCode.abs() % _avatarColors.length];
-
-  String _initialsFor(String name) {
-    final parts = name.trim().split(RegExp(r'\s+'));
-    if (parts.isEmpty) return '?';
-    if (parts.length == 1) return parts[0][0].toUpperCase();
-    return '${parts[0][0]}${parts[1][0]}'.toUpperCase();
-  }
-
-  ConversationParticipant _participantFromProfile(
-    String uid,
-    Map<String, dynamic> data,
-  ) {
-    final name = data['fullName'] as String? ?? '';
-    return ConversationParticipant(
-      uid: uid,
-      name: name,
-      bloodGroup: data['bloodGroup'] as String? ?? '',
-      initials: _initialsFor(name),
-      avatarColor: _colorFor(uid),
-    );
-  }
-
   @override
   Future<Conversation> getOrCreateConversation({
     required String currentUid,
@@ -76,20 +41,9 @@ class ChatRepositoryImpl implements IChatRepository {
       return Conversation.fromMap(doc.id, doc.data()!);
     }
 
-    final results = await Future.wait([
-      _firestore.collection('profile').doc(currentUid).get(),
-      _firestore.collection('profile').doc(otherUid).get(),
-    ]);
-    final myData = results[0].data() ?? {};
-    final otherData = results[1].data() ?? {};
-
-    final me = _participantFromProfile(currentUid, myData);
-    final other = _participantFromProfile(otherUid, otherData);
-
     final now = Timestamp.now();
     final data = <String, dynamic>{
       'participantIds': [currentUid, otherUid],
-      'participants': {currentUid: me.toMap(), otherUid: other.toMap()},
       'lastMessage': '',
       'lastMessageTime': now,
       'lastMessageSenderId': '',
@@ -241,5 +195,22 @@ class ChatRepositoryImpl implements IChatRepository {
           : null;
       return PresenceStatus(online: online, lastSeen: lastSeen);
     });
+  }
+
+  @override
+  Future<Map<String, UserProfileModel>> fetchProfiles(
+    List<String> uids,
+  ) async {
+    if (uids.isEmpty) return {};
+    final docs = await Future.wait(
+      uids.map((uid) => _firestore.collection('profile').doc(uid).get()),
+    );
+    final result = <String, UserProfileModel>{};
+    for (final doc in docs) {
+      if (doc.exists) {
+        result[doc.id] = UserProfileModel.fromFirestore(doc);
+      }
+    }
+    return result;
   }
 }
