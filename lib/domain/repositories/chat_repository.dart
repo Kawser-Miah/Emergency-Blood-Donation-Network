@@ -35,4 +35,17 @@ abstract class IChatRepository {
 
   /// Fetches fresh profiles for the given UIDs from the profile collection.
   Future<Map<String, UserProfileModel>> fetchProfiles(List<String> uids);
+
+  /// Writes the current user's typing status for a conversation to RTDB.
+  Future<void> setTyping({
+    required String conversationId,
+    required String uid,
+    required bool typing,
+  });
+
+  /// Streams whether another user is typing in a conversation from RTDB.
+  Stream<bool> watchTyping({
+    required String conversationId,
+    required String uid,
+  });
 }
