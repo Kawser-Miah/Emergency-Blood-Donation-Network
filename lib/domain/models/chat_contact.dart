@@ -11,5 +11,6 @@ class ChatContact with _$ChatContact {
     required String initials,
     required String avatarColor,
     required bool online,
+    String? photoUrl,
   }) = _ChatContact;
 }
