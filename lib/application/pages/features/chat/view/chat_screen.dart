@@ -109,15 +109,35 @@ class _ChatView extends StatefulWidget {
   State<_ChatView> createState() => _ChatViewState();
 }
 
-class _ChatViewState extends State<_ChatView> {
+class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _inputController = TextEditingController();
+  double _prevBottomInset = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addObserver(this);
+  }
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     _scrollController.dispose();
     _inputController.dispose();
     super.dispose();
+  }
+
+  @override
+  void didChangeMetrics() {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+      if (bottomInset > _prevBottomInset) {
+        _scrollToEnd();
+      }
+      _prevBottomInset = bottomInset;
+    });
   }
 
   void _scrollToEnd() {
@@ -140,7 +160,10 @@ class _ChatViewState extends State<_ChatView> {
             prev.maybeMap(ready: (s) => s.messages.length, orElse: () => 0);
         final nextLen =
             next.maybeMap(ready: (s) => s.messages.length, orElse: () => 0);
-        return nextLen > prevLen;
+        final typingStarted =
+            !prev.maybeMap(ready: (s) => s.showTyping, orElse: () => false) &&
+            next.maybeMap(ready: (s) => s.showTyping, orElse: () => false);
+        return nextLen > prevLen || typingStarted;
       },
       listener: (_, _) => _scrollToEnd(),
       builder: (context, state) => state.when(
