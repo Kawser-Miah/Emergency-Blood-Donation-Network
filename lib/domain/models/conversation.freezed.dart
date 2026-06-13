@@ -234,7 +234,8 @@ class _$ConversationImpl implements _Conversation {
   const _$ConversationImpl({
     required this.id,
     required final List<String> participantIds,
-    required final Map<String, ConversationParticipant> participants,
+    final Map<String, ConversationParticipant> participants =
+        const <String, ConversationParticipant>{},
     required this.lastMessage,
     required this.lastMessageTime,
     required this.lastMessageSenderId,
@@ -257,6 +258,7 @@ class _$ConversationImpl implements _Conversation {
 
   final Map<String, ConversationParticipant> _participants;
   @override
+  @JsonKey()
   Map<String, ConversationParticipant> get participants {
     if (_participants is EqualUnmodifiableMapView) return _participants;
     // ignore: implicit_dynamic_type
@@ -344,7 +346,7 @@ abstract class _Conversation implements Conversation {
   const factory _Conversation({
     required final String id,
     required final List<String> participantIds,
-    required final Map<String, ConversationParticipant> participants,
+    final Map<String, ConversationParticipant> participants,
     required final String lastMessage,
     required final DateTime lastMessageTime,
     required final String lastMessageSenderId,
