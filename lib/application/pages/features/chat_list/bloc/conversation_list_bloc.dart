@@ -16,6 +16,7 @@ class ConversationListBloc
 
   StreamSubscription<List<Conversation>>? _sub;
   String _currentUid = '';
+  bool _refreshProfiles = false;
 
   ConversationListBloc(this._useCase)
     : super(const ConversationListState.loading()) {
@@ -34,6 +35,7 @@ class ConversationListBloc
 
   void _startWatching(String uid) {
     _currentUid = uid;
+    _refreshProfiles = true;
     _sub?.cancel();
     _sub = _useCase.watchConversations(uid).listen(
       (conversations) =>
@@ -52,7 +54,13 @@ class ConversationListBloc
       orElse: () => null,
     );
     final search = existing?.search ?? '';
-    final profiles = existing?.profiles ?? const <String, UserProfileModel>{};
+
+    // Clear cached profiles when watchStarted fires so stale data is discarded.
+    final profiles = _refreshProfiles
+        ? const <String, UserProfileModel>{}
+        : (existing?.profiles ?? const <String, UserProfileModel>{});
+    _refreshProfiles = false;
+
     final filtered = _filter(all, search, _currentUid, profiles);
     final totalUnread = all.fold<int>(
       0,
@@ -68,7 +76,7 @@ class ConversationListBloc
       ),
     );
 
-    // Fetch fresh profiles for other participants not yet cached.
+    // Fetch profiles for all participants not yet in cache.
     final knownUids = profiles.keys.toSet();
     final uidsToFetch = all
         .expand((c) => c.participantIds.where((id) => id != _currentUid))
