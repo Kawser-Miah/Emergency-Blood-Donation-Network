@@ -4,9 +4,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../../di/di.dart';
 import '../../../../../domain/models/blood_request.dart';
+import '../../../../../domain/models/chat_source.dart';
+import '../../../../../domain/models/chat_source_type.dart';
 import '../../../../../domain/models/nearby_donor.dart';
 import '../../../../../domain/models/user_profile_model.dart';
 import '../../../../../utils/utils.dart';
+import '../../../../core/auth/auth_controller.dart';
+import '../../../../core/services/routing/chat_navigation.dart';
 import '../../../../core/widgets/avatar.dart';
 import '../../../../core/widgets/blood_request_card.dart';
 import '../../../../core/services/routing/routing_utils.dart';
@@ -115,7 +119,21 @@ class _HomeView extends StatelessWidget {
                             userIsActive: state.profile?.isActive ?? false,
                             userBloodGroup: state.profile?.bloodGroup ?? '',
                             interestedRequestIds: state.interestedRequestIds,
-                            onMessage: (req) {},
+                            onMessage: (req) {
+                              final uid = getIt<AuthController>().user?.uid;
+                              if (uid == null) return;
+                              navigateToChat(
+                                currentUid: uid,
+                                otherUid: req.uid,
+                                otherName: 'Blood Requester',
+                                otherBloodGroup: req.bloodGroup,
+                                chatSource: ChatSource(
+                                  type: ChatSourceType.bloodRequest,
+                                  referenceId: req.id,
+                                  //need work
+                                ), otherPhotoUrl: null,
+                              );
+                            },
                           ),
                         ],
                       ),
