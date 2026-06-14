@@ -691,33 +691,54 @@ class _DonorCard extends StatelessWidget {
           Row(
             children: [
               Expanded(
-                child: Container(
-                  height: 28,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: AppColors.dividerLightest,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.phone,
-                    size: 12,
-                    color: AppColors.textSecondary,
+                child: GestureDetector(
+                  onTap: donor.phone != null && donor.phone!.isNotEmpty
+                      ? () => Utils.launchUrl('tel:${donor.phone}')
+                      : null,
+                  child: Container(
+                    height: 28,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.dividerLightest,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.phone,
+                      size: 12,
+                      color: AppColors.textSecondary,
+                    ),
                   ),
                 ),
               ),
               const SizedBox(width: 4),
               Expanded(
-                child: Container(
-                  height: 28,
-                  alignment: Alignment.center,
-                  decoration: BoxDecoration(
-                    color: AppColors.primary,
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: const Icon(
-                    Icons.chat_bubble_outline,
-                    size: 12,
-                    color: Colors.white,
+                child: GestureDetector(
+                  onTap: () {
+                    final uid = getIt<AuthController>().user?.uid;
+                    if (uid == null) return;
+                    navigateToChat(
+                      currentUid: uid,
+                      otherUid: donor.uid,
+                      otherName: donor.name,
+                      otherBloodGroup: donor.bloodGroup,
+                      chatSource: const ChatSource(
+                        type: ChatSourceType.donorCard,
+                      ),
+                      otherPhotoUrl: donor.photoUrl,
+                    );
+                  },
+                  child: Container(
+                    height: 28,
+                    alignment: Alignment.center,
+                    decoration: BoxDecoration(
+                      color: AppColors.primary,
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: const Icon(
+                      Icons.chat_bubble_outline,
+                      size: 12,
+                      color: Colors.white,
+                    ),
                   ),
                 ),
               ),
