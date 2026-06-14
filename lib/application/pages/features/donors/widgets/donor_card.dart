@@ -1,4 +1,5 @@
 import 'package:blood_setu/domain/models/nearby_donor.dart';
+import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
 
 import '../../../../core/theme/colors.dart';
@@ -181,7 +182,9 @@ class DonorCard extends StatelessWidget {
             children: [
               Expanded(
                 child: OutlinedButton.icon(
-                  onPressed: () {},
+                  onPressed: donor.phone != null && donor.phone!.isNotEmpty
+                      ? () => Utils.launchUrl('tel:${donor.phone}')
+                      : null,
                   icon: const Icon(Icons.phone, size: 14),
                   label: const Text('Call'),
                   style: OutlinedButton.styleFrom(
