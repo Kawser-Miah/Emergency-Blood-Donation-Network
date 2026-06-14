@@ -4,7 +4,6 @@ import 'package:blood_setu/application/core/services/routing/chat_navigation.dar
 import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
 import 'package:blood_setu/application/pages/features/bottom_nav/bloc/bottom_nav_bloc.dart';
 import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_bloc.dart';
-import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_event.dart';
 import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_state.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/models/chat_contact.dart';
@@ -37,11 +36,7 @@ class ChatListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final uid = getIt<AuthController>().user?.uid ?? '';
-    return BlocProvider(
-      create: (_) => getIt<ConversationListBloc>()
-        ..add(ConversationListEvent.watchStarted(uid)),
-      child: _ChatListView(currentUid: uid),
-    );
+    return _ChatListView(currentUid: uid);
   }
 }
 
