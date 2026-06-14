@@ -1,7 +1,12 @@
 import 'package:blood_setu/domain/models/nearby_donor.dart';
 import 'package:flutter/material.dart';
 
+import '../../../../../di/di.dart';
+import '../../../../../domain/models/chat_source.dart';
+import '../../../../../domain/models/chat_source_type.dart';
 import '../../../../../utils/utils.dart';
+import '../../../../core/auth/auth_controller.dart';
+import '../../../../core/services/routing/chat_navigation.dart';
 import '../../../../core/theme/colors.dart';
 import '../../../../core/widgets/avatar.dart';
 
@@ -218,7 +223,20 @@ class DonorDetailsSheet extends StatelessWidget {
                       const SizedBox(width: 12),
                       Expanded(
                         child: ElevatedButton.icon(
-                          onPressed: () {},
+                          onPressed: () {
+                            final uid = getIt<AuthController>().user?.uid;
+                            if (uid == null) return;
+                            navigateToChat(
+                              currentUid: uid,
+                              otherUid: donor.uid,
+                              otherName: donor.name,
+                              otherBloodGroup: donor.bloodGroup,
+                              chatSource: const ChatSource(
+                                type: ChatSourceType.donorCard,
+                              ),
+                              otherPhotoUrl: donor.photoUrl,
+                            );
+                          },
                           icon: const Icon(Icons.chat_bubble_outline, size: 16),
                           label: const Text('Message'),
                           style: ElevatedButton.styleFrom(
