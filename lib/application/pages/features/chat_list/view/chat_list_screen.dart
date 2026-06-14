@@ -4,6 +4,7 @@ import 'package:blood_setu/application/core/services/routing/chat_navigation.dar
 import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
 import 'package:blood_setu/application/pages/features/bottom_nav/bloc/bottom_nav_bloc.dart';
 import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_bloc.dart';
+import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_event.dart';
 import 'package:blood_setu/application/pages/features/chat_list/bloc/conversation_list_state.dart';
 import 'package:blood_setu/di/di.dart';
 import 'package:blood_setu/domain/models/chat_contact.dart';
@@ -30,13 +31,28 @@ String _formatTime(DateTime dt) {
   return '${dt.month}/${dt.day}';
 }
 
-class ChatListScreen extends StatelessWidget {
+class ChatListScreen extends StatefulWidget {
   const ChatListScreen({super.key});
 
   @override
+  State<ChatListScreen> createState() => _ChatListScreenState();
+}
+
+class _ChatListScreenState extends State<ChatListScreen> {
+  late final String _uid;
+
+  @override
+  void initState() {
+    super.initState();
+    _uid = getIt<AuthController>().user?.uid ?? '';
+    context
+        .read<ConversationListBloc>()
+        .add(ConversationListEvent.watchStarted(_uid));
+  }
+
+  @override
   Widget build(BuildContext context) {
-    final uid = getIt<AuthController>().user?.uid ?? '';
-    return _ChatListView(currentUid: uid);
+    return _ChatListView(currentUid: _uid);
   }
 }
 
