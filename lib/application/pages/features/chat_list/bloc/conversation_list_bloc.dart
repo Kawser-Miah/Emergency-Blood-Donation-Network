@@ -56,7 +56,7 @@ class ConversationListBloc
     final filtered = _filter(all, search, _currentUid, profiles);
     final totalUnread = all.fold<int>(
       0,
-      (sum, c) => sum + (c.unreadCounts.values.fold(0, (a, b) => a + b)),
+      (sum, c) => sum + (c.unreadCounts[_currentUid] ?? 0),
     );
     emit(
       ConversationListState.loaded(
