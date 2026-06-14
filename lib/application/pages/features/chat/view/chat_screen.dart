@@ -144,7 +144,7 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
-          _scrollController.position.maxScrollExtent,
+          0, // 0 = bottom in a reversed list
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeOut,
         );
@@ -191,31 +191,51 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
                     Expanded(
                       child: ListView(
                         controller: _scrollController,
+                        reverse: true,
                         padding:
-                            const EdgeInsets.fromLTRB(16, 16, 16, 12),
+                            const EdgeInsets.fromLTRB(16, 12, 16, 16),
                         children: () {
                           final items = <Widget>[];
-                          String? lastLabel;
-                          for (final msg in messages) {
+
+                          // Typing indicator is at index 0 → renders at bottom.
+                          if (showTyping) {
+                            items.add(_TypingRow(contact: widget.contact));
+                            items.add(const SizedBox(height: 8));
+                          }
+
+                          // Iterate newest → oldest so index 0 = latest message.
+                          // Date separators are emitted when the day group changes,
+                          // placing them visually above their group of messages.
+                          String? currentLabel;
+                          for (int i = messages.length - 1; i >= 0; i--) {
+                            final msg = messages[i];
                             final label = _formatDateLabel(msg.timestamp);
-                            if (label != lastLabel) {
-                              if (lastLabel != null) {
+
+                            if (label != currentLabel) {
+                              // Close the previous (newer) day group with its separator.
+                              if (currentLabel != null) {
+                                items.add(const SizedBox(height: 16));
+                                items.add(_DateSeparator(label: currentLabel));
                                 items.add(const SizedBox(height: 8));
                               }
-                              items.add(_DateSeparator(label: label));
-                              items.add(const SizedBox(height: 16));
-                              lastLabel = label;
+                              currentLabel = label;
                             }
+
+                            items.add(const SizedBox(height: 8));
                             items.add(_Bubble(
                               message: msg,
                               contact: widget.contact,
                               currentUid: widget.currentUid,
                             ));
+                          }
+
+                          // Separator for the oldest day group.
+                          if (currentLabel != null) {
+                            items.add(const SizedBox(height: 16));
+                            items.add(_DateSeparator(label: currentLabel));
                             items.add(const SizedBox(height: 8));
                           }
-                          if (showTyping) {
-                            items.add(_TypingRow(contact: widget.contact));
-                          }
+
                           return items;
                         }(),
                       ),
