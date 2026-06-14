@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/theme/colors.dart';
+import '../../../../core/widgets/sparkle_loading_overlay.dart';
 import '../bloc/sign_in_bloc.dart';
 import '../bloc/sign_in_state.dart';
 
@@ -25,160 +26,159 @@ class SignIn extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<SignInBloc, SignInState>(
+    return BlocConsumer<SignInBloc, SignInState>(
       listener: (context, state) {
-        if (state is LoadingSignInState) {
-          return Utils.showSnackBar(
-            context,
-            content: 'Connecting you to BloodSetu...',
-            color: Colors.blue,
-          );
-        }
         if (state is SuccessSignState) {
-          return Utils.showSnackBar(
+          Utils.showSnackBar(
             context,
-            content: 'Welcome! Let’s save lives together.',
+            content: 'Welcome! Let\’s save lives together.',
             color: Colors.green,
           );
         }
         if (state is FailureState) {
-          return Utils.showSnackBar(
+          Utils.showSnackBar(
             context,
             content: state.message,
             color: Colors.red,
           );
         }
-        // state.maybeWhen(
-        //   failure: (message) =>
-        //       Utils.showSnackBar(context, content: message, color: Colors.red),
-        //   success: () => Utils.showSnackBar(
-        //     context,
-        //     content: 'Signed in successfully',
-        //     color: Colors.green,
-        //   ),
-        //   orElse: () {},
-        // );
       },
-      child: Scaffold(
-        backgroundColor: Colors.white,
-        body: Column(
+      builder: (context, state) {
+        final isLoading = state is LoadingSignInState;
+        return Stack(
           children: [
-            const _IllustrationArea(),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text(
-                      'Welcome to Blood Connect',
-                      style: TextStyle(
-                        fontSize: 24,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.textPrimary,
-                        height: 1.3,
-                      ),
-                    ),
-                    const SizedBox(height: 8),
-                    const Text(
-                      'Join thousands of donors saving lives across Bangladesh. Every drop counts.',
-                      style: TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textTertiary,
-                        height: 1.6,
-                      ),
-                    ),
-                    const SizedBox(height: 24),
-                    const _FeatureRow(
-                      emoji: '🔍',
-                      text: 'Find nearby donors instantly',
-                    ),
-                    const SizedBox(height: 12),
-                    const _FeatureRow(
-                      emoji: '🚨',
-                      text: 'Emergency SOS broadcast',
-                    ),
-                    const SizedBox(height: 12),
-                    const _FeatureRow(
-                      emoji: '🏅',
-                      text: 'Earn badges for donations',
-                    ),
-                    const SizedBox(height: 32),
-                    SizedBox(
-                      width: double.infinity,
-                      child: ElevatedButton(
-                        onPressed: () => context.read<SignInBloc>().add(
-                          SignInEvent.googleSignInPressed(),
-                        ),
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: AppColors.primary,
-                          foregroundColor: Colors.white,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(24),
+            Scaffold(
+              backgroundColor: Colors.white,
+              body: Column(
+                children: [
+                  const _IllustrationArea(),
+                  Expanded(
+                    child: Padding(
+                      padding: const EdgeInsets.fromLTRB(24, 16, 24, 32),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text(
+                            'Welcome to Blood Connect',
+                            style: TextStyle(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w700,
+                              color: AppColors.textPrimary,
+                              height: 1.3,
+                            ),
                           ),
-                          elevation: 4,
-                          shadowColor: AppColors.primary.withOpacity(0.35),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              padding: const EdgeInsets.all(2),
-                              decoration: const BoxDecoration(
-                                color: Colors.white,
-                                shape: BoxShape.circle,
+                          const SizedBox(height: 8),
+                          const Text(
+                            'Join thousands of donors saving lives across Bangladesh. Every drop counts.',
+                            style: TextStyle(
+                              fontSize: 14,
+                              color: AppColors.textTertiary,
+                              height: 1.6,
+                            ),
+                          ),
+                          const SizedBox(height: 24),
+                          const _FeatureRow(
+                            emoji: '🔍',
+                            text: 'Find nearby donors instantly',
+                          ),
+                          const SizedBox(height: 12),
+                          const _FeatureRow(
+                            emoji: '🚨',
+                            text: 'Emergency SOS broadcast',
+                          ),
+                          const SizedBox(height: 12),
+                          const _FeatureRow(
+                            emoji: '🏅',
+                            text: 'Earn badges for donations',
+                          ),
+                          const SizedBox(height: 32),
+                          SizedBox(
+                            width: double.infinity,
+                            child: ElevatedButton(
+                              onPressed: isLoading
+                                  ? null
+                                  : () => context.read<SignInBloc>().add(
+                                      SignInEvent.googleSignInPressed(),
+                                    ),
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                foregroundColor: Colors.white,
+                                padding: const EdgeInsets.symmetric(
+                                  vertical: 16,
+                                ),
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(24),
+                                ),
+                                elevation: 4,
+                                shadowColor: AppColors.primary.withOpacity(
+                                  0.35,
+                                ),
                               ),
-                              child: const Icon(
-                                Icons.g_mobiledata,
-                                size: 22,
-                                color: AppColors.googleBlue,
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Container(
+                                    padding: const EdgeInsets.all(2),
+                                    decoration: const BoxDecoration(
+                                      color: Colors.white,
+                                      shape: BoxShape.circle,
+                                    ),
+                                    child: const Icon(
+                                      Icons.g_mobiledata,
+                                      size: 22,
+                                      color: AppColors.googleBlue,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 12),
+                                  const Text(
+                                    'Continue with Google',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                ],
                               ),
                             ),
-                            const SizedBox(width: 12),
-                            const Text(
-                              'Continue with Google',
+                          ),
+                          const SizedBox(height: 12),
+                          const Center(
+                            child: Text.rich(
+                              TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'By continuing, you agree to our ',
+                                  ),
+                                  TextSpan(
+                                    text: 'Terms of Service',
+                                    style: TextStyle(color: AppColors.primary),
+                                  ),
+                                  TextSpan(text: ' and '),
+                                  TextSpan(
+                                    text: 'Privacy Policy',
+                                    style: TextStyle(color: AppColors.primary),
+                                  ),
+                                ],
+                              ),
+                              textAlign: TextAlign.center,
                               style: TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.w600,
+                                fontSize: 10,
+                                color: AppColors.textMuted,
+                                height: 1.6,
                               ),
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    const SizedBox(height: 12),
-                    const Center(
-                      child: Text.rich(
-                        TextSpan(
-                          children: [
-                            TextSpan(text: 'By continuing, you agree to our '),
-                            TextSpan(
-                              text: 'Terms of Service',
-                              style: TextStyle(color: AppColors.primary),
-                            ),
-                            TextSpan(text: ' and '),
-                            TextSpan(
-                              text: 'Privacy Policy',
-                              style: TextStyle(color: AppColors.primary),
-                            ),
-                          ],
-                        ),
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 10,
-                          color: AppColors.textMuted,
-                          height: 1.6,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
+            if (isLoading) const SparkleLoadingOverlay(),
           ],
-        ),
-      ),
+        );
+      },
     );
   }
 }
