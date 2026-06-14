@@ -1,3 +1,4 @@
+import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
@@ -112,17 +113,26 @@ class _ChatView extends StatefulWidget {
 class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _inputController = TextEditingController();
+  final FocusNode _inputFocusNode = FocusNode();
   double _prevBottomInset = 0;
+  bool _showEmojiPicker = false;
 
   @override
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    // When the text field gains focus (user taps it), close the emoji picker.
+    _inputFocusNode.addListener(() {
+      if (_inputFocusNode.hasFocus && _showEmojiPicker) {
+        setState(() => _showEmojiPicker = false);
+      }
+    });
   }
 
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    _inputFocusNode.dispose();
     _scrollController.dispose();
     _inputController.dispose();
     super.dispose();
@@ -134,10 +144,21 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
       if (!mounted) return;
       final bottomInset = MediaQuery.of(context).viewInsets.bottom;
       if (bottomInset > _prevBottomInset) {
+        // Keyboard opened — close emoji picker and scroll to bottom.
+        if (_showEmojiPicker) setState(() => _showEmojiPicker = false);
         _scrollToEnd();
       }
       _prevBottomInset = bottomInset;
     });
+  }
+
+  void _toggleEmojiPicker() {
+    if (_showEmojiPicker) {
+      setState(() => _showEmojiPicker = false);
+    } else {
+      FocusScope.of(context).unfocus(); // dismiss keyboard first
+      setState(() => _showEmojiPicker = true);
+    }
   }
 
   void _scrollToEnd() {
@@ -247,17 +268,35 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
                     ),
                     _InputBar(
                       controller: _inputController,
+                      focusNode: _inputFocusNode,
                       input: input,
+                      showEmojiPicker: _showEmojiPicker,
                       onChanged: (v) => context
                           .read<ChatBloc>()
                           .add(ChatEvent.inputChanged(v)),
                       onSend: () => context
                           .read<ChatBloc>()
                           .add(ChatEvent.messageSent(input)),
-                      onAttach: () => context
-                          .read<ChatBloc>()
-                          .add(const ChatEvent.attachmentToggled()),
+                      onAttach: () => ScaffoldMessenger.of(context)
+                          .showSnackBar(const SnackBar(
+                        content: Text('Coming soon'),
+                        duration: Duration(seconds: 2),
+                      )),
+                      onEmoji: _toggleEmojiPicker,
                     ),
+                    if (_showEmojiPicker)
+                      SizedBox(
+                        height: 280,
+                        child: EmojiPicker(
+                          textEditingController: _inputController,
+                          onEmojiSelected: (_, __) {
+                            context.read<ChatBloc>().add(
+                              ChatEvent.inputChanged(_inputController.text),
+                            );
+                          },
+                          config: const Config(),
+                        ),
+                      ),
                   ],
                 ),
                 if (showAttachment) const _AttachmentSheet(),
@@ -613,17 +652,23 @@ class _QuickReplies extends StatelessWidget {
 class _InputBar extends StatelessWidget {
   const _InputBar({
     required this.controller,
+    required this.focusNode,
     required this.input,
     required this.onChanged,
     required this.onSend,
     required this.onAttach,
+    required this.onEmoji,
+    required this.showEmojiPicker,
   });
 
   final TextEditingController controller;
+  final FocusNode focusNode;
   final String input;
   final ValueChanged<String> onChanged;
   final VoidCallback onSend;
   final VoidCallback onAttach;
+  final VoidCallback onEmoji;
+  final bool showEmojiPicker;
 
   @override
   Widget build(BuildContext context) {
@@ -668,6 +713,7 @@ class _InputBar extends StatelessWidget {
                   Expanded(
                     child: TextField(
                       controller: controller,
+                      focusNode: focusNode,
                       onChanged: onChanged,
                       maxLines: null,
                       decoration: const InputDecoration(
@@ -685,10 +731,20 @@ class _InputBar extends StatelessWidget {
                       textInputAction: TextInputAction.newline,
                     ),
                   ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 4),
-                    child: Icon(Icons.emoji_emotions_outlined,
-                        size: 18, color: AppColors.textMuted),
+                  GestureDetector(
+                    onTap: onEmoji,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 4),
+                      child: Icon(
+                        showEmojiPicker
+                            ? Icons.keyboard_outlined
+                            : Icons.emoji_emotions_outlined,
+                        size: 18,
+                        color: showEmojiPicker
+                            ? AppColors.primary
+                            : AppColors.textMuted,
+                      ),
+                    ),
                   ),
                 ],
               ),
