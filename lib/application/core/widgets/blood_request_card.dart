@@ -107,6 +107,7 @@ class BloodRequestCard extends StatelessWidget {
         request: request,
         userLat: userLat,
         userLng: userLng,
+        onMessage: onMessage,
         onImComing: onImComing,
         isInterested: isInterested,
         isCompatible: isCompatible,
@@ -307,6 +308,7 @@ class BloodRequestDetailsSheet extends StatefulWidget {
     required this.request,
     this.userLat,
     this.userLng,
+    this.onMessage,
     this.onImComing,
     this.isInterested = false,
     this.isCompatible = true,
@@ -316,6 +318,7 @@ class BloodRequestDetailsSheet extends StatefulWidget {
   final BloodRequest request;
   final double? userLat;
   final double? userLng;
+  final VoidCallback? onMessage;
   final VoidCallback? onImComing;
   final bool isInterested;
   final bool isCompatible;
@@ -473,7 +476,12 @@ class _BloodRequestDetailsSheetState extends State<BloodRequestDetailsSheet> {
                     children: [
                       Expanded(
                         child: ElevatedButton(
-                          onPressed: () {},
+                          onPressed: widget.onMessage == null
+                              ? null
+                              : () {
+                                  Navigator.of(context).pop();
+                                  widget.onMessage!();
+                                },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: AppColors.primary,
                             foregroundColor: Colors.white,
