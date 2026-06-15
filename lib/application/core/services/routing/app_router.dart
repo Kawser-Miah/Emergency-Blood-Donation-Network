@@ -21,6 +21,7 @@ import '../../../pages/features/my_interests/view/my_interests_screen.dart';
 import '../../../pages/features/my_requests/view/my_requests_screen.dart';
 import '../../../pages/features/profile/view/all_badges_screen.dart';
 import '../../../pages/features/profile/view/donation_history_screen.dart';
+import '../../../pages/features/profile/view/privacy_policy_screen.dart';
 import '../../../pages/features/profile/view/profile_screen.dart';
 
 @lazySingleton
@@ -133,6 +134,11 @@ class AppRouter {
           name: PAGES.allBadges.screenName,
           builder: (context, state) =>
               AllBadgesScreen(totalDonations: state.extra as int? ?? 0),
+        ),
+        GoRoute(
+          path: PAGES.privacyPolicy.screenPath,
+          name: PAGES.privacyPolicy.screenName,
+          builder: (context, state) => const PrivacyPolicyScreen(),
         ),
         GoRoute(
           path: PAGES.mapPicker.screenPath,
