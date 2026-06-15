@@ -1,3 +1,4 @@
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:pdf/pdf.dart';
 import 'package:pdf/widgets.dart' as pw;
@@ -23,12 +24,22 @@ Future<void> generateAndShareDonationPdf({
   final dateFmt = DateFormat('dd MMM yyyy');
   final td = profile.totalDonations;
 
+  final logoBytes = (await rootBundle.load('assets/app_logo.png'))
+      .buffer
+      .asUint8List();
+  final logoImage = pw.MemoryImage(logoBytes);
+
   doc.addPage(
     pw.MultiPage(
       pageFormat: PdfPageFormat.a4,
       margin: pw.EdgeInsets.zero,
-      header: (_) =>
-          _header(bold: bold, regular: regular, now: now, dateFmt: dateFmt),
+      header: (_) => _header(
+        bold: bold,
+        regular: regular,
+        now: now,
+        dateFmt: dateFmt,
+        logoImage: logoImage,
+      ),
       footer: (ctx) => _footer(ctx, regular: regular),
       build: (_) => [
         pw.Padding(
@@ -78,6 +89,7 @@ pw.Widget _header({
   required pw.Font regular,
   required DateTime now,
   required DateFormat dateFmt,
+  required pw.MemoryImage logoImage,
 }) {
   const red = _red;
   const white = PdfColors.white;
@@ -125,7 +137,7 @@ pw.Widget _header({
             ),
           ],
         ),
-        // Right: "BS" logo mark
+        // Right: app logo
         pw.Container(
           width: 62,
           height: 62,
@@ -133,25 +145,9 @@ pw.Widget _header({
             color: PdfColors.white,
             shape: pw.BoxShape.circle,
           ),
-          child: pw.Center(
-            child: pw.Column(
-              mainAxisAlignment: pw.MainAxisAlignment.center,
-              children: [
-                pw.Text(
-                  'BS',
-                  style: pw.TextStyle(font: bold, fontSize: 22, color: red),
-                ),
-                pw.Text(
-                  'BLOOD',
-                  style: pw.TextStyle(
-                    font: regular,
-                    fontSize: 6,
-                    color: red,
-                    letterSpacing: 0.5,
-                  ),
-                ),
-              ],
-            ),
+          child: pw.Padding(
+            padding: const pw.EdgeInsets.all(6),
+            child: pw.Image(logoImage, fit: pw.BoxFit.contain),
           ),
         ),
       ],
