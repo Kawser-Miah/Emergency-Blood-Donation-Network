@@ -27,18 +27,10 @@ class HomeTopBar extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Container(
-            width: 28,
-            height: 28,
-            decoration: const BoxDecoration(
-              color: AppColors.primary,
-              shape: BoxShape.circle,
-            ),
-            child: const Icon(
-              Icons.water_drop,
-              color: Colors.white,
-              size: 16,
-            ),
+          Image.asset(
+            'assets/app_logo.png',
+            width: 32,
+            height: 32,
           ),
           const SizedBox(width: 8),
           const Text(
