@@ -114,23 +114,21 @@ class _CenterLogoState extends State<_CenterLogo>
                   alignment: Alignment.center,
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
-                    gradient: const LinearGradient(
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                      colors: [AppColors.primary, AppColors.primaryDark],
-                    ),
                     boxShadow: [
                       BoxShadow(
-                        color: AppColors.primary.withOpacity(0.4),
+                        color: AppColors.primary.withValues(alpha: 0.35),
                         blurRadius: 24,
                         offset: const Offset(0, 8),
                       ),
                     ],
                   ),
-                  child: const Icon(
-                    Icons.water_drop,
-                    color: Colors.white,
-                    size: 36,
+                  child: ClipOval(
+                    child: Image.asset(
+                      'assets/app_logo.png',
+                      width: 80,
+                      height: 80,
+                      fit: BoxFit.cover,
+                    ),
                   ),
                 ),
               ),
@@ -157,7 +155,7 @@ class _CenterLogoState extends State<_CenterLogo>
         Container(
           padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
           decoration: BoxDecoration(
-            color: AppColors.primary.withOpacity(0.06),
+            color: AppColors.primary.withValues(alpha: 0.06),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Row(
@@ -202,7 +200,7 @@ class _Ripple extends StatelessWidget {
             height: size,
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: AppColors.primary.withOpacity(opacity),
+              color: AppColors.primary.withValues(alpha: opacity),
             ),
           ),
         );
