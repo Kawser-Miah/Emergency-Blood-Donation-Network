@@ -15,7 +15,6 @@ import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
 import '../widgets/home_active_requests.dart';
 import '../widgets/home_nearby_donors.dart';
-import '../widgets/home_sidebar.dart';
 import '../widgets/home_sos_button.dart';
 import '../widgets/home_top_bar.dart';
 import '../widgets/home_welcome_card.dart';
@@ -64,11 +63,7 @@ class _HomeView extends StatelessWidget {
               children: [
                 Column(
                   children: [
-                    HomeTopBar(
-                      onMenu: () => context
-                          .read<HomeBloc>()
-                          .add(const HomeEvent.sidebarOpened()),
-                    ),
+                    const HomeTopBar(),
                     Expanded(
                       child: SingleChildScrollView(
                         padding: const EdgeInsets.only(bottom: 16),
@@ -143,7 +138,6 @@ class _HomeView extends StatelessWidget {
                     child: const Icon(Icons.add, color: Colors.white),
                   ),
                 ),
-                if (state.showSidebar) const HomeSidebar(),
               ],
             ),
           );
