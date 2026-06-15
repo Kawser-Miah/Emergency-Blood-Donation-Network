@@ -1,4 +1,3 @@
-import 'package:blood_setu/application/core/services/routing/app_router.dart';
 import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart';
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_event.dart';
@@ -6,10 +5,9 @@ import 'package:blood_setu/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
-
 import '../../../../core/theme/colors.dart';
-import '../bloc/profile_bloc.dart';
-import '../bloc/profile_event.dart';
+// import '../bloc/profile_bloc.dart';
+// import '../bloc/profile_event.dart';
 import '../bloc/profile_state.dart';
 
 class ProfileSettingsSection extends StatelessWidget {
@@ -19,32 +17,28 @@ class ProfileSettingsSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bloc = context.read<ProfileBloc>();
-    final toggles = <_ToggleRow>[
-      _ToggleRow(
-        icon: Icons.notifications_outlined,
-        label: 'Notifications',
-        value: state.notifications,
-        onChange: () => bloc.add(const ProfileEvent.notificationsToggled()),
-      ),
-      _ToggleRow(
-        icon: Icons.dark_mode_outlined,
-        label: 'Dark Mode',
-        value: state.darkMode,
-        onChange: () => bloc.add(const ProfileEvent.darkModeToggled()),
-      ),
-      _ToggleRow(
-        icon: Icons.volume_up_outlined,
-        label: 'Quiet Hours (10pm–8am)',
-        value: state.quietHours,
-        onChange: () => bloc.add(const ProfileEvent.quietHoursToggled()),
-      ),
-    ];
-
-    final navigators = <_NavRow>[
-      const _NavRow(icon: Icons.lock_outline, label: 'Privacy Settings'),
-      const _NavRow(icon: Icons.language, label: 'App Language (English)'),
-    ];
+    // Toggles — commented out until feature is ready
+    // final bloc = context.read<ProfileBloc>();
+    // final toggles = <_ToggleRow>[
+    //   _ToggleRow(
+    //     icon: Icons.notifications_outlined,
+    //     label: 'Notifications',
+    //     value: state.notifications,
+    //     onChange: () => bloc.add(const ProfileEvent.notificationsToggled()),
+    //   ),
+    //   _ToggleRow(
+    //     icon: Icons.dark_mode_outlined,
+    //     label: 'Dark Mode',
+    //     value: state.darkMode,
+    //     onChange: () => bloc.add(const ProfileEvent.darkModeToggled()),
+    //   ),
+    //   _ToggleRow(
+    //     icon: Icons.volume_up_outlined,
+    //     label: 'Quiet Hours (10pm–8am)',
+    //     value: state.quietHours,
+    //     onChange: () => bloc.add(const ProfileEvent.quietHoursToggled()),
+    //   ),
+    // ];
 
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -77,153 +71,23 @@ class ProfileSettingsSection extends StatelessWidget {
             clipBehavior: Clip.hardEdge,
             child: Column(
               children: [
-                for (final t in toggles)
-                  Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: AppColors.dividerLightest),
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(t.icon, size: 18, color: AppColors.textTertiary),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            t.label,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                        _ToggleSwitch(value: t.value, onChange: t.onChange),
-                      ],
-                    ),
-                  ),
-                for (final n in navigators)
-                  Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: AppColors.dividerLightest),
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    child: Row(
-                      children: [
-                        Icon(n.icon, size: 18, color: AppColors.textTertiary),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            n.label,
-                            style: const TextStyle(
-                              fontSize: 14,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                        const Icon(
-                          Icons.chevron_right,
-                          size: 16,
-                          color: AppColors.textDisabled,
-                        ),
-                      ],
-                    ),
-                  ),
-                InkWell(
-                  onTap: () async {
-                    final profile = context.read<ProfileBloc>().state.profile;
-                    if (profile == null) return;
-                    await AppRouter.router.push(
-                      PAGES.editProfile.screenPath,
-                      extra: profile,
-                    );
-                    if (context.mounted) {
-                      context
-                          .read<ProfileBloc>()
-                          .add(const ProfileEvent.started());
-                    }
-                  },
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: AppColors.dividerLightest),
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.edit_outlined,
-                          size: 18,
-                          color: AppColors.textTertiary,
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            'Edit Profile',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                        Icon(
-                          Icons.chevron_right,
-                          size: 16,
-                          color: AppColors.textDisabled,
-                        ),
-                      ],
-                    ),
-                  ),
+                // Toggle rows (Notifications, Dark Mode, Quiet Hours) — commented out
+                // for (final t in toggles) ...
+
+                _NavItem(
+                  icon: Icons.privacy_tip_outlined,
+                  label: 'Privacy Policy',
+                  onTap: () => context.push(PAGES.privacyPolicy.screenPath),
                 ),
-                InkWell(
-                  onTap: () => context.push(PAGES.myInterests.screenPath),
-                  child: Container(
-                    decoration: const BoxDecoration(
-                      border: Border(
-                        bottom: BorderSide(color: AppColors.dividerLightest),
-                      ),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    child: Row(
-                      children: const [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 18,
-                          color: AppColors.textTertiary,
-                        ),
-                        SizedBox(width: 12),
-                        Expanded(
-                          child: Text(
-                            'My Interests',
-                            style: TextStyle(
-                              fontSize: 14,
-                              color: AppColors.textSecondary,
-                            ),
-                          ),
-                        ),
-                        Icon(
-                          Icons.chevron_right,
-                          size: 16,
-                          color: AppColors.textDisabled,
-                        ),
-                      ],
-                    ),
-                  ),
+                _NavItem(
+                  icon: Icons.lock_outline,
+                  label: 'Privacy Settings',
+                  onTap: () {},
+                ),
+                _NavItem(
+                  icon: Icons.language,
+                  label: 'App Language (English)',
+                  onTap: () {},
                 ),
                 InkWell(
                   onTap: () async {
@@ -267,45 +131,45 @@ class ProfileSettingsSection extends StatelessWidget {
   }
 }
 
-class _ToggleSwitch extends StatelessWidget {
-  const _ToggleSwitch({required this.value, required this.onChange});
+class _NavItem extends StatelessWidget {
+  const _NavItem({
+    required this.icon,
+    required this.label,
+    required this.onTap,
+  });
 
-  final bool value;
-  final VoidCallback onChange;
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onChange,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        width: 44,
-        height: 24,
-        decoration: BoxDecoration(
-          color: value ? AppColors.primary : AppColors.divider,
-          borderRadius: BorderRadius.circular(12),
+    return InkWell(
+      onTap: onTap,
+      child: Container(
+        decoration: const BoxDecoration(
+          border: Border(
+            bottom: BorderSide(color: AppColors.dividerLightest),
+          ),
         ),
-        child: Stack(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+        child: Row(
           children: [
-            AnimatedPositioned(
-              duration: const Duration(milliseconds: 200),
-              left: value ? 22 : 2,
-              top: 2,
-              child: Container(
-                width: 20,
-                height: 20,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.2),
-                      blurRadius: 4,
-                      offset: const Offset(0, 1),
-                    ),
-                  ],
+            Icon(icon, size: 18, color: AppColors.textTertiary),
+            const SizedBox(width: 12),
+            Expanded(
+              child: Text(
+                label,
+                style: const TextStyle(
+                  fontSize: 14,
+                  color: AppColors.textSecondary,
                 ),
               ),
+            ),
+            const Icon(
+              Icons.chevron_right,
+              size: 16,
+              color: AppColors.textDisabled,
             ),
           ],
         ),
@@ -314,22 +178,6 @@ class _ToggleSwitch extends StatelessWidget {
   }
 }
 
-class _ToggleRow {
-  const _ToggleRow({
-    required this.icon,
-    required this.label,
-    required this.value,
-    required this.onChange,
-  });
-
-  final IconData icon;
-  final String label;
-  final bool value;
-  final VoidCallback onChange;
-}
-
-class _NavRow {
-  const _NavRow({required this.icon, required this.label});
-  final IconData icon;
-  final String label;
-}
+// Toggle widgets kept for future use
+// class _ToggleSwitch ...
+// class _ToggleRow ...
