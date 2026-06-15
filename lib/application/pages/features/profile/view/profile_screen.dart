@@ -1,5 +1,3 @@
-import 'package:blood_setu/application/core/services/routing/app_router.dart';
-import 'package:blood_setu/application/core/services/routing/routing_utils.dart';
 import 'package:blood_setu/application/core/widgets/sparkle_loading_overlay.dart';
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_bloc.dart';
 import 'package:blood_setu/application/pages/features/sign_in/bloc/sign_in_state.dart';
@@ -20,6 +18,7 @@ import '../widgets/profile_cover_photo.dart';
 import '../widgets/profile_donation_history.dart';
 import '../widgets/profile_name_and_group.dart';
 import '../widgets/profile_personal_info.dart';
+import '../widgets/profile_quick_actions.dart';
 import '../widgets/profile_settings_section.dart';
 import '../widgets/profile_stats_card.dart';
 
@@ -100,24 +99,11 @@ class _ProfileView extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 96),
                     child: Column(
                       children: [
-                        ProfileCoverPhoto(
-                          profile: state.profile,
-                          onEdit: state.profile == null
-                              ? null
-                              : () async {
-                                  await AppRouter.router.push(
-                                    PAGES.editProfile.screenPath,
-                                    extra: state.profile,
-                                  );
-                                  if (context.mounted) {
-                                    context.read<ProfileBloc>().add(
-                                      const ProfileEvent.started(),
-                                    );
-                                  }
-                                },
-                        ),
-                        const SizedBox(height: 64),
+                        ProfileCoverPhoto(profile: state.profile),
+                        const SizedBox(height: 72),
                         ProfileNameAndGroup(profile: state.profile),
+                        const SizedBox(height: 20),
+                        ProfileQuickActions(profile: state.profile),
                         const SizedBox(height: 16),
                         ProfileStatsCard(profile: state.profile),
                         const SizedBox(height: 16),
