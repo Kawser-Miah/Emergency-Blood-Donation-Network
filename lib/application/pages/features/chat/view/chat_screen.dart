@@ -1,74 +1,22 @@
 import 'package:emoji_picker_flutter/emoji_picker_flutter.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:go_router/go_router.dart';
 
 import '../../../../../di/di.dart';
 import '../../../../../domain/models/chat_contact.dart';
 import '../../../../../domain/models/chat_screen_args.dart';
-import '../../../../../domain/models/message.dart';
-import '../../../../../domain/models/message_status.dart';
-import '../../../../core/widgets/avatar.dart';
-import '../../../../core/widgets/typing_dots.dart';
 import '../../../../core/theme/colors.dart';
 import '../bloc/chat_bloc.dart';
 import '../bloc/chat_event.dart';
 import '../bloc/chat_state.dart';
-
-const List<String> _quickReplies = [
-  "I'm coming",
-  "Need 30 min",
-  "Call me",
-  "On the way 🚗",
-];
-
-String _formatLastSeen(DateTime? lastSeen) {
-  if (lastSeen == null) return 'Last seen recently';
-  final diff = DateTime.now().difference(lastSeen);
-  if (diff.inSeconds < 60) return 'Last seen just now';
-  if (diff.inMinutes < 60) {
-    final m = diff.inMinutes;
-    return 'Last seen $m min ago';
-  }
-  if (diff.inHours < 24) {
-    final h = lastSeen.hour == 0
-        ? 12
-        : (lastSeen.hour > 12 ? lastSeen.hour - 12 : lastSeen.hour);
-    final ampm = lastSeen.hour >= 12 ? 'PM' : 'AM';
-    final mm = lastSeen.minute.toString().padLeft(2, '0');
-    return 'Last seen today at ${h.toString().padLeft(2, '0')}:$mm $ampm';
-  }
-  if (diff.inDays == 1) return 'Last seen yesterday';
-  if (diff.inDays < 7) return 'Last seen ${diff.inDays} days ago';
-  return 'Last seen a while ago';
-}
-
-String _formatDateLabel(DateTime dt) {
-  final now = DateTime.now();
-  final today = DateTime(now.year, now.month, now.day);
-  final msgDay = DateTime(dt.year, dt.month, dt.day);
-  final diff = today.difference(msgDay).inDays;
-  if (diff == 0) return 'Today';
-  if (diff == 1) return 'Yesterday';
-  if (diff < 7) {
-    const weekdays = [
-      'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'
-    ];
-    return weekdays[dt.weekday - 1];
-  }
-  const months = [
-    'Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-    'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'
-  ];
-  return '${months[dt.month - 1]} ${dt.day}';
-}
-
-String _formatTime(DateTime dt) {
-  final h = dt.hour == 0 ? 12 : (dt.hour > 12 ? dt.hour - 12 : dt.hour);
-  final ampm = dt.hour >= 12 ? 'PM' : 'AM';
-  final mm = dt.minute.toString().padLeft(2, '0');
-  return '${h.toString().padLeft(2, '0')}:$mm $ampm';
-}
+import '../widgets/chat_app_bar.dart';
+import '../widgets/chat_attachment_sheet.dart';
+import '../widgets/chat_bubble.dart';
+import '../widgets/chat_date_separator.dart';
+import '../widgets/chat_helpers.dart';
+import '../widgets/chat_input_bar.dart';
+import '../widgets/chat_quick_replies.dart';
+import '../widgets/chat_typing_row.dart';
 
 class ChatScreen extends StatelessWidget {
   const ChatScreen({super.key, required this.args});
@@ -121,7 +69,6 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    // When the text field gains focus (user taps it), close the emoji picker.
     _inputFocusNode.addListener(() {
       if (_inputFocusNode.hasFocus && _showEmojiPicker) {
         setState(() => _showEmojiPicker = false);
@@ -144,7 +91,6 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
       if (!mounted) return;
       final bottomInset = MediaQuery.of(context).viewInsets.bottom;
       if (bottomInset > _prevBottomInset) {
-        // Keyboard opened — close emoji picker and scroll to bottom.
         if (_showEmojiPicker) setState(() => _showEmojiPicker = false);
         _scrollToEnd();
       }
@@ -156,7 +102,7 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
     if (_showEmojiPicker) {
       setState(() => _showEmojiPicker = false);
     } else {
-      FocusScope.of(context).unfocus(); // dismiss keyboard first
+      FocusScope.of(context).unfocus();
       setState(() => _showEmojiPicker = true);
     }
   }
@@ -165,7 +111,7 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (_scrollController.hasClients) {
         _scrollController.animateTo(
-          0, // 0 = bottom in a reversed list
+          0,
           duration: const Duration(milliseconds: 250),
           curve: Curves.easeOut,
         );
@@ -186,7 +132,7 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
             next.maybeMap(ready: (s) => s.showTyping, orElse: () => false);
         return nextLen > prevLen || typingStarted;
       },
-      listener: (_, _) => _scrollToEnd(),
+      listener: (context, _) => _scrollToEnd(),
       builder: (context, state) => state.when(
         loading: () => _loadingScaffold(),
         error: (msg) => _errorScaffold(msg),
@@ -204,7 +150,7 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
               children: [
                 Column(
                   children: [
-                    _AppBar(
+                    ChatAppBar(
                       contact: widget.contact,
                       online: otherOnline,
                       lastSeen: otherLastSeen,
@@ -213,60 +159,19 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
                       child: ListView(
                         controller: _scrollController,
                         reverse: true,
-                        padding:
-                            const EdgeInsets.fromLTRB(16, 12, 16, 16),
-                        children: () {
-                          final items = <Widget>[];
-
-                          // Typing indicator is at index 0 → renders at bottom.
-                          if (showTyping) {
-                            items.add(_TypingRow(contact: widget.contact));
-                            items.add(const SizedBox(height: 8));
-                          }
-
-                          // Iterate newest → oldest so index 0 = latest message.
-                          // Date separators are emitted when the day group changes,
-                          // placing them visually above their group of messages.
-                          String? currentLabel;
-                          for (int i = messages.length - 1; i >= 0; i--) {
-                            final msg = messages[i];
-                            final label = _formatDateLabel(msg.timestamp);
-
-                            if (label != currentLabel) {
-                              // Close the previous (newer) day group with its separator.
-                              if (currentLabel != null) {
-                                items.add(const SizedBox(height: 16));
-                                items.add(_DateSeparator(label: currentLabel));
-                                items.add(const SizedBox(height: 8));
-                              }
-                              currentLabel = label;
-                            }
-
-                            items.add(const SizedBox(height: 8));
-                            items.add(_Bubble(
-                              message: msg,
-                              contact: widget.contact,
-                              currentUid: widget.currentUid,
-                            ));
-                          }
-
-                          // Separator for the oldest day group.
-                          if (currentLabel != null) {
-                            items.add(const SizedBox(height: 16));
-                            items.add(_DateSeparator(label: currentLabel));
-                            items.add(const SizedBox(height: 8));
-                          }
-
-                          return items;
-                        }(),
+                        padding: const EdgeInsets.fromLTRB(16, 12, 16, 16),
+                        children: _buildMessageList(
+                          messages: messages,
+                          showTyping: showTyping,
+                        ),
                       ),
                     ),
-                    _QuickReplies(
+                    ChatQuickReplies(
                       onTap: (text) => context
                           .read<ChatBloc>()
                           .add(ChatEvent.messageSent(text)),
                     ),
-                    _InputBar(
+                    ChatInputBar(
                       controller: _inputController,
                       focusNode: _inputFocusNode,
                       input: input,
@@ -289,7 +194,7 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
                         height: 280,
                         child: EmojiPicker(
                           textEditingController: _inputController,
-                          onEmojiSelected: (_, __) {
+                          onEmojiSelected: (_, _) {
                             context.read<ChatBloc>().add(
                               ChatEvent.inputChanged(_inputController.text),
                             );
@@ -299,7 +204,7 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
                       ),
                   ],
                 ),
-                if (showAttachment) const _AttachmentSheet(),
+                if (showAttachment) const ChatAttachmentSheet(),
               ],
             ),
           );
@@ -308,11 +213,53 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
     );
   }
 
+  List<Widget> _buildMessageList({
+    required List messages,
+    required bool showTyping,
+  }) {
+    final items = <Widget>[];
+
+    if (showTyping) {
+      items.add(ChatTypingRow(contact: widget.contact));
+      items.add(const SizedBox(height: 8));
+    }
+
+    String? currentLabel;
+    for (int i = messages.length - 1; i >= 0; i--) {
+      final msg = messages[i];
+      final label = formatDateLabel(msg.timestamp);
+
+      if (label != currentLabel) {
+        if (currentLabel != null) {
+          items.add(const SizedBox(height: 16));
+          items.add(ChatDateSeparator(label: currentLabel));
+          items.add(const SizedBox(height: 8));
+        }
+        currentLabel = label;
+      }
+
+      items.add(const SizedBox(height: 8));
+      items.add(ChatBubble(
+        message: msg,
+        contact: widget.contact,
+        currentUid: widget.currentUid,
+      ));
+    }
+
+    if (currentLabel != null) {
+      items.add(const SizedBox(height: 16));
+      items.add(ChatDateSeparator(label: currentLabel));
+      items.add(const SizedBox(height: 8));
+    }
+
+    return items;
+  }
+
   Widget _loadingScaffold() => Scaffold(
         backgroundColor: AppColors.background,
         body: Column(
           children: [
-            _AppBar(contact: widget.contact),
+            ChatAppBar(contact: widget.contact),
             const Expanded(
               child: Center(child: CircularProgressIndicator()),
             ),
@@ -324,7 +271,7 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
         backgroundColor: AppColors.background,
         body: Column(
           children: [
-            _AppBar(contact: widget.contact),
+            ChatAppBar(contact: widget.contact),
             Expanded(
               child: Center(
                 child: Padding(
@@ -340,546 +287,4 @@ class _ChatViewState extends State<_ChatView> with WidgetsBindingObserver {
           ],
         ),
       );
-}
-
-class _AppBar extends StatelessWidget {
-  const _AppBar({required this.contact, this.online = false, this.lastSeen});
-
-  final ChatContact contact;
-  final bool online;
-  final DateTime? lastSeen;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: Colors.white,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.08),
-            blurRadius: 6,
-            offset: const Offset(0, 1),
-          ),
-        ],
-      ),
-      padding: EdgeInsets.fromLTRB(
-          12, MediaQuery.of(context).padding.top + 4, 12, 12),
-      child: Row(
-        children: [
-          IconButton(
-            onPressed: () => context.pop(),
-            icon: const Icon(Icons.arrow_back, size: 22),
-            color: AppColors.textSecondary,
-            padding: const EdgeInsets.all(4),
-            constraints: const BoxConstraints(),
-          ),
-          const SizedBox(width: 4),
-          Avatar(
-            initials: contact.initials,
-            colorHex: contact.avatarColor,
-            imageUrl: contact.photoUrl,
-            size: 38,
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Flexible(
-                      child: Text(
-                        contact.name,
-                        overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w700,
-                          color: AppColors.textPrimary,
-                        ),
-                      ),
-                    ),
-                    if (contact.bloodGroup.isNotEmpty) ...[
-                      const SizedBox(width: 6),
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 6, vertical: 2),
-                        decoration: BoxDecoration(
-                          color: AppColors.primarySurface,
-                          borderRadius: BorderRadius.circular(99),
-                        ),
-                        child: Text(
-                          contact.bloodGroup,
-                          style: const TextStyle(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w700,
-                            color: AppColors.primary,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ],
-                ),
-                Row(
-                  children: [
-                    if (online) ...[
-                      Container(
-                        width: 6,
-                        height: 6,
-                        decoration: const BoxDecoration(
-                          color: AppColors.success,
-                          shape: BoxShape.circle,
-                        ),
-                      ),
-                      const SizedBox(width: 4),
-                      const Text(
-                        'Online now',
-                        style: TextStyle(
-                            fontSize: 11, color: AppColors.success),
-                      ),
-                    ] else
-                      Text(
-                        _formatLastSeen(lastSeen),
-                        style: const TextStyle(
-                            fontSize: 11, color: AppColors.textMuted),
-                      ),
-                  ],
-                ),
-              ],
-            ),
-          ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.more_vert, size: 20),
-            color: AppColors.textSecondary,
-            padding: const EdgeInsets.all(4),
-            constraints: const BoxConstraints(),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _DateSeparator extends StatelessWidget {
-  const _DateSeparator({required this.label});
-  final String label;
-
-  @override
-  Widget build(BuildContext context) {
-    return Center(
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-        decoration: BoxDecoration(
-          color: Colors.black.withValues(alpha: 0.08),
-          borderRadius: BorderRadius.circular(99),
-        ),
-        child: Text(
-          label,
-          style: const TextStyle(fontSize: 10, color: AppColors.textTertiary),
-        ),
-      ),
-    );
-  }
-}
-
-class _Bubble extends StatelessWidget {
-  const _Bubble({
-    required this.message,
-    required this.contact,
-    required this.currentUid,
-  });
-
-  final Message message;
-  final ChatContact contact;
-  final String currentUid;
-
-  @override
-  Widget build(BuildContext context) {
-    final isSent = message.senderId == currentUid;
-    final isRead = message.status == MessageStatus.read ||
-        message.readBy.length > 1;
-    final isSending = message.status == MessageStatus.sending;
-
-    return Row(
-      mainAxisAlignment:
-          isSent ? MainAxisAlignment.end : MainAxisAlignment.start,
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        // if (!isSent)
-        //   Padding(
-        //     padding: const EdgeInsets.only(right: 8),
-        //     child: Avatar(
-        //       initials: contact.initials,
-        //       colorHex: contact.avatarColor,
-        //       size: 28,
-        //     ),
-        //   ),
-        Flexible(
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: MediaQuery.of(context).size.width * 0.6,
-            ),
-            child: Column(
-              crossAxisAlignment: isSent
-                  ? CrossAxisAlignment.end
-                  : CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16, vertical: 10),
-                  decoration: BoxDecoration(
-                    color: isSent
-                        ? AppColors.primary
-                        : AppColors.dividerLight,
-                    borderRadius: BorderRadius.only(
-                      topLeft: const Radius.circular(16),
-                      topRight: const Radius.circular(16),
-                      bottomLeft: Radius.circular(isSent ? 16 : 4),
-                      bottomRight: Radius.circular(isSent ? 4 : 16),
-                    ),
-                  ),
-                  child: Text(
-                    message.text,
-                    style: TextStyle(
-                      fontSize: 14,
-                      color:
-                          isSent ? Colors.white : AppColors.textPrimary,
-                      height: 1.5,
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 2),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Text(
-                      _formatTime(message.timestamp),
-                      style: const TextStyle(
-                          fontSize: 10, color: AppColors.textMuted),
-                    ),
-                    if (isSent) ...[
-                      const SizedBox(width: 4),
-                      isSending
-                          ? const Icon(
-                              Icons.check,
-                              size: 12,
-                              color: AppColors.textMuted,
-                            )
-                          : Text(
-                              '✓✓',
-                              style: TextStyle(
-                                fontSize: 10,
-                                color: isRead
-                                    ? AppColors.info
-                                    : AppColors.textMuted,
-                              ),
-                            ),
-                    ],
-                  ],
-                ),
-              ],
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class _TypingRow extends StatelessWidget {
-  const _TypingRow({required this.contact});
-
-  final ChatContact contact;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.end,
-      children: [
-        Avatar(
-          initials: contact.initials,
-          colorHex: contact.avatarColor,
-          imageUrl: contact.photoUrl,
-          size: 28,
-        ),
-        const SizedBox(width: 8),
-        const TypingBubble(),
-      ],
-    );
-  }
-}
-
-class _QuickReplies extends StatelessWidget {
-  const _QuickReplies({required this.onTap});
-
-  final void Function(String) onTap;
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-      height: 40,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.fromLTRB(16, 4, 16, 8),
-        itemCount: _quickReplies.length,
-        separatorBuilder: (_, _) => const SizedBox(width: 8),
-        itemBuilder: (context, i) {
-          final r = _quickReplies[i];
-          return GestureDetector(
-            onTap: () => onTap(r),
-            child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(99),
-                border: Border.all(color: AppColors.divider, width: 1.5),
-              ),
-              child: Text(
-                r,
-                style: const TextStyle(
-                  fontSize: 12,
-                  color: AppColors.textSecondary,
-                ),
-              ),
-            ),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class _InputBar extends StatelessWidget {
-  const _InputBar({
-    required this.controller,
-    required this.focusNode,
-    required this.input,
-    required this.onChanged,
-    required this.onSend,
-    required this.onAttach,
-    required this.onEmoji,
-    required this.showEmojiPicker,
-  });
-
-  final TextEditingController controller;
-  final FocusNode focusNode;
-  final String input;
-  final ValueChanged<String> onChanged;
-  final VoidCallback onSend;
-  final VoidCallback onAttach;
-  final VoidCallback onEmoji;
-  final bool showEmojiPicker;
-
-  @override
-  Widget build(BuildContext context) {
-    final hasText = input.trim().isNotEmpty;
-    return Container(
-      padding: const EdgeInsets.fromLTRB(12, 8, 12, 16),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        border: Border(top: BorderSide(color: AppColors.dividerLighter)),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.end,
-        children: [
-          GestureDetector(
-            onTap: onAttach,
-            child: Container(
-              width: 40,
-              height: 40,
-              alignment: Alignment.center,
-              decoration: const BoxDecoration(
-                color: AppColors.dividerLightest,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.attach_file,
-                  size: 18, color: AppColors.textTertiary),
-            ),
-          ),
-          const SizedBox(width: 8),
-          Expanded(
-            child: Container(
-              constraints:
-                  const BoxConstraints(minHeight: 44, maxHeight: 80),
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: BoxDecoration(
-                color: AppColors.dividerLightest,
-                borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.divider, width: 1.5),
-              ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.end,
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: controller,
-                      focusNode: focusNode,
-                      onChanged: onChanged,
-                      maxLines: null,
-                      decoration: const InputDecoration(
-                        isDense: true,
-                        border: InputBorder.none,
-                        hintText: 'Type a message...',
-                      ),
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: AppColors.textPrimary,
-                        height: 1.5,
-                      ),
-                      onSubmitted: (_) => onSend(),
-                      keyboardType: TextInputType.multiline,
-                      textInputAction: TextInputAction.newline,
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: onEmoji,
-                    child: Padding(
-                      padding: const EdgeInsets.only(left: 4),
-                      child: Icon(
-                        showEmojiPicker
-                            ? Icons.keyboard_outlined
-                            : Icons.emoji_emotions_outlined,
-                        size: 18,
-                        color: showEmojiPicker
-                            ? AppColors.primary
-                            : AppColors.textMuted,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          GestureDetector(
-            onTap: hasText ? onSend : null,
-            child: AnimatedContainer(
-              duration: const Duration(milliseconds: 200),
-              width: 42,
-              height: 42,
-              alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: hasText ? AppColors.primary : AppColors.divider,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(Icons.send, size: 18, color: Colors.white),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AttachmentSheet extends StatelessWidget {
-  const _AttachmentSheet();
-
-  @override
-  Widget build(BuildContext context) {
-    final items = [
-      _AttachmentItem(icon: Icons.camera_alt, label: 'Camera', color: AppColors.info),
-      _AttachmentItem(icon: Icons.image, label: 'Gallery', color: AppColors.success),
-      _AttachmentItem(icon: Icons.location_on, label: 'Location', color: AppColors.warning),
-      _AttachmentItem(emoji: '🩸', label: 'Certificate', color: AppColors.primary),
-    ];
-    return Positioned.fill(
-      child: Stack(
-        children: [
-          GestureDetector(
-            onTap: () => context
-                .read<ChatBloc>()
-                .add(const ChatEvent.attachmentClosed()),
-            child: Container(
-              color: Colors.black.withValues(alpha: 0.3),
-            ),
-          ),
-          Positioned(
-            left: 0,
-            right: 0,
-            bottom: 0,
-            child: Container(
-              padding: const EdgeInsets.all(24),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                borderRadius:
-                    BorderRadius.vertical(top: Radius.circular(24)),
-              ),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const Text(
-                    'Share',
-                    style: TextStyle(
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
-                      color: AppColors.textPrimary,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                  GridView.count(
-                    crossAxisCount: 4,
-                    shrinkWrap: true,
-                    physics: const NeverScrollableScrollPhysics(),
-                    childAspectRatio: 0.9,
-                    children: items
-                        .map(
-                          (it) => InkWell(
-                            onTap: () => context
-                                .read<ChatBloc>()
-                                .add(const ChatEvent.attachmentClosed()),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Container(
-                                  width: 52,
-                                  height: 52,
-                                  alignment: Alignment.center,
-                                  decoration: BoxDecoration(
-                                    color: it.color.withValues(alpha: 0.1),
-                                    borderRadius: BorderRadius.circular(16),
-                                  ),
-                                  child: it.emoji != null
-                                      ? Text(
-                                          it.emoji!,
-                                          style: const TextStyle(fontSize: 22),
-                                        )
-                                      : Icon(it.icon, size: 22, color: it.color),
-                                ),
-                                const SizedBox(height: 6),
-                                Text(
-                                  it.label,
-                                  style: const TextStyle(
-                                    fontSize: 11,
-                                    color: AppColors.textSecondary,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        )
-                        .toList(),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-}
-
-class _AttachmentItem {
-  _AttachmentItem({
-    this.icon,
-    this.emoji,
-    required this.label,
-    required this.color,
-  });
-
-  final IconData? icon;
-  final String? emoji;
-  final String label;
-  final Color color;
 }
