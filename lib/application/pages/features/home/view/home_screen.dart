@@ -15,7 +15,7 @@ import '../bloc/home_event.dart';
 import '../bloc/home_state.dart';
 import '../widgets/home_active_requests.dart';
 import '../widgets/home_nearby_donors.dart';
-import '../widgets/home_sos_button.dart';
+import '../widgets/home_quote_card.dart';
 import '../widgets/home_top_bar.dart';
 import '../widgets/home_welcome_card.dart';
 
@@ -76,15 +76,10 @@ class _HomeView extends StatelessWidget {
                               child: HomeWelcomeCard(
                                   profile: state.profile),
                             ),
-                            Padding(
+                            const Padding(
                               padding:
-                                  const EdgeInsets.fromLTRB(16, 16, 16, 0),
-                              child: HomeSosButton(
-                                pressed: state.sosPressed,
-                                onPressed: () => context
-                                    .read<HomeBloc>()
-                                    .add(const HomeEvent.sosPressed()),
-                              ),
+                                  EdgeInsets.fromLTRB(16, 16, 16, 0),
+                              child: HomeQuoteCard(),
                             ),
                             const SizedBox(height: 20),
                             HomeNearbyDonors(
