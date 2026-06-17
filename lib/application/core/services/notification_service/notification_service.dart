@@ -40,6 +40,9 @@ class NotificationService {
     required String currentUid,
     required String otherUid,
     required DateTime messageTime,
+    required String bloodGroup,
+    required String initials,
+    required String avatarColor,
   }) async {
     if (conversationId == _activeConversationId) return;
     const maxLen = 60;
@@ -64,6 +67,10 @@ class NotificationService {
         'conversationId': conversationId,
         'currentUid': currentUid,
         'otherUid': otherUid,
+        'senderName': senderName,
+        'bloodGroup': bloodGroup,
+        'initials': initials,
+        'avatarColor': avatarColor,
       }),
     );
   }
@@ -82,10 +89,10 @@ class NotificationService {
         otherUid: otherUid ?? '',
         contact: ChatContact(
           id: otherUid ?? '',
-          name: '',
-          bloodGroup: '',
-          initials: '',
-          avatarColor: '',
+          name: data['senderName'] as String? ?? '',
+          bloodGroup: data['bloodGroup'] as String? ?? '',
+          initials: data['initials'] as String? ?? '',
+          avatarColor: data['avatarColor'] as String? ?? '',
           online: false,
         ),
       ),
