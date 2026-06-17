@@ -19,6 +19,7 @@
 11. [Dependency Injection](#dependency-injection)
 12. [Routing](#routing)
 13. [Firebase Integration](#firebase-integration)
+    - [Foreground Notifications](#foreground-notifications-active)
 14. [UI Design System](#ui-design-system)
 15. [Utilities](#utilities)
 16. [Getting Started](#getting-started)
@@ -139,6 +140,17 @@ The app currently targets Android (fully configured with Firebase). The project 
 - Search conversations by participant name or blood group
 - Unread count badge, last message preview, and relative timestamp
 
+### Foreground Chat Notifications
+
+- System heads-up banners shown when a new message arrives while the app is open (foreground)
+- Powered by `flutter_local_notifications` — no Firebase Functions or FCM required
+- `NotificationService` (`@lazySingleton`) owns channel creation (`chat_messages`, high importance), show logic, and tap routing
+- `ConversationListBloc` detects new messages via unread count delta on each Firestore snapshot
+- **Suppression:** `ChatBloc` registers the active conversation ID; notifications for that conversation are silently dropped until the user navigates away
+- **Tap to open:** notification payload embeds sender name, blood group, initials, and avatar colour so the chat header is fully populated on tap — no Firestore fetch required
+- Message body is truncated to 60 characters with `…` in the notification
+- Full documentation: [`doc/notification_system.md`](doc/notification_system.md)
+
 ### Profile
 
 - **Cover photo section** — rich gradient (deep red `#7B0000` → `#B71C1C` → `#E53935`), wave-cut bottom edge via `ClipPath`/`CustomClipper`, blood group badge (frosted glass pill, top-left), active/inactive status badge with glowing dot (top-right), large avatar with radial gradient glow ring and white border
@@ -186,6 +198,7 @@ The app currently targets Android (fully configured with Firebase). The project 
 | Map Types | latlong2 | ^0.9.1 |
 | Emoji Picker | emoji_picker_flutter | ^4.4.0 |
 | PDF Generation | pdf + printing | ^3.11.1 / ^5.13.2 |
+| Local Notifications | flutter_local_notifications | ^18.0.0 |
 | Local Storage | shared_preferences | ^2.5.5 |
 | URL Launcher | url_launcher | ^6.3.1 |
 | Functional Types | dartz | ^0.10.1 |
@@ -196,6 +209,8 @@ The app currently targets Android (fully configured with Firebase). The project 
 | Fonts | Poppins (via ThemeData.fontFamily) | — |
 
 **Commented out (planned, not yet active):** `firebase_messaging`, `firebase_storage`, `cloud_functions`, `google_maps_flutter`, `geoflutterfire_plus`
+
+> **Note:** Foreground in-app chat notifications are implemented via `flutter_local_notifications` without FCM. FCM would add background/terminated-state push support in the future.
 
 ---
 
@@ -257,6 +272,8 @@ lib/
 │   │   ├── constants/
 │   │   │   └── bangladesh_locations.dart  # All 64 districts + thanas (in-memory Dart map)
 │   │   ├── services/
+│   │   │   ├── notification_service/
+│   │   │   │   └── notification_service.dart  # Heads-up notifications: channel, show, tap routing
 │   │   │   ├── routing/
 │   │   │   │   ├── app_router.dart        # GoRouter config + redirect logic
 │   │   │   │   ├── routing_utils.dart     # PAGES enum with paths and names
@@ -651,7 +668,9 @@ BLoCs are provided at the screen level via `BlocProvider(create: (_) => getIt<XB
 
 **`DonorsBloc`** — implements radius-ring pagination (10 → 20 → 40 → 80 → +50 km steps to 1000 km). Caches the last successful radius per blood group in SharedPreferences so the next search for that blood group starts near where the previous one found results.
 
-**`ChatBloc`** — on `openRequested`: creates or fetches conversation, starts three concurrent Firestore/RTDB stream subscriptions (messages, presence, typing), sets online status in RTDB. Typing indicator has a 5-second idle timeout before clearing. Marks messages read on open and on each new batch.
+**`ChatBloc`** — on `openRequested`: creates or fetches conversation, starts three concurrent Firestore/RTDB stream subscriptions (messages, presence, typing), sets online status in RTDB. Typing indicator has a 5-second idle timeout before clearing. Marks messages read on open and on each new batch. Calls `NotificationService.setActiveConversation()` on open and `null` on close to suppress notifications for the active chat.
+
+**`ConversationListBloc`** — after each Firestore snapshot, compares each conversation's `unreadCounts[currentUid]` against the previous snapshot (`_prevUnreadCounts`). If the count rose and the sender is someone else, calls `NotificationService.showChatNotification()`. Resets the snapshot map on `watchStarted` to prevent stale fires after re-login.
 
 **`MyRequestsBloc`** — on `started`/`refreshed`: batch-updates all past-due active requests to `expired` status before loading the list.
 
@@ -676,6 +695,8 @@ abstract class RegisterModule {
 ```
 
 All BLoC classes are `@injectable`. Repository implementations are `@Injectable(as: AbstractRepo)`. `AuthController` and `AppRouter` are `@lazySingleton`. `SpServiceImpl` is `@LazySingleton(as: SpService)`.
+
+`NotificationService` is registered as `lazySingletonAsync` with `preResolve: true` — its `init()` method (annotated `@PostConstruct(preResolve: true)`) is called automatically by the DI graph and fully awaited before `runApp()`. `ChatBloc` and `ConversationListBloc` both receive `NotificationService` as a constructor dependency.
 
 Usage in screens:
 
@@ -730,9 +751,19 @@ Used exclusively for low-latency ephemeral state:
 - Online presence at `status/{uid}` — set to `{online: true}` on chat open, `{online: false, lastSeen: timestamp}` on close
 - Typing indicator at `conversations/{convId}/typing/{uid}` — true/false flag with 5-second idle timeout
 
+### Foreground Notifications (active)
+
+`flutter_local_notifications` (v18.0.1) is used for foreground in-app heads-up notifications. No FCM or server-side code required. See [`doc/notification_system.md`](doc/notification_system.md) for full documentation.
+
+Required Android permissions in `AndroidManifest.xml`:
+```xml
+<uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+<uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+```
+
 ### Planned (not yet active)
 
-- **Firebase Cloud Messaging (FCM)** — push notifications for incoming messages and new blood requests nearby
+- **Firebase Cloud Messaging (FCM)** — background/terminated-state push notifications (foreground is already handled by `flutter_local_notifications`)
 - **Firebase Storage** — photo upload for chat attachments and profile pictures
 - **Cloud Functions** — server-side automation (e.g., auto-expire stale requests, fan-out notifications)
 
