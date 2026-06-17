@@ -1,8 +1,6 @@
 # CLAUDE.md
 
 This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
-
-A complete plan for implementing notification system is in `@plan.md`.
 ## Commands
 
 ```bash
@@ -53,6 +51,8 @@ Clean Architecture with BLoC state management, three layers:
 **Geohash donor search**: `GeoQueryUtil.queryBounds()` returns up to 9 Firestore range intervals covering a circle (center + 8 neighbors). Each interval runs as a separate Firestore query; results are merged, deduped, and filtered by true Haversine distance. `DonorsBloc` uses radius-ring pagination (10→20→40→80→+50 km steps) with per-blood-group radius cached in `SharedPreferences`.
 
 **Chat presence**: Real-time Database (not Firestore) is used for `presence/{uid}` (online/lastSeen) and `typing/{convId}/{uid}`. `onDisconnect()` handlers ensure state is cleaned up on sudden disconnects.
+
+**Foreground chat notifications**: `flutter_local_notifications` (v18.0.1) shows Android heads-up notifications when a new message arrives. Detection happens in `ConversationListBloc` via unread count delta. `NotificationService` (`@lazySingleton`, `@PostConstruct(preResolve: true)`) owns channel creation, show logic, and tap routing. `ChatBloc` registers/clears the active conversation ID so notifications are suppressed while the user is inside the relevant chat. Full documentation: [`doc/notification_system.md`](doc/notification_system.md).
 
 ## Firestore Collections
 
