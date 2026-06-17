@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:blood_setu/application/core/services/notification_service/notification_service.dart';
 import 'package:blood_setu/domain/models/conversation.dart';
 import 'package:blood_setu/domain/models/user_profile_model.dart';
 import 'package:blood_setu/domain/usecase/chat_usecase.dart';
@@ -13,12 +14,14 @@ import 'conversation_list_state.dart';
 class ConversationListBloc
     extends Bloc<ConversationListEvent, ConversationListState> {
   final ChatUseCase _useCase;
+  final NotificationService _notificationService;
 
   StreamSubscription<List<Conversation>>? _sub;
   String _currentUid = '';
   bool _refreshProfiles = false;
+  Map<String, int> _prevUnreadCounts = {};
 
-  ConversationListBloc(this._useCase)
+  ConversationListBloc(this._useCase, this._notificationService)
     : super(const ConversationListState.loading()) {
     on<ConversationListEvent>((event, emit) async {
       await event.when(
@@ -36,6 +39,7 @@ class ConversationListBloc
   void _startWatching(String uid) {
     _currentUid = uid;
     _refreshProfiles = true;
+    _prevUnreadCounts = {};
     _sub?.cancel();
     _sub = _useCase.watchConversations(uid).listen(
       (conversations) =>
@@ -75,6 +79,35 @@ class ConversationListBloc
         profiles: profiles,
       ),
     );
+
+    if (_prevUnreadCounts.isNotEmpty) {
+      for (final conv in all) {
+        final newCount = conv.unreadCounts[_currentUid] ?? 0;
+        final prevCount = _prevUnreadCounts[conv.id] ?? 0;
+        if (newCount > prevCount &&
+            conv.lastMessageSenderId != _currentUid &&
+            conv.lastMessage.isNotEmpty) {
+          final senderUid = conv.lastMessageSenderId;
+          final profile = profiles[senderUid];
+          final participant = conv.participants[senderUid];
+          final name = profile?.fullName ?? participant?.name ?? 'New message';
+          _notificationService.showChatNotification(
+            conversationId: conv.id,
+            senderName: name,
+            messageText: conv.lastMessage,
+            currentUid: _currentUid,
+            otherUid: senderUid,
+            messageTime: conv.lastMessageTime,
+            bloodGroup: participant?.bloodGroup ?? '',
+            initials: participant?.initials ?? '',
+            avatarColor: participant?.avatarColor ?? '',
+          );
+        }
+      }
+    }
+    _prevUnreadCounts = {
+      for (final c in all) c.id: c.unreadCounts[_currentUid] ?? 0
+    };
 
     // Fetch profiles for all participants not yet in cache.
     final knownUids = profiles.keys.toSet();
