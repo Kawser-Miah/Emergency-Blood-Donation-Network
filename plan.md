@@ -81,6 +81,8 @@ void setActiveConversation(String? id) => _activeConversationId = id;
 ```
 
 #### 3e — `showChatNotification(...)` method
+> **Updated:** added `bloodGroup`, `initials`, `avatarColor` params; stored in payload so `_onNotificationTap` can build a complete `ChatContact`. `ChatScreen` never fetches contact details from Firestore, so the payload is the only source of truth on tap.
+
 ```dart
 Future<void> showChatNotification({
   required String conversationId,
@@ -89,6 +91,9 @@ Future<void> showChatNotification({
   required String currentUid,
   required String otherUid,
   required DateTime messageTime,
+  required String bloodGroup,
+  required String initials,
+  required String avatarColor,
 }) async {
   if (conversationId == _activeConversationId) return; // suppress active chat
   const maxLen = 60;
@@ -108,18 +113,23 @@ Future<void> showChatNotification({
         when: messageTime.millisecondsSinceEpoch, // timestamp top-right
         showWhen: true,
       ),
-      iOS: const DarwinNotificationDetails(),
     ),
     payload: jsonEncode({
       'conversationId': conversationId,
       'currentUid': currentUid,
       'otherUid': otherUid,
+      'senderName': senderName,
+      'bloodGroup': bloodGroup,
+      'initials': initials,
+      'avatarColor': avatarColor,
     }),
   );
 }
 ```
 
 #### 3f — `_onNotificationTap` callback (private method)
+> **Updated:** reads contact fields from payload to populate `ChatContact` properly — no blank header on tap.
+
 ```dart
 void _onNotificationTap(NotificationResponse response) {
   final data = jsonDecode(response.payload ?? '{}') as Map<String, dynamic>;
@@ -133,13 +143,12 @@ void _onNotificationTap(NotificationResponse response) {
       conversationId: conversationId,
       currentUid: currentUid ?? '',
       otherUid: otherUid ?? '',
-      // Name/bloodGroup load from Firestore once ChatBloc opens — empty fallback is fine
       contact: ChatContact(
         id: otherUid ?? '',
-        name: '',
-        bloodGroup: '',
-        initials: '',
-        avatarColor: '',
+        name: data['senderName'] as String? ?? '',
+        bloodGroup: data['bloodGroup'] as String? ?? '',
+        initials: data['initials'] as String? ?? '',
+        avatarColor: data['avatarColor'] as String? ?? '',
         online: false,
       ),
     ),
@@ -180,9 +189,10 @@ if (_prevUnreadCounts.isNotEmpty) {
         conv.lastMessage.isNotEmpty) {
       final senderUid = conv.lastMessageSenderId;
       // Prefer freshly-fetched profile, fall back to denormalized participant data
-      final profile   = profiles[senderUid];
-      final name      = profile?.fullName
-          ?? conv.participants[senderUid]?.name
+      final profile     = profiles[senderUid];
+      final participant = conv.participants[senderUid];
+      final name        = profile?.fullName
+          ?? participant?.name
           ?? 'New message';
       _notificationService.showChatNotification(
         conversationId: conv.id,
@@ -191,6 +201,9 @@ if (_prevUnreadCounts.isNotEmpty) {
         currentUid:     _currentUid,
         otherUid:       senderUid,
         messageTime:    conv.lastMessageTime,  // non-nullable DateTime
+        bloodGroup:     participant?.bloodGroup ?? '',
+        initials:       participant?.initials   ?? '',
+        avatarColor:    participant?.avatarColor ?? '',
       );
     }
   }
