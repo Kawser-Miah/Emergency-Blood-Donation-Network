@@ -258,7 +258,12 @@ extension GetItInjectableX on _i174.GetIt {
         gh<_i1060.LocationUseCase>(),
       ),
     );
-    gh.factory<_i310.ChatBloc>(() => _i310.ChatBloc(gh<_i302.ChatUseCase>()));
+    gh.factory<_i310.ChatBloc>(
+      () => _i310.ChatBloc(
+        gh<_i302.ChatUseCase>(),
+        gh<_i1021.NotificationService>(),
+      ),
+    );
     gh.factory<_i537.ConversationListBloc>(
       () => _i537.ConversationListBloc(
         gh<_i302.ChatUseCase>(),
