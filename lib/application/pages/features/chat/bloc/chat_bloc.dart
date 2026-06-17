@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:blood_setu/application/core/services/notification_service/notification_service.dart';
 import 'package:blood_setu/domain/models/chat_source.dart';
 import 'package:blood_setu/domain/models/message.dart';
 import 'package:blood_setu/domain/models/message_status.dart';
@@ -17,6 +18,7 @@ import 'chat_state.dart';
 @injectable
 class ChatBloc extends Bloc<ChatEvent, ChatState> {
   final ChatUseCase _useCase;
+  final NotificationService _notificationService;
 
   StreamSubscription<List<Message>>? _sub;
   StreamSubscription<PresenceStatus>? _presenceSub;
@@ -28,7 +30,8 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
   String _currentUid = '';
   String _otherUid = '';
 
-  ChatBloc(this._useCase) : super(const ChatState.loading()) {
+  ChatBloc(this._useCase, this._notificationService)
+      : super(const ChatState.loading()) {
     on<ChatEvent>((event, emit) async {
       await event.when(
         openRequested: (currentUid, otherUid, chatSource) async =>
@@ -98,6 +101,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _conversationId = conversationId;
     _currentUid = currentUid;
     _otherUid = otherUid;
+    _notificationService.setActiveConversation(_conversationId);
 
     // Mark as read immediately on open — fire-and-forget.
     _useCase.markAsRead(conversationId: _conversationId, uid: _currentUid);
@@ -253,6 +257,7 @@ class ChatBloc extends Bloc<ChatEvent, ChatState> {
     _presenceSub?.cancel();
     _typingSub?.cancel();
     _clearTyping();
+    _notificationService.setActiveConversation(null);
     // Mark offline when leaving the chat screen.
     if (_currentUid.isNotEmpty) {
       await _useCase.setOnlineStatus(_currentUid, false);
