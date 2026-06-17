@@ -169,14 +169,14 @@ void _onNotificationTap(NotificationResponse response) {
 
 ---
 
-### Task 5 — Detect New Messages in ConversationListBloc
+### Task 5 — Detect New Messages in ConversationListBloc ✅
 
 **File:** `lib/application/pages/features/chat_list/bloc/conversation_list_bloc.dart`
 
-- [ ] Inject `NotificationService _notificationService` via constructor (alongside existing `ChatUseCase _useCase`)
-- [ ] Add field: `Map<String, int> _prevUnreadCounts = {}`
-- [ ] In `_startWatching(uid)`: reset `_prevUnreadCounts = {}` (prevents stale fires on re-login)
-- [ ] In `_emitLoaded()`, after the existing `emit(...)` call, add detection loop:
+- [x] Inject `NotificationService _notificationService` via constructor (alongside existing `ChatUseCase _useCase`)
+- [x] Add field: `Map<String, int> _prevUnreadCounts = {}`
+- [x] In `_startWatching(uid)`: reset `_prevUnreadCounts = {}` (prevents stale fires on re-login)
+- [x] In `_emitLoaded()`, after the existing `emit(...)` call, add detection loop:
 
 ```dart
 // Detect new inbound messages
@@ -238,7 +238,8 @@ _prevUnreadCounts = {
 
 - [x] Run: `dart run build_runner build --delete-conflicting-outputs`
 - [x] `lib/di/di.config.dart` registers `NotificationService` as `lazySingletonAsync` with auto-init via `i.init().then((_) => i)`
-- [ ] Confirm injection into `ConversationListBloc` and `ChatBloc` after Tasks 5 & 6 are done — re-run build_runner then
+- [x] `ConversationListBloc` now receives `NotificationService` via DI — confirmed after Task 5
+- [ ] Re-run build_runner after Task 6 to confirm `ChatBloc` injection
 
 ---
 
