@@ -8,21 +8,21 @@ Uses `flutter_local_notifications` to show system heads-up notifications when a 
 
 ---
 
-### Task 1 — Add Package
+### Task 1 — Add Package ✅
 
 **File:** `pubspec.yaml`
-- [ ] Add under `dependencies:`:
+- [x] Add under `dependencies:`:
   ```yaml
   flutter_local_notifications: ^18.0.0
   ```
-- [ ] Run `flutter pub get`
+- [x] Run `flutter pub get` — installed v18.0.1
 
 ---
 
-### Task 2 — Android Configuration
+### Task 2 — Android Configuration ✅
 
 **File:** `android/app/src/main/AndroidManifest.xml`
-- [ ] Add inside `<manifest>` (before `<application>`):
+- [x] Add inside `<manifest>` (before `<application>`):
   ```xml
   <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
   <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
@@ -30,7 +30,11 @@ Uses `flutter_local_notifications` to show system heads-up notifications when a 
 
 ---
 
-### Task 3 — Create NotificationService
+### Task 3 — Create NotificationService ✅
+
+> **Implementation notes:**
+> - Android-only: `DarwinInitializationSettings` and `DarwinNotificationDetails` removed (iOS not needed)
+> - `@PostConstruct(preResolve: true)` added to `init()` — DI calls it automatically (see Task 4)
 
 **File:** `lib/application/core/services/notification_service/notification_service.dart`
 
@@ -147,14 +151,12 @@ void _onNotificationTap(NotificationResponse response) {
 
 ---
 
-### Task 4 — Initialize Service at Startup
+### Task 4 — Initialize Service at Startup ✅
+
+> **Implementation note:** Using `@PostConstruct(preResolve: true)` on `init()` instead of calling it manually in `main.dart`. DI auto-calls it during `configureDependencies()`. `main.dart` requires no changes.
 
 **File:** `lib/main.dart`
-- [ ] Add after `await configureDependencies()`:
-  ```dart
-  await getIt<NotificationService>().init();
-  ```
-- [ ] Add import for `NotificationService` and `di.dart`
+- [x] No manual call needed — handled by `@PostConstruct(preResolve: true)` in `NotificationService`
 
 ---
 
@@ -219,10 +221,11 @@ _prevUnreadCounts = {
 
 ---
 
-### Task 7 — Regenerate DI
+### Task 7 — Regenerate DI ✅
 
-- [ ] Run: `dart run build_runner build --delete-conflicting-outputs`
-- [ ] Confirm `lib/di/di.config.dart` registers `NotificationService` as a lazy singleton and injects it into `ConversationListBloc` and `ChatBloc`
+- [x] Run: `dart run build_runner build --delete-conflicting-outputs`
+- [x] `lib/di/di.config.dart` registers `NotificationService` as `lazySingletonAsync` with auto-init via `i.init().then((_) => i)`
+- [ ] Confirm injection into `ConversationListBloc` and `ChatBloc` after Tasks 5 & 6 are done — re-run build_runner then
 
 ---
 
