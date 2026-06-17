@@ -10,6 +10,8 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:blood_setu/application/core/auth/auth_controller.dart' as _i839;
+import 'package:blood_setu/application/core/services/notification_service/notification_service.dart'
+    as _i1021;
 import 'package:blood_setu/application/core/services/routing/app_router.dart'
     as _i828;
 import 'package:blood_setu/application/core/services/sp_service/sp_service.dart'
@@ -113,6 +115,10 @@ extension GetItInjectableX on _i174.GetIt {
     gh.singleton<_i974.FirebaseFirestore>(() => registerModule.firestore);
     gh.singleton<_i345.FirebaseDatabase>(() => registerModule.firebaseDatabase);
     gh.singleton<_i116.GoogleSignIn>(() => registerModule.googleSignIn);
+    await gh.lazySingletonAsync<_i1021.NotificationService>(() {
+      final i = _i1021.NotificationService();
+      return i.init().then((_) => i);
+    }, preResolve: true);
     gh.factory<_i268.RegistrationRepository>(
       () => _i916.RegistrationRepositoryIml(
         gh<_i59.FirebaseAuth>(),
