@@ -31,7 +31,7 @@ class SignIn extends StatelessWidget {
         if (state is SuccessSignState) {
           Utils.showSnackBar(
             context,
-            content: 'Welcome! Let\’s save lives together.',
+            content: 'Welcome! Let’s save lives together.',
             color: Colors.green,
           );
         }
@@ -110,8 +110,8 @@ class SignIn extends StatelessWidget {
                                   borderRadius: BorderRadius.circular(24),
                                 ),
                                 elevation: 4,
-                                shadowColor: AppColors.primary.withOpacity(
-                                  0.35,
+                                shadowColor: AppColors.primary.withValues(
+                                  alpha: 0.35,
                                 ),
                               ),
                               child: Row(
@@ -260,7 +260,7 @@ class _IllustrationAreaState extends State<_IllustrationArea>
               height: 200,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.06),
+                color: Colors.white.withValues(alpha: 0.06),
               ),
             ),
           ),
@@ -272,7 +272,7 @@ class _IllustrationAreaState extends State<_IllustrationArea>
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: Colors.white.withOpacity(0.08),
+                color: Colors.white.withValues(alpha: 0.08),
               ),
             ),
           ),
@@ -291,10 +291,10 @@ class _IllustrationAreaState extends State<_IllustrationArea>
                     height: 80,
                     alignment: Alignment.center,
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       shape: BoxShape.circle,
                       border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.white.withValues(alpha: 0.3),
                         width: 2,
                       ),
                     ),
@@ -360,12 +360,12 @@ class _IllustrationStat extends StatelessWidget {
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
-        Icon(icon, size: 16, color: Colors.white.withOpacity(0.9)),
+        Icon(icon, size: 16, color: Colors.white.withValues(alpha: 0.9)),
         const SizedBox(height: 4),
         Text(
           label,
           textAlign: TextAlign.center,
-          style: TextStyle(fontSize: 9, color: Colors.white.withOpacity(0.85)),
+          style: TextStyle(fontSize: 9, color: Colors.white.withValues(alpha: 0.85)),
         ),
       ],
     );

@@ -32,7 +32,7 @@ class Avatar extends StatelessWidget {
                   width: size,
                   height: size,
                   fit: BoxFit.cover,
-                  errorBuilder: (_, __, ___) => _fallback(color),
+                  errorBuilder: (_, _, _) => _fallback(color),
                 )
               : _fallback(color),
         ),
