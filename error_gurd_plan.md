@@ -126,25 +126,28 @@ Future<Either<Failure, UserProfileModel>> getProfile(String uid) =>
 - [x] 1.6 Add a doc comment explaining body-returns-`Either` and the logging behavior.
 - _Verified: `flutter analyze lib/data/repositories/repo_guard.dart` → No issues found._
 
-### Task 2 — Refactor `nearby_donors_repository_impl.dart`
-- [ ] 2.1 Import `repo_guard.dart`.
-- [ ] 2.2 Wrap `getTotalDonorCount` — `fallback: 'Failed to get donor count.'`.
-- [ ] 2.3 Wrap `getOrigin` (keep inline `Left` for missing lat/lng) — `fallback: 'Failed to read your location.'`.
-- [ ] 2.4 Wrap `getNearbyDonors` — `fallback: 'Failed to load nearby donors.'`.
-- [ ] 2.5 Delete all replaced `try/on FirebaseException/catch` blocks.
+### Task 2 — Refactor `nearby_donors_repository_impl.dart` ✅ DONE
+- [x] 2.1 Import `repo_guard.dart`.
+- [x] 2.2 Wrap `getTotalDonorCount` — `fallback: 'Failed to get donor count.'`.
+- [x] 2.3 Wrap `getOrigin` (keep inline `Left` for missing lat/lng) — `fallback: 'Failed to read your location.'`.
+- [x] 2.4 Wrap `getNearbyDonors` — `fallback: 'Failed to load nearby donors.'`.
+- [x] 2.5 Delete all replaced `try/on FirebaseException/catch` blocks.
+- _Verified: `flutter analyze` on the file → No issues found. Inline GPS-missing `Left` preserved._
 
-### Task 3 — Refactor `blood_request_repository_impl.dart`
-- [ ] 3.1 Import `repo_guard.dart`.
-- [ ] 3.2 Wrap every `Either`-returning method (createRequest, getActiveRequests, getMyRequests, updateRequest, + interest/mark methods) reusing each method's existing fallback string.
-- [ ] 3.3 Preserve in-`try` query building and any inline `Left`s.
-- [ ] 3.4 Delete replaced try/catch blocks (12 sites).
+### Task 3 — Refactor `blood_request_repository_impl.dart` ✅ DONE
+- [x] 3.1 Import `repo_guard.dart`.
+- [x] 3.2 Wrap every `Either`-returning method (11 total: createRequest, getActiveRequests, getMyRequests, updateRequest, markImComing, getInterestedDonors, getMyInterests, withdrawInterest, markBloodGiven, getMyInterestIds, markExpiredBatch, deleteRequest) reusing each method's existing fallback string.
+- [x] 3.3 Preserve in-`try` query building and inline `Left`s/early-returns (`getMyInterests` empty `Right([])`; `markExpiredBatch` empty-list short-circuit moved inside body).
+- [x] 3.4 Delete replaced try/catch blocks (22 sites).
+- _Verified: `flutter analyze` on the file → No issues found. `getMyInterestIds` keeps empty `fallback: ''` to match prior behavior (flagged for follow-up)._
 
-### Task 4 — Refactor `donation_repository_impl.dart`
-- [ ] 4.1 Import `repo_guard.dart`.
-- [ ] 4.2 Wrap `addDonation` — entire `runTransaction(...)` sits inside `body`; `fallback: 'Failed to record donation.'`.
-- [ ] 4.3 Wrap `getDonationHistory` — `fallback: 'Failed to load donation history.'`.
-- [ ] 4.4 Wrap `reactivateDonor` — `fallback: 'Failed to reactivate donor.'`.
-- [ ] 4.5 Keep `_computeTier` untouched.
+### Task 4 — Refactor `donation_repository_impl.dart` ✅ DONE
+- [x] 4.1 Import `repo_guard.dart`.
+- [x] 4.2 Wrap `addDonation` — entire `runTransaction(...)` sits inside `body`; `fallback: 'Failed to record donation.'`.
+- [x] 4.3 Wrap `getDonationHistory` — `fallback: 'Failed to load donation history.'`.
+- [x] 4.4 Wrap `reactivateDonor` — `fallback: 'Failed to reactivate donor.'`.
+- [x] 4.5 Keep `_computeTier` untouched.
+- _Verified: `flutter analyze` on the file → No issues found. Transaction read-modify-write + dual-write logic unchanged (only de-indented)._
 
 ### Task 5 — Refactor `location_repository_impl.dart`
 - [ ] 5.1 Import `repo_guard.dart`.
