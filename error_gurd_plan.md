@@ -117,13 +117,14 @@ Future<Either<Failure, UserProfileModel>> getProfile(String uid) =>
 
 ## Tasks & Sub-tasks
 
-### Task 1 — Create the `guard()` helper
-- [ ] 1.1 Create `lib/data/repositories/repo_guard.dart`.
-- [ ] 1.2 Add imports: `cloud_firestore`, `dartz`, `flutter/foundation`, `domain/failures/failures.dart`.
-- [ ] 1.3 Implement `Future<Either<Failure, T>> guard<T>(Future<Either<Failure,T>> Function() body, {required String fallback})`.
-- [ ] 1.4 Catch `FirebaseException` → `debugPrint` (code + message + stack) → `Left(GeneralFailure(e.message ?? fallback))`.
-- [ ] 1.5 Catch-all → `debugPrint(error + stack)` → `Left(GeneralFailure(fallback))` (no raw `e.toString()` to UI).
-- [ ] 1.6 Add a doc comment explaining body-returns-`Either` and the logging behavior.
+### Task 1 — Create the `guard()` helper ✅ DONE
+- [x] 1.1 Create `lib/data/repositories/repo_guard.dart`.
+- [x] 1.2 Add imports: `cloud_firestore`, `dartz`, `flutter/foundation`, `domain/failures/failures.dart`.
+- [x] 1.3 Implement `Future<Either<Failure, T>> guard<T>(Future<Either<Failure,T>> Function() body, {required String fallback})`.
+- [x] 1.4 Catch `FirebaseException` → `debugPrint` (code + message + stack) → `Left(GeneralFailure(e.message ?? fallback))`.
+- [x] 1.5 Catch-all → `debugPrint(error + stack)` → `Left(GeneralFailure(fallback))` (no raw `e.toString()` to UI).
+- [x] 1.6 Add a doc comment explaining body-returns-`Either` and the logging behavior.
+- _Verified: `flutter analyze lib/data/repositories/repo_guard.dart` → No issues found._
 
 ### Task 2 — Refactor `nearby_donors_repository_impl.dart`
 - [ ] 2.1 Import `repo_guard.dart`.
