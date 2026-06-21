@@ -1,3 +1,4 @@
+import 'package:blood_setu/data/repositories/repo_guard.dart';
 import 'package:blood_setu/domain/failures/failures.dart';
 import 'package:blood_setu/domain/models/nearby_donor.dart';
 import 'package:blood_setu/domain/repositories/nearby_donors_repository.dart';
@@ -13,40 +14,28 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
   NearbyDonorsRepositoryImpl(this._firestore);
 
   @override
-  Future<Either<Failure, int>> getTotalDonorCount() async {
-    try {
-      final snap = await _firestore.collection('user_locations').where('isActive', isEqualTo: true).count().get();
-      return Right(snap.count ?? 0);
-    } on FirebaseException catch (e) {
-      return Left(GeneralFailure(e.message ?? 'Failed to get donor count.'));
-    } catch (_) {
-      return Left(GeneralFailure('Failed to get donor count.'));
-    }
-  }
+  Future<Either<Failure, int>> getTotalDonorCount() => guard(() async {
+    final snap = await _firestore.collection('user_locations').where('isActive', isEqualTo: true).count().get();
+    return Right(snap.count ?? 0);
+  }, fallback: 'Failed to get donor count.');
 
   @override
   Future<Either<Failure, ({double latitude, double longitude})>> getOrigin(
     String uid,
-  ) async {
-    try {
-      final doc = await _firestore.collection('user_locations').doc(uid).get();
-      final data = doc.data();
-      final lat = (data?['latitude'] as num?)?.toDouble();
-      final lng = (data?['longitude'] as num?)?.toDouble();
-      if (lat == null || lng == null) {
-        return Left(
-          GeneralFailure(
-            "Your location isn't available yet. Please make sure GPS is on and try again.",
-          ),
-        );
-      }
-      return Right((latitude: lat, longitude: lng));
-    } on FirebaseException catch (e) {
-      return Left(GeneralFailure(e.message ?? 'Failed to read your location.'));
-    } catch (_) {
-      return Left(GeneralFailure('Failed to read your location.'));
+  ) => guard(() async {
+    final doc = await _firestore.collection('user_locations').doc(uid).get();
+    final data = doc.data();
+    final lat = (data?['latitude'] as num?)?.toDouble();
+    final lng = (data?['longitude'] as num?)?.toDouble();
+    if (lat == null || lng == null) {
+      return Left(
+        GeneralFailure(
+          "Your location isn't available yet. Please make sure GPS is on and try again.",
+        ),
+      );
     }
-  }
+    return Right((latitude: lat, longitude: lng));
+  }, fallback: 'Failed to read your location.');
 
   @override
   Future<Either<Failure, List<NearbyDonor>>> getNearbyDonors({
@@ -55,53 +44,47 @@ class NearbyDonorsRepositoryImpl extends NearbyDonorsRepository {
     required double radiusKm,
     String? bloodGroup,
     String? excludeUid,
-  }) async {
-    try {
-      final radiusMeters = radiusKm * 1000;
-      final bounds = GeoQueryUtil.queryBounds(
-        latitude,
-        longitude,
-        radiusMeters,
-      );
-      final collection = _firestore.collection('user_locations');
+  }) => guard(() async {
+    final radiusMeters = radiusKm * 1000;
+    final bounds = GeoQueryUtil.queryBounds(
+      latitude,
+      longitude,
+      radiusMeters,
+    );
+    final collection = _firestore.collection('user_locations');
 
-      // One query per covering geohash range, run concurrently.
-      final futures = bounds.map((range) {
-        Query<Map<String, dynamic>> query = collection.where('isActive', isEqualTo: true);
-        if (bloodGroup != null && bloodGroup.isNotEmpty) {
-          query = query.where('bloodGroup', isEqualTo: bloodGroup);
-        }
-        return query.orderBy('geohash').startAt([range.start]).endAt([
-          range.end,
-        ]).get();
-      });
-
-      final snapshots = await Future.wait(futures);
-
-      // Merge + dedupe by uid, compute true distance, drop docs outside the
-      // radius (geohash cells overshoot the circle) and the searcher.
-      final byUid = <String, NearbyDonor>{};
-      for (final snap in snapshots) {
-        for (final doc in snap.docs) {
-          if (doc.id == excludeUid || byUid.containsKey(doc.id)) continue;
-          final data = doc.data();
-          final lat = (data['latitude'] as num?)?.toDouble();
-          final lng = (data['longitude'] as num?)?.toDouble();
-          if (lat == null || lng == null) continue;
-          final dKm = GeoQueryUtil.distanceKm(latitude, longitude, lat, lng);
-          if (dKm > radiusKm) continue;
-          byUid[doc.id] = NearbyDonor.fromLocationDoc(doc, dKm);
-        }
+    // One query per covering geohash range, run concurrently.
+    final futures = bounds.map((range) {
+      Query<Map<String, dynamic>> query = collection.where('isActive', isEqualTo: true);
+      if (bloodGroup != null && bloodGroup.isNotEmpty) {
+        query = query.where('bloodGroup', isEqualTo: bloodGroup);
       }
+      return query.orderBy('geohash').startAt([range.start]).endAt([
+        range.end,
+      ]).get();
+    });
 
-      final donors = byUid.values.toList()
-        ..sort((a, b) => a.distanceKm.compareTo(b.distanceKm));
+    final snapshots = await Future.wait(futures);
 
-      return Right(donors);
-    } on FirebaseException catch (e) {
-      return Left(GeneralFailure(e.message ?? 'Failed to load nearby donors.'));
-    } catch (_) {
-      return Left(GeneralFailure('Failed to load nearby donors.'));
+    // Merge + dedupe by uid, compute true distance, drop docs outside the
+    // radius (geohash cells overshoot the circle) and the searcher.
+    final byUid = <String, NearbyDonor>{};
+    for (final snap in snapshots) {
+      for (final doc in snap.docs) {
+        if (doc.id == excludeUid || byUid.containsKey(doc.id)) continue;
+        final data = doc.data();
+        final lat = (data['latitude'] as num?)?.toDouble();
+        final lng = (data['longitude'] as num?)?.toDouble();
+        if (lat == null || lng == null) continue;
+        final dKm = GeoQueryUtil.distanceKm(latitude, longitude, lat, lng);
+        if (dKm > radiusKm) continue;
+        byUid[doc.id] = NearbyDonor.fromLocationDoc(doc, dKm);
+      }
     }
-  }
+
+    final donors = byUid.values.toList()
+      ..sort((a, b) => a.distanceKm.compareTo(b.distanceKm));
+
+    return Right(donors);
+  }, fallback: 'Failed to load nearby donors.');
 }
