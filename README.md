@@ -20,11 +20,12 @@
 12. [Routing](#routing)
 13. [Firebase Integration](#firebase-integration)
     - [Foreground Notifications](#foreground-notifications-active)
-14. [UI Design System](#ui-design-system)
-15. [Utilities](#utilities)
-16. [Getting Started](#getting-started)
-17. [Platform Support](#platform-support)
-18. [Contributing](#contributing)
+14. [Error Handling](#error-handling)
+15. [UI Design System](#ui-design-system)
+16. [Utilities](#utilities)
+17. [Getting Started](#getting-started)
+18. [Platform Support](#platform-support)
+19. [Contributing](#contributing)
 
 ---
 
@@ -61,7 +62,7 @@ The app currently targets Android (fully configured with Firebase). The project 
 - `RegistrationSelectionSheet` — a `DraggableScrollableSheet` with live search for selecting from all 64 Bangladesh districts and their respective thanas
 - **Edit Profile** reuses the same registration form with `initialProfile` pre-filled
 - Dual write on save: Firestore `profile/{uid}` (full data) and `user_locations/{uid}` (searchable donor index with computed geohash)
-- **Donor tiers** based on total donations: Bronze (≥1), Silver (≥5), Gold (≥10), Platinum (≥20)
+- **Donor tiers** based on total donations: Bronze (≥1), Silver (≥6), Gold (≥12), Platinum (≥25)
 
 ### Home Screen
 
@@ -249,6 +250,7 @@ Blood Setu follows **Clean Architecture** principles with **BLoC** as the presen
 
 **Data (`lib/data/`)**
 - `repositories/` — concrete Firebase/GPS implementations, registered with `@Injectable(as: AbstractRepo)` so DI swaps them transparently
+- `repositories/repo_guard.dart` — shared `guard()` helper that wraps every `Either`-returning repository method; centralizes Firebase error handling, logs the real exception, and returns a friendly `Failure` (see [Error Handling](#error-handling))
 - `mock_data.dart` — static test fixtures used during development
 
 **DI (`lib/di/`)**
@@ -406,6 +408,7 @@ lib/
 ├── data/
 │   ├── mock_data.dart
 │   └── repositories/
+│       ├── repo_guard.dart                 # Shared guard() error-handling helper
 │       ├── authentication_repositories_iml.dart
 │       ├── blood_request_repository_impl.dart
 │       ├── chat_repository_impl.dart
@@ -769,6 +772,58 @@ Required Android permissions in `AndroidManifest.xml`:
 
 ---
 
+## Error Handling
+
+All repository and use case methods return `Either<Failure, T>` (`dartz`). Failures are resolved to a user-facing `String` in the BLoC (`f is GeneralFailure ? f.message : 'Something went wrong.'`), so the UI never deals with raw exceptions.
+
+### `guard()` — centralized repository error handling
+
+Every `Either`-returning repository method is wrapped in a single shared helper, `lib/data/repositories/repo_guard.dart`, instead of hand-writing a `try / on FirebaseException / catch` block per method. This removed ~27 duplicated try/catch sites across the six `Either`-returning repositories.
+
+```dart
+Future<Either<Failure, T>> guard<T>(
+  Future<Either<Failure, T>> Function() body, {
+  required String fallback,
+}) async {
+  try {
+    return await body();
+  } on FirebaseException catch (e, st) {        // also covers FirebaseAuthException
+    debugPrint('[Repo] FirebaseException(${e.code}): ${e.message}\n$st');
+    return Left(GeneralFailure(e.message ?? fallback));
+  } catch (e, st) {
+    debugPrint('[Repo] Unexpected: $e\n$st');
+    return Left(GeneralFailure(fallback));       // never leaks raw e.toString() to the UI
+  }
+}
+```
+
+The `body` itself returns an `Either`, so a method's own inline validation `Left`s — e.g. `Left(GeneralFailure('Profile not found.'))`, the GPS-permission failures in `LocationRepository`, the no-session check in `register` — pass straight through `guard` untouched.
+
+**Usage pattern:**
+
+```dart
+@override
+Future<Either<Failure, UserProfileModel>> getProfile(String uid) =>
+    guard(() async {
+      final doc = await _firebaseFirestore.collection('profile').doc(uid).get();
+      if (!doc.exists) return Left(GeneralFailure('Profile not found.'));
+      return Right(UserProfileModel.fromFirestore(doc));
+    }, fallback: 'Failed to load profile.');
+```
+
+**What the helper guarantees:**
+
+- **No raw-error leaks** — the catch-all returns the friendly `fallback`, never `e.toString()`.
+- **Always logged** — both clauses `debugPrint` the real exception and stack trace (prefixed `[Repo]`), so production failures are visible in the console instead of being silently swallowed.
+- **Server messages preserved** — because `FirebaseAuthException extends FirebaseException`, a single `on FirebaseException` clause catches auth and database errors alike and still surfaces `e.message` when present.
+- **Contract unchanged** — `guard` only maps to `GeneralFailure` (which the BLoCs already special-case), so the `Either<Failure, T>` types, method signatures, and BLoC consumption are all unaffected.
+
+`runTransaction` (in `DonationRepositoryImpl.addDonation`) and atomic batch writes work as-is inside the `body`. `chat_repository_impl.dart` is intentionally **not** wrapped — its methods return plain values/streams rather than `Either`.
+
+The helper is covered by `test/data/repo_guard_test.dart` (Right passthrough, inline-`Left` passthrough, generic-exception → fallback, `FirebaseException` message surfacing, and null-message fallback).
+
+---
+
 ## UI Design System
 
 ### Colors (`lib/application/core/theme/colors.dart`)
@@ -924,22 +979,19 @@ When extracting a widget from a screen file into `widgets/`:
 - All new domain models must be Freezed with `fromFirestore`/`toMap`
 - All new features must have a BLoC with Freezed events and states
 - BLoCs depend only on use cases; use cases depend only on abstract repository interfaces
+- New repository methods that return `Either` must wrap their body in the shared `guard()` helper — do not hand-write `try / on FirebaseException / catch`, and never return `e.toString()` to the UI (see [Error Handling](#error-handling))
 - Run `flutter analyze` before committing — zero warnings/errors required
 
 ### Use Case Pattern
+
+Use cases are thin orchestrators. Error handling lives in the repository's `guard()` wrapper, so the use case simply forwards the repository's `Either`:
 
 ```dart
 class MyUseCase {
   final MyRepository _repo;
   MyUseCase(this._repo);
 
-  Future<Either<Failure, Result>> call(Params params) async {
-    try {
-      final result = await _repo.doSomething(params);
-      return Right(result);
-    } catch (e) {
-      return Left(GeneralFailure(e.toString()));
-    }
-  }
+  Future<Either<Failure, Result>> call(Params params) =>
+      _repo.doSomething(params);
 }
 ```
