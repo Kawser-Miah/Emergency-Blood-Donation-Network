@@ -156,11 +156,12 @@ Future<Either<Failure, UserProfileModel>> getProfile(String uid) =>
 - [x] 5.4 Delete replaced try/catch blocks.
 - _Verified: `flutter analyze` on the file → No issues found. `getAddressData` had two divergent fallbacks (`'Failed to get address.'` for the unreachable `FirebaseException` clause vs `'Failed to get address from GPS.'`); since it makes no Firestore call, consolidated to the GPS string users actually saw. `_reverseGeocode` left untouched._
 
-### Task 6 — Refactor `authentication_repositories_iml.dart`
-- [ ] 6.1 Import `repo_guard.dart`.
-- [ ] 6.2 Wrap `signInWithGoogle` — keep inline `Left(GeneralFailure('User is null'))`; `fallback: 'Firebase authentication failed'`.
-- [ ] 6.3 Wrap `signOut` — `fallback: 'An unexpected error occurred during sign out.'`.
-- [ ] 6.4 Remove the raw-leak `catch(e) → e.toString()` (now handled by guard).
+### Task 6 — Refactor `authentication_repositories_iml.dart` ✅ DONE
+- [x] 6.1 Import `repo_guard.dart`.
+- [x] 6.2 Wrap `signInWithGoogle` — keep inline `Left(GeneralFailure('User is null'))`; `fallback: 'Firebase authentication failed'`.
+- [x] 6.3 Wrap `signOut` — `fallback: 'An unexpected error occurred during sign out.'`.
+- [x] 6.4 Remove the raw-leak `catch(e) → e.toString()` (now handled by guard).
+- _Verified: `flutter analyze` on the file → No issues found. Raw `e.toString()` leak in `signInWithGoogle` removed; `FirebaseAuthException` still surfaces `e.message` via guard's `on FirebaseException` clause. Pre-existing relative `failures.dart` import left as-is._
 
 ### Task 7 — Refactor `registration_repository_iml.dart`
 - [ ] 7.1 Import `repo_guard.dart`.
