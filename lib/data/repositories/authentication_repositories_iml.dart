@@ -1,4 +1,5 @@
 import 'package:blood_setu/application/core/services/sp_service/sp_service.dart';
+import 'package:blood_setu/data/repositories/repo_guard.dart';
 import 'package:blood_setu/domain/repositories/authentication_repository.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:dartz/dartz.dart';
@@ -23,84 +24,70 @@ class AuthenticationRepositoriesIml extends AuthenticationRepository {
   );
 
   @override
-  Future<Either<Failure, bool>> signInWithGoogle() async {
-    try {
-      await _googleSignIn.initialize();
+  Future<Either<Failure, bool>> signInWithGoogle() => guard(() async {
+    await _googleSignIn.initialize();
 
-      /// Trigger Google Sign In
-      final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
+    /// Trigger Google Sign In
+    final GoogleSignInAccount googleUser = await _googleSignIn.authenticate();
 
-      // if (googleUser == null) {
-      //
-      //   return Left(GeneralFailure('Google sign in cancelled'));
-      // }
+    // if (googleUser == null) {
+    //
+    //   return Left(GeneralFailure('Google sign in cancelled'));
+    // }
 
-      /// Get authentication details
+    /// Get authentication details
 
-      final GoogleSignInAuthentication googleAuth = googleUser.authentication;
+    final GoogleSignInAuthentication googleAuth = googleUser.authentication;
 
-      /// Create firebase credential
-      final credential = GoogleAuthProvider.credential(
-        idToken: googleAuth.idToken,
-      );
+    /// Create firebase credential
+    final credential = GoogleAuthProvider.credential(
+      idToken: googleAuth.idToken,
+    );
 
-      /// Sign in to Firebase
-      final userCredential = await _firebaseAuth.signInWithCredential(
-        credential,
-      );
+    /// Sign in to Firebase
+    final userCredential = await _firebaseAuth.signInWithCredential(
+      credential,
+    );
 
-      final user = userCredential.user;
+    final user = userCredential.user;
 
-      if (user != null) {
-        /// profile collection check
-        final profileDoc = _firebaseFirestore
-            .collection('profile')
-            .doc(user.uid);
+    if (user != null) {
+      /// profile collection check
+      final profileDoc = _firebaseFirestore
+          .collection('profile')
+          .doc(user.uid);
 
-        final profileSnapshot = await profileDoc.get();
+      final profileSnapshot = await profileDoc.get();
 
-        final userDoc = _firebaseFirestore.collection('users').doc(user.uid);
+      final userDoc = _firebaseFirestore.collection('users').doc(user.uid);
 
-        final docSnapshot = await userDoc.get();
+      final docSnapshot = await userDoc.get();
 
-        /// Save user data if new user
-        if (!docSnapshot.exists) {
-          await userDoc.set({
-            'uid': user.uid,
-            'name': user.displayName,
-            'email': user.email,
-            'photoUrl': user.photoURL,
-            'createdAt': FieldValue.serverTimestamp(),
-          });
-        }
-
-        return Right(profileSnapshot.exists);
+      /// Save user data if new user
+      if (!docSnapshot.exists) {
+        await userDoc.set({
+          'uid': user.uid,
+          'name': user.displayName,
+          'email': user.email,
+          'photoUrl': user.photoURL,
+          'createdAt': FieldValue.serverTimestamp(),
+        });
       }
 
-      return Left(GeneralFailure("User is null"));
-    } on FirebaseAuthException catch (e) {
-      return Left(
-        GeneralFailure(e.message ?? 'Firebase authentication failed'),
-      );
-    } catch (e) {
-      return Left(GeneralFailure(e.toString()));
+      return Right(profileSnapshot.exists);
     }
-  }
+
+    return Left(GeneralFailure("User is null"));
+  }, fallback: 'Firebase authentication failed');
 
   @override
-  Future<Either<Failure, void>> signOut() async {
-    try {
-      await Future.wait([
-        _firebaseAuth.signOut(),
-        _googleSignIn.signOut(),
-        _spService.clearAll(),
-      ]);
+  Future<Either<Failure, void>> signOut() => guard(() async {
+    await Future.wait([
+      _firebaseAuth.signOut(),
+      _googleSignIn.signOut(),
+      _spService.clearAll(),
+    ]);
 
-      return const Right(null);
-    } catch (e) {
-      return Left(
-        GeneralFailure("An unexpected error occurred during sign out."),
-      );
-    }
-  }
+    return const Right(null);
+  }, fallback: 'An unexpected error occurred during sign out.');
 }
