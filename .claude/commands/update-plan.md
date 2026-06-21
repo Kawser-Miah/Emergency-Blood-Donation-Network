@@ -1,3 +1,3 @@
 Follow these steps:
 
--Update @plan.md file with the latest uncommited changes 
+-Update @error_gurd_plan.md file with the latest uncommited changes 
