@@ -32,7 +32,7 @@ Clean Architecture with BLoC state management, three layers:
 
 **Domain** (`lib/domain/`): Pure Dart. Models (Freezed), use cases (single-responsibility, return `Either<Failure, T>`), and abstract repository interfaces. `dartz` is used for functional error handling everywhere.
 
-**Data** (`lib/data/repositories/`): Concrete Firebase/GPS implementations, registered with `@Injectable(as: AbstractInterface)`.
+**Data** (`lib/data/repositories/`): Concrete Firebase/GPS implementations, registered with `@Injectable(as: AbstractInterface)`. Every `Either`-returning method wraps its body in the shared `guard()` helper (`repo_guard.dart`) instead of hand-written try/catch.
 
 **DI** (`lib/di/`): `get_it` + `injectable`. `di.config.dart` is auto-generated — never edit it manually. `register_module.dart` manually provides Firebase instances and `SharedPreferences`. BLoCs are `@injectable`; singletons are `@lazySingleton`.
 
@@ -53,6 +53,8 @@ Clean Architecture with BLoC state management, three layers:
 **Chat presence**: Real-time Database (not Firestore) is used for `presence/{uid}` (online/lastSeen) and `typing/{convId}/{uid}`. `onDisconnect()` handlers ensure state is cleaned up on sudden disconnects.
 
 **Foreground chat notifications**: `flutter_local_notifications` (v18.0.1) shows Android heads-up notifications when a new message arrives. Detection happens in `ConversationListBloc` via unread count delta. `NotificationService` (`@lazySingleton`, `@PostConstruct(preResolve: true)`) owns channel creation, show logic, and tap routing. `ChatBloc` registers/clears the active conversation ID so notifications are suppressed while the user is inside the relevant chat. Full documentation: [`doc/notification_system.md`](doc/notification_system.md).
+
+**Repository error handling (`guard()`)**: Every `Either`-returning repository method wraps its body in the shared `guard<T>(body, {required fallback})` helper in `lib/data/repositories/repo_guard.dart`. Do NOT hand-write `try / on FirebaseException / catch` in repositories. The `body` returns an `Either`, so inline validation `Left`s (e.g. `Left(GeneralFailure('Profile not found.'))`) pass through untouched. `guard` logs the real exception + stack via `debugPrint('[Repo] ...')` and returns `Left(GeneralFailure(e.message ?? fallback))` for `FirebaseException` (which covers `FirebaseAuthException`) or `Left(GeneralFailure(fallback))` otherwise — never `e.toString()` to the UI. `runTransaction`/batch writes work as-is inside the body. `chat_repository_impl.dart` is excluded (returns plain values/streams, not `Either`). Covered by `test/data/repo_guard_test.dart`.
 
 ## Firestore Collections
 
@@ -75,6 +77,7 @@ Clean Architecture with BLoC state management, three layers:
 - New features: BLoC with Freezed events and states
 - BLoCs depend only on use cases; use cases depend only on abstract repository interfaces
 - `Either<Failure, T>` for all repository and use case return types
+- Repository `Either` methods wrap their body in `guard()` (see Key Invariants) — no hand-written try/catch, no raw `e.toString()` returned to the UI
 - BLoCs are provided at screen level via `BlocProvider(create: (_) => getIt<XBloc>()..add(const XEvent.started()))`
 
 ## Import Depth from `widgets/` subdirectory
