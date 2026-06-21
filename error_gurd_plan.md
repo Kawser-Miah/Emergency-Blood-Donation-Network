@@ -163,22 +163,26 @@ Future<Either<Failure, UserProfileModel>> getProfile(String uid) =>
 - [x] 6.4 Remove the raw-leak `catch(e) → e.toString()` (now handled by guard).
 - _Verified: `flutter analyze` on the file → No issues found. Raw `e.toString()` leak in `signInWithGoogle` removed; `FirebaseAuthException` still surfaces `e.message` via guard's `on FirebaseException` clause. Pre-existing relative `failures.dart` import left as-is._
 
-### Task 7 — Refactor `registration_repository_iml.dart`
-- [ ] 7.1 Import `repo_guard.dart`.
-- [ ] 7.2 Wrap `register` — keep inline no-session `Left`; collapse the auth+db+catch trio into one guard; `fallback: 'An unexpected error occurred during registration. Please try again.'`.
-- [ ] 7.3 Wrap `getProfile` — keep inline `Left(GeneralFailure('Profile not found.'))`; remove raw-leak catch; `fallback: 'Failed to load profile.'`.
+### Task 7 — Refactor `registration_repository_iml.dart` ✅ DONE
+- [x] 7.1 Import `repo_guard.dart`.
+- [x] 7.2 Wrap `register` — keep inline no-session `Left`; collapse the auth+db+catch trio into one guard; `fallback: 'An unexpected error occurred during registration. Please try again.'`.
+- [x] 7.3 Wrap `getProfile` — keep inline `Left(GeneralFailure('Profile not found.'))`; remove raw-leak catch; `fallback: 'Failed to load profile.'`.
+- _Verified: `flutter analyze` clean. The `register` trio (FirebaseAuthException + FirebaseException + catch) collapses to one guard; server `e.message` still surfaces via the `on FirebaseException` clause. The two null-message-only Firebase fallbacks ('Failed to update auth profile' / 'database error') now collapse to the single registration fallback — accepted per plan. `getProfile` raw `e.toString()` leak removed._
 
-### Task 8 — Confirm exclusion
-- [ ] 8.1 Verify `chat_repository_impl.dart` is **untouched** (non-`Either` methods, out of scope).
+### Task 8 — Confirm exclusion ✅ DONE
+- [x] 8.1 Verify `chat_repository_impl.dart` is **untouched** (non-`Either` methods, out of scope).
+- _Verified: 0 `Either` returns in the file; only one unrelated `try` block; `git status` shows the file unmodified._
 
-### Task 9 — Verify
-- [ ] 9.1 `flutter analyze` → zero issues.
-- [ ] 9.2 `dart run build_runner build --delete-conflicting-outputs`.
-- [ ] 9.3 Manual smoke tests: Google sign-in; Find Donors (location ON/OFF); profile exists + missing; add donation; create/load requests.
-- [ ] 9.4 Force an offline failure → confirm friendly UI message **and** `[Repo] ...` console log.
+### Task 9 — Verify ✅ DONE (automated) / ⚠ manual pending
+- [x] 9.1 `flutter analyze` → `lib/` clean. (Only 3 pre-existing warnings in vendored `packages/jni/` path refs — unrelated to this change.)
+- [x] 9.2 `dart run build_runner build --delete-conflicting-outputs` → wrote 10 outputs, no errors.
+- [ ] 9.3 Manual smoke tests: Google sign-in; Find Donors (location ON/OFF); profile exists + missing; add donation; create/load requests. _(Requires a device/emulator — not runnable in this environment; left for user.)_
+- [~] 9.4 Force an offline failure → confirm friendly UI message **and** `[Repo] ...` console log. _(The `[Repo] FirebaseException(...)` log + friendly fallback are demonstrated by the passing unit tests; full offline UI smoke test still needs a device.)_
+- _Also: `flutter test` → All 6 tests passed (5 guard tests + existing sanity test)._
 
-### Task 10 — Follow-up (optional, separate change)
-- [ ] 10.1 Add `test/data/repo_guard_test.dart` with a throwing fake body asserting `Left(GeneralFailure)` + fallback message.
+### Task 10 — Follow-up ✅ DONE
+- [x] 10.1 Add `test/data/repo_guard_test.dart` with a throwing fake body asserting `Left(GeneralFailure)` + fallback message.
+- _Added 5 cases: Right passthrough, inline-Left passthrough, generic-exception → fallback (no raw leak), FirebaseException surfaces `e.message`, FirebaseException null-message → fallback. All green._
 
 ---
 
