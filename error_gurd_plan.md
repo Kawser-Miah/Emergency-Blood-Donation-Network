@@ -149,11 +149,12 @@ Future<Either<Failure, UserProfileModel>> getProfile(String uid) =>
 - [x] 4.5 Keep `_computeTier` untouched.
 - _Verified: `flutter analyze` on the file → No issues found. Transaction read-modify-write + dual-write logic unchanged (only de-indented)._
 
-### Task 5 — Refactor `location_repository_impl.dart`
-- [ ] 5.1 Import `repo_guard.dart`.
-- [ ] 5.2 Wrap each `Either`-returning method with its existing fallback string.
-- [ ] 5.3 Preserve any GPS/permission inline `Left`s.
-- [ ] 5.4 Delete replaced try/catch blocks.
+### Task 5 — Refactor `location_repository_impl.dart` ✅ DONE
+- [x] 5.1 Import `repo_guard.dart`.
+- [x] 5.2 Wrap each `Either`-returning method (`updateGps`, `getAddressData`, `getAddressFromCoordinates`, + private `_fetchCurrentPosition`) with its existing fallback string.
+- [x] 5.3 Preserve GPS/permission inline `Left`s (services disabled / denied / deniedForever in `_fetchCurrentPosition`, propagated up via `map`/`fold`).
+- [x] 5.4 Delete replaced try/catch blocks.
+- _Verified: `flutter analyze` on the file → No issues found. `getAddressData` had two divergent fallbacks (`'Failed to get address.'` for the unreachable `FirebaseException` clause vs `'Failed to get address from GPS.'`); since it makes no Firestore call, consolidated to the GPS string users actually saw. `_reverseGeocode` left untouched._
 
 ### Task 6 — Refactor `authentication_repositories_iml.dart`
 - [ ] 6.1 Import `repo_guard.dart`.
